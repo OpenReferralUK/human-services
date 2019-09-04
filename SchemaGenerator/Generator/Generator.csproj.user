@@ -4,6 +4,6 @@
     <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>--type=gv --filter=0 --verbose=1 --ref=service --title=Hello</StartArguments>
+    <StartArguments>--type=html --filter=0 --verbose=1 --engine=1</StartArguments>
   </PropertyGroup>
 </Project>

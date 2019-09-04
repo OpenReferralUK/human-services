@@ -118,6 +118,17 @@ namespace Convertor.Models
                     {
                         prop.description = field.Description;
                     }
+                    if (field.Schemas != null && field.Schemas.Length > 0)
+                    {
+                        foreach(SchemaURI schema in field.Schemas)
+                        {
+                            if (!string.IsNullOrEmpty(prop.description))
+                            {
+                                prop.description += "\r\n";
+                            }
+                            prop.description += schema.ToString();
+                        }
+                    }
                     AddProperty(props, field.Name, prop);
                 }
             }

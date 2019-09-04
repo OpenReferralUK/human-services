@@ -10,7 +10,7 @@ namespace Convertor.Models
         public string format;
         [JsonProperty(PropertyName = "enum")]
         public string[] enumValue;
-        public JSONSchemaConstraint constraints;
+        public JSONSchemaConstraint constraints;        
 
         public JSONTableField(Column column)
         {

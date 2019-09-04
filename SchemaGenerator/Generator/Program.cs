@@ -50,6 +50,20 @@ namespace Convertor
                 CSVSchema schema = new CSVSchema(tables);
                 schema.Generate(options.Title, options);
             }
+            else if (options.ExportType == "sql")
+            {
+                SQL sql = new SQL(tables);
+                sql.Generate(options.Title, options);
+            }
+            else if (options.ExportType == "html")
+            {
+                HTML html = new HTML(tables);
+                html.Generate(options.Title);
+            }
+            else
+            {
+                Console.WriteLine("Export type not recognised");
+            }
         }
 
         private static List<Table> FilterJSON(Options options)
@@ -57,7 +71,7 @@ namespace Convertor
             List<Table> tables = new List<Table>();
             HashSet<string> excludedColumns = new HashSet<string>();
 
-            dynamic dataPackage = JObject.Parse(File.ReadAllText("datapackage.json"));
+            dynamic dataPackage = JObject.Parse(File.ReadAllText("ExtendedDataPackage.json"));
             if (dataPackage != null && dataPackage.resources != null)
             {
                 foreach (dynamic resource in dataPackage.resources)
@@ -111,7 +125,7 @@ namespace Convertor
                             {
                                 enumValues = field.constraints["enum"].ToObject<string[]>();
                             }
-                            table.Columns.Add(new Column(field.name.Value, field.type.Value, field.source, field.format, field.description, field.hidden, keys.Contains(field.name.Value), required, unique, enumValues));
+                            table.Columns.Add(new Column(field.name.Value, field.type.Value, field.source, field.format, field.description, field.hidden, keys.Contains(field.name.Value), required, unique, enumValues, field.schemes));
                         }
                     }
 

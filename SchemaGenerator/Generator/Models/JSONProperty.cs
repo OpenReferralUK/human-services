@@ -11,7 +11,6 @@ namespace Convertor.Models
         public string type;
         public string format;
         public string pattern;
-        [JsonIgnore]
         public string description;
         public JSONProperty items;
         public Dictionary<string, JSONProperty> properties = null;

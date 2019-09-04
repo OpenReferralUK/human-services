@@ -54,10 +54,13 @@
     <Compile Include="Models\Column.cs" />
     <Compile Include="Models\CSVSchema.cs" />
     <Compile Include="Models\CSVSchemaRow.cs" />
+    <Compile Include="Models\HTML.cs" />
+    <Compile Include="Models\SQL.cs" />
     <Compile Include="Models\ERD.cs" />
     <Compile Include="Models\JSONProperty.cs" />
     <Compile Include="Models\JSONSchema.cs" />
     <Compile Include="Models\JSONSchemaConstraint.cs" />
+    <Compile Include="Models\SchemaURI.cs" />
     <Compile Include="Models\JSONTableForeignKeyReference.cs" />
     <Compile Include="Models\JSONTableForeignKey.cs" />
     <Compile Include="Models\JSONTableField.cs" />
@@ -72,7 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="datapackage.json">
+    <None Include="ExtendedDataPackage.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

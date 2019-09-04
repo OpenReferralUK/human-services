@@ -43,5 +43,10 @@
             }
             return string.Format("{0}:{1} -> {2}:{3};", TableName, field, ReferenceTableName, ReferenceTableField);
         }
+
+        public string ToSQL(string primaryKey, int index)
+        {
+            return string.Format("CONSTRAINT FK_{0}_{1} FOREIGN KEY ({2}) REFERENCES {3}({4})", TableName, index, TableField, ReferenceTableName, ReferenceTableField);
+        }
     }
 }

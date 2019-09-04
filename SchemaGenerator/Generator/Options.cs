@@ -21,5 +21,8 @@ namespace Convertor
 
         [Option('m', "multiple", Required = false, HelpText = "1 if the intial object should be expressed as multiple objects")]
         public int Multiple { get; set; }
+
+        [Option('e', "engine", Required = false, HelpText = "The database engine to use. 1 = MySQL, 2 = SQL Server")]
+        public int Engine { get; set; }
     }
 }
