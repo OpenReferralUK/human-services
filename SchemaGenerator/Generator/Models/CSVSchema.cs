@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Generator;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -19,7 +20,7 @@ namespace Convertor.Models
             this.tables = tables;
         }
 
-        public void Generate(string filename, Options options)
+        public void Generate(Options options)
         {
             JSONSchema schema = new JSONSchema(tables);
             JSONProperty property = schema.GetStructure(options);
@@ -31,16 +32,7 @@ namespace Convertor.Models
                 sb.AppendLine(row.ToString());
             }
 
-            if (string.IsNullOrEmpty(filename))
-            {
-                filename = "schema.csv";
-            }
-            else
-            {
-                filename += ".csv";
-            }
-
-            File.WriteAllText(filename, sb.ToString());
+            File.WriteAllText(FileUtility.CreatePath(options, "schema.csv", ".csv"), sb.ToString());
         }
 
         private string FirstLetterToUpper(string str)

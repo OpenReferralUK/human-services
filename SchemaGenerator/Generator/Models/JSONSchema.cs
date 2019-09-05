@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Generator;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Data.Entity.Design.PluralizationServices;
 using System.Globalization;
@@ -47,19 +48,10 @@ namespace Convertor.Models
             return property;
         }
 
-        public void Generate(string filename, Options options)
+        public void Generate(Options options)
         {
-            if (string.IsNullOrEmpty(filename))
-            {
-                filename = "schema.json";
-            }
-            else
-            {
-                filename += ".json";
-            }
-
             string json = JsonConvert.SerializeObject(GetStructure(options), new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-            File.WriteAllText(filename, json);
+            File.WriteAllText(FileUtility.CreatePath(options, "schema.json", ".json"), json);
         }
 
         private JSONProperty ProcessTables(Table table, JSONProperty props, HashSet<string> previousTables, bool followExternalReferences = true)

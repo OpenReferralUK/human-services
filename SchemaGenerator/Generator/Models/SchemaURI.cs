@@ -14,7 +14,7 @@ namespace Convertor.Models
             {
                 return string.Format(" - at least one reference to {0}", uri);
             }
-            return string.Format(" - zero or one references to {0}", uri);
+            return string.Format(" - zero to many references to {0}", uri);
         }
     }
 }

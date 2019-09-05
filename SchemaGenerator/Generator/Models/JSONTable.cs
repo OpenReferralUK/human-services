@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Generator;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 
@@ -17,19 +18,10 @@ namespace Convertor.Models
             }
         }
 
-        public void Generate(string filename)
+        public void Generate(Options options)
         {
-            if (string.IsNullOrEmpty(filename))
-            {
-                filename = "tableschema.json";
-            }
-            else
-            {
-                filename += ".json";
-            }
-
             string json = JsonConvert.SerializeObject(this, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-            File.WriteAllText(filename, json);
+            File.WriteAllText(FileUtility.CreatePath(options, "tableschema.json", ".json"), json);
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Convertor.Models
 {
     public class Table
     {
-        internal Table(string name, dynamic source, dynamic primaryKey)
+        internal Table(string name, dynamic description, dynamic source, dynamic primaryKey)
         {
             this.Name = name;
             this.Source = string.Empty;
@@ -17,11 +17,21 @@ namespace Convertor.Models
             {
                 this.PrimaryKey = primaryKey.Value;
             }
+            if (description != null)
+            {
+                this.Description = description.Value;
+            }
             this.Columns = new List<Column>();
             this.ForeignKeys = new List<ForeignKeyReference>();
         }
 
         internal string Name
+        {
+            get;
+            private set;
+        }
+
+        internal string Description
         {
             get;
             private set;
@@ -51,13 +61,38 @@ namespace Convertor.Models
             set;
         }
 
+        internal bool IsOriginal
+        {
+            get
+            {
+                if (Columns == null)
+                {
+                    return true;
+                }
+                int originalColCount = 0;
+                foreach(Column col in Columns)
+                {
+                    if (col.IsOriginal)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
         internal string ToHTML()
         {
             StringBuilder table = new StringBuilder();
             table.AppendLine();
             table.AppendFormat("<h1>{0}</h1>", Name);
+            table.AppendFormat("<p>{0}</p>", Description);
+            if (!IsOriginal)
+            {
+                table.Append("<p><i>This is an extension table.</i></p>");
+            }
             table.AppendLine("<table cellpadding=\"2\">");
-            table.AppendLine("<tr><th>Name</th><th>Data Type</th><th>Required</th><th>Source</th><th>Description</th></tr>");
+            table.AppendLine("<tr><th style=\"width:10em\">Field Name</th><th style=\"width:5em\">Type (Format)</th><th style=\"width:15em\">Source</th><th>Description</th><th style=\"width:10em\">Allowed Values</th><th style=\"width:5em\">Required?</th><th style=\"width:5em\">Unique?</th></tr>");
             table.AppendLine();
             foreach (Column column in Columns)
             {
@@ -86,7 +121,17 @@ namespace Convertor.Models
                         desc += schema.ToString();
                     }
                 }
-                table.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td></tr>", column.Name, column.Type, column.Required, source, FormatHTML(desc));
+                string allowedValues = "-";
+                if (column.Enum != null)
+                {
+                    allowedValues = "<ul><li>" + string.Join("</li><li>", column.Enum) + "</li></ul>";
+                }
+                string format = column.Type;
+                if (!string.IsNullOrEmpty(column.Format))
+                {
+                    format += " (" + column.Format + ")";
+                }
+                table.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td></tr>", column.Name, format, source, FormatHTML(desc), allowedValues, column.Required, column.Unique);
             }
             table.AppendLine("</table>");
 

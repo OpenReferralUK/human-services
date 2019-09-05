@@ -1994,7 +1994,7 @@
               "fields": [
                 {
                   "name": "id",
-                  "description": "",
+                  "description": "Each entry must have a unique identifier",
                   "type": "string",
                   "source": "lga",
                   "constraints": {
@@ -2004,7 +2004,7 @@
                 },
                 {
                   "name": "service_id",
-                  "description": "",
+                  "description": "The identifier of the services for which the entry describes the coverage",
                   "type": "string",
                   "source": "lga"
                 },
@@ -2069,7 +2069,7 @@
               "fields": [
                 {
                   "name": "id",
-                  "description": "",
+                  "description": "Each entry must have a unique identifier",
                   "type": "string",
                   "source": "lga",
                   "constraints": {
@@ -2079,7 +2079,7 @@
                 },
                 {
                   "name": "service_id",
-                  "description": "",
+                  "description": "The identifier of the services for which the related eligibilities apply",
                   "type": "string",
                   "source": "lga"
                 },
@@ -2091,7 +2091,7 @@
                 },
                 {
                   "name": "description",
-                  "description": "",
+                  "description": "A description of the taxonomy",
                   "type": "string",
                   "source": "lga"
                 }
@@ -2118,7 +2118,7 @@
           {
             "name": "cost_option",
             "path": "cost_option.csv",
-            "description": "",
+            "description": "The cost option table contains the costs of a service at certain points in time",
             "source": "lga",
             "format": "csv",
             "mediatype": "text/csv",
@@ -2126,7 +2126,7 @@
               "fields": [
                 {
                   "name": "id",
-                  "description": "",
+                  "description": "Each entry must have a unique identifier",
                   "type": "string",
                   "source": "lga",
                   "constraints": {
@@ -2136,19 +2136,19 @@
                 },
                 {
                   "name": "service_id",
-                  "description": "",
+                  "description": "The identifier of the services for which the entry describes the cost",
                   "type": "string",
                   "source": "lga"
                 },
                 {
                   "name": "valid_from",
-                  "description": "",
+                  "description": "When this price is valid from",
                   "type": "date",
                   "source": "lga"
                 },
                 {
                   "name": "valid_to",
-                  "description": "",
+                  "description": "When this price is valid to",
                   "type": "date",
                   "source": "lga"
                 },
@@ -2160,7 +2160,7 @@
                 },
                 {
                   "name": "amount",
-                  "description": "",
+                  "description": "The actual cost",
                   "type": "string",
                   "source": "lga"
                 }
@@ -2180,7 +2180,7 @@
           {
             "name": "review",
             "path": "reviews.csv",
-            "description": "",
+            "description": "The review table contains service reviews made by organizations",
             "format": "csv",
             "source": "lga",
             "mediatype": "text/csv",
@@ -2188,7 +2188,7 @@
               "fields": [
                 {
                   "name": "id",
-                  "description": "",
+                  "description": "Each entry must have a unique identifier",
                   "type": "string",
                   "source": "lga",
                   "constraints": {
@@ -2198,43 +2198,43 @@
                 },
                 {
                   "name": "service_id",
-                  "description": "",
+                  "description": "The identifier of the services for which the entry describes a review",
                   "type": "string",
                   "source": "lga"
                 },
                 {
                   "name": "reviewer_organization_id",
-                  "description": "",
+                  "description": "The organization that carried out the review",
                   "type": "string",
                   "source": "lga"
                 },
                 {
                   "name": "title",
-                  "description": "",
+                  "description": "The title of the review",
                   "type": "date",
                   "source": "lga"
                 },
                 {
                   "name": "description",
-                  "description": "",
+                  "description": "A detailed description of this review",
                   "type": "string",
                   "source": "lga"
                 },
                 {
                   "name": "date",
-                  "description": "",
+                  "description": "The date of the review",
                   "type": "date",
                   "source": "lga"
                 },
                 {
                   "name": "score",
-                  "description": "",
+                  "description": "The review score",
                   "type": "string",
                   "source": "lga"
                 },
                 {
                   "name": "url",
-                  "description": "",
+                  "description": "The URL of were the review is located",
                   "type": "string",
                   "source": "lga"
                 },
@@ -2275,7 +2275,7 @@
               "fields": [
                 {
                   "name": "id",
-                  "description": "",
+                  "description": "Each entry must have a unique identifier",
                   "type": "string",
                   "source": "lga",
                   "constraints": {
@@ -2285,7 +2285,7 @@
                 },
                 {
                   "name": "link_type",
-                  "description": "",
+                  "description": "The type of taxonomy this link applies to",
                   "type": "string",
                   "source": "lga",
                   "constraints": {
@@ -2316,7 +2316,7 @@
                 },
                 {
                   "name": "link_id",
-                  "description": "",
+                  "description": "The external taxonomy link this applies to",
                   "type": "string",
                   "source": "lga",
                   "schemes": [
@@ -2329,7 +2329,7 @@
                 },
                 {
                   "name": "taxonomy_id",
-                  "description": "",
+                  "description": "The identifier of this classification from the taxonomy table.",
                   "type": "string",
                   "source": "lga"
                 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Generator;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Convertor.Models
             this.tables = tables;
         }
 
-        internal void Generate(string filename)
+        internal void Generate(Options options)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(@"<html><body><style>
@@ -26,9 +27,19 @@ namespace Convertor.Models
             }
 
             table, th, td {
-                min-width:15%;
                 border: 1px solid black;
-            }</style>");
+            }
+
+            th{
+                text-align:left;
+            }
+
+            ul{
+                padding-left:1em;
+                margin:0;
+            }
+
+            </style>");
 
             foreach(Table table in tables)
             {
@@ -37,16 +48,7 @@ namespace Convertor.Models
 
             sb.Append("</body></html>");
 
-            if (string.IsNullOrEmpty(filename))
-            {
-                filename = "documentation.html";
-            }
-            else
-            {
-                filename += ".gv";
-            }
-
-            File.WriteAllText(filename, sb.ToString());
+            File.WriteAllText(FileUtility.CreatePath(options, "documentation.html", ".html"), sb.ToString());
         }
     }
 }

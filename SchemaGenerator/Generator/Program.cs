@@ -33,32 +33,32 @@ namespace Convertor
             if (options.ExportType == "gv")
             {
                 ERD erd = new ERD(tables);
-                erd.Generate(options.Title, options);
+                erd.Generate(options);
             }
             else if (options.ExportType == "json")
             {
                 JSONSchema schema = new JSONSchema(tables);
-                schema.Generate(options.Title, options);
+                schema.Generate(options);
             }
             else if (options.ExportType == "table")
             {
                 JSONTable schema = new JSONTable(tables);
-                schema.Generate(options.Title);
+                schema.Generate(options);
             }
             else if (options.ExportType == "csv")
             {
                 CSVSchema schema = new CSVSchema(tables);
-                schema.Generate(options.Title, options);
+                schema.Generate(options);
             }
             else if (options.ExportType == "sql")
             {
                 SQL sql = new SQL(tables);
-                sql.Generate(options.Title, options);
+                sql.Generate(options);
             }
             else if (options.ExportType == "html")
             {
                 HTML html = new HTML(tables);
-                html.Generate(options.Title);
+                html.Generate(options);
             }
             else
             {
@@ -96,7 +96,7 @@ namespace Convertor
                     }
 
                     int matchingColumns = 0;
-                    Table table = new Table(resource.name.Value, resource.source, resource.schema.primaryKey);
+                    Table table = new Table(resource.name.Value, resource.description, resource.source, resource.schema.primaryKey);
                     if (resource.schema.fields != null)
                     {
                         foreach (dynamic field in resource.schema.fields)
@@ -125,7 +125,7 @@ namespace Convertor
                             {
                                 enumValues = field.constraints["enum"].ToObject<string[]>();
                             }
-                            table.Columns.Add(new Column(field.name.Value, field.type.Value, field.source, field.format, field.description, field.hidden, keys.Contains(field.name.Value), required, unique, enumValues, field.schemes));
+                            table.Columns.Add(new Column(field.name.Value, field.type.Value, field.original, field.source, field.format, field.description, field.hidden, keys.Contains(field.name.Value), required, unique, enumValues, field.schemes));
                         }
                     }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Generator;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Convertor.Models
             this.tables = tables;
         }
 
-        internal void Generate(string filename, Options options)
+        internal void Generate(Options options)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -28,16 +29,7 @@ namespace Convertor.Models
                 sb.AppendLine();
             }
 
-            if (string.IsNullOrEmpty(filename))
-            {
-                filename = "database.sql";
-            }
-            else
-            {
-                filename += ".sql";
-            }
-
-            File.WriteAllText(filename, sb.ToString());
+            File.WriteAllText(FileUtility.CreatePath(options, "database.sql", ".sql"), sb.ToString());
         }
 
         private List<Table> Order(List<Table> ts)
