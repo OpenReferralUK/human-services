@@ -41,7 +41,7 @@ namespace Convertor.Models
 ");
             foreach(Table table in tables)
             {
-                sb.Append(table.ToGV());
+                sb.Append(table.ToGV(options));
             }
 
             sb.AppendLine("}");

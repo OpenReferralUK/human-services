@@ -362,6 +362,7 @@
                   "name": "taxonomy_ids",
                   "description": "(Deprecated) A comma separated list of identifiers from the taxonomy table. This field is deprecated in favour of using the service_taxonomy table.",
                   "type": "string",
+                  "deprecated": true,
                   "original": true,
                   "constraints": {
                     "required": false
@@ -727,6 +728,7 @@
                   "name": "department",
                   "description": "(Deprecated) The department for which this is the phone number. This field is deprecated and will be removed in a future version of HSDS.",
                   "type": "string",
+                  "deprecated": true,
                   "original": true
                 }
               ],
@@ -909,19 +911,22 @@
                   "name": "address_2",
                   "description": "(Deprecated) A second (additional) line of address information. (This field is deprecated: we recommend including all address information before 'city' as a comma separated list in address_1. There is no guarantee that systems will read this line of address information.)",
                   "type": "string",
-                  "original": true
+                  "original": true,
+                  "deprecated": true
                 },
                 {
                   "name": "address_3",
                   "description": "(Deprecated) A third (additional) line of address information. (This field is deprecated: we recommend including all address information before 'city' as a comma separated list in address_1. There is no guarantee that systems will read this line of address information.)",
                   "type": "string",
-                  "original": true
+                  "original": true,
+                  "deprecated": true
                 },
                 {
                   "name": "address_4",
                   "description": "(Deprecated) The fourth (additional) line of address information. (This field is deprecated: we recommend including all address information before 'city' as a comma separated list in address_1. There is no guarantee that systems will read this line of address information.)",
                   "type": "string",
-                  "original": true
+                  "original": true,
+                  "deprecated": true
                 },
                 {
                   "name": "city",
@@ -1027,19 +1032,22 @@
                   "name": "address_2",
                   "description": "(Deprecated) A second (additional) line of address information. (This field is deprecated: we recommend including all address information before 'city' as a comma separated list in address_1. There is no guarantee that systems will read this line of address information.)",
                   "original": true,
-                  "type": "string"
+                  "type": "string",
+                  "deprecated": true
                 },
                 {
                   "name": "address_3",
                   "description": "(Deprecated) A third (additional) line of address information. (This field is deprecated: we recommend including all address information before 'city' as a comma separated list in address_1. There is no guarantee that systems will read this line of address information.)",
                   "original": true,
-                  "type": "string"
+                  "type": "string",
+                  "deprecated": true
                 },
                 {
                   "name": "address_4",
                   "description": "(Deprecated) The fourth (additional) line of address information. (This field is deprecated: we recommend including all address information before 'city' as a comma separated list in address_1. There is no guarantee that systems will read this line of address information.)",
                   "original": true,
-                  "type": "string"
+                  "type": "string",
+                  "deprecated": true
                 },
                 {
                   "name": "city",

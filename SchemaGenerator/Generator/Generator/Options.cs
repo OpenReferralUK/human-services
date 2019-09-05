@@ -4,7 +4,7 @@ namespace Convertor
 {
     public class Options
     {
-        [Option('f', "filter", Required = false, HelpText = "Profile to filter on 1 = Open Referral, 2 = Service Directory")]
+        [Option('f', "filter", Required = false, HelpText = "Profile to filter on 0 = All, 1 = Open Referral, 2 = Service Directory")]
         public int Filter { get; set; }
 
         [Option('t', "type", Required = false, HelpText = "Type of file to export on gv = ERD, json = JSON Schema, table = JSON Table Schema, csv = CSV Schema, sql = Create Table Statements, html = HTML documentation")]
@@ -27,5 +27,8 @@ namespace Convertor
 
         [Option('o', "output", Required = false, HelpText = "The path the output should be exported to")]
         public string Output { get; set; }
+
+        [Option('d', "deprecated", Required = false, HelpText = "1 if deprecated fields should be included")]
+        public int IncludeDeprecated { get; set; }
     }
 }

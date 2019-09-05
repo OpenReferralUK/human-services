@@ -125,7 +125,7 @@ namespace Convertor
                             {
                                 enumValues = field.constraints["enum"].ToObject<string[]>();
                             }
-                            table.Columns.Add(new Column(field.name.Value, field.type.Value, field.original, field.source, field.format, field.description, field.hidden, keys.Contains(field.name.Value), required, unique, enumValues, field.schemes));
+                            table.Columns.Add(new Column(field.name.Value, field.type.Value, field.original, field.source, field.format, field.description, field.hidden, field.deprecated, keys.Contains(field.name.Value), required, unique, enumValues, field.schemes));
                         }
                     }
 

@@ -43,7 +43,7 @@ namespace Convertor.Models
 
             foreach(Table table in tables)
             {
-                sb.Append(table.ToHTML());
+                sb.Append(table.ToHTML(options));
             }
 
             sb.Append("</body></html>");

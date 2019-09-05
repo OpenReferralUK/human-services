@@ -8,7 +8,7 @@ namespace Convertor.Models
 {
     public class Column
     {
-        internal Column(string name, string type, dynamic original, dynamic source, dynamic format, dynamic description, dynamic hidden, bool isKey, bool required, bool unique, string[] enumValues, dynamic schemes)
+        internal Column(string name, string type, dynamic original, dynamic source, dynamic format, dynamic description, dynamic hidden, dynamic deprecated, bool isKey, bool required, bool unique, string[] enumValues, dynamic schemes)
         {
             this.Name = name;
             this.Type = type;
@@ -33,6 +33,10 @@ namespace Convertor.Models
             {
                 this.IsOriginal = original.Value;
             }
+            if (deprecated != null)
+            {
+                this.IsDeprecated = deprecated.Value;
+            }
             if (schemes != null)
             {
                 List<SchemaURI> schemaUris = new List<SchemaURI>();
@@ -55,6 +59,12 @@ namespace Convertor.Models
         }
 
         internal bool IsHidden
+        {
+            get;
+            private set;
+        }
+
+        internal bool IsDeprecated
         {
             get;
             private set;

@@ -81,7 +81,7 @@ namespace Convertor.Models
             }
         }
 
-        internal string ToHTML()
+        internal string ToHTML(Options options)
         {
             StringBuilder table = new StringBuilder();
             table.AppendLine();
@@ -96,7 +96,7 @@ namespace Convertor.Models
             table.AppendLine();
             foreach (Column column in Columns)
             {
-                if (column.IsHidden)
+                if (column.IsHidden || (column.IsDeprecated && options.IncludeDeprecated != 1))
                 {
                     continue;
                 }
@@ -147,7 +147,7 @@ namespace Convertor.Models
             return value.Replace("\r\n", "<br/>");
         }
 
-        internal string ToGV()
+        internal string ToGV(Options options)
         {
             StringBuilder table = new StringBuilder();
             table.AppendLine();
@@ -158,7 +158,7 @@ namespace Convertor.Models
             HashSet<string> hidden = new HashSet<string>();
             foreach(Column column in Columns)
             {                
-                if (column.IsHidden)
+                if (column.IsHidden || (column.IsDeprecated && options.IncludeDeprecated != 1))
                 {
                     hidden.Add(column.Name);
                     continue;
@@ -194,7 +194,7 @@ namespace Convertor.Models
             foreach (Column column in Columns)
             {
                 count++;
-                if (column.IsHidden)
+                if (column.IsHidden || (column.IsDeprecated && options.IncludeDeprecated != 1))
                 {
                     hidden.Add(column.Name);
                     continue;

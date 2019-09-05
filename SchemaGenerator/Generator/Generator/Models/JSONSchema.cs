@@ -33,7 +33,7 @@ namespace Convertor.Models
                 }
             }
 
-            JSONProperty property = ProcessTables(table, new JSONProperty() { type = "object", title = reference, schema = "http://json-schema.org/draft-07/schema#" }, new HashSet<string>(), options.Verbose == 1);
+            JSONProperty property = ProcessTables(table, new JSONProperty() { type = "object", title = reference, schema = "http://json-schema.org/draft-07/schema#" }, new HashSet<string>(), options, options.Verbose == 1);
             if (options.Multiple == 1)
             {
                 JSONProperty array = new JSONProperty();
@@ -54,7 +54,7 @@ namespace Convertor.Models
             File.WriteAllText(FileUtility.CreatePath(options, "schema.json", ".json"), json);
         }
 
-        private JSONProperty ProcessTables(Table table, JSONProperty props, HashSet<string> previousTables, bool followExternalReferences = true)
+        private JSONProperty ProcessTables(Table table, JSONProperty props, HashSet<string> previousTables, Options options, bool followExternalReferences = true)
         {
             List<string> requires = new List<string>();
             foreach (Column field in table.Columns)
@@ -90,14 +90,14 @@ namespace Convertor.Models
                 {
                     JSONProperty prop = new JSONProperty() { properties = new Dictionary<string, JSONProperty>() };
                     prop.SetType("object");
-                    prop = ProcessTables(refTable, prop, previousTables, followExternalReferences);
+                    prop = ProcessTables(refTable, prop, previousTables, options, followExternalReferences);
                     AddProperty(props, refTable.Name, prop);
                     if (field.Required)
                     {
                         requires.Add(refTable.Name);
                     }
                 }
-                else if (!field.IsHidden)
+                else if (!field.IsHidden && (!field.IsDeprecated || options.IncludeDeprecated == 1))
                 {
                     JSONProperty prop = new JSONProperty();
                     prop.SetType(field.Type);
@@ -148,7 +148,7 @@ namespace Convertor.Models
                             JSONProperty prop = new JSONProperty() { items = new JSONProperty() { properties = new Dictionary<string, JSONProperty>() } };
                             prop.SetType("array");
                             prop.items.SetType("object");
-                            prop.items = ProcessTables(t, prop.items, previousTables, false);
+                            prop.items = ProcessTables(t, prop.items, previousTables, options, false);
                             AddProperty(props, Pluralize(t.Name), prop);
                         }
                     }
