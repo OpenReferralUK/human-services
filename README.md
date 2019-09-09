@@ -15,7 +15,7 @@ The [Open Knowledge Foundation tabular data package](https://raw.githubuserconte
 
 From the revised data model we generate JSON schemas for web method responses extending [those defined by Open Referral](https://openreferral.readthedocs.io/en/latest/_static/swagger/?url=../openapi-hsda.yaml#). We  also generate CSV schemas which define tabular views on the data but will not provide a complete directory. The diagram below shows the process of refining the data package and then generating machine readable schemas. Links to code and resources generate are given - these are subject to refinement in consultation with software developers.
 
-![Going from the tabular data package to schemas](/resources/FromTabularDataPackageToEverything.PNG)
+![Going from the tabular data package to schemas](https://github.com/esd-org-uk/human-services/blob/master/Resources/FromTabularDataPackageToEverything.PNG)
 
 1.  [Existing Open Referral tabular data package](https://raw.githubusercontent.com/openreferral/specification/master/datapackage.json)
 2.  [Tabular data package with extensions and application profile](https://raw.githubusercontent.com/esd-org-uk/human-services/master/SchemaGenerator/Generator/ExtendedDataPackage.json)
@@ -81,7 +81,7 @@ We’ll assess compatibility with the [OpenActive opportunity data model](https:
 ## API
 We’ll post here the code for an API that implements important “/get” web methods defined by the standard, including /getServices. We’ll also provide a means of filtering services to prioritise those that are appropriate for a user’s location, circumstances and needs.
 
-![Consolidated data feeds queried by service finder applications](/resources/ConsolidatedDataFeedsQueriedByServiceFinders.png)
+![Consolidated data feeds queried by service finder applications](https://github.com/esd-org-uk/human-services/blob/master/Resources/ConsolidatedDataFeedsQueriedByServiceFinders.png)
 
 We’ll support a syntax like:
 
