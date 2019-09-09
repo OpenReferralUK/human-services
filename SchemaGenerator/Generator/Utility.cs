@@ -8,19 +8,19 @@ namespace Convertor
 {
     internal class Utility
     {
-        internal static string GetSourceColour(dynamic source, string defaultColour)
+        internal static string GetSourceColour(dynamic applicationProfile, string defaultColour)
         {
-            if (source != null)
+            if (applicationProfile != null)
             {
-                if (source == "openReferral")
+                if (applicationProfile == "openReferral")
                 {
                     return "lawngreen";
                 }
-                else if (source == "lga")
+                else if (applicationProfile == "LGA")
                 {
                     return "lightblue";
                 }
-                else if (source == "ical")
+                else if (applicationProfile == "ical")
                 {
                     return "orange";
                 }

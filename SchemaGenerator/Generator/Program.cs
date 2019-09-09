@@ -96,12 +96,12 @@ namespace Convertor
                     }
 
                     int matchingColumns = 0;
-                    Table table = new Table(resource.name.Value, resource.description, resource.source, resource.schema.primaryKey);
+                    Table table = new Table(resource.name.Value, resource.description, resource.source, resource.applicationProfile, resource.schema.primaryKey);
                     if (resource.schema.fields != null)
                     {
                         foreach (dynamic field in resource.schema.fields)
                         {
-                            if (!IsValid(options.Filter, field.source, field.original))
+                            if (!IsValid(options.Filter, field.source, field.applicationProfile))
                             {
                                 excludedColumns.Add(string.Format("{0}.{1}", resource.name, field.name));
                                 continue;
@@ -125,7 +125,7 @@ namespace Convertor
                             {
                                 enumValues = field.constraints["enum"].ToObject<string[]>();
                             }
-                            table.Columns.Add(new Column(field.name.Value, field.type.Value, field.original, field.source, field.format, field.description, field.hidden, field.deprecated, keys.Contains(field.name.Value), required, unique, enumValues, field.schemes));
+                            table.Columns.Add(new Column(field.name.Value, field.type.Value, field.number_type, field.original, field.source, field.applicationProfile, field.format, field.description, field.hidden, field.deprecated, keys.Contains(field.name.Value), required, unique, enumValues, field.schemes));
                         }
                     }
 
@@ -170,7 +170,7 @@ namespace Convertor
             return results;
         }
 
-        private static bool IsValid(int filter, dynamic source, dynamic original)
+        private static bool IsValid(int filter, dynamic source, dynamic applicationProfile)
         {
             if (filter == 0)
             {
@@ -178,11 +178,11 @@ namespace Convertor
             }
             if (filter == 1)
             {
-                return (original != null);
+                return (source != null) && source.Value == "openReferral";
             }
             if (filter == 2)
             {
-                return (source != null);
+                return (applicationProfile != null);
             }
             return true;
         }

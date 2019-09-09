@@ -5,13 +5,17 @@ namespace Convertor.Models
 {
     public class Table
     {
-        internal Table(string name, dynamic description, dynamic source, dynamic primaryKey)
+        internal Table(string name, dynamic description, dynamic source, dynamic applicationProfile, dynamic primaryKey)
         {
             this.Name = name;
             this.Source = string.Empty;
             if (source != null)
             {
                 this.Source = source.Value;
+            }
+            if (applicationProfile != null)
+            {
+                this.ApplicationProfile = applicationProfile.Value;
             }
             if (primaryKey != null)
             {
@@ -49,6 +53,12 @@ namespace Convertor.Models
             private set;
         }
 
+        internal string ApplicationProfile
+        {
+            get;
+            private set;
+        }
+
         internal List<Column> Columns
         {
             get;
@@ -69,7 +79,6 @@ namespace Convertor.Models
                 {
                     return true;
                 }
-                int originalColCount = 0;
                 foreach(Column col in Columns)
                 {
                     if (col.IsOriginal)
@@ -156,7 +165,7 @@ namespace Convertor.Models
             table.AppendLine();
             table.AppendLine(string.Format("{0} [label=<", Name));
             table.AppendLine("<table border=\"0\" cellborder=\"1\" cellspacing=\"0\" cellpadding=\"4\">");
-            table.AppendLine(string.Format("<tr><td bgcolor=\"{0}\"><b>{1}</b></td></tr>", Utility.GetSourceColour(Source, "lightgrey"), Name));
+            table.AppendLine(string.Format("<tr><td bgcolor=\"{0}\"><b>{1}</b></td></tr>", Utility.GetSourceColour(ApplicationProfile, "lightgrey"), Name));
 
             HashSet<string> hidden = new HashSet<string>();
             foreach(Column column in Columns)

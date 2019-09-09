@@ -8,7 +8,7 @@ namespace Convertor.Models
 {
     public class Column
     {
-        internal Column(string name, string type, dynamic original, dynamic source, dynamic format, dynamic description, dynamic hidden, dynamic deprecated, bool isKey, bool required, bool unique, string[] enumValues, dynamic schemes)
+        internal Column(string name, string type, dynamic numberType, dynamic original, dynamic source, dynamic applicationProfile, dynamic format, dynamic description, dynamic hidden, dynamic deprecated, bool isKey, bool required, bool unique, string[] enumValues, dynamic schemes)
         {
             this.Name = name;
             this.Type = type;
@@ -17,6 +17,10 @@ namespace Convertor.Models
             {
                 this.Source = source.Value;
             }
+            if (applicationProfile != null)
+            {
+                this.ApplicationProfile = applicationProfile.Value;
+            }            
             if (format != null)
             {
                 this.Format = format.Value;
@@ -36,6 +40,10 @@ namespace Convertor.Models
             if (deprecated != null)
             {
                 this.IsDeprecated = deprecated.Value;
+            }
+            if (numberType != null)
+            {
+                this.NumberType = numberType.Value;
             }
             if (schemes != null)
             {
@@ -82,7 +90,19 @@ namespace Convertor.Models
             private set;
         }
 
+        internal string NumberType
+        {
+            get;
+            private set;
+        }
+
         internal string Source
+        {
+            get;
+            private set;
+        }
+
+        internal string ApplicationProfile
         {
             get;
             private set;
@@ -137,7 +157,7 @@ namespace Convertor.Models
             {
                 attributes += string.Format("port='{0}' ", Name);
             }
-            attributes += string.Format(" bgcolor=\"{0}\"", Utility.GetSourceColour(Source, "white"));
+            attributes += string.Format(" bgcolor=\"{0}\"", Utility.GetSourceColour(ApplicationProfile, "white"));
             return string.Format("<tr><td {1}><b>{0}</b></td></tr>", Name, attributes);
         }
 
@@ -148,7 +168,7 @@ namespace Convertor.Models
             sb.Append(Name);
             sb.Append(RightEscape(options));
             sb.Append(" ");
-            sb.Append(TypeToSQLType(Type, IsKey, options));
+            sb.Append(TypeToSQLType(Type, NumberType, IsKey, options));
             if (Required)
             {
                 sb.Append(" NOT NULL");
@@ -174,7 +194,7 @@ namespace Convertor.Models
             return "]";
         }
 
-        internal string TypeToSQLType(string type, bool isKey, Options options)
+        internal string TypeToSQLType(string type, string numberType, bool isKey, Options options)
         {
             if (type == "string")
             {
@@ -190,7 +210,7 @@ namespace Convertor.Models
             }
             if (type == "number")
             {
-                return "double";
+                return numberType;
             }
             if (type == "date")
             {
