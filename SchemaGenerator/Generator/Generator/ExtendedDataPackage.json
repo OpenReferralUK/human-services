@@ -1152,7 +1152,6 @@
                   "description": "The day of the week that this entry relates to",
                   "type": "integer",
                   "original": true,
-                  "source": "lga",
                   "constraints": {
                     "required": true
                   }
@@ -1173,49 +1172,55 @@
                 },
                 {
                   "name": "valid_from",
-                  "description": "",
+                  "description": "The date from which the schedule information is valid.",
                   "type": "date",
                   "source": "lga"
                 },
                 {
                   "name": "valid_to",
-                  "description": "",
+                  "description": "The last date on which the schedule information is valid.",
                   "type": "date",
                   "source": "lga"
                 },
                 {
                   "name": "dtstart",
-                  "description": "",
+                  "description": "iCal - The date of the first event is the schedule. Necessary when using the 'interval' feature",
                   "type": "string",
                   "source": "lga"
                 },
                 {
                   "name": "freq",
-                  "description": "",
+                  "description": "iCal frequency use one of WEEKLY or MONTHLY.",
                   "type": "string",
-                  "source": "lga"
+                  "source": "lga",
+                  "constraints": {
+                    "enum": [
+                      "WEEKLY",
+                      "MONTHLY"
+                    ]
+                  }
                 },
                 {
                   "name": "interval",
-                  "description": "",
+                  "description": "iCal - How often the frequency repeats. E.g. Interval 2 for Frequency WEEKLY gives Fortnightly",
                   "type": "string",
                   "source": "lga"
                 },
                 {
                   "name": "byday",
-                  "description": "",
+                  "description": "iCal - Comma separated days of the week. E.g. SU,MO,TU,WE,TH,FR,SA. Where freq is MONTHLY each part can be preceded by a positive or negative integer to represent which occurrence in a month. E.g. 2MO is the second Monday in a month.  -1FR is the last Friday",
                   "type": "string",
                   "source": "lga"
                 },
                 {
                   "name": "bymonthday",
-                  "description": "",
+                  "description": "iCal day number of a month if frequency is MONTHLY  ",
                   "type": "string",
                   "source": "lga"
                 },
                 {
                   "name": "description",
-                  "description": "",
+                  "description": "Human readable description of the schedule.",
                   "type": "string",
                   "source": "lga"
                 }
