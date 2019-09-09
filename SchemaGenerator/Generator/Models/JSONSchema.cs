@@ -118,6 +118,7 @@ namespace Convertor.Models
                             {
                                 prop.description += "\r\n";
                             }
+                            prop.description += " - ";
                             prop.description += schema.ToString();
                         }
                     }

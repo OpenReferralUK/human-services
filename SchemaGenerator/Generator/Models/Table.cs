@@ -109,29 +109,32 @@ namespace Convertor.Models
                 {
                     source = "Open Referral field used in application profile";
                 }
-                string desc = column.Description;
+                List<string> allowedValuesList = new List<string>();
                 if (column.Schemas != null && column.Schemas.Length > 0)
                 {
                     foreach (SchemaURI schema in column.Schemas)
                     {
-                        if (!string.IsNullOrEmpty(desc))
-                        {
-                            desc += "\r\n";
-                        }
-                        desc += schema.ToString();
+                        allowedValuesList.Add(schema.ToString());
                     }
                 }
-                string allowedValues = "-";
+
                 if (column.Enum != null)
                 {
-                    allowedValues = "<ul><li>" + string.Join("</li><li>", column.Enum) + "</li></ul>";
+                    allowedValuesList.AddRange(column.Enum);
                 }
+
+                string allowedValues = "-";
+                if (allowedValuesList.Count > 0)
+                {                    
+                    allowedValues = "<ul><li>" + string.Join("</li><li>", allowedValuesList) + "</li></ul>";
+                }
+
                 string format = column.Type;
                 if (!string.IsNullOrEmpty(column.Format))
                 {
                     format += " (" + column.Format + ")";
                 }
-                table.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td></tr>", column.Name, format, source, FormatHTML(desc), allowedValues, column.Required, column.Unique);
+                table.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td></tr>", column.Name, format, source, FormatHTML(column.Description), allowedValues, column.Required, column.Unique);
             }
             table.AppendLine("</table>");
 
