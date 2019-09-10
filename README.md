@@ -22,21 +22,21 @@ From the revised data model we generate JSON schemas for web method responses ex
 3.  [Tabular data package with extensions and application profile](https://raw.githubusercontent.com/esd-org-uk/human-services/master/SchemaGenerator/Generator/ExtendedDataPackage.json)
 4.  [Code to generate ERDs](https://github.com/esd-org-uk/human-services/tree/master/SchemaGenerator)
 5.  ERD for:
-  - [Open Referral data package](https://drive.google.com/file/d/15T170jP9lwkPgfChuLLL3nHroxlLeLAM/view?usp=sharing) [Graphviz Dot File](https://drive.google.com/file/d/1CIi_ogWlvgt1TKyMIszkONH_OTAGJ9wG/view?usp=sharing)
-  - [Extended data package](https://drive.google.com/file/d/1bqyAfna68GpwSUh0QWGDQX_QUeOpBhQK/view?usp=sharing) [Graphviz Dot File](https://drive.google.com/file/d/14gBXyvRQrC--YjjKBx37ZhnL5C4LT-iP/view?usp=sharing)
-  - [Application profile](https://drive.google.com/file/d/13QDKCP0Uq7H6n6aF21eDUCsnTg5nfqFl/view?usp=sharing) [Graphviz Dot File](https://drive.google.com/file/d/1MX3-46pJuwHLbG7bPsKHvcnVn2h9Q2y0/view?usp=sharing)
+  - [Open Referral data package](https://github.com/esd-org-uk/human-services/raw/master/Resources/OpenReferralERD.png) [Graphviz Dot File](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Resources/OpenReferralERD.gv)
+  - [Extended data package](https://github.com/esd-org-uk/human-services/raw/master/Resources/AllERD.png) [Graphviz Dot File](https://github.com/esd-org-uk/human-services/raw/master/Resources/AllERD.gv)
+  - [Application profile](https://github.com/esd-org-uk/human-services/raw/master/Resources/ApplicationProfileERD.png) [Graphviz Dot File](https://github.com/esd-org-uk/human-services/raw/master/Resources/ApplicationProfileERD.gv)
 6. [Code to generate JSON schema](https://github.com/esd-org-uk/human-services/tree/master/SchemaGenerator) for “get” for any class
 7. JSON schema for:
-  - Service - [simple](https://drive.google.com/file/d/1PEzhl_amCq4ktwUqelIfi15KDaLUD3K4/view?usp=sharing) [verbose](https://drive.google.com/file/d/14gVMW6_fFsCkfM4FLQMylnf_YonvyuNO/view?usp=sharing)
-  - Organization - [simple](https://drive.google.com/file/d/1zcyGl4I9ZzdiIH9rAW0nKx9ZlObgyEDN/view?usp=sharing) [verbose](https://drive.google.com/file/d/1giElgMc_Tdc9eikhXqiZG70Z_j0X9-Y2/view?usp=sharing)
-  - Location - [simple](https://drive.google.com/file/d/1wcQ8XSLSwBEXZuDXjs2-eWCCTJShhEsk/view?usp=sharing) [verbose](https://drive.google.com/file/d/1CWQWFbI25WUHm2ud5QpiaJhSH39ZXljV/view?usp=sharing)
-  - Review - [simple](https://drive.google.com/file/d/1blJfcayLcqui5s4F3TCddSx9y2FEF-xB/view?usp=sharing) [verbose](https://drive.google.com/file/d/1IOTvjr2gBz4U1VphdgbvTxiPJKwExFdw/view?usp=sharing)
+  - Service - [simple](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/service.schema.json) [verbose](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/service.schema.verbose.json)
+  - Organization - [simple](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/organization.schema.json) [verbose](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/organization.schema.verbose.json)
+  - Location - [simple](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/location.schema.json) [verbose](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/location.schema.verbose.json)
+  - Review - [simple](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/review.schema.json) [verbose](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/review.schema.verbose.json)
 8. [Code to generate CSV schema](https://github.com/esd-org-uk/human-services/tree/master/SchemaGenerator) for any class
 9.  CSV schema for:
-  - Service - [simple](https://drive.google.com/file/d/1gTxLgFYKXMTrLwzH9d0E6pzUYVYES9W_/view?usp=sharing) [verbose](https://drive.google.com/file/d/1DoHWpjrAwc7WXTweqGSS8N86W2S7_nMO/view?usp=sharing)
-  - Organization - [simple](https://drive.google.com/file/d/1WQ2vXcaONfUz9oGJ3NHwGoJSs7EzhrHC/view?usp=sharing) [verbose](https://drive.google.com/file/d/1YE0HzEerdVwS5u98BfJBZmZRtLx7OKbt/view?usp=sharing)
-  - Location - [simple](https://drive.google.com/file/d/1DlhGb72_6Wpcc6BnSZDFpJthBHWkHTIJ/view?usp=sharing) [verbose](https://drive.google.com/file/d/16-VNk4ZME4-iI_uHBmpbYPd-DPQPssKX/view?usp=sharing)
-  - Review - [simple](https://drive.google.com/file/d/1KUjTDzFjoadPtaNnsMkqibfqSW8IYSN1/view?usp=sharing) [verbose](https://drive.google.com/file/d/1zDGSMOEKe11v6cgnx5djLdZV5AqGlv07/view?usp=sharing)
+  - Service - [simple](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/service.schema.csv) [verbose](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/service.schema.verbose.csv)
+  - Organization - [simple](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/organization.schema.csv) [verbose](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/organization.schema.verbose.csv)
+  - Location - [simple](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/location.schema.csv) [verbose](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/location.schema.verbose.csv)
+  - Review - [simple](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/review.schema.csv) [verbose](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/review.schema.verbose.csv)
 
 *Simple* schemas define the properties of a class (eg a service) and any other class associated via a many-to-one relationship (eg the organization delivering a service). *Verbose* schemas also include classes associated via a one-to-many relationship (eg service reviews). The “many” properties are expressed as arrays in JSON and expected to be pipe-delimited in CSV.
 
