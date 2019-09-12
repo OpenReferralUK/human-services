@@ -13,17 +13,28 @@ namespace Convertor.Models
             {
                 this.Source = source.Value;
             }
+            if (description != null)
+            {
+                this.Description = description.Value;
+            }
             if (applicationProfile != null)
             {
-                this.ApplicationProfile = applicationProfile.Value;
+                if (applicationProfile.name != null)
+                {
+                    this.ApplicationProfile = applicationProfile.name.Value;
+                }
+                if (applicationProfile.notes != null)
+                {
+                    if (!string.IsNullOrEmpty(this.Description))
+                    {
+                        this.Description += "\r\n";
+                    }
+                    this.Description += applicationProfile.notes;
+                }
             }
             if (primaryKey != null)
             {
                 this.PrimaryKey = primaryKey.Value;
-            }
-            if (description != null)
-            {
-                this.Description = description.Value;
             }
             this.Columns = new List<Column>();
             this.ForeignKeys = new List<ForeignKeyReference>();

@@ -8,7 +8,7 @@ namespace Convertor.Models
 {
     public class Column
     {
-        internal Column(string name, string type, dynamic numberType, dynamic original, dynamic source, dynamic applicationProfile, dynamic format, dynamic description, dynamic hidden, dynamic deprecated, bool isKey, bool required, bool unique, string[] enumValues, dynamic schemes)
+        internal Column(string name, string type, dynamic numberType, dynamic original, dynamic source, dynamic applicationProfile, dynamic format, dynamic description, dynamic hidden, dynamic deprecated, bool isKey, bool required, bool unique, string[] enumValues)
         {
             this.Name = name;
             this.Type = type;
@@ -17,17 +17,37 @@ namespace Convertor.Models
             {
                 this.Source = source.Value;
             }
+            if (description != null)
+            {
+                this.Description = description.Value;
+            }
             if (applicationProfile != null)
             {
-                this.ApplicationProfile = applicationProfile.Value;
+                if (applicationProfile.name != null)
+                {
+                    this.ApplicationProfile = applicationProfile.name.Value;
+                }
+                if (applicationProfile.notes != null)
+                {
+                    if (!string.IsNullOrEmpty(this.Description))
+                    {
+                        this.Description += "\r\n";
+                    }
+                    this.Description += applicationProfile.notes;
+                }
+                if (applicationProfile.schemes != null)
+                {
+                    List<SchemaURI> schemaUris = new List<SchemaURI>();
+                    foreach (dynamic item in applicationProfile.schemes)
+                    {
+                        schemaUris.Add(new SchemaURI() { name = item.name, required = item.required, uri = item.uri });
+                    }
+                    Schemas = schemaUris.ToArray();
+                }
             }            
             if (format != null)
             {
                 this.Format = format.Value;
-            }
-            if (description != null)
-            {
-                this.Description = description.Value;
             }
             if (hidden != null)
             {
@@ -44,15 +64,6 @@ namespace Convertor.Models
             if (numberType != null)
             {
                 this.NumberType = numberType.Value;
-            }
-            if (schemes != null)
-            {
-                List<SchemaURI> schemaUris = new List<SchemaURI>();
-                foreach (dynamic item in schemes)
-                {
-                    schemaUris.Add(new SchemaURI() { name = item.name, required = item.required, uri = item.uri });
-                }
-                Schemas = schemaUris.ToArray();
             }
             this.IsKey = isKey;
             this.Required = required;
