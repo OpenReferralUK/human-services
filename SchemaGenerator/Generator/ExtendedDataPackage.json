@@ -363,8 +363,8 @@
                     "type": "string",
                     "source": "openReferral",
                     "applicationProfile": {
-                      "name": "LGA",
-                      "notes":"Use structured information where available in preference to this text field."
+                      "name": "openReferral",
+                      "notes": "Use structured information where available in preference to this text field."
                     },
                     "constraints": {
                       "required": false
@@ -2551,7 +2551,7 @@
                       "name": "LGA"
                     },
                     "constraints": {
-                      "enum": [ "organisation", "eligibility", "coverage", "cost_option" ],
+                      "enum": [ "organization", "eligibility", "coverage", "cost_option" ],
                       "required": true
                     }
                   },
