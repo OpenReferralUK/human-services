@@ -79,7 +79,7 @@ We will encourage pilot local authorities working with the LGA to provide data e
 We’ll assess compatibility with the [OpenActive opportunity data model](https://www.openactive.io/modelling-opportunity-data/) and the feasibility of transforming [open active data feeds](https://status.openactive.io) to be compliant with the services standard.
 
 ## API
-We’ll post here the code for an API that implements important “/get” web methods defined by the standard, including /getServices. We’ll also provide a means of filtering services to prioritise those that are appropriate for a user’s location, circumstances and needs.
+He is [Swagger documentation for the API based on alpha web-sevices](http://alpha.webservices.esd.org.uk/ServiceDirectoryService/swagger-ui.html) which implements important “/get” web methods defined by the standard, including /getServices. A "get" for multiple services, organizations, etc returns just simple (non-verbose) data for them. We intend to also provide a means of filtering services to prioritise those that are appropriate for a user’s location, circumstances and needs.
 
 ![Consolidated data feeds queried by service finder applications](https://github.com/esd-org-uk/human-services/blob/master/Resources/ConsolidatedDataFeedsQueriedByServiceFinders.png)
 
@@ -88,3 +88,6 @@ We’ll support a syntax like:
 > /getService?latitude=nnnn&longitude=nnnn&circumstance=xxxx&need=xxxx
 
 to be used by a separately developed open source “service finder” application, [described here](https://docs.google.com/document/d/1yks8TdKdba1SO9cOk--M19evWf-_XBaDPo1ti8qCF6o/edit?usp=sharing).
+
+## API Terms
+The API is freely available for reasonable use for public and private organisations. It is subject to ongoing development and there are no guarantees on its stability or longevity. It may be modified to require credentials in future.
