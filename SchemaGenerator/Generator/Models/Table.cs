@@ -121,11 +121,11 @@ namespace Convertor.Models
                     continue;
                 }
                 string source = "Open Referral field excluded from application profile";
-                if (column.Source == "lga")
+                if (column.ApplicationProfile == "LGA")
                 {
                     source = "Extension for LGA";
                 }
-                else if (column.Source == "openReferral")
+                else if (column.ApplicationProfile == "openReferral")
                 {
                     source = "Open Referral field used in application profile";
                 }

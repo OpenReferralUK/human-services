@@ -8,7 +8,7 @@ namespace Convertor.Models
 {
     public class Column
     {
-        internal Column(string name, string type, dynamic numberType, dynamic original, dynamic source, dynamic applicationProfile, dynamic format, dynamic description, dynamic hidden, dynamic deprecated, bool isKey, bool required, bool unique, string[] enumValues)
+        internal Column(string name, string type, dynamic numberType, bool original, dynamic source, dynamic applicationProfile, dynamic format, dynamic description, dynamic hidden, dynamic deprecated, bool isKey, bool required, bool unique, string[] enumValues)
         {
             this.Name = name;
             this.Type = type;
@@ -31,8 +31,9 @@ namespace Convertor.Models
                 {
                     if (!string.IsNullOrEmpty(this.Description))
                     {
-                        this.Description += "\r\n";
+                        this.Description += "\r\n\r\n";
                     }
+                    this.Description += "Application Profile Notes: ";
                     this.Description += applicationProfile.notes;
                 }
                 if (applicationProfile.schemes != null)
@@ -53,10 +54,6 @@ namespace Convertor.Models
             {
                 this.IsHidden = hidden.Value;
             }
-            if (original != null)
-            {
-                this.IsOriginal = original.Value;
-            }
             if (deprecated != null)
             {
                 this.IsDeprecated = deprecated.Value;
@@ -65,6 +62,7 @@ namespace Convertor.Models
             {
                 this.NumberType = numberType.Value;
             }
+            this.IsOriginal = original;
             this.IsKey = isKey;
             this.Required = required;
             this.Unique = unique;
