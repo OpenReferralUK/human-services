@@ -79,7 +79,7 @@ We will encourage pilot local authorities working with the LGA to provide data e
 We’ll assess compatibility with the [OpenActive opportunity data model](https://www.openactive.io/modelling-opportunity-data/) and the feasibility of transforming [open active data feeds](https://status.openactive.io) to be compliant with the services standard.
 
 ## API
-He is [Swagger documentation for the API based on alpha web-sevices](http://alpha.webservices.esd.org.uk/ServiceDirectoryService/swagger-ui.html) which implements important “/get” web methods defined by the standard, including /getServices. A "get" for multiple services, organizations, etc returns just simple (non-verbose) data for them. We intend to also provide a means of filtering services to prioritise those that are appropriate for a user’s location, circumstances and needs.
+He is [Swagger documentation for the API based on alpha web-sevices](http://34.252.23.177:8080/ServiceDirectoryService/swagger-ui.html) which implements important “/get” web methods defined by the standard, including /getServices. A "get" for multiple services, organizations, etc returns just simple (non-verbose) data for them. We intend to also provide a means of filtering services to prioritise those that are appropriate for a user’s location, circumstances and needs.
 
 ![Consolidated data feeds queried by service finder applications](https://github.com/esd-org-uk/human-services/blob/master/Resources/ConsolidatedDataFeedsQueriedByServiceFinders.png)
 
