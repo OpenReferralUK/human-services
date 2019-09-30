@@ -207,7 +207,9 @@ namespace Convertor.Models
         {
             StringBuilder sql = new StringBuilder();
             sql.Append("CREATE TABLE ");
+            sql.Append(Utility.LeftEscape(options));
             sql.Append(Name);
+            sql.Append(Utility.RightEscape(options));
             sql.Append(" (");
             sql.AppendLine();
 

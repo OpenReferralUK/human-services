@@ -12,6 +12,6 @@
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>--type=html --filter=0 --engine=1</StartArguments>
+    <StartArguments>--type=sql --filter=2 --engine=1</StartArguments>
   </PropertyGroup>
 </Project>

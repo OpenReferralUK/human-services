@@ -173,9 +173,9 @@ namespace Convertor.Models
         internal string ToSQL(Options options)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append(LeftEscape(options));
+            sb.Append(Utility.LeftEscape(options));
             sb.Append(Name);
-            sb.Append(RightEscape(options));
+            sb.Append(Utility.RightEscape(options));
             sb.Append(" ");
             sb.Append(TypeToSQLType(Type, NumberType, IsKey, options));
             if (Required)
@@ -183,24 +183,6 @@ namespace Convertor.Models
                 sb.Append(" NOT NULL");
             }
             return sb.ToString();
-        }
-
-        private string LeftEscape(Options options)
-        {
-            if (options.Engine == 1)
-            {
-                return "`";
-            }
-            return "[";
-        }
-
-        private string RightEscape(Options options)
-        {
-            if (options.Engine == 1)
-            {
-                return "`";
-            }
-            return "]";
         }
 
         internal string TypeToSQLType(string type, string numberType, bool isKey, Options options)

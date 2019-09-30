@@ -28,5 +28,23 @@ namespace Convertor
 
             return defaultColour;
         }
+
+        internal static string LeftEscape(Options options)
+        {
+            if (options.Engine == 1)
+            {
+                return "`";
+            }
+            return "[";
+        }
+
+        internal static string RightEscape(Options options)
+        {
+            if (options.Engine == 1)
+            {
+                return "`";
+            }
+            return "]";
+        }
     }
 }

@@ -41,7 +41,7 @@
             {
                 field = primaryKey;
             }
-            return string.Format("{0}:{1} -> {2}:{3};", TableName, field, ReferenceTableName, ReferenceTableField);
+            return string.Format("{0}:{1} -> {2}:{3};", ReferenceTableName, ReferenceTableField, TableName, field);
         }
 
         public string ToSQL(string primaryKey, int index)
