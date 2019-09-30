@@ -280,7 +280,6 @@ service_area [label=<
 >]
 
 service:id -> service_area:service_id;
-link_taxonomy:id -> service_area:id;
 
 
 required_document [label=<
@@ -385,20 +384,6 @@ meta_table_description [label=<
 
 
 
-link_eligibility [label=<
-<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-<tr><td bgcolor="lightblue"><b>link_eligibility</b></td></tr>
-<tr><td port='id'  bgcolor="lightblue"><b>id</b></td></tr>
-<tr><td port='service_id'  bgcolor="lightblue"><b>service_id</b></td></tr>
-<tr><td port='link_taxonomy_id'  bgcolor="lightblue"><b>link_taxonomy_id</b></td></tr>
-<tr><td  bgcolor="lightblue"><b>description</b></td></tr>
-</table>
->]
-
-service:id -> link_eligibility:service_id;
-link_taxonomy:id -> link_eligibility:link_taxonomy_id;
-
-
 cost_option [label=<
 <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
 <tr><td bgcolor="lightblue"><b>cost_option</b></td></tr>
@@ -443,7 +428,8 @@ link_taxonomy [label=<
 </table>
 >]
 
-service:id -> link_taxonomy:id;
+eligibility:id -> link_taxonomy:id;
+service_area:id -> link_taxonomy:id;
 location:id -> link_taxonomy:id;
 organization:id -> link_taxonomy:id;
 taxonomy:id -> link_taxonomy:taxonomy_id;
