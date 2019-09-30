@@ -1,7 +1,7 @@
 rmdir /s /q Export
 md Export
 
-Generator.exe --type=html --filter=0 --verbose=1 --output=Export\
+Generator.exe --type=html --filter=2 --verbose=1 --output=Export\
 Generator.exe --type=csv --filter=2 --verbose=0 --ref=service --title=service.schema --output=Export\
 Generator.exe --type=csv --filter=2 --verbose=1 --ref=service --title=service.schema.verbose --output=Export\
 Generator.exe --type=csv --filter=2 --verbose=0 --ref=location --title=location.schema --output=Export\
