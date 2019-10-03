@@ -24,7 +24,7 @@ From the revised data model we generate JSON schemas for web method responses ex
 5.  ERD for:
   - [Open Referral data package](https://github.com/esd-org-uk/human-services/raw/master/Resources/OpenReferralERD.png) [Graphviz Dot File](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Resources/OpenReferralERD.gv)
   - [Extended data package](https://github.com/esd-org-uk/human-services/raw/master/Resources/AllERD.png) [Graphviz Dot File](https://github.com/esd-org-uk/human-services/raw/master/Resources/AllERD.gv)
-  - [Application profile](https://github.com/esd-org-uk/human-services/raw/master/Resources/ApplicationProfileERD.png) [Graphviz Dot File](https://github.com/esd-org-uk/human-services/raw/master/Resources/ApplicationProfileERD.gv)
+  - [Application profile](https://github.com/esd-org-uk/human-services/raw/master/Resources/ApplicationProfileERD.png) [Graphviz Dot File](https://github.com/esd-org-uk/human-services/raw/master/Resources/ApplicationProfileERD.gv). Manually generated tidied up version of the [Application profile ERD](https://github.com/esd-org-uk/human-services/raw/master/Resources/LGA_ApplicationProfileBasicEntityRelationshipDiagram.png).
 6. [Code to generate JSON schema](https://github.com/esd-org-uk/human-services/tree/master/SchemaGenerator) for “get” for any class
 7. JSON schema for:
   - Service - [simple](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/service.schema.json) [verbose](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/service.schema.verbose.json)
