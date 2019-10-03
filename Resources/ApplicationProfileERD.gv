@@ -287,7 +287,7 @@ link_taxonomy [label=<
 
 eligibility:id -> link_taxonomy:id;
 service_area:id -> link_taxonomy:id;
-location:id -> link_taxonomy:id;
+cost_option:id -> link_taxonomy:id;
 organization:id -> link_taxonomy:id;
 taxonomy:id -> link_taxonomy:taxonomy_id;
 
