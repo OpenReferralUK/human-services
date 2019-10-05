@@ -1,93 +1,66 @@
 # Human Services standard, standard generator and API
 ## Summary
-This repository records extensions proposed by the English Local Government Association (LGA) to the OpenReferral standard for human services data. It has an application profile which contains the extended standard for use with English local services.
 
-Schema generator code is given to express the schema in various formats.
+This repository provides source code, resources and utilities for English extensions to the Open Referral standard for human services data. It contains:
 
-We intend to take data from various, providing code to transform it to meet the standard if it does not already do so.
+* Proposed extensions to the Open Referral schema
+* Application profiles on the extended schema to describe English services
+* Data format definitions and proposed vocabularies
+* API calls to conforming database applications
+* A sample Service Finder application using the API
 
-We’ll provide an Application Programmer Interface (API) that serves the data in a format compliant with the standard to front end service-finder applications.
+For the English **[Local Government Association](https://www.local.gov.uk/)** (LGA) pilot work on Loneliness (supporting the Department for Digital, Culture, Media and Sport (DCMS) [Tackling Loneliness Strategy](https://www.gov.uk/government/publications/a-connected-society-a-strategy-for-tackling-loneliness)) we will provide an application profile and API on a database taking data from three pilot local authorities. The blog [Not another directory of services!](https://medium.com/porism/not-another-directory-of-services-a24bb08c6343) describes how the content here fits into the LGA project.
 
-The blog [Not another directory of services!](https://docs.google.com/document/d/1dQvHJrZM9H3gBZ7XPsKrzJ7JnQJnszy3BdXDhrF8JrY/edit?usp=sharing) describes how the content here fits into a project being run by the LGA.
+For Open Community alpha work led by **[Buckinghamshire County Council](https://www.buckscc.gov.uk/)**, we will provide an application profile and test approaches recommended by the [OpenCommunity Discovery Report  - The case for a community-based services data standard](https://opencommunity.org.uk/wp-content/uploads/2019/05/Report-OpenCommunity-Data-standards.pdf). We will provide API calls to update data and provide sample data entry tools.
 
-## Schemas and Schema generation
-The [Open Knowledge Foundation tabular data package](https://raw.githubusercontent.com/openreferral/specification/master/datapackage.json) machine readable representation of Open Referral’s [Human Services Data Specification (HSDS) Objects and fields reference](https://openreferral.readthedocs.io/en/latest/hsds/reference/#objects-and-fields) has been updated to denote extensions and application profile constraints.
+By comparing the two application profiles we can test the viability of moving fast to a single English standard that builds on (and whose core is compatible with) Open referral.
 
-From the revised data model we generate JSON schemas for web method responses extending [those defined by Open Referral](https://openreferral.readthedocs.io/en/latest/_static/swagger/?url=../openapi-hsda.yaml#). We  also generate CSV schemas which define tabular views on the data but will not provide a complete directory. The diagram below shows the process of refining the data package and then generating machine readable schemas. Links to code and resources generate are given - these are subject to refinement in consultation with software developers.
+##The approach
 
-![Going from the tabular data package to schemas](https://github.com/esd-org-uk/human-services/blob/master/Resources/FromTabularDataPackageToEverything.PNG)
-
-1.  [Existing Open Referral tabular data package](https://raw.githubusercontent.com/openreferral/specification/master/datapackage.json)
-2.  [Tabular data package with extensions and application profile](https://raw.githubusercontent.com/esd-org-uk/human-services/master/SchemaGenerator/Generator/ExtendedDataPackage.json)
-3.  [Tabular data package with extensions and application profile](https://raw.githubusercontent.com/esd-org-uk/human-services/master/SchemaGenerator/Generator/ExtendedDataPackage.json)
-4.  [Code to generate ERDs](https://github.com/esd-org-uk/human-services/tree/master/SchemaGenerator)
-5.  ERD for:
-  - [Open Referral data package](https://github.com/esd-org-uk/human-services/raw/master/Resources/OpenReferralERD.png) [Graphviz Dot File](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Resources/OpenReferralERD.gv)
-  - [Extended data package](https://github.com/esd-org-uk/human-services/raw/master/Resources/AllERD.png) [Graphviz Dot File](https://github.com/esd-org-uk/human-services/raw/master/Resources/AllERD.gv)
-  - [Application profile](https://github.com/esd-org-uk/human-services/raw/master/Resources/ApplicationProfileERD.png) [Graphviz Dot File](https://github.com/esd-org-uk/human-services/raw/master/Resources/ApplicationProfileERD.gv). Manually generated tidied up version of the [Application profile ERD](https://github.com/esd-org-uk/human-services/raw/master/Resources/LGA_ApplicationProfileBasicEntityRelationshipDiagram.png).
-6. [Code to generate JSON schema](https://github.com/esd-org-uk/human-services/tree/master/SchemaGenerator) for “get” for any class
-7. JSON schema for:
-  - Service - [simple](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/service.schema.json) [verbose](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/service.schema.verbose.json)
-  - Organization - [simple](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/organization.schema.json) [verbose](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/organization.schema.verbose.json)
-  - Location - [simple](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/location.schema.json) [verbose](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/location.schema.verbose.json)
-  - Review - [simple](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/review.schema.json) [verbose](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/review.schema.verbose.json)
-8. [Code to generate CSV schema](https://github.com/esd-org-uk/human-services/tree/master/SchemaGenerator) for any class
-9.  CSV schema for:
-  - Service - [simple](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/service.schema.csv) [verbose](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/service.schema.verbose.csv)
-  - Organization - [simple](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/organization.schema.csv) [verbose](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/organization.schema.verbose.csv)
-  - Location - [simple](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/location.schema.csv) [verbose](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/location.schema.verbose.csv)
-  - Review - [simple](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/review.schema.csv) [verbose](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/review.schema.verbose.csv)
-
-*Simple* schemas define the properties of a class (eg a service) and any other class associated via a many-to-one relationship (eg the organization delivering a service). *Verbose* schemas also include classes associated via a one-to-many relationship (eg service reviews). The “many” properties are expressed as arrays in JSON and expected to be pipe-delimited in CSV.
-
-We also provide pluralised versions of the JSON schemas defining the structure of responses to web methods like getServices.
-
-CSV schemas are expressed in the [CSV format](https://validator.opendata.esd.org.uk/csvschema) used by the LGA’s data validator. We’ll also provide [CSV on the Web](https://www.w3.org/TR/tabular-data-primer/) format schemas if there is much demand for them.
-
-## Human Services LGA Application profile documentation
-The [auto-generated documentation for the application profile](http://htmlpreview.github.io/?https://github.com/esd-org-uk/human-services/blob/master/Schemas/documentation.html) gives the names and descriptions of the objects and fields, our extensions and application profile details such as allowed values and required/optional taxonomies.
-
-## The schema generator
-Documentation is generated using this command: 
->Generator.exe --type=html --filter=2 --verbose=1 --title=documentation
-
-The parameters  can have the following values.
-
-- type
-  - gv = ERD
-  - json = JSON Schema
-  - table = JSON Table Schema
-  - csv = CSV Schema
-  - sql = Create Table Statements
-  - html = HTML documentation
-- filter
-  - 0 = All
-  - 1 = Open Referral
-  - 2 = Service Directory
-- verbose - 1 if the output should be verbose
-- title - the title of the output file
-- multiple - 1 if the initial object should represented as an array
-
-To get all the available parameters along with help call: 
->Generator.exe --help 
-
-You can get the latest version of the generator software [here](https://github.com/esd-org-uk/human-services/blob/master/SchemaGenerator/Releases/Generator.1.0.0.zip).
-
-## Data import and conversion
-We will encourage pilot local authorities working with the LGA to provide data either as a tabular data package or via an API which supports the standard. When data is not compliant with the standard, we’ll try to convert it and put conversion code here.
-
-We’ll assess compatibility with the [OpenActive opportunity data model](https://www.openactive.io/modelling-opportunity-data/) and the feasibility of transforming [open active data feeds](https://status.openactive.io) to be compliant with the services standard.
-
-## API
-Here is [Swagger documentation for the API based on alpha web-sevices](http://api.porism.com/ServiceDirectoryService/swagger-ui.html) which implements important “/get” web methods defined by the standard, including /getServices. A "get" for multiple services, organizations, etc returns just simple (non-verbose) data for them. We intend to also provide a means of filtering services to prioritise those that are appropriate for a user’s location, circumstances and needs.
+The Local Digital Declaration insists on “modular building blocks for the IT we rely on, and open standards to give a common structure to the data we create”. The human service standard is intended to support the modular approach illustrated below.
 
 ![Consolidated data feeds queried by service finder applications](https://github.com/esd-org-uk/human-services/blob/master/Resources/ConsolidatedDataFeedsQueriedByServiceFinders.png)
 
-We’ll support a syntax like:
+Data consumers query service data via an API (see below) from directories that output in a format compliant with the standard. Aggregators take data from compliant directories and merge it to provide more comprehensive data for consuming applications.
 
-> /getService?latitude=nnnn&longitude=nnnn&circumstance=xxxx&need=xxxx
+The Loneliness project will test taking data from three pilot local authorities and serving it to a sample Service Finder application (to come [here](https://github.com/esd-org-uk/human-services/tree/master/ServiceFinder)). The Project is also testing the usefulness of specific taxonomies and the viability of inferring the types of service most suitable to a user based on their needs and circumstances. We’ll also assess compatibility with the [OpenActive opportunity data model](https://www.openactive.io/modelling-opportunity-data/) and the feasibility of transforming [open active data feeds](https://status.openactive.io/) to be compliant with the services standard.
 
-to be used by a separately developed open source “service finder” application, [described here](https://docs.google.com/document/d/1yks8TdKdba1SO9cOk--M19evWf-_XBaDPo1ti8qCF6o/edit?usp=sharing).
+Open Community work is testing data capture software, de-duplication of merged data and how easily the data can be consumed by applications.
 
-## API Terms
+##The standard
+
+The OpenReferral schema defines a structure for human services data. We extend the schema to support richer data where prior work indicates it is needed. We constrain the resultant schema by means of an application profile which says what fields are recommended for English use and what external vocabularies to reference.
+
+XXXXXXXXXXXXXXXXXX
+![Schema extension and constraint](https://github.com/esd-org-uk/human-services/blob/master/Resources/SchemaExtensionAndConstraint.png)
+
+For the LGA/DCMS Loneliness project application profile, these resources describe the schema:
+
+* [Documentation for the application profile](http://htmlpreview.github.io/?https://github.com/esd-org-uk/human-services/blob/master/Schemas/documentation.html) giving each table/class and their fields/properties
+* [Tabular data package with extensions and application profile](https://raw.githubusercontent.com/esd-org-uk/human-services/master/SchemaGenerator/Generator/ExtendedDataPackage.json)
+* [Application profile entity relation diagram](https://github.com/esd-org-uk/human-services/raw/master/Resources/LGA_ApplicationProfileBasicEntityRelationshipDiagram.png)
+* JSON schema for a service - [simple](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/service.schema.json) and [verbose](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/service.schema.verbose.json)
+ 
+The [SchemaGenerator folder](https://github.com/esd-org-uk/human-services/tree/master/SchemaGenerator) gives more schemas and code for generating them and other resources from a tabular data package.
+
+## The API
+
+An alpha API is being developed to get and post data in the standard format.
+
+Here is [Swagger documentation for the API based on alpha web-sevices](http://api.porism.com/ServiceDirectoryService/swagger-ui.html).  API responses for methods which get services, organizations, etc are in the schema’s JSON format.
+
+Different API endpoints will be supported for different databases. Currently the http://api.porism.com/ServiceDirectoryService/ end point serves historic Bristol services data for illustration with no guarantees on accuracy.
+
+We’ll provide a tool to help construct API calls and visualise results.
+
+Here are some sample API calls:
+
+* Get all services: http://api.porism.com/ServiceDirectoryService/services/
+* Get service 1: http://api.porism.com/ServiceDirectoryService/services/1
+* Get vocabularies: http://api.porism.com/ServiceDirectoryService/vocabularies/
+* Get taxonomy terms in “BCC Age Group” vocabulary: http://api.porism.com/ServiceDirectoryService/taxonomies/?vocabulary=BCC%20Age%20Group
+* Get services for  “BCC Age Group” vocabulary "bccagegroup:18" taxonomy term (Older People): http://api.porism.com/ServiceDirectoryService/services/?vocabulary=BCC%20Age%20Group&taxonomy_id=bccagegroup:18
+* Get taxonomy terms in “esdServiceType” vocabulary: http://api.porism.com/ServiceDirectoryService/taxonomies/?vocabulary=esdServiceType  
+* Get services for “esdServiceType” vocabulary "http://id.esd.org.uk/service/833" taxonomy term (leaving Hospital): http://api.porism.com/ServiceDirectoryService/services/?vocabulary=esdServiceType&taxonomy_id=http://id.esd.org.uk/service/833
+
 The API is freely available for reasonable use for public and private organisations. It is subject to ongoing development and there are no guarantees on its stability or longevity. It may be modified to require credentials in future.
