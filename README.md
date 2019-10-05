@@ -1,4 +1,4 @@
-# Human Services standard, standard generator and API
+# Human Services standard and API
 ## Summary
 
 This repository provides source code, resources and utilities for English extensions to the Open Referral standard for human services data. It contains:
@@ -15,7 +15,7 @@ For Open Community alpha work led by **[Buckinghamshire County Council](https://
 
 By comparing the two application profiles we can test the viability of moving fast to a single English standard that builds on (and whose core is compatible with) Open referral.
 
-##The approach
+## The approach
 
 The Local Digital Declaration insists on “modular building blocks for the IT we rely on, and open standards to give a common structure to the data we create”. The human service standard is intended to support the modular approach illustrated below.
 
@@ -27,11 +27,10 @@ The Loneliness project will test taking data from three pilot local authorities 
 
 Open Community work is testing data capture software, de-duplication of merged data and how easily the data can be consumed by applications.
 
-##The standard
+## The standard
 
-The OpenReferral schema defines a structure for human services data. We extend the schema to support richer data where prior work indicates it is needed. We constrain the resultant schema by means of an application profile which says what fields are recommended for English use and what external vocabularies to reference.
+The OpenReferral schema defines a structure for human services data. We *extend* the schema to support richer data where prior work indicates it is needed. We *constrain* the resultant schema by means of an *application profile* which says what fields are recommended for English use and what external vocabularies to reference.
 
-XXXXXXXXXXXXXXXXXX
 ![Schema extension and constraint](https://github.com/esd-org-uk/human-services/blob/master/Resources/SchemaExtensionAndConstraint.png)
 
 For the LGA/DCMS Loneliness project application profile, these resources describe the schema:
