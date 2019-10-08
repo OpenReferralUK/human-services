@@ -330,7 +330,7 @@
                     },
                     "constraints": {
                       "enum": [ "active", "inactive", "defunct", "temporarily closed" ],
-                      "required": true
+                      "required": false
                     }
                   },
                   {
@@ -906,6 +906,9 @@
                   "source": "openReferral",
                   "applicationProfile": {
                     "name": "openReferral"
+                  },
+                  "constraints": {
+                    "required": true
                   }
                 },
                 {
@@ -1003,6 +1006,9 @@
                   "source": "openReferral",
                   "applicationProfile": {
                     "name": "openReferral"
+                  },
+                  "constraints": {
+                    "required": true
                   }
                 },
                 {
@@ -1020,7 +1026,7 @@
                     "name": "openReferral"
                   },
                   "constraints": {
-                    "required": true
+                    "required": false
                   }
                 },
                 {
@@ -1356,7 +1362,7 @@
                 },
                 {
                   "name": "byday",
-                  "description": "iCal - Comma separated days of the week. E.g. SU,MO,TU,WE,TH,FR,SA. Where freq is MONTHLY each part can be preceded by a positive or negative integer to represent which occurrence in a month. E.g. 2MO is the second Monday in a month.  -1FR is the last Friday",
+                  "description": "iCal - A day of the week. E.g. SU,MO,TU,WE,TH,FR,SA. Where freq is MONTHLY each part can be preceded by a positive or negative integer to represent which occurrence in a month. E.g. 2MO is the second Monday in a month.  -1FR is the last Friday",
                   "type": "string",
                   "applicationProfile": {
                     "name": "LGA"
@@ -1709,7 +1715,10 @@
                   "applicationProfile": {
                     "name": "openReferral"
                   },
-                  "source": "openReferral"
+                  "source": "openReferral",
+                  "constraints": {
+                    "required": true
+                  }
                 },
                 {
                   "name": "service_area",
@@ -1727,9 +1736,26 @@
                   "source": "openReferral"
                 },
                 {
+                  "name": "name",
+                  "description": "A name for a geographic area.",
+                  "type": "string",
+                  "applicationProfile": {
+                    "name": "LGA"
+                  }
+                },
+                {
+                  "name": "type",
+                  "description": "A categorisation of the type of geographic area.",
+                  "type": "string",
+                  "applicationProfile": {
+                    "name": "LGA"
+                  }
+                },
+                {
                   "name": "extent",
                   "description": "A definition of the polygon defining the area, in geojson.",
                   "type": "string",
+                  "geoType": "geometry",
                   "applicationProfile": {
                     "name": "LGA"
                   }
@@ -2257,6 +2283,73 @@
                 }
               ],
               "primaryKey": "id"
+            }
+          },
+          {
+            "name": "link_eligibility",
+            "path": "link_eligibility.csv",
+            "description": "This table enables eligibility to be associated with other classes in the model",
+            "applicationProfile": {
+              "name": "LGA"
+            },
+            "format": "csv",
+            "mediatype": "text/csv",
+            "schema": {
+              "fields": [
+                {
+                  "name": "id",
+                  "description": "Each entry must have a unique identifier",
+                  "type": "string",
+                  "applicationProfile": {
+                    "name": "LGA"
+                  },
+                  "constraints": {
+                    "required": true,
+                    "unique": true
+                  }
+                },
+                {
+                  "name": "service_id",
+                  "description": "The identifier of the services for which the related eligibilities apply",
+                  "type": "string",
+                  "applicationProfile": {
+                    "name": "LGA"
+                  }
+                },
+                {
+                  "name": "link_taxonomy_id",
+                  "description": "The identifier for the link for which the related taxonomies apply",
+                  "type": "string",
+                  "applicationProfile": {
+                    "name": "LGA"
+                  }
+                },
+                {
+                  "name": "description",
+                  "description": "A description of the taxonomy",
+                  "type": "string",
+                  "applicationProfile": {
+                    "name": "LGA"
+                  }
+                }
+              ],
+              "primaryKey": "id",
+              "foreignKeys": [
+                {
+                  "fields": "service_id",
+                  "reference": {
+                    "resource": "service",
+                    "fields": "id"
+                  }
+                },
+                {
+                  "fields": "link_taxonomy_id",
+                  "reference": {
+                    "resource": "link_taxonomy",
+                    "fields": "id"
+                  }
+                }
+              ]
             }
           },
           {

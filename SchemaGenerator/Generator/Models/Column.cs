@@ -8,7 +8,7 @@ namespace Convertor.Models
 {
     public class Column
     {
-        internal Column(string name, string type, dynamic numberType, bool original, dynamic source, dynamic applicationProfile, dynamic format, dynamic description, dynamic hidden, dynamic deprecated, bool isKey, bool required, bool unique, string[] enumValues)
+        internal Column(string name, string type, dynamic numberType, dynamic geoType, bool original, dynamic source, dynamic applicationProfile, dynamic format, dynamic description, dynamic hidden, dynamic deprecated, bool isKey, bool required, bool unique, string[] enumValues)
         {
             this.Name = name;
             this.Type = type;
@@ -62,6 +62,10 @@ namespace Convertor.Models
             {
                 this.NumberType = numberType.Value;
             }
+            if (geoType != null)
+            {
+                this.GeoType = geoType.Value;
+            }
             this.IsOriginal = original;
             this.IsKey = isKey;
             this.Required = required;
@@ -100,6 +104,12 @@ namespace Convertor.Models
         }
 
         internal string NumberType
+        {
+            get;
+            private set;
+        }
+
+        internal string GeoType
         {
             get;
             private set;
@@ -177,7 +187,7 @@ namespace Convertor.Models
             sb.Append(Name);
             sb.Append(Utility.RightEscape(options));
             sb.Append(" ");
-            sb.Append(TypeToSQLType(Type, NumberType, IsKey, options));
+            sb.Append(TypeToSQLType(Type, NumberType, GeoType, IsKey, options));
             if (Required)
             {
                 sb.Append(" NOT NULL");
@@ -185,7 +195,7 @@ namespace Convertor.Models
             return sb.ToString();
         }
 
-        internal string TypeToSQLType(string type, string numberType, bool isKey, Options options)
+        internal string TypeToSQLType(string type, string numberType, string geoType, bool isKey, Options options)
         {
             if (type == "string")
             {
@@ -195,6 +205,10 @@ namespace Convertor.Models
                 }
                 if (options.Engine == 1)
                 {
+                    if (!string.IsNullOrEmpty(geoType))
+                    {
+                        return geoType;
+                    }
                     return "text";
                 }
                 return "varchar(65535)";
