@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="com.porism.servicedirectoryservice_ServiceDirectoryService_war_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.porism.servicedirectoryservice.models.EsdPostcode</class>
+    <class>com.porism.servicedirectoryservice.models.Organization_1</class>
+    <class>com.porism.servicedirectoryservice.models.Service_1</class>
+    <class>com.porism.servicedirectoryservice.models.Language</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://informplus-beta.rds.esd.org.uk:3306/ServiceDirectory?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="awsuserbeta"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="pQr1$m"/>
+    </properties>
+  </persistence-unit>
+</persistence>
