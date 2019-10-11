@@ -1,0 +1,6 @@
+**/.vs
+/ServiceLoaderBucks/packages/
+bin/
+obj/
+*.suo
+*.user
