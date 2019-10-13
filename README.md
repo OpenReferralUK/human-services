@@ -48,7 +48,7 @@ An alpha API is being developed to get and post data in the standard format.
 
 Here is [Swagger documentation for the API based on alpha web-sevices](http://api.porism.com/ServiceDirectoryService/swagger-ui.html).  API responses for methods which get services, organizations, etc are in the schema’s JSON format.
 
-Different API endpoints will be supported for different databases. Currently the http://api.porism.com/ServiceDirectoryService/ end point serves historic Bristol services data for illustration with no guarantees on accuracy.
+Different API endpoints will be supported for different databases. Currently the http://api.porism.com/ServiceDirectoryService/ end point serves historic Bristol services data for illustration with no guarantees on accuracy. A few demonstration services with all properties populated are being added to the end point http://api.porism.com/ServiceDirectoryServiceDemo/.
 
 We’ll provide a tool to help construct API calls and visualise results.
 
@@ -63,3 +63,5 @@ Here are some sample API calls:
 * Get services for “esdServiceType” vocabulary "http://id.esd.org.uk/service/833" taxonomy term (leaving Hospital): http://api.porism.com/ServiceDirectoryService/services/?vocabulary=esdServiceType&taxonomy_id=http://id.esd.org.uk/service/833
 
 The API is freely available for reasonable use for public and private organisations. It is subject to ongoing development and there are no guarantees on its stability or longevity. It may be modified to require credentials in future.
+
+See the [API query tool](http://service-directory-beta.s3-website-eu-west-1.amazonaws.com/) that illistrates some API calls and shows teh structure of data found. The page source can be saved and run from anywhere.
