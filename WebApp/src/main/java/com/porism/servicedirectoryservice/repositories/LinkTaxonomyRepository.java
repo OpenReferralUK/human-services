@@ -17,4 +17,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LinkTaxonomyRepository extends CrudRepository<LinkTaxonomy, String> {
     public List<LinkTaxonomy> findByLinkTypeAndTaxonomyIdIdAndTaxonomyIdVocabulary(String linkType, String id, String vocabulary);
+    public List<LinkTaxonomy> findByTaxonomyIdIdAndTaxonomyIdVocabulary(String id, String vocabulary);    
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.porism.servicedirectoryservice.views.BasicView;
+import com.porism.servicedirectoryservice.views.ReviewBasicView;
 import com.porism.servicedirectoryservice.views.ReviewView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,7 +31,7 @@ public class ReviewController {
     IReviewService reviewService;
         
     @ApiOperation(value = "Get all reviews", notes = "Note that the objects returned by this method contains a subset of the properties shown in the example.")
-    @JsonView(BasicView.class)
+    @JsonView(ReviewBasicView.class)
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
     public Review[] getReviews() {
         List<Review> reviews = reviewService.findAll();

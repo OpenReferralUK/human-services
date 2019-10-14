@@ -7,6 +7,7 @@ package com.porism.servicedirectoryservice.services;
 
 import com.porism.servicedirectoryservice.models.Service;
 import com.porism.servicedirectoryservice.repositories.ServiceRepository;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,11 +34,19 @@ public class ServiceService implements IServiceService {
     
     @Override
     public List<Service> findByIdIn(List<String> ids) {
+        if (ids == null)
+        {
+            return new ArrayList<Service>();
+        }
         return (List<Service>) repository.findByIdIn(ids);
     }    
 
     @Override
     public Page<Service> findByIdIn(List<String> ids, Pageable pageable) {
+        if (ids == null)
+        {
+            ids = new ArrayList<String>();
+        }        
         return (Page<Service>) repository.findByIdIn(ids, pageable);
     }
     

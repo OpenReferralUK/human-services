@@ -26,18 +26,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.porism.servicedirectoryservice.services.IServiceService;
 import com.porism.servicedirectoryservice.utilities.DTOUtility;
 import com.porism.servicedirectoryservice.views.ServiceView;
-import com.porism.servicedirectoryservice.views.BasicView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.porism.servicedirectoryservice.services.IServiceTaxonomyService;
+import com.porism.servicedirectoryservice.views.ServiceBasicView;
 import io.swagger.annotations.ApiParam;
 import java.util.ArrayList;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.web.PagedResourcesAssembler;
 
 /**
  *
@@ -73,105 +72,168 @@ public class ServiceController {
     
     @ApiOperation(value = "Get all services", notes = "Note that the objects returned by this method contains a subset of the properties shown in the example.")
     @ApiParam(name = "taxonomy_type", allowableValues = "organization, eligibility, cost_option, area, service", required = false)
-    @JsonView(BasicView.class)
+    @JsonView(ServiceBasicView.class)
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
-    public Page<Service> getServices(@RequestParam(required = false) String taxonomy_id, @RequestParam(required = false) String taxonomy_type, @RequestParam(required = false) String vocabulary, @RequestParam(required = false) String postcode, @RequestParam(required = false) Double distance, @RequestParam(required = false) String coverage, @RequestParam(required = false, defaultValue = "1") Integer page, @RequestParam(required = false, defaultValue = "50") Integer page_per) {
+    public Page<Service> getServices(@RequestParam(required = false) String taxonomy_id, @RequestParam(required = false) String taxonomy_type, @RequestParam(required = false) String vocabulary, @RequestParam(required = false) String postcode, @RequestParam(required = false) Double proximity, @RequestParam(required = false) String coverage, @RequestParam(required = false, defaultValue = "1") Integer page, @RequestParam(required = false, defaultValue = "50") Integer per_page) {
         Page<Service> services;
                
         if ((taxonomy_id != null && !"".equals(taxonomy_id)) || (postcode != null && !"".equals(postcode)) || (coverage != null && !"".equals(coverage)))
         {
-            List<String> ids = new ArrayList<String>();
-            getCoverageIds(coverage, ids);            
-            getPostcodeIds(postcode, distance, ids);
-            if (taxonomy_id != null && !"".equals(taxonomy_id))
-            {              
-                if (taxonomy_type != null)
-                {
-                    taxonomy_type = taxonomy_type.toLowerCase();
-                }
-                
-                List<String> tmp;
-                
-                if (ELIGIBILITY.equals(taxonomy_type) || COST_OPTION.equals(taxonomy_type) || AREA.equals(taxonomy_type)
-                         || ORGANIZATION.equals(taxonomy_type))
-                {
-                    List<LinkTaxonomy> linkTaxonomies = linkTaxonomyService.findByLinkTypeAndTaxonomyIdIdAndTaxonomyIdVocabulary(taxonomy_id, taxonomy_type, vocabulary);
-                    if (ELIGIBILITY.equals(taxonomy_type))
-                    {
-                        tmp = DTOUtility.getIds(eligibilityService.findByIdIn(DTOUtility.getIds(linkTaxonomies)));
-                    }
-                    else if (COST_OPTION.equals(taxonomy_type))
-                    {
-                        tmp = DTOUtility.getIds(costOptionService.findByIdIn(DTOUtility.getIds(linkTaxonomies)));
-                    }
-                    else if (AREA.equals(taxonomy_type))
-                    {
-                        tmp = DTOUtility.getIds(serviceAreaService.findByIdIn(DTOUtility.getIds(linkTaxonomies)));
-                    }
-                    else
-                    {
-                        tmp = new ArrayList<String>();                                
-                        List<Organization> organizations = organizationService.findByIdIn(DTOUtility.getIds(linkTaxonomies));
-                        if (organizations != null)
-                        {
-                            for(Organization organization : organizations)
-                            {
-                                if (organization.getServiceCollection() == null)
-                                {
-                                    continue;
-                                }
-                                for(Service service : organization.getServiceCollection())
-                                {
-                                    tmp.add(service.getId());
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    tmp = DTOUtility.getIds(serviceTaxonomyService.findByTaxonomyIdIdAndTaxonomyIdVocabulary(taxonomy_id, vocabulary));
-                }                
-
-                if (ids.isEmpty())
-                {
-                    ids = tmp;
-                }
-                else
-                {
-                    ids.retainAll(tmp);
-                }
-            }
-            services = serviceService.findByIdIn(ids, PageRequest.of(page - 1, page_per));
+            List<String> ids = null;
+            ids = getCoverageIds(coverage, ids);            
+            ids = getPostcodeIds(postcode, proximity, ids);
+            ids = getTaxonomyIds(taxonomy_id, taxonomy_type, vocabulary, ids);
+            services = serviceService.findByIdIn(ids, PageRequest.of(page - 1, per_page));
         }
         else
         {
-            services = serviceService.findAll(PageRequest.of(page - 1, page_per));        
+            services = serviceService.findAll(PageRequest.of(page - 1, per_page));        
         }
         
         return services;
     }   
 
-    private void getPostcodeIds(String postcode, Double distance, List<String> ids) {
-        if (postcode != null && !"".equals(postcode))
+    private List<String> getTaxonomyIds(String taxonomy_id, String taxonomy_type, String vocabulary, List<String> ids) {
+        if (ids != null && ids.isEmpty())
         {
+            return ids;
+        }        
+        if (taxonomy_id != null && !"".equals(taxonomy_id))
+        {
+            if (taxonomy_type != null)
+            {
+                taxonomy_type = taxonomy_type.toLowerCase();
+            }
+            
+            List<String> tmp;
+            
+            if (ELIGIBILITY.equals(taxonomy_type) || COST_OPTION.equals(taxonomy_type) || AREA.equals(taxonomy_type)
+                    || ORGANIZATION.equals(taxonomy_type))
+            {
+                List<LinkTaxonomy> linkTaxonomies = linkTaxonomyService.findByLinkTypeAndTaxonomyIdIdAndTaxonomyIdVocabulary(taxonomy_id, taxonomy_type, vocabulary);
+                tmp = linkTaxonomyToServiceIds(taxonomy_type, linkTaxonomies);
+            }
+            else if (taxonomy_type == null || "".equals(taxonomy_type))
+            {
+                String[] linkTypes = {ELIGIBILITY, COST_OPTION, AREA, ORGANIZATION};
+                tmp = DTOUtility.getIds(serviceTaxonomyService.findByTaxonomyIdIdAndTaxonomyIdVocabulary(taxonomy_id, vocabulary));                
+                List<LinkTaxonomy> linkTaxonomies = linkTaxonomyService.findByTaxonomyIdIdAndTaxonomyIdVocabulary(taxonomy_id, vocabulary);
+                                
+                for(String linkType : linkTypes)
+                {
+                    List<LinkTaxonomy> ofType = new ArrayList<LinkTaxonomy>();
+                    for(LinkTaxonomy linkTaxonomy : linkTaxonomies)
+                    {
+                        if (linkType.equals(linkTaxonomy.getLinkType()))
+                        {
+                            ofType.add(linkTaxonomy);
+                        }
+                    }
+                    tmp.addAll(linkTaxonomyToServiceIds(taxonomy_type, ofType));
+                }                
+            }            
+            else
+            {
+                //this must be service only
+                tmp = DTOUtility.getIds(serviceTaxonomyService.findByTaxonomyIdIdAndTaxonomyIdVocabulary(taxonomy_id, vocabulary));
+            }
+            
+            ids = intersect(ids, tmp);
+        }
+        return ids;
+    }   
+
+    private List<String> linkTaxonomyToServiceIds(String taxonomy_type, List<LinkTaxonomy> linkTaxonomies) {
+        List<String> tmp = new ArrayList<String>();
+        
+        if (ELIGIBILITY.equals(taxonomy_type))
+        {
+            tmp = DTOUtility.getIds(eligibilityService.findByIdIn(DTOUtility.getIds(linkTaxonomies)));
+        }
+        else if (COST_OPTION.equals(taxonomy_type))
+        {
+            tmp = DTOUtility.getIds(costOptionService.findByIdIn(DTOUtility.getIds(linkTaxonomies)));
+        }
+        else if (AREA.equals(taxonomy_type))
+        {
+            tmp = DTOUtility.getIds(serviceAreaService.findByIdIn(DTOUtility.getIds(linkTaxonomies)));
+        }
+        else
+        {
+            tmp = new ArrayList<String>();
+            List<Organization> organizations = organizationService.findByIdIn(DTOUtility.getIds(linkTaxonomies));
+            if (organizations != null)
+            {
+                for(Organization organization : organizations)
+                {
+                    if (organization.getServiceCollection() == null)
+                    {
+                        continue;
+                    }
+                    for(Service service : organization.getServiceCollection())
+                    {
+                        tmp.add(service.getId());
+                    }
+                }
+            }
+        }
+        
+        return tmp;
+    }
+
+    private List<String> intersect(List<String> ids, List<String> tmp) {
+        if (ids == null)
+        {
+            ids = tmp;
+        }
+        else if (tmp != null)
+        {
+            ids.retainAll(tmp);
+        }
+        return ids;
+    }
+
+    private List<String> getPostcodeIds(String postcode, Double distance, List<String> ids) {
+        if (ids != null && ids.isEmpty())
+        {
+            return ids;
+        }        
+        if (postcode != null && !"".equals(postcode) && distance != null)
+        {
+            List<String> tmp = new ArrayList<String>();            
             postcode = postcode.replaceAll(" ", "");
             
             EsdPostcode esdPostcode = esdPostcodeService.findByCode(postcode);
             if (esdPostcode != null)
             {
-                List<ServiceAtLocation> locations = serviceAtLocationService.findByLatitudeLongitude(esdPostcode.getLatitude(), esdPostcode.getLongitude(), distance);
+                List<ServiceAtLocation> locations = null;
+                if (ids != null)
+                {
+                    locations = serviceAtLocationService.findByLatitudeLongitudeAndService(esdPostcode.getLatitude(), esdPostcode.getLongitude(), distance, ids);
+                }
+                else
+                {
+                    locations = serviceAtLocationService.findByLatitudeLongitude(esdPostcode.getLatitude(), esdPostcode.getLongitude(), distance);
+                }
                 for(ServiceAtLocation location : locations)
                 {
-                    ids.add(location.getServiceId().getId());
-                }
+                    tmp.add(location.getServiceId().getId());
+                }                
             }
-        }
+            
+            ids = intersect(ids, tmp);
+        } 
+        return ids;
     }
 
-    private void getCoverageIds(String coverage, List<String> ids) {
+    private List<String> getCoverageIds(String coverage, List<String> ids) {
+        if (ids != null && ids.isEmpty())
+        {
+            return ids;
+        }
         if (coverage != null && !"".equals(coverage))
         {
+            List<String> tmp = new ArrayList<String>();            
             coverage = coverage.replaceAll(" ", "");
             
             EsdPostcode esdPostcode = esdPostcodeService.findByCode(coverage);
@@ -180,10 +242,13 @@ public class ServiceController {
                 List<ServiceArea> areas = serviceAreaService.findByLatitudeLongitude(esdPostcode.getLatitude(), esdPostcode.getLongitude());
                 for(ServiceArea area : areas)
                 {
-                    ids.add(area.getServiceId().getId());
+                    tmp.add(area.getServiceId().getId());
                 }
             }
+            
+            ids = intersect(ids, tmp);
         }
+        return ids;
     }
     
     @ApiOperation(value = "Get a single service")

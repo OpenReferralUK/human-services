@@ -9,6 +9,6 @@ package com.porism.servicedirectoryservice.views;
  *
  * @author Dominic Skinner
  */
-public class ServiceView extends ServiceBasicView {
+public class ServiceBasicView extends BasicView {
     
 }
