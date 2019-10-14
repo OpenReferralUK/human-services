@@ -243,20 +243,6 @@ taxonomy [label=<
 
 
 
-link_eligibility [label=<
-<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-<tr><td bgcolor="lightblue"><b>link_eligibility</b></td></tr>
-<tr><td port='id'  bgcolor="lightblue"><b>id</b></td></tr>
-<tr><td port='service_id'  bgcolor="lightblue"><b>service_id</b></td></tr>
-<tr><td port='link_taxonomy_id'  bgcolor="lightblue"><b>link_taxonomy_id</b></td></tr>
-<tr><td  bgcolor="lightblue"><b>description</b></td></tr>
-</table>
->]
-
-service:id -> link_eligibility:service_id;
-link_taxonomy:id -> link_eligibility:link_taxonomy_id;
-
-
 cost_option [label=<
 <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
 <tr><td bgcolor="lightblue"><b>cost_option</b></td></tr>

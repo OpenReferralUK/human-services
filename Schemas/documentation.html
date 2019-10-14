@@ -98,11 +98,6 @@
 
 <tr><td>id</td><td>string</td><td>Open Referral field used in application profile</td><td>Each taxonomy entry must have a unique identifier. If combining multiple taxonomies with overlapping identifiers, use a prefix to distinguish them.</td><td>-</td><td>True</td><td>True</td></tr><tr><td>name</td><td>string</td><td>Open Referral field used in application profile</td><td>The name of this taxonomy term or category.</td><td>-</td><td>True</td><td>False</td></tr><tr><td>vocabulary</td><td>string</td><td>Open Referral field used in application profile</td><td>If this is an established taxonomy, detail which taxonomy is in use. For example, AIRS or Open Eligibility.</td><td>-</td><td>False</td><td>False</td></tr></table>
 
-<h1>link_eligibility</h1><p>This table enables eligibility to be associated with other classes in the model</p><p><i>This is an extension table.</i></p><table cellpadding="2">
-<tr><th style="width:10em">Field Name</th><th style="width:5em">Type (Format)</th><th style="width:15em">Source</th><th>Description</th><th style="width:10em">Allowed Values</th><th style="width:5em">Required?</th><th style="width:5em">Unique?</th></tr>
-
-<tr><td>id</td><td>string</td><td>Extension for LGA</td><td>Each entry must have a unique identifier</td><td>-</td><td>True</td><td>True</td></tr><tr><td>service_id</td><td>string</td><td>Extension for LGA</td><td>The identifier of the services for which the related eligibilities apply</td><td>-</td><td>False</td><td>False</td></tr><tr><td>link_taxonomy_id</td><td>string</td><td>Extension for LGA</td><td>The identifier for the link for which the related taxonomies apply</td><td>-</td><td>False</td><td>False</td></tr><tr><td>description</td><td>string</td><td>Extension for LGA</td><td>A description of the taxonomy</td><td>-</td><td>False</td><td>False</td></tr></table>
-
 <h1>cost_option</h1><p>The cost option table contains the costs of a service at certain points in time</p><p><i>This is an extension table.</i></p><table cellpadding="2">
 <tr><th style="width:10em">Field Name</th><th style="width:5em">Type (Format)</th><th style="width:15em">Source</th><th>Description</th><th style="width:10em">Allowed Values</th><th style="width:5em">Required?</th><th style="width:5em">Unique?</th></tr>
 
