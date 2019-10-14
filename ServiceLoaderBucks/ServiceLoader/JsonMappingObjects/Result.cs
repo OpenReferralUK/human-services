@@ -72,89 +72,55 @@ namespace ServiceLoader.JsonMappingObjects
         [JsonProperty("lastUpdated")]
         public DateTime? LastUpdated { get; set; }
 
-        [NotMapped]
-        public string OrganisationId
-        {
-            get { return Organisation ?? ServiceId; }
-        }
+        [JsonProperty("confidDataProtect")]
+        public string ConfidentialData { get; set; }
 
         [NotMapped]
-        public string OrganisationName
-        {
-            get { return Organisation ?? string.Empty; }
-        }
+        public bool HasConfidentialData => !string.IsNullOrEmpty(ConfidentialData) &&
+                                    (ConfidentialData.StartsWith("true", StringComparison.OrdinalIgnoreCase) ||
+                                     ConfidentialData.StartsWith("yes", StringComparison.OrdinalIgnoreCase));
 
         [NotMapped]
-        public string OrganisationDescription
-        {
-            get { return Organisation ?? string.Empty; }
-        }
+        public string OrganisationId => Organisation ?? ServiceId;
 
         [NotMapped]
-        public string OrganisationUrl
-        {
-            get { return Url; }
-        }
+        public string OrganisationName => Organisation ?? string.Empty;
 
         [NotMapped]
-        public string ServiceId
-        {
-            get { return Id.ToString(CultureInfo.InvariantCulture); }
-        }
+        public string OrganisationDescription => Organisation ?? string.Empty;
 
         [NotMapped]
-        public string ServiceName
-        {
-            get { return Name ?? string.Empty; }
-        }
+        public string OrganisationUrl => Url;
 
         [NotMapped]
-        public string ServiceDescription
-        {
-            get { return Description ?? string.Empty; }
-        }
+        public string ServiceId => Id.ToString(CultureInfo.InvariantCulture);
 
         [NotMapped]
-        public string ServiceAreaId
-        {
-            get { return Area?.ToLowerInvariant(); }
-        }
+        public string ServiceName => Name ?? string.Empty;
 
         [NotMapped]
-        public string LocationId
-        {
-            get { return Venue?.ToLowerInvariant(); }
-        }
+        public string ServiceDescription => Description ?? string.Empty;
 
         [NotMapped]
-        public string LocationName
-        {
-            get { return Venue?.ToLowerInvariant(); }
-        }
+        public string ServiceAreaId => Area?.ToLowerInvariant();
 
         [NotMapped]
-        public string LocationDescription
-        {
-            get { return Venue?.ToLowerInvariant(); }
-        }
+        public string LocationId => HasConfidentialData ? string.Empty : Venue?.ToLowerInvariant();
 
         [NotMapped]
-        public double? LocationLatitude
-        {
-            get { return Geo?.Latitude; }
-        }
+        public string LocationName => HasConfidentialData ? string.Empty : Venue?.ToLowerInvariant();
 
         [NotMapped]
-        public double? LocationLongitude
-        {
-            get { return Geo?.Longitude; }
-        }
+        public string LocationDescription => HasConfidentialData ? string.Empty : Venue?.ToLowerInvariant();
 
         [NotMapped]
-        public string ServiceAtLocationId
-        {
-            get { return !string.IsNullOrEmpty(LocationId) ? $"{ServiceId}:{LocationId}" : null; }
-        }
+        public double? LocationLatitude => HasConfidentialData ? null : Geo?.Latitude;
+
+        [NotMapped]
+        public double? LocationLongitude => HasConfidentialData ? null : Geo?.Longitude;
+
+        [NotMapped]
+        public string ServiceAtLocationId => !HasConfidentialData && !string.IsNullOrEmpty(LocationId) ? $"{ServiceId}:{LocationId}" : null;
 
         [NotMapped]
         public IEnumerable<Taxonomy> Taxonomies
@@ -224,46 +190,25 @@ namespace ServiceLoader.JsonMappingObjects
         }
 
         [NotMapped]
-        public string ContactId
-        {
-            get { return !string.IsNullOrEmpty(ContactName) ? $"{ServiceId}:{ContactName}" : ServiceId; }
-        }
+        public string ContactId => !string.IsNullOrEmpty(ContactName) ? $"{ServiceId}:{ContactName}" : ServiceId;
 
         [NotMapped]
-        public string AddressId
-        {
-            get { return $"{LocationId}:{PostCode}:{LocationLongitude}:{LocationLatitude}"; }
-        }
+        public string AddressId => HasConfidentialData ? string.Empty : $"{LocationId}:{PostCode}:{LocationLongitude}:{LocationLatitude}";
 
         [NotMapped]
-        public string AddressLine1
-        {
-            get { return Venue; }
-        }
+        public string AddressLine1 => HasConfidentialData ? string.Empty : Venue;
 
         [NotMapped]
-        public string AddressCity
-        {
-            get { return Area; }
-        }
+        public string AddressCity => HasConfidentialData ? string.Empty : Area;
 
         [NotMapped]
-        public string AddressStateProvince
-        {
-            get { return string.Empty; }
-        }
+        public string AddressStateProvince => string.Empty;
 
         [NotMapped]
-        public string AddressCountry
-        {
-            get { return "England"; }
-        }
+        public string AddressCountry => HasConfidentialData ? string.Empty : "England";
 
         [NotMapped]
-        public string AddressPostCode
-        {
-            get { return PostCode ?? string.Empty; }
-        }
+        public string AddressPostCode => HasConfidentialData ? string.Empty : PostCode ?? string.Empty;
 
         [NotMapped]
         public IEnumerable<Schedule> Schedules
@@ -283,6 +228,6 @@ namespace ServiceLoader.JsonMappingObjects
         }
 
         [NotMapped]
-        public string CostOptionId { get { return ServiceId; } }
+        public string CostOptionId => ServiceId;
     }
 }
