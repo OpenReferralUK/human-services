@@ -25,4 +25,9 @@ public class ServiceAtLocationService implements IServiceAtLocationService {
     public List<ServiceAtLocation> findByLatitudeLongitude(double latitude, double longitude, double distance) {
         return repository.findByLatitudeLongitude(latitude, longitude, distance);
     }
+    
+    @Override
+    public List<ServiceAtLocation> findByLatitudeLongitudeAndService(double latitude, double longitude, double distance, List<String> serviceIds) {
+        return repository.findByLatitudeLongitudeAndService(latitude, longitude, distance, serviceIds);
+    }    
 }

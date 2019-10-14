@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.porism.servicedirectoryservice.controllers;
+package com.porism.servicedirectoryservice.views;
 
 /**
  *
  * @author Dominic Skinner
  */
-class LinkTaxonomy {
+public class ReviewBasicView extends BasicView {
     
 }

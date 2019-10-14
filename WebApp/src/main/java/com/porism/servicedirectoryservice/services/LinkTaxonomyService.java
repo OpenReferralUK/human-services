@@ -23,4 +23,10 @@ public class LinkTaxonomyService implements ILinkTaxonomyService {
     public List<LinkTaxonomy> findByLinkTypeAndTaxonomyIdIdAndTaxonomyIdVocabulary(String linkType, String id, String vocabulary) {
         return (List<LinkTaxonomy>) repository.findByLinkTypeAndTaxonomyIdIdAndTaxonomyIdVocabulary(linkType, id, vocabulary);
     }
+    
+    @Override
+    public List<LinkTaxonomy> findByTaxonomyIdIdAndTaxonomyIdVocabulary(String id, String vocabulary)
+    {
+        return (List<LinkTaxonomy>) repository.findByTaxonomyIdIdAndTaxonomyIdVocabulary(id, vocabulary);
+    }
 }

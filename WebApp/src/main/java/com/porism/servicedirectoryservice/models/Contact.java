@@ -58,6 +58,7 @@ public class Contact implements Serializable {
     private String title;
     @OneToMany(mappedBy = "contactId")
     @JsonProperty("phones")
+    @JsonView(BasicView.class)
     private Collection<Phone> phoneCollection;
     @JoinColumn(name = "service_id", referencedColumnName = "id")
     @ManyToOne

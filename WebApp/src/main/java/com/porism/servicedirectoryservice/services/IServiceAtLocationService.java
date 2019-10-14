@@ -14,4 +14,5 @@ import java.util.List;
  */
 public interface IServiceAtLocationService {
     public List<ServiceAtLocation> findByLatitudeLongitude(double latitude, double longitude, double distance);    
+    public List<ServiceAtLocation> findByLatitudeLongitudeAndService(double latitude, double longitude, double distance, List<String> serviceIds);
 }

@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.porism.servicedirectoryservice.views.ServiceView;
 import com.porism.servicedirectoryservice.views.BasicView;
+import com.porism.servicedirectoryservice.views.ServiceBasicView;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -124,7 +125,7 @@ public class Service implements Serializable {
     private Collection<Review> reviewCollection;
     @JoinColumn(name = "organization_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    @JsonView(ServiceView.class)
+    @JsonView(ServiceBasicView.class)
     @JsonProperty("organization")
     private Organization organizationId;
     @OneToMany(mappedBy = "serviceId")

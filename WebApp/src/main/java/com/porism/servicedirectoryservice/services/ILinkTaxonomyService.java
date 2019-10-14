@@ -14,4 +14,5 @@ import java.util.List;
  */
 public interface ILinkTaxonomyService {
     public List<LinkTaxonomy> findByLinkTypeAndTaxonomyIdIdAndTaxonomyIdVocabulary(String linkType, String id, String vocabulary);    
+    public List<LinkTaxonomy> findByTaxonomyIdIdAndTaxonomyIdVocabulary(String id, String vocabulary);    
 }
