@@ -14,7 +14,7 @@ namespace ServiceLoader
 
             using (var writer = new ServiceWriter())
             {
-                for (var pageNumber = 1; pageNumber < pageCount; pageNumber++)
+                for (var pageNumber = 1; pageNumber <= pageCount; pageNumber++)
                 {
                     Console.WriteLine($"Processing page {pageNumber}");
                     try
