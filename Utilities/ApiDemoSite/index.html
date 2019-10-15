@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="apisearch.js"></script>
+    <script src="js/openreferralplus.js"></script>
+    <script src="js/lib/pdlib/ajax.js"></script>
+    <script src="js/lib/pdlib/utils.js"></script>
+    <script src="js/lib/viz-js/viz.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>API on Open Referral database - extended</title>
+</head>
+<body onload="setup()">
+<div class="mainheading">
+    <h3>API on Open Referral database - extended</h3>
+</div>
+
+<div class="container-fluid" style="padding-left: 5%; padding-right: 5%">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <label for="endpoint">Endpoint:</label>
+                <select id="endpoint" class="form-control" onchange="updateEndpoint()">
+                    <option value="http://api.porism.com/ServiceDirectoryService">Bristol data</option>
+                    <option value="http://api.porism.com/ServiceDirectoryServiceBucks">Bucks data</option>
+                    <option value="http://api.porism.com/ServiceDirectoryServiceDemo">Demo data</option>
+                </select>
+            </div>
+            <div class="row">
+                <h5 style="padding-top: 1%">
+                    Get services
+                </h5>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="row">
+                        <label for="TaxonomyType">Taxonomy type</label>
+                    </div>
+                    <div class="row">
+                        <select id="TaxonomyType" class="form-control mr-1" disabled="disabled"
+                                onchange="updateTaxonomyType()">
+                            <option>Any</option>
+                            <option value="area">Area</option>
+                            <option value="cost">Cost</option>
+                            <option value="eligibility">Eligibility</option>
+                            <option value="organization">Organization</option>
+                            <option value="service">Service</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row">
+                        <label for="Vocabulary">Vocabulary</label>
+                    </div>
+                    <div class="row">
+                        <select id="Vocabulary" class="form-control ml-1 mr-1" disabled="disabled"
+                                onchange="updateVocabulary()">
+                            <option></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row">
+                        <label for="TaxonomyTerm">Taxonomy Term</label>
+                    </div>
+                    <div class="row">
+                        <select id="TaxonomyTerm" class="form-control ml-1" disabled="disabled"
+                                onchange="updateTaxonomyTerm()">
+                            <option></option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="row">
+                        <label for="Coverage">Coverage (postcode)</label>
+                    </div>
+                    <div class="row">
+                        <input id="Coverage" class="form-control mr-1" disabled="disabled" onchange="updateCoverage()">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row">
+                        <label for="Proximity">Proximity (km)</label>
+                    </div>
+                    <div class="row">
+                        <input id="Proximity" type="number" class="form-control ml-1 mr-1" disabled="disabled"
+                               onchange="updateProximity()">
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row"><label>&nbsp;</label></div>
+                    <div class="row">
+                        <button id="clear" class="form-control btn btn-secondary ml-1" onclick="clearForm()">Clear
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row" style="padding-top: 3%">
+                <button id="execute" class="form-control btn btn-success" disabled="disabled"
+                        onclick="executeForm()">
+                    Execute query
+                </button>
+            </div>
+
+        </div>
+        <div class="col-md-6" id="api">
+            <h5>API calls made:</h5>
+        </div>
+    </div>
+</div>
+<div class="row">
+
+
+</div>
+<div id='tabs' style="padding: 2%">
+    <ul class="nav nav-tabs">
+        <li class="nav-item"><a id="resultTab" class="nav-link active" href="#resultPanel" data-toggle="tab">
+            Results </a></li>
+        <li class="nav-item"><a id="graphTab" class="nav-link disabled" href="#graphPanel" data-toggle="tab">
+            Visualisation</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="resultPanel">
+            <div id="results" class="col-sm-12" style="padding-left: 3%">
+
+            </div>
+        </div>
+        <div class="tab-pane" id="graphPanel">
+            <div id="graphLoading"></div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm2-2">
+                        <label class="mr-1" for="format">Format</label>
+                        <select id="format" class="form-control mr-1 mb-2" style="width:auto"
+                                onchange="objOpenReferralPlus.get();">
+                            <option value="image">Image</option>
+                            <option value="dot script">Dot script</option>
+                            <option value="json">Json</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm2-2">
+                        <label class="ml-1" for="allTables">Objects</label>
+                        <select id="allTables" class="form-control ml-1 mb-2" style="width:auto"
+                                onchange="objOpenReferralPlus.get();">
+                            <option value="false">Populated</option>
+                            <option value="true">All</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div id="graph" class="col-sm-12">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js"></script>
+</body>
+</html>
