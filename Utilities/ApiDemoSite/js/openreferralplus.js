@@ -129,8 +129,8 @@ clsOpenReferralPlus.prototype.get = function () {
                     break;
                 case 'json':
                     $(objORP.objViz.tagElement).empty();
-                    $(objORP.objViz.tagElement).append("<button class='btn btn-secondary btn-sm' onclick='getRawJSON(" + jsonContent.id + ")'>Raw JSON</button>");
-                    $(objORP.objViz.tagElement).append('<pre>' + nl2br(htmlEntities(JSON.stringify(jsonContent, null, 2))) + '</pre>');
+                    $(objORP.objViz.tagElement).append("<button class='btn btn-secondary' onclick='getRawJSON(" + jsonContent.id + ")'>Raw JSON</button>");
+                    $(objORP.objViz.tagElement).append('<pre>' + nl2br(htmlEntities(JSON.stringify(jsonContent, null, 1))) + '</pre>');
                     break;
             }
         }
@@ -188,7 +188,7 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
 
     if (jsonContent.hasOwnProperty('service_at_locations') || this.showAll) {
         let jsonLength;
-        if (jsonContent.service_at_locations.length === 0 && (this.showAll || (jsonContent.holiday_schedules.length !== 0))){
+        if (jsonContent.service_at_locations.length === 0 && (this.showAll || (jsonContent.holiday_schedules.length !== 0))) {
             jsonLength = 1;
         } else {
             jsonLength = jsonContent.service_at_locations.length;
@@ -263,11 +263,6 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
         if (jsonContent.holiday_schedules || this.showAll) {
             var NodeIdHolidaySchedules = objORP.DotNodeHolidaySchedules(jsonContent.holiday_schedules);
             if (NodeIdHolidaySchedules) {
-
-                var DotEdge = NodeIdService + ' -> ' + NodeIdHolidaySchedules + '\n';
-                objORP.Dot += DotEdge;
-
-
                 var DotEdge = NodeIdServiceAtLocation + ' -> ' + NodeIdHolidaySchedules + '\n';
                 objORP.Dot += DotEdge;
 
@@ -409,73 +404,148 @@ clsOpenReferralPlus.prototype.DotNodeService = function (jsonContent) {
 clsOpenReferralPlus.prototype.DotNodeOrganization = function (jsonContent) {
 
     var objORP = this;
+    var numCols = 0;
+    try {
+        if (Object.keys(jsonContent).length !== 0) {
+            numCols = 2;
+        }
+        if (numCols === 0 && this.showAll) {
+            numCols = 2;
+        }
+    } catch (e) {
+        numCols = 2;
+    }
+    if (!numCols) {
+        return false;
+    }
+
+    var NodeId = "\"organization_" + objORP.nextNodeId++ + "\"";
+    if (objORP.dotNodes.includes(NodeId)) {
+        return NodeId;
+    }
 
     var idOrganization = null;
     if (jsonContent.hasOwnProperty('id')) {
         idOrganization = jsonContent.id;
+    } else if (this.showAll) {
+        idOrganization = "";
     }
 
-    if (!idOrganization) {
+    if (idOrganization === null) {
         return false;
-    }
-
-    var NodeId = "\"organization_" + idOrganization + "\"";
-    if (objORP.dotNodes.includes(NodeId)) {
-        return NodeId;
     }
 
     objORP.dotNodes.push(NodeId);
 
     var Dot = '\n';
 
-    Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='2' bgcolor='lightgrey'><b>organization</b></td></tr>";
-    Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td><td align='left' balign='left' valign='top'>" + idOrganization + "</td></tr>";
-
-    if (jsonContent.hasOwnProperty('name')) {
-        Dot += "<tr><td align='left' balign='left' valign='top'><b>name  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.name)) + "</td></tr>";
-    } else if (this.showAll) {
-        Dot += "<tr><td align='left' balign='left' valign='top'><b>name  </b></td><td align='left' balign='left' valign='top'>" + '' + "</td></tr>";
-    }
-
-    if (jsonContent.hasOwnProperty('description')) {
-        if (jsonContent.description) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>description  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.description)) + "</td></tr>";
-        } else if (this.showAll) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>description  </b></td><td align='left' balign='left' valign='top'>" + '' + "</td></tr>";
+    var jsonLength;
+    if (this.showAll) {
+        try {
+            jsonLength = jsonContent.length;
+            if (jsonLength === 0 && this.showAll) {
+                jsonLength = 1;
+            }
+        } catch (e) {
+            jsonLength = 1;
         }
-    } else if (this.showAll) {
-        Dot += "<tr><td align='left' balign='left' valign='top'><b>description  </b></td><td align='left' balign='left' valign='top'>" + '' + "</td></tr>";
+    } else if (!this.showAll) {
+        if (Object.keys(jsonContent).length !== 0) {
+            jsonLength = 1;
+        }
     }
 
-    if (jsonContent.hasOwnProperty('url')) {
-        if (jsonContent.url) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>url  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.url)) + "</td></tr>";
-        } else if (this.showAll) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>url  </b></td><td align='left' balign='left' valign='top'>" + '' + "</td></tr>";
+    Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='" + (numCols + 1) + "' bgcolor='lightgrey'><b>organization</b>  </td></tr>";
+
+
+    try {
+        let jsonOrganization = jsonContent;
+        if (jsonOrganization.id === undefined && this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>id  </b></td><td align='left' balign='left' valign='top'>" + "    " + "</td></tr>";
         }
-    } else if (this.showAll) {
-        Dot += "<tr><td align='left' balign='left' valign='top'><b>url  </b></td><td align='left' balign='left' valign='top'>" + '' + "</td></tr>";
+        if (jsonOrganization.id || (jsonOrganization.id === "") && this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>id  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonOrganization.id) ? nl2br(objORP.objViz.prepareString(jsonOrganization.id)) : '') + "</td></tr>";
+        }
+    } catch (e) {
+        if (this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>id  </b></td><td align='left' balign='left' valign='top'>" + "" + "</td></tr>";
+        }
     }
 
-    if (jsonContent.hasOwnProperty('logo')) {
-        if (jsonContent.logo) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>logo  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.logo)) + "</td></tr>";
-        } else if (this.showAll) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>logo  </b></td><td align='left' balign='left' valign='top'>" + '' + "</td></tr>";
+
+    try {
+        let jsonOrganization = jsonContent;
+        if (jsonOrganization.name === undefined && this.showAll) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>name  </b></td><td align='left' balign='left' valign='top'>" + "    " + "</td></tr>";
         }
-    } else if (this.showAll) {
-        Dot += "<tr><td align='left' balign='left' valign='top'><b>logo  </b></td><td align='left' balign='left' valign='top'>" + '' + "</td></tr>";
+        if (jsonOrganization.name || (jsonOrganization.name === "") && this.showAll) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>name  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonOrganization.name) ? nl2br(objORP.objViz.prepareString(jsonOrganization.name)) : '') + "</td></tr>";
+        }
+    } catch (e) {
+        if (this.showAll) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>name  </b></td><td align='left' balign='left' valign='top'>" + "" + "</td></tr>";
+        }
     }
 
-    if (jsonContent.hasOwnProperty('uri')) {
-        if (jsonContent.uri) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>uri  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.uri)) + "</td></tr>";
-        } else if (this.showAll) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>uri  </b></td><td align='left' balign='left' valign='top'>" + '' + "</td></tr>";
+
+    try {
+        let jsonOrganization = jsonContent;
+        if (jsonOrganization.description === undefined && this.showAll) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>description  </b></td><td align='left' balign='left' valign='top'>" + "    " + "</td></tr>";
         }
-    } else if (this.showAll) {
-        Dot += "<tr><td align='left' balign='left' valign='top'><b>uri  </b></td><td align='left' balign='left' valign='top'>" + '' + "</td></tr>";
+        if (jsonOrganization.description || (jsonOrganization.description === "") && this.showAll) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>description  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonOrganization.description) ? nl2br(objORP.objViz.prepareString(jsonOrganization.description)) : '') + "</td></tr>";
+        }
+    } catch (e) {
+        if (this.showAll) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>description  </b></td><td align='left' balign='left' valign='top'>" + "" + "</td></tr>";
+        }
     }
+
+
+    try {
+        let jsonOrganization = jsonContent;
+        if (jsonOrganization.url === undefined && this.showAll) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>url  </b></td><td align='left' balign='left' valign='top'>" + "    " + "</td></tr>";
+        }
+        if (jsonOrganization.url || (jsonOrganization.url === "") && this.showAll) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>url  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonOrganization.url) ? nl2br(objORP.objViz.prepareString(jsonOrganization.url)) : '') + "</td></tr>";
+        }
+    } catch (e) {
+        if (this.showAll) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>url  </b></td><td align='left' balign='left' valign='top'>" + "" + "</td></tr>";
+        }
+    }
+
+
+    try {
+        let jsonOrganization = jsonContent;
+        if (jsonOrganization.logo === undefined && this.showAll) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>logo  </b></td><td align='left' balign='left' valign='top'>" + "    " + "</td></tr>";
+        }
+        if (jsonOrganization.logo || (jsonOrganization.logo === "") && this.showAll) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>logo  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonOrganization.logo) ? nl2br(objORP.objViz.prepareString(jsonOrganization.logo)) : '') + "</td></tr>";
+        }
+    } catch (e) {
+        if (this.showAll) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>logo  </b></td><td align='left' balign='left' valign='top'>" + "" + "</td></tr>";
+        }
+    }
+
+    try {
+        let jsonOrganization = jsonContent;
+        if (jsonOrganization.uri === undefined && this.showAll) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>uri  </b></td><td align='left' balign='left' valign='top'>" + "    " + "</td></tr>";
+        }
+        if (jsonOrganization.uri || (jsonOrganization.uri === "" || jsonOrganization.uri === null) && this.showAll) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>uri  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonOrganization.uri) ? nl2br(objORP.objViz.prepareString(jsonOrganization.uri)) : '') + "</td></tr>";
+        }
+    } catch (e) {
+        if (this.showAll) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>uri  </b></td><td align='left' balign='left' valign='top'>" + "" + "</td></tr>";
+        }
+    }
+
 
     Dot += "</table>>";
 //	Dot += ", URL='' ";
@@ -1651,14 +1721,14 @@ clsOpenReferralPlus.prototype.DotNodeReviews = function (jsonContent) {
         try {
             let jsonReview = jsonContent[i];
             if (jsonReview.id === undefined && this.showAll) {
-                Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
+                Dot += "<td  align='left' balign='left' valign='top'>" + "    " + "</td>";
             }
             if (jsonReview.id || (jsonReview.id === "") && this.showAll) {
-                Dot += "<td align='left' balign='left' valign='top'>" + ((jsonReview.id) ? nl2br(objORP.objViz.prepareString(jsonReview.id)) : '') + "</td>";
+                Dot += "<td  align='left' balign='left' valign='top'>" + ((jsonReview.id) ? nl2br(objORP.objViz.prepareString(jsonReview.id)) : '') + "</td>";
             }
         } catch (e) {
             if (this.showAll) {
-                Dot += "<td align='left' balign='left' valign='top'>" + "" + "</td>";
+                Dot += "<td  align='left' balign='left' valign='top'>" + "" + "</td>";
             }
         }
     }
@@ -1760,14 +1830,14 @@ clsOpenReferralPlus.prototype.DotNodeReviews = function (jsonContent) {
         try {
             let jsonReview = jsonContent[i];
             if (jsonReview.widget === undefined && this.showAll) {
-                Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
+                Dot += "<td PORT='" + i + "' align='left' balign='left' valign='top'>" + "    " + "</td>";
             }
             if (jsonReview.widget || (jsonReview.widget === "")) {
-                Dot += " <td align='left' balign='left' valign='top'>" + ((jsonReview.widget) ? nl2br(objORP.objViz.prepareString(jsonReview.widget)) : '') + "</td>";
+                Dot += " <td PORT='" + i + "' align='left' balign='left' valign='top'>" + ((jsonReview.widget) ? nl2br(objORP.objViz.prepareString(jsonReview.widget)) : '') + "</td>";
             }
         } catch (e) {
             if (this.showAll) {
-                Dot += "<td align='left' balign='left' valign='top'>" + "" + "</td>";
+                Dot += "<td PORT='" + i + "' align='left' balign='left' valign='top'>" + "" + "</td>";
             }
         }
     }
@@ -1778,6 +1848,45 @@ clsOpenReferralPlus.prototype.DotNodeReviews = function (jsonContent) {
     Dot += "]; \n";
 
     objORP.Dot += Dot;
+
+    let organizationReviewer = {};
+
+    for (let i = 0; i < jsonLength; i++) {
+
+        try {
+            jsonContent[i].hasOwnProperty('organization');
+        } catch (e) {
+            if (this.showAll) {
+                var NodeIdReviewOrg = objORP.DotNodeOrganization([]);
+                if (NodeIdReviewOrg) {
+                    var DotEdge = NodeId + ":" + i + ' -> ' + NodeIdReviewOrg + '\n';
+                    objORP.Dot += DotEdge;
+                }
+            }
+            continue;
+        }
+
+        if (jsonContent[i].organization.id in organizationReviewer) {
+            var DotEdge = NodeId + ":" + i + ' -> ' + organizationReviewer[jsonContent[i].organization.id] + '\n';
+            objORP.Dot += DotEdge;
+            continue;
+        }
+
+        if (jsonContent[i].hasOwnProperty('organization') || this.showAll) {
+            try {
+                var NodeIdReviewOrg = objORP.DotNodeOrganization(jsonContent[i].organization);
+            } catch (e) {
+                var NodeIdReviewOrg = objORP.DotNodeOrganization([]);
+            }
+            if (NodeIdReviewOrg) {
+                if (!(jsonContent[i].organization.id in organizationReviewer)) {
+                    organizationReviewer[jsonContent[i].organization.id] = NodeIdReviewOrg;
+                }
+                var DotEdge = NodeId + ":" + i + ' -> ' + organizationReviewer[jsonContent[i].organization.id] + '\n';
+                objORP.Dot += DotEdge;
+            }
+        }
+    }
 
     return NodeId;
 

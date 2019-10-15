@@ -51,12 +51,22 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-8">
                     <div class="row">
-                        <label for="Vocabulary">Vocabulary</label>
+                        <label for="Keywords">Keywords</label>
                     </div>
                     <div class="row">
-                        <select id="Vocabulary" class="form-control ml-1 mr-1" disabled="disabled"
+                        <input id="Keywords" class="form-control ml-1" disabled="disabled" onchange="updateKeywords()">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="row">
+                        <label class="ml-1" for="Vocabulary">Vocabulary</label>
+                    </div>
+                    <div class="row">
+                        <select id="Vocabulary" class="form-control mr-1" disabled="disabled"
                                 onchange="updateVocabulary()">
                             <option></option>
                         </select>
@@ -67,8 +77,19 @@
                         <label for="TaxonomyTerm">Taxonomy Term</label>
                     </div>
                     <div class="row">
-                        <select id="TaxonomyTerm" class="form-control ml-1" disabled="disabled"
+                        <select id="TaxonomyTerm" class="form-control ml-1 mr-1" disabled="disabled"
                                 onchange="updateTaxonomyTerm()">
+                            <option></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row">
+                        <label for="ChildTaxonomyTerm">Child Taxonomy Term</label>
+                    </div>
+                    <div class="row">
+                        <select id="ChildTaxonomyTerm" class="form-control ml-1" disabled="disabled"
+                                onchange="updateChildTaxonomyTerm()">
                             <option></option>
                         </select>
                     </div>
@@ -96,7 +117,7 @@
                 <div class="col-sm-4">
                     <div class="row"><label>&nbsp;</label></div>
                     <div class="row">
-                        <button id="clear" class="form-control btn btn-secondary ml-1" onclick="clearForm()">Clear
+                        <button id="clear" class="form-control btn btn-secondary ml-1" onclick="clearForm($('#endpoint').val())">Clear
                         </button>
                     </div>
                 </div>
