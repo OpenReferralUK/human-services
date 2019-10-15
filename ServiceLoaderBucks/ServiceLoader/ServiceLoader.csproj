@@ -78,9 +78,11 @@
     <Compile Include="JsonMappingObjects\Result.cs" />
     <Compile Include="JsonMappingObjects\ResultsPage.cs" />
     <Compile Include="Schedule.cs" />
+    <Compile Include="ScheduleBuilder.cs" />
     <Compile Include="ServiceReader.cs" />
     <Compile Include="ServiceWriter.cs" />
     <Compile Include="Taxonomy.cs" />
+    <Compile Include="TaxonomyBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
