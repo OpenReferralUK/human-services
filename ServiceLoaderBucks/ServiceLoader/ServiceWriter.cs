@@ -71,8 +71,8 @@ ON DUPLICATE KEY UPDATE id = id;
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"
-INSERT INTO regular_schedule(id, service_id, service_at_location_id, byday, description)
-VALUES (@id, @service_id, @service_at_location_id, @byday, @description)
+INSERT INTO regular_schedule(id, service_id, service_at_location_id, byday, description, freq, opens_at, closes_at)
+VALUES (@id, @service_id, @service_at_location_id, @byday, @description, @weeklyMonthly, @opens, @closes)
 ON DUPLICATE KEY UPDATE id = id;
 ";
                     command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = schedule.Id;
@@ -80,6 +80,9 @@ ON DUPLICATE KEY UPDATE id = id;
                     command.Parameters.Add("@service_at_location_id", MySqlDbType.VarChar, 1536).Value = result.ServiceAtLocationId;
                     command.Parameters.Add("@byday", MySqlDbType.Text).Value = schedule.Day;
                     command.Parameters.Add("@description", MySqlDbType.Text).Value = schedule.Description;
+                    command.Parameters.Add("@weeklyMonthly", MySqlDbType.Text).Value = schedule.WeeklyMonthly;
+                    command.Parameters.Add("@opens", MySqlDbType.Time).Value = schedule.OpensAt;
+                    command.Parameters.Add("@closes", MySqlDbType.Time).Value = schedule.ClosesAt;
                     command.ExecuteNonQuery();
                 }
             }

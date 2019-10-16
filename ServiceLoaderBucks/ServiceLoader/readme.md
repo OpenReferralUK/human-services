@@ -22,11 +22,11 @@ using (var writer = new ServiceWriter())
 
 ## Data
 
-### Schedule.cs
-Holds details about when the service is held
+### Schedule.cs and ScheduleBuilder.cs
+Schedule holds details about when the service is held and the builder creates it from the data record
 
-### Taxonomy.cs
-Holds the id, name, and vocabulary for a taxonomy
+### Taxonomy.cs and TaxonomyBuilder.cs
+Taxonomy holds the id, name, and vocabulary for a taxonomy and the builder creates it from the data record
 
 ### Mapping files
 See folder [JsonMappingObjects](JsonMappingObjects)
