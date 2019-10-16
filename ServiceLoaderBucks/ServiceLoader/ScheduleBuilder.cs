@@ -9,7 +9,7 @@ namespace ServiceLoader
     internal static class ScheduleBuilder
     {
         private static readonly string[] ValidDays = new [] { "SU", "MO", "TU", "WE", "TH", "FR", "SA" };
-        private static readonly string[] MonthlyWords = new [] { "alternate", "1st", "2nd", "3rd", "4th", "first", "second", "third", "fourth", "last", "fortnightly" };
+        private static readonly string[] MonthlyWords = new [] { "1st", "2nd", "3rd", "4th", "first", "second", "third", "fourth", "last" };
         private static readonly Dictionary<string, string> WordReplacements = new Dictionary<string, string>
         {
             {"&", " and "},
