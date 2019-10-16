@@ -4,6 +4,7 @@ let vocabulary;
 let taxonomyTerm;
 let proximity;
 let coverage;
+let keywords;
 let objOpenReferralPlus;
 let viz1;
 
@@ -19,6 +20,7 @@ function setup() {
         $("#Vocabulary").attr('disabled', false);
         $("#Coverage").attr('disabled', false);
         $("#Proximity").attr('disabled', false);
+        $("#Keywords").attr('disabled', false);
     } else {
         updateParameters("endpoint", $("#endpoint").val());
         setup();
@@ -50,6 +52,7 @@ function setup() {
         $("#Coverage").attr('disabled', false);
         $("#Proximity").attr('disabled', false);
         $("#execute").attr('disabled', false);
+        $("#Keywords").attr('disabled', false);
     }
     if (endpoint === "") {
         $("#TaxonomyType").attr('disabled', true);
@@ -58,6 +61,7 @@ function setup() {
         $("#Proximity").attr('disabled', true);
         $("#TaxonomyTerm").attr('disabled', true);
         $("#execute").attr('disabled', true);
+        $("#Keywords").attr('disabled', true);
     }
 
     objOpenReferralPlus = new clsOpenReferralPlus();
@@ -77,7 +81,7 @@ function getVocabulary() {
     if ($("#endpoint").val() === null || $("#endpoint").val() === "") {
         clearForm();
     } else {
-        url = $("#endpoint").val() + "/vocabularies/";
+        let url = $("#endpoint").val() + "/vocabularies/";
         $("#Vocabulary").find("option").remove().end().append("<option></option>");
         addApiPanel("Get vocabulary list", false);
         addApiPanel(url);
@@ -105,7 +109,7 @@ function getVocabulary() {
 function getTaxonomyTerm() {
     if ($("#Vocabulary").val() !== null && $("#Vocabulary").val() !== "") {
         let taxonomyTerm = $("#TaxonomyTerm");
-        url = $("#endpoint").val() + "/taxonomies/?vocabulary=" + $("#Vocabulary").val();
+        let url = $("#endpoint").val() + "/taxonomies/?vocabulary=" + $("#Vocabulary").val();
         taxonomyTerm.find("option").remove().end().append("<option></option>");
         addApiPanel("Get Taxonomy terms for the vocabulary", false);
         addApiPanel(url);
@@ -195,13 +199,23 @@ function updateProximity() {
     updateParameters("proximity", proximity);
 }
 
+function updateKeywords() {
+    keywords = $("#Keywords").val();
+    updateParameters("keywords", keywords);
+}
+
 function updateParameters(parm, parmVal) {
     window.history.replaceState('', '', updateURLParameter(window.location.href, parm, parmVal));
 }
 
-function clearForm() {
-    window.location.search = "";
+function clearForm(endpoint = null) {
+    if (endpoint) {
+        window.location.search = "?endpoint=" + endpoint;
+    } else {
+        window.location.search = "";
+    }
 }
+
 
 function executeForm() {
     let error = false;
@@ -210,7 +224,7 @@ function executeForm() {
         alert("Missing Endpoint");
     }
     if ($("#TaxonomyType").val() === "") {
-        alert("Missing Taxonomy Tpye");
+        alert("Missing Taxonomy Type");
         error = true;
     }
     if ($("#Proximity").val() !== "") {
@@ -239,6 +253,7 @@ function executeForm() {
     let postcode = $("#Coverage");
     taxonomyType = $("#TaxonomyType").val();
     vocabulary = $("#Vocabulary").val();
+    keywords = $("#Keywords").val();
 
     if (proximity === null || proximity === "" || proximity === undefined) {
         proximity = "";
@@ -252,6 +267,12 @@ function executeForm() {
         coverage = "";
     } else {
         coverage = "&coverage=" + $("#Coverage").val();
+    }
+
+    if (keywords === null || keywords === "" || keywords === undefined) {
+        keywords = "";
+    } else {
+        keywords = "&keywords=" + $("#Keywords").val();
     }
 
     if (taxonomyType === "Any") {
@@ -275,7 +296,7 @@ function executeForm() {
     let url = $("#endpoint").val() + "/services/?" + coverage
         + taxonomyTerm + taxonomyType
         + vocabulary + proximity
-        + postcode;
+        + postcode + keywords;
 
 
     addApiPanel("Get service(s)", false);
@@ -283,6 +304,7 @@ function executeForm() {
     addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
     updateScroll();
     $("#results").append("<div><img src='images/ajax-loader.gif' alt='Loading'></div>");
+
     let results = $("#results");
     $.ajax({
         async: true,
@@ -317,7 +339,7 @@ function getRawJSON(id) {
     win.focus();
 }
 
-function getVisualise(id, VisType="image") {
+function getVisualise(id, VisType = "image") {
     $("#resultTab").removeClass("active");
     $("#graphTab").addClass("active");
     $("#resultPanel").removeClass("active");
@@ -328,7 +350,7 @@ function getVisualise(id, VisType="image") {
     if (VisType === "image") {
         $("#format").val("image");
         objOpenReferralPlus.format = "image";
-    } else if (VisType === "json"){
+    } else if (VisType === "json") {
         $("#format").val("json");
         objOpenReferralPlus.format = "json";
     }
@@ -341,23 +363,9 @@ function getVisualise(id, VisType="image") {
     }
 
 
-
     objOpenReferralPlus.Endpoint = $("#endpoint").val();
 
-
-    // switch (type) {
-    //     case "Service":
-    //         resource = "services";
-    //         break;
-    //     case "services":
-    //         resource = "services";
-    //         break;
-    //     default:
-    //         alert("Invalid Taxonomy type");
-    //         break;
-    // }
-    let resource = "services";
-    objOpenReferralPlus.Resource = resource;
+    objOpenReferralPlus.Resource = "services";
 
     objOpenReferralPlus.Parameter = id;
 
