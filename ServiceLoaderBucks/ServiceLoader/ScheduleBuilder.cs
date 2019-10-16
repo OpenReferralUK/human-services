@@ -10,6 +10,23 @@ namespace ServiceLoader
     {
         private static readonly string[] ValidDays = new [] { "SU", "MO", "TU", "WE", "TH", "FR", "SA" };
         private static readonly string[] MonthlyWords = new [] { "1st", "2nd", "3rd", "4th", "first", "second", "third", "fourth", "last" };
+        private static readonly Dictionary<string, string> IntervalWords = new Dictionary<string, string>
+        {
+            {"fortnightly","2" },
+            {"alternate", "2" }
+        };
+        private static readonly Dictionary<string, string> DayPrefixWords = new Dictionary<string, string>
+        {
+            {"1st","1" },
+            {"first","1" },
+            {"2nd", "2" },
+            {"second", "2" },
+            {"3rd", "3" },
+            {"third", "3" },
+            {"4th", "4" },
+            {"fourth", "4" },
+            {"last", "-1" }
+        };
         private static readonly Dictionary<string, string> WordReplacements = new Dictionary<string, string>
         {
             {"&", " and "},
@@ -60,6 +77,8 @@ namespace ServiceLoader
             var weeklyMonthly = parts.Intersect(MonthlyWords, StringComparer.OrdinalIgnoreCase).Any() ? "MONTHLY" : "WEEKLY";
             var times = ParseTimes(parts);
             var days = result.Days.Any() ? result.Days.Distinct() : ParseDays(parts);
+            var interval = ParseInterval(parts);
+            var dayPrefix = ParseDayPrefix(parts);
             
             foreach (var day in days)
             {
@@ -67,10 +86,34 @@ namespace ServiceLoader
                 var dayAbbrv = day.Substring(0, 2).ToUpperInvariant();
                 if (!ValidDays.Contains(dayAbbrv, StringComparer.Ordinal)) continue;
 
-                yield return new Schedule($"{result.ServiceId}:{day}", dayAbbrv, result.Frequency, weeklyMonthly, times?.StartTime, times?.EndTime);
+                yield return new Schedule($"{result.ServiceId}:{day}", $"{dayPrefix}{dayAbbrv}", result.Frequency, weeklyMonthly, times?.StartTime, times?.EndTime, interval);
             }
 
-            if (!days.Any()) yield return new Schedule($"{result.ServiceId}:unknown", string.Empty, result.Frequency, weeklyMonthly, times?.StartTime, times?.EndTime);
+            if (!days.Any()) yield return new Schedule($"{result.ServiceId}:unknown", string.Empty, result.Frequency, weeklyMonthly, times?.StartTime, times?.EndTime, interval);
+        }
+
+        private static string ParseInterval(IEnumerable<string> parts)
+        {
+            var intervals = new List<string>();
+            foreach (var part in parts)
+            {
+                if (IntervalWords.TryGetValue(part, out var interval)) intervals.Add(interval);
+            }
+
+            //better to write no information than partial information - we are targetting the simple records
+            return intervals.Count == 1 ? intervals.First() : string.Empty;
+        }
+
+        private static string ParseDayPrefix(IEnumerable<string> parts)
+        {
+            var prefixes = new List<string>();
+            foreach (var part in parts)
+            {
+                if (DayPrefixWords.TryGetValue(part, out var prefix)) prefixes.Add(prefix);
+            }
+
+            //better to write no information than partial information - we are targetting the simple records
+            return prefixes.Count == 1 ? prefixes.First() : string.Empty;
         }
 
         private static IEnumerable<string> ParseDays(IEnumerable<string> parts)
@@ -96,8 +139,8 @@ namespace ServiceLoader
                 }
             }
 
-            if (times.Count > 1) times.Clear(); //better to write no information than partial information - we are targetting the simple records
-            return times.FirstOrDefault();
+            //better to write no information than partial information - we are targetting the simple records
+            return times.Count == 1 ? times.First() : null;
         }
 
         private class Times

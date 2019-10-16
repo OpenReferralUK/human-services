@@ -4,7 +4,7 @@ namespace ServiceLoader
 {
     public class Schedule
     {
-        public Schedule(string id, string day, string description, string weeklyMonthly, TimeSpan? opensAt, TimeSpan? closesAt)
+        public Schedule(string id, string day, string description, string weeklyMonthly, TimeSpan? opensAt, TimeSpan? closesAt, string interval)
         {
             Id = id;
             Day = day;
@@ -12,6 +12,7 @@ namespace ServiceLoader
             WeeklyMonthly = weeklyMonthly;
             OpensAt = opensAt;
             ClosesAt = closesAt;
+            Interval = interval;
         }
 
         public string Id { get; }
@@ -20,5 +21,6 @@ namespace ServiceLoader
         public string WeeklyMonthly { get; }
         public TimeSpan? OpensAt { get; }
         public TimeSpan? ClosesAt { get; }
+        public string Interval { get; }
     }
 }
