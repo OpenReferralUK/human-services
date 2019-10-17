@@ -326,6 +326,8 @@ CREATE TABLE `service` (
   `fees` text,
   `accreditations` text,
   `deliverable_type` text,
+  `attending_type` varchar(20),
+  `attending_access` varchar(20),
   PRIMARY KEY (`id`),
   KEY `FK_service_1` (`organization_id`),
   CONSTRAINT `FK_service_1` FOREIGN KEY (`organization_id`) REFERENCES `organization` (`id`)
@@ -400,6 +402,7 @@ CREATE TABLE `taxonomy` (
   `id` varchar(1536) NOT NULL,
   `name` text NOT NULL,
   `vocabulary` text,
+  `parent_id` varchar(1536),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;

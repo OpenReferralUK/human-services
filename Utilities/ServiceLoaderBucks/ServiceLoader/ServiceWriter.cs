@@ -2,6 +2,7 @@
 using NLog;
 using ServiceLoader.JsonMappingObjects;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
@@ -211,19 +212,47 @@ ON DUPLICATE KEY UPDATE id = id;
 
         private void WriteTaxonomies(Result result)
         {
+            WriteTopLevelTaxonomies();
             foreach (var taxonomy in result.Taxonomies)
             {
                 using (var command = _connection.CreateCommand())
                 {
                     command.CommandType = CommandType.Text;
                     command.CommandText = @"
-INSERT INTO taxonomy(id, name, vocabulary)
-VALUES (@id, @name, @vocabulary)
+INSERT INTO taxonomy(id, name, vocabulary, parent_id)
+VALUES (@id, @name, @vocabulary, @parent_id)
 ON DUPLICATE KEY UPDATE id = id;
 ";
                     command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = taxonomy.Id;
                     command.Parameters.Add("@name", MySqlDbType.Text).Value = taxonomy.Name;
                     command.Parameters.Add("@vocabulary", MySqlDbType.Text).Value = taxonomy.Vocabulary;
+                    command.Parameters.Add("@parent_id", MySqlDbType.VarChar, 1536).Value = taxonomy.ParentId;
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private void WriteTopLevelTaxonomies()
+        {
+            //To think about: Hard coded IDs here are also hard coded in TaxonomyBuilder. Should they exist in a class of their own?
+            //Open eligibility data at https://github.com/auntbertha/openeligibility/blob/master/taxonomy
+            var openEligibilityTopLevelTaxonomies = new List<Taxonomy>
+            {
+                new Taxonomy("OpenEligibility:20002", "Age Group", "OpenEligibility", true),
+                new Taxonomy("OpenEligibility:20017", "Disability", "OpenEligibility", true)
+            };
+            foreach (var taxonomy in openEligibilityTopLevelTaxonomies)
+            {
+                using (var command = _connection.CreateCommand())
+                {
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = @"
+INSERT INTO taxonomy(id, name, vocabulary)
+VALUES (@id, @name, 'OpenEligibility')
+ON DUPLICATE KEY UPDATE id = id;
+";
+                    command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = taxonomy.Id;
+                    command.Parameters.Add("@name", MySqlDbType.Text).Value = taxonomy.Name;
                     command.ExecuteNonQuery();
                 }
             }
