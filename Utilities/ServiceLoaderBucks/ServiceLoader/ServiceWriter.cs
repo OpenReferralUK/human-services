@@ -4,6 +4,7 @@ using ServiceLoader.JsonMappingObjects;
 using System;
 using System.Configuration;
 using System.Data;
+using System.Linq;
 
 namespace ServiceLoader
 {
@@ -31,6 +32,8 @@ namespace ServiceLoader
                     WriteServiceAtLocation(result);
                     WriteTaxonomies(result);
                     WriteServiceTaxonomies(result);
+                    WriteEligibility(result);
+                    WriteLinkTaxonomy(result);
                     WriteContact(result);
                     WritePhone(result);
                     WriteAddress(result);
@@ -41,6 +44,45 @@ namespace ServiceLoader
                 {
                     Console.WriteLine(e.Message);
                     Logger.Error(e);
+                }
+            }
+        }
+
+        private void WriteLinkTaxonomy(Result result)
+        {
+            foreach (var taxonomy in result.Taxonomies.Where(tax => tax.IsEligibility))
+            {
+                using (var command = _connection.CreateCommand())
+                {
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = @"
+INSERT INTO link_taxonomy(id, link_type, link_id, taxonomy_id)
+VALUES (@id, 'eligibility', @link_id, @taxomomy_id)
+ON DUPLICATE KEY UPDATE id = id;
+";
+                    command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = $"{result.ServiceId}:{taxonomy.EligibilityId}";
+                    command.Parameters.Add("@link_id", MySqlDbType.Text).Value = $"{result.ServiceId}:{taxonomy.EligibilityId}";
+                    command.Parameters.Add("@taxomomy_id", MySqlDbType.VarChar, 1536).Value = taxonomy.Id;
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private void WriteEligibility(Result result)
+        {
+            foreach (var taxonomy in result.Taxonomies.Where(tax => tax.IsEligibility))
+            {
+                using (var command = _connection.CreateCommand())
+                {
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = @"
+INSERT INTO eligibility(id, service_id)
+VALUES (@id, @service_id)
+ON DUPLICATE KEY UPDATE id = id;
+";
+                    command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = $"{result.ServiceId}:{taxonomy.EligibilityId}";
+                    command.Parameters.Add("@service_id", MySqlDbType.VarChar, 1536).Value = result.ServiceId;
+                    command.ExecuteNonQuery();
                 }
             }
         }
@@ -149,7 +191,7 @@ ON DUPLICATE KEY UPDATE id = id;
 
         private void WriteServiceTaxonomies(Result result)
         {
-            foreach (var taxonomy in result.Taxonomies)
+            foreach (var taxonomy in result.Taxonomies.Where(tax => !tax.IsEligibility))
             {
                 using (var command = _connection.CreateCommand())
                 {
