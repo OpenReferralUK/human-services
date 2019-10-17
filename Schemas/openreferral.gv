@@ -16,14 +16,15 @@ organization [label=<
 <tr><td bgcolor="lawngreen"><b>organization</b></td></tr>
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>name</b></td></tr>
-<tr><td  bgcolor="white"><b>alternate_name</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>alternate_name</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>description</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>email</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>url</b></td></tr>
-<tr><td  bgcolor="white"><b>tax_status</b></td></tr>
-<tr><td  bgcolor="white"><b>tax_id</b></td></tr>
-<tr><td  bgcolor="white"><b>year_incorporated</b></td></tr>
-<tr><td  bgcolor="white"><b>legal_status</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>tax_status</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>tax_id</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>year_incorporated</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>legal_status</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>assured_date</b></td></tr>
 </table>
 >]
 
@@ -31,11 +32,11 @@ organization [label=<
 
 program [label=<
 <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-<tr><td bgcolor="lightgrey"><b>program</b></td></tr>
-<tr><td port='id'  bgcolor="white"><b>id</b></td></tr>
-<tr><td port='organization_id'  bgcolor="white"><b>organization_id</b></td></tr>
-<tr><td  bgcolor="white"><b>name</b></td></tr>
-<tr><td  bgcolor="white"><b>alternate_name</b></td></tr>
+<tr><td bgcolor="lawngreen"><b>program</b></td></tr>
+<tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
+<tr><td port='organization_id'  bgcolor="lawngreen"><b>organization_id</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>name</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>alternate_name</b></td></tr>
 </table>
 >]
 
@@ -47,19 +48,19 @@ service [label=<
 <tr><td bgcolor="lawngreen"><b>service</b></td></tr>
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
 <tr><td port='organization_id'  bgcolor="lawngreen"><b>organization_id</b></td></tr>
-<tr><td port='program_id'  bgcolor="white"><b>program_id</b></td></tr>
+<tr><td port='program_id'  bgcolor="lawngreen"><b>program_id</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>name</b></td></tr>
-<tr><td  bgcolor="white"><b>alternate_name</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>alternate_name</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>description</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>url</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>email</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>status</b></td></tr>
-<tr><td  bgcolor="white"><b>interpretation_services</b></td></tr>
-<tr><td  bgcolor="white"><b>application_process</b></td></tr>
-<tr><td  bgcolor="white"><b>wait_time</b></td></tr>
-<tr><td  bgcolor="white"><b>fees</b></td></tr>
-<tr><td  bgcolor="lightblue"><b>accreditations</b></td></tr>
-<tr><td  bgcolor="white"><b>licenses</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>interpretation_services</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>application_process</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>wait_time</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>fees</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>accreditations</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>licenses</b></td></tr>
 </table>
 >]
 
@@ -73,7 +74,7 @@ service_taxonomy [label=<
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
 <tr><td port='service_id'  bgcolor="lawngreen"><b>service_id</b></td></tr>
 <tr><td port='taxonomy_id'  bgcolor="lawngreen"><b>taxonomy_id</b></td></tr>
-<tr><td  bgcolor="white"><b>taxonomy_detail</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>taxonomy_detail</b></td></tr>
 </table>
 >]
 
@@ -87,7 +88,7 @@ service_at_location [label=<
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
 <tr><td port='service_id'  bgcolor="lawngreen"><b>service_id</b></td></tr>
 <tr><td port='location_id'  bgcolor="lawngreen"><b>location_id</b></td></tr>
-<tr><td  bgcolor="white"><b>description</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>description</b></td></tr>
 </table>
 >]
 
@@ -99,11 +100,11 @@ location [label=<
 <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
 <tr><td bgcolor="lawngreen"><b>location</b></td></tr>
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
-<tr><td port='organization_id'  bgcolor="white"><b>organization_id</b></td></tr>
+<tr><td port='organization_id'  bgcolor="lawngreen"><b>organization_id</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>name</b></td></tr>
-<tr><td  bgcolor="white"><b>alternate_name</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>alternate_name</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>description</b></td></tr>
-<tr><td  bgcolor="white"><b>transportation</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>transportation</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>latitude</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>longitude</b></td></tr>
 </table>
@@ -116,16 +117,16 @@ phone [label=<
 <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
 <tr><td bgcolor="lawngreen"><b>phone</b></td></tr>
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
-<tr><td port='location_id'  bgcolor="white"><b>location_id</b></td></tr>
-<tr><td port='service_id'  bgcolor="white"><b>service_id</b></td></tr>
-<tr><td port='organization_id'  bgcolor="white"><b>organization_id</b></td></tr>
+<tr><td port='location_id'  bgcolor="lawngreen"><b>location_id</b></td></tr>
+<tr><td port='service_id'  bgcolor="lawngreen"><b>service_id</b></td></tr>
+<tr><td port='organization_id'  bgcolor="lawngreen"><b>organization_id</b></td></tr>
 <tr><td port='contact_id'  bgcolor="lawngreen"><b>contact_id</b></td></tr>
-<tr><td port='service_at_location_id'  bgcolor="white"><b>service_at_location_id</b></td></tr>
+<tr><td port='service_at_location_id'  bgcolor="lawngreen"><b>service_at_location_id</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>number</b></td></tr>
-<tr><td  bgcolor="white"><b>extension</b></td></tr>
-<tr><td  bgcolor="white"><b>type</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>extension</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>type</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>language</b></td></tr>
-<tr><td  bgcolor="white"><b>description</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>description</b></td></tr>
 </table>
 >]
 
@@ -140,13 +141,13 @@ contact [label=<
 <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
 <tr><td bgcolor="lawngreen"><b>contact</b></td></tr>
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
-<tr><td port='organization_id'  bgcolor="white"><b>organization_id</b></td></tr>
+<tr><td port='organization_id'  bgcolor="lawngreen"><b>organization_id</b></td></tr>
 <tr><td port='service_id'  bgcolor="lawngreen"><b>service_id</b></td></tr>
-<tr><td port='service_at_location_id'  bgcolor="white"><b>service_at_location_id</b></td></tr>
+<tr><td port='service_at_location_id'  bgcolor="lawngreen"><b>service_at_location_id</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>name</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>title</b></td></tr>
-<tr><td  bgcolor="white"><b>department</b></td></tr>
-<tr><td  bgcolor="white"><b>email</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>department</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>email</b></td></tr>
 </table>
 >]
 
@@ -160,13 +161,14 @@ physical_address [label=<
 <tr><td bgcolor="lawngreen"><b>physical_address</b></td></tr>
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
 <tr><td port='location_id'  bgcolor="lawngreen"><b>location_id</b></td></tr>
-<tr><td  bgcolor="white"><b>attention</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>attention</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>address_1</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>city</b></td></tr>
-<tr><td  bgcolor="white"><b>region</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>region</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>state_province</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>postal_code</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>country</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>uprn</b></td></tr>
 </table>
 >]
 
@@ -175,16 +177,16 @@ location:id -> physical_address:location_id;
 
 postal_address [label=<
 <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-<tr><td bgcolor="lightgrey"><b>postal_address</b></td></tr>
-<tr><td port='id'  bgcolor="white"><b>id</b></td></tr>
-<tr><td port='location_id'  bgcolor="white"><b>location_id</b></td></tr>
-<tr><td  bgcolor="white"><b>attention</b></td></tr>
-<tr><td  bgcolor="white"><b>address_1</b></td></tr>
-<tr><td  bgcolor="white"><b>city</b></td></tr>
-<tr><td  bgcolor="white"><b>region</b></td></tr>
-<tr><td  bgcolor="white"><b>state_province</b></td></tr>
-<tr><td  bgcolor="white"><b>postal_code</b></td></tr>
-<tr><td  bgcolor="white"><b>country</b></td></tr>
+<tr><td bgcolor="lawngreen"><b>postal_address</b></td></tr>
+<tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
+<tr><td port='location_id'  bgcolor="lawngreen"><b>location_id</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>attention</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>address_1</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>city</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>region</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>state_province</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>postal_code</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>country</b></td></tr>
 </table>
 >]
 
@@ -196,9 +198,9 @@ regular_schedule [label=<
 <tr><td bgcolor="lawngreen"><b>regular_schedule</b></td></tr>
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
 <tr><td port='service_id'  bgcolor="lawngreen"><b>service_id</b></td></tr>
-<tr><td port='location_id'  bgcolor="white"><b>location_id</b></td></tr>
+<tr><td port='location_id'  bgcolor="lawngreen"><b>location_id</b></td></tr>
 <tr><td port='service_at_location_id'  bgcolor="lawngreen"><b>service_at_location_id</b></td></tr>
-<tr><td  bgcolor="white"><b>weekday</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>weekday</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>opens_at</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>closes_at</b></td></tr>
 </table>
@@ -214,7 +216,7 @@ holiday_schedule [label=<
 <tr><td bgcolor="lawngreen"><b>holiday_schedule</b></td></tr>
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
 <tr><td port='service_id'  bgcolor="lawngreen"><b>service_id</b></td></tr>
-<tr><td port='location_id'  bgcolor="white"><b>location_id</b></td></tr>
+<tr><td port='location_id'  bgcolor="lawngreen"><b>location_id</b></td></tr>
 <tr><td port='service_at_location_id'  bgcolor="lawngreen"><b>service_at_location_id</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>closed</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>opens_at</b></td></tr>
@@ -233,7 +235,7 @@ funding [label=<
 <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
 <tr><td bgcolor="lawngreen"><b>funding</b></td></tr>
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
-<tr><td port='organization_id'  bgcolor="white"><b>organization_id</b></td></tr>
+<tr><td port='organization_id'  bgcolor="lawngreen"><b>organization_id</b></td></tr>
 <tr><td port='service_id'  bgcolor="lawngreen"><b>service_id</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>source</b></td></tr>
 </table>
@@ -248,7 +250,7 @@ eligibility [label=<
 <tr><td bgcolor="lawngreen"><b>eligibility</b></td></tr>
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
 <tr><td port='service_id'  bgcolor="lawngreen"><b>service_id</b></td></tr>
-<tr><td  bgcolor="lightblue"><b>eligibility</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>eligibility</b></td></tr>
 </table>
 >]
 
@@ -261,7 +263,8 @@ service_area [label=<
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
 <tr><td port='service_id'  bgcolor="lawngreen"><b>service_id</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>service_area</b></td></tr>
-<tr><td  bgcolor="white"><b>description</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>description</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>extent</b></td></tr>
 </table>
 >]
 
@@ -270,10 +273,10 @@ service:id -> service_area:service_id;
 
 required_document [label=<
 <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-<tr><td bgcolor="lightgrey"><b>required_document</b></td></tr>
-<tr><td port='id'  bgcolor="white"><b>id</b></td></tr>
-<tr><td port='service_id'  bgcolor="white"><b>service_id</b></td></tr>
-<tr><td  bgcolor="white"><b>document</b></td></tr>
+<tr><td bgcolor="lawngreen"><b>required_document</b></td></tr>
+<tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
+<tr><td port='service_id'  bgcolor="lawngreen"><b>service_id</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>document</b></td></tr>
 </table>
 >]
 
@@ -282,10 +285,10 @@ service:id -> required_document:service_id;
 
 payment_accepted [label=<
 <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-<tr><td bgcolor="lightgrey"><b>payment_accepted</b></td></tr>
-<tr><td port='id'  bgcolor="white"><b>id</b></td></tr>
-<tr><td port='service_id'  bgcolor="white"><b>service_id</b></td></tr>
-<tr><td  bgcolor="white"><b>payment</b></td></tr>
+<tr><td bgcolor="lawngreen"><b>payment_accepted</b></td></tr>
+<tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
+<tr><td port='service_id'  bgcolor="lawngreen"><b>service_id</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>payment</b></td></tr>
 </table>
 >]
 
@@ -297,7 +300,7 @@ language [label=<
 <tr><td bgcolor="lawngreen"><b>language</b></td></tr>
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
 <tr><td port='service_id'  bgcolor="lawngreen"><b>service_id</b></td></tr>
-<tr><td port='location_id'  bgcolor="white"><b>location_id</b></td></tr>
+<tr><td port='location_id'  bgcolor="lawngreen"><b>location_id</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>language</b></td></tr>
 </table>
 >]
@@ -312,7 +315,7 @@ accessibility_for_disabilities [label=<
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
 <tr><td port='location_id'  bgcolor="lawngreen"><b>location_id</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>accessibility</b></td></tr>
-<tr><td  bgcolor="white"><b>details</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>details</b></td></tr>
 </table>
 >]
 
@@ -324,8 +327,8 @@ taxonomy [label=<
 <tr><td bgcolor="lawngreen"><b>taxonomy</b></td></tr>
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>name</b></td></tr>
-<tr><td  bgcolor="white"><b>parent_id</b></td></tr>
-<tr><td  bgcolor="white"><b>parent_name</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>parent_id</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>parent_name</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>vocabulary</b></td></tr>
 </table>
 >]
@@ -334,15 +337,15 @@ taxonomy [label=<
 
 metadata [label=<
 <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-<tr><td bgcolor="lightgrey"><b>metadata</b></td></tr>
-<tr><td port='id'  bgcolor="white"><b>id</b></td></tr>
-<tr><td port='resource_id'  bgcolor="white"><b>resource_id</b></td></tr>
-<tr><td  bgcolor="white"><b>last_action_date</b></td></tr>
-<tr><td  bgcolor="white"><b>last_action_type</b></td></tr>
-<tr><td  bgcolor="white"><b>field_name</b></td></tr>
-<tr><td  bgcolor="white"><b>previous_value</b></td></tr>
-<tr><td  bgcolor="white"><b>replacement_value</b></td></tr>
-<tr><td  bgcolor="white"><b>updated_by</b></td></tr>
+<tr><td bgcolor="lawngreen"><b>metadata</b></td></tr>
+<tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
+<tr><td port='resource_id'  bgcolor="lawngreen"><b>resource_id</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>last_action_date</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>last_action_type</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>field_name</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>previous_value</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>replacement_value</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>updated_by</b></td></tr>
 </table>
 >]
 
@@ -360,11 +363,11 @@ phone:id -> metadata:resource_id;
 
 meta_table_description [label=<
 <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
-<tr><td bgcolor="lightgrey"><b>meta_table_description</b></td></tr>
-<tr><td port='id'  bgcolor="white"><b>id</b></td></tr>
-<tr><td  bgcolor="white"><b>name</b></td></tr>
-<tr><td  bgcolor="white"><b>language</b></td></tr>
-<tr><td  bgcolor="white"><b>character_set</b></td></tr>
+<tr><td bgcolor="lawngreen"><b>meta_table_description</b></td></tr>
+<tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>name</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>language</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>character_set</b></td></tr>
 </table>
 >]
 

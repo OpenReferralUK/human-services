@@ -71,6 +71,7 @@
     <Compile Include="Models\CSVSchema.cs" />
     <Compile Include="Models\CSVSchemaRow.cs" />
     <Compile Include="Models\HTML.cs" />
+    <Compile Include="Models\Profile.cs" />
     <Compile Include="Models\SQL.cs" />
     <Compile Include="Models\ERD.cs" />
     <Compile Include="Models\JSONProperty.cs" />

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Generator.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,21 +9,25 @@ namespace Convertor
 {
     internal class Utility
     {
-        internal static string GetSourceColour(dynamic applicationProfile, string defaultColour)
+        internal static string GetSourceColour(string source, string defaultColour)
         {
-            if (applicationProfile != null)
+            if (!string.IsNullOrEmpty(source))
             {
-                if (applicationProfile == "openReferral")
+                if (source == "openReferral")
                 {
                     return "lawngreen";
                 }
-                else if (applicationProfile == "LGA")
+                else if (source == "LGA")
                 {
                     return "lightblue";
                 }
-                else if (applicationProfile == "ical")
+                else if (source == "ical")
                 {
                     return "orange";
+                }
+                else if (source == "openCommunity")
+                {
+                    return "palevioletred";
                 }
             }
 

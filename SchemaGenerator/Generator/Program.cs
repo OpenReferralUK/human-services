@@ -1,5 +1,6 @@
 ﻿using CommandLine;
 using Convertor.Models;
+using Generator.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -96,12 +97,12 @@ namespace Convertor
                     }
 
                     int matchingColumns = 0;
-                    Table table = new Table(resource.name.Value, resource.description, resource.source, resource.applicationProfile, resource.schema.primaryKey);
+                    Table table = new Table(resource.name.Value, resource.description, resource.source, resource.applicationProfile, resource.schema.primaryKey, options);
                     if (resource.schema.fields != null)
                     {
                         foreach (dynamic field in resource.schema.fields)
                         {
-                            if (!IsValid(options.Filter, field.source, field.applicationProfile))
+                            if (!IsValid(options.Filter, field.source, field.applicationProfile, options))
                             {
                                 excludedColumns.Add(string.Format("{0}.{1}", resource.name, field.name));
                                 continue;
@@ -125,7 +126,7 @@ namespace Convertor
                             {
                                 enumValues = field.constraints["enum"].ToObject<string[]>();
                             }
-                            table.Columns.Add(new Column(field.name.Value, field.type.Value, field.numberType, field.geoType, (field.source == "openReferral"), field.source, field.applicationProfile, field.format, field.description, field.hidden, field.deprecated, keys.Contains(field.name.Value), required, unique, enumValues));
+                            table.Columns.Add(new Column(field.name.Value, field.type.Value, field.numberType, field.geoType, (field.source == "openReferral"), field.source, field.applicationProfile, field.format, field.description, field.hidden, field.deprecated, keys.Contains(field.name.Value), required, unique, enumValues, options));
                         }
                     }
 
@@ -170,7 +171,7 @@ namespace Convertor
             return results;
         }
 
-        private static bool IsValid(int filter, dynamic source, dynamic applicationProfile)
+        private static bool IsValid(int filter, dynamic source, dynamic applicationProfile, Options options)
         {
             if (filter == 0)
             {
@@ -182,7 +183,17 @@ namespace Convertor
             }
             if (filter == 2)
             {
-                return (applicationProfile != null);
+                Profile profile = Profile.GetProfile(Profile.Create(applicationProfile), options);
+                if (!string.IsNullOrEmpty(options.Moscow))
+                {
+                    if (profile == null)
+                    {
+                        return false;
+                    }
+                    List<string> moscow = new List<string>(options.Moscow.Split(','));
+                    return moscow.Contains(profile.Moscow);
+                }
+                return profile != null;
             }
             return true;
         }
