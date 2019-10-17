@@ -42,7 +42,7 @@ namespace ServiceLoader
                 switch (suitability.ToLowerInvariant())
                 {
                     case "autism":
-                        yield return new Taxonomy("OpenEligibility:20019", "Developmental Disability", "OpenEligibility", true);
+                        yield return new Taxonomy("OpenEligibility:20019", "Developmental Disability", "OpenEligibility", true, "OpenEligibility:200017");
                         break;
                     case "dementia":
                     case "mental health":
