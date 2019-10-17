@@ -1,5 +1,5 @@
 #api {
-    height: 300px;
+    height: 400px;
     overflow-y: scroll;
     position: relative;
     bottom: 0;
@@ -13,3 +13,8 @@
     background-color: lightgrey;
 }
 
+.graph{
+    alignment: center;
+    width: 85vh;
+    height: 85vw;
+}

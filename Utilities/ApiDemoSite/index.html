@@ -22,7 +22,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="row">
-                <label for="endpoint">Endpoint:</label>
+                <label class="ml-1" for="endpoint">Endpoint:</label>
                 <select id="endpoint" class="form-control" onchange="updateEndpoint()">
                     <option value="http://api.porism.com/ServiceDirectoryService">Bristol data</option>
                     <option value="http://api.porism.com/ServiceDirectoryServiceBucks">Bucks data</option>
@@ -37,7 +37,7 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="row">
-                        <label for="TaxonomyType">Taxonomy type</label>
+                        <label class="ml-1" for="TaxonomyType">Taxonomy type</label>
                     </div>
                     <div class="row">
                         <select id="TaxonomyType" class="form-control mr-1" disabled="disabled"
@@ -53,7 +53,7 @@
                 </div>
                 <div class="col-sm-8">
                     <div class="row">
-                        <label for="Keywords">Keywords</label>
+                        <label class="ml-1" for="Keywords">Keywords</label>
                     </div>
                     <div class="row">
                         <input id="Keywords" class="form-control ml-1" disabled="disabled" onchange="updateKeywords()">
@@ -74,7 +74,7 @@
                 </div>
                 <div class="col-sm-4">
                     <div class="row">
-                        <label for="TaxonomyTerm">Taxonomy Term</label>
+                        <label class="ml-1" for="TaxonomyTerm">Taxonomy Term</label>
                     </div>
                     <div class="row">
                         <select id="TaxonomyTerm" class="form-control ml-1 mr-1" disabled="disabled"
@@ -99,7 +99,7 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="row">
-                        <label for="Coverage">Coverage (postcode)</label>
+                        <label class="ml-1" for="Coverage">Coverage (postcode)</label>
                     </div>
                     <div class="row">
                         <input id="Coverage" class="form-control mr-1" disabled="disabled" onchange="updateCoverage()">
@@ -107,7 +107,7 @@
                 </div>
                 <div class="col-sm-4">
                     <div class="row">
-                        <label for="Proximity">Proximity (km)</label>
+                        <label class="ml-1" for="Proximity">Proximity (km)</label>
                     </div>
                     <div class="row">
                         <input id="Proximity" type="number" class="form-control ml-1 mr-1" disabled="disabled"
@@ -180,7 +180,7 @@
                 </div>
             </div>
             <div class="row">
-                <div id="graph" class="col-sm-12">
+                <div id="graph" class="graph">
 
                 </div>
             </div>
