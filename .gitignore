@@ -1,6 +1,6 @@
 **/.vs
 **/.idea
-/ServiceLoaderBucks/packages/
+/Utilities/ServiceLoaderBucks/packages/
 bin/
 obj/
 *.suo
