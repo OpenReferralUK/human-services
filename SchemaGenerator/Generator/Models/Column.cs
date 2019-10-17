@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Generator.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace Convertor.Models
 {
     public class Column
     {
-        internal Column(string name, string type, dynamic numberType, dynamic geoType, bool original, dynamic source, dynamic applicationProfile, dynamic format, dynamic description, dynamic hidden, dynamic deprecated, bool isKey, bool required, bool unique, string[] enumValues)
+        internal Column(string name, string type, dynamic numberType, dynamic geoType, bool original, dynamic source, dynamic applicationProfile, dynamic format, dynamic description, dynamic hidden, dynamic deprecated, bool isKey, bool required, bool unique, string[] enumValues, Options options)
         {
             this.Name = name;
             this.Type = type;
@@ -23,27 +24,17 @@ namespace Convertor.Models
             }
             if (applicationProfile != null)
             {
-                if (applicationProfile.name != null)
-                {
-                    this.ApplicationProfile = applicationProfile.name.Value;
-                }
-                if (applicationProfile.notes != null)
+                ApplicationProfiles = Profile.Create(applicationProfile);
+                Profile profile = Profile.GetProfile(ApplicationProfiles, options);
+
+                if (profile != null && profile.Notes != null)
                 {
                     if (!string.IsNullOrEmpty(this.Description))
                     {
                         this.Description += "\r\n\r\n";
                     }
                     this.Description += "Application Profile Notes: ";
-                    this.Description += applicationProfile.notes;
-                }
-                if (applicationProfile.schemes != null)
-                {
-                    List<SchemaURI> schemaUris = new List<SchemaURI>();
-                    foreach (dynamic item in applicationProfile.schemes)
-                    {
-                        schemaUris.Add(new SchemaURI() { name = item.name, required = item.required, uri = item.uri });
-                    }
-                    Schemas = schemaUris.ToArray();
+                    this.Description += profile.Notes;
                 }
             }            
             if (format != null)
@@ -121,7 +112,7 @@ namespace Convertor.Models
             private set;
         }
 
-        internal string ApplicationProfile
+        internal Profile[] ApplicationProfiles
         {
             get;
             private set;
@@ -169,15 +160,21 @@ namespace Convertor.Models
             private set;
         }
 
-        internal string ToGV()
+        internal string ToGV(Options options)
         {
             string attributes = string.Empty;
             if (IsKey)
             {
                 attributes += string.Format("port='{0}' ", Name);
             }
-            attributes += string.Format(" bgcolor=\"{0}\"", Utility.GetSourceColour(ApplicationProfile, "white"));
-            return string.Format("<tr><td {1}><b>{0}</b></td></tr>", Name, attributes);
+            string chartName = Name;
+            Profile profile = Profile.GetProfile(ApplicationProfiles, options);
+            if (profile != null && !string.IsNullOrEmpty(profile.Moscow))
+            {
+                chartName += " (" + profile.Moscow + ")";
+            }
+            attributes += string.Format(" bgcolor=\"{0}\"", Utility.GetSourceColour(Source, "white"));
+            return string.Format("<tr><td {1}><b>{0}</b></td></tr>", chartName, attributes);
         }
 
         internal string ToSQL(Options options)

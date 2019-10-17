@@ -30,5 +30,11 @@ namespace Convertor
 
         [Option('d', "deprecated", Required = false, HelpText = "1 if deprecated fields should be included")]
         public int IncludeDeprecated { get; set; }
+
+        [Option('p', "profile", Required = false, HelpText = "The application profiles to select on")]
+        public string ApplicationProfile { get; set; }
+
+        [Option('n', "moscow", Required = false, HelpText = "The moscow level(s) to select on. If any.")]
+        public string Moscow { get; set; }
     }
 }

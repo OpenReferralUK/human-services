@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Generator.Models;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Convertor.Models
 {
     public class Table
     {
-        internal Table(string name, dynamic description, dynamic source, dynamic applicationProfile, dynamic primaryKey)
+        internal Table(string name, dynamic description, dynamic source, dynamic applicationProfile, dynamic primaryKey, Options options)
         {
             this.Name = name;
             this.Source = string.Empty;
@@ -19,17 +20,16 @@ namespace Convertor.Models
             }
             if (applicationProfile != null)
             {
-                if (applicationProfile.name != null)
-                {
-                    this.ApplicationProfile = applicationProfile.name.Value;
-                }
-                if (applicationProfile.notes != null)
+                ApplicationProfiles = Profile.Create(applicationProfile);
+                Profile profile = Profile.GetProfile(ApplicationProfiles, options);
+
+                if (profile != null && profile.Notes != null)
                 {
                     if (!string.IsNullOrEmpty(this.Description))
                     {
                         this.Description += "\r\n";
                     }
-                    this.Description += applicationProfile.notes;
+                    this.Description += profile.Notes;
                 }
             }
             if (primaryKey != null)
@@ -64,7 +64,7 @@ namespace Convertor.Models
             private set;
         }
 
-        internal string ApplicationProfile
+        internal Profile[] ApplicationProfiles
         {
             get;
             private set;
@@ -121,11 +121,11 @@ namespace Convertor.Models
                     continue;
                 }
                 string source = "Open Referral field excluded from application profile";
-                if (column.ApplicationProfile == "LGA")
+                if (options.ApplicationProfile == "LGA" && Profile.HasProfile(column.ApplicationProfiles, "LGA"))
                 {
                     source = "Extension for LGA";
                 }
-                else if (column.ApplicationProfile == "openReferral")
+                else if (Profile.HasProfile(column.ApplicationProfiles, "openReferral"))
                 {
                     source = "Open Referral field used in application profile";
                 }
@@ -176,7 +176,7 @@ namespace Convertor.Models
             table.AppendLine();
             table.AppendLine(string.Format("{0} [label=<", Name));
             table.AppendLine("<table border=\"0\" cellborder=\"1\" cellspacing=\"0\" cellpadding=\"4\">");
-            table.AppendLine(string.Format("<tr><td bgcolor=\"{0}\"><b>{1}</b></td></tr>", Utility.GetSourceColour(ApplicationProfile, "lightgrey"), Name));
+            table.AppendLine(string.Format("<tr><td bgcolor=\"{0}\"><b>{1}</b></td></tr>", Utility.GetSourceColour(Source, "lightgrey"), Name));
 
             HashSet<string> hidden = new HashSet<string>();
             foreach(Column column in Columns)
@@ -186,7 +186,7 @@ namespace Convertor.Models
                     hidden.Add(column.Name);
                     continue;
                 }
-                table.AppendLine(column.ToGV());
+                table.AppendLine(column.ToGV(options));
             }
 
             table.AppendLine("</table>");

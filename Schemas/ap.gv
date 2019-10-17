@@ -36,10 +36,11 @@ service [label=<
 <tr><td  bgcolor="lawngreen"><b>url</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>email</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>status</b></td></tr>
-<tr><td  bgcolor="white"><b>fees</b></td></tr>
-<tr><td  bgcolor="lightblue"><b>accreditations</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>fees</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>accreditations</b></td></tr>
 <tr><td  bgcolor="lightblue"><b>deliverable_type</b></td></tr>
-<tr><td  bgcolor="lightblue"><b>assured_date</b></td></tr>
+<tr><td  bgcolor="lightblue"><b>attending_type</b></td></tr>
+<tr><td  bgcolor="lightblue"><b>attending_access</b></td></tr>
 </table>
 >]
 
@@ -51,12 +52,10 @@ service_taxonomy [label=<
 <tr><td bgcolor="lawngreen"><b>service_taxonomy</b></td></tr>
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
 <tr><td port='service_id'  bgcolor="lawngreen"><b>service_id</b></td></tr>
-<tr><td port='taxonomy_id'  bgcolor="lawngreen"><b>taxonomy_id</b></td></tr>
 </table>
 >]
 
 service:id -> service_taxonomy:service_id;
-taxonomy:id -> service_taxonomy:taxonomy_id;
 
 
 service_at_location [label=<
@@ -142,7 +141,6 @@ regular_schedule [label=<
 <tr><td  bgcolor="lightblue"><b>interval</b></td></tr>
 <tr><td  bgcolor="lightblue"><b>byday</b></td></tr>
 <tr><td  bgcolor="lightblue"><b>bymonthday</b></td></tr>
-<tr><td  bgcolor="lightblue"><b>description</b></td></tr>
 </table>
 >]
 
@@ -185,7 +183,7 @@ eligibility [label=<
 <tr><td bgcolor="lawngreen"><b>eligibility</b></td></tr>
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
 <tr><td port='service_id'  bgcolor="lawngreen"><b>service_id</b></td></tr>
-<tr><td  bgcolor="lightblue"><b>eligibility</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>eligibility</b></td></tr>
 </table>
 >]
 
@@ -200,7 +198,7 @@ service_area [label=<
 <tr><td  bgcolor="lawngreen"><b>service_area</b></td></tr>
 <tr><td  bgcolor="lightblue"><b>name</b></td></tr>
 <tr><td  bgcolor="lightblue"><b>type</b></td></tr>
-<tr><td  bgcolor="lightblue"><b>extent</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>extent</b></td></tr>
 <tr><td  bgcolor="lightblue"><b>uri</b></td></tr>
 </table>
 >]
@@ -237,6 +235,7 @@ taxonomy [label=<
 <tr><td bgcolor="lawngreen"><b>taxonomy</b></td></tr>
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>name</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>parent_id</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>vocabulary</b></td></tr>
 </table>
 >]
