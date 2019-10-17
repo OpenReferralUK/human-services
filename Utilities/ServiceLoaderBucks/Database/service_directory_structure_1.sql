@@ -1,3 +1,4 @@
+#MUST
 ALTER TABLE organization ADD email text;
 ALTER TABLE organization ADD legal_status text;
 ALTER TABLE organization ADD assured_date datetime;
@@ -27,3 +28,13 @@ CREATE TABLE `identifier` (
 	CONSTRAINT FK_identifier_organization FOREIGN KEY (organization_id) REFERENCES organization (id),
 	CONSTRAINT FK_identifier_service_area FOREIGN KEY (service_area_id) REFERENCES service_area (id)
 );
+
+#SHOULD
+ALTER TABLE physical_address
+ADD uprn text;
+
+ALTER TABLE contact ADD department text;
+
+ALTER TABLE phone ADD extension text;
+ALTER TABLE phone ADD description text;
+
