@@ -15,6 +15,7 @@ ALTER TABLE contact ADD email text;
 ALTER TABLE contact ADD personal_data boolean;
 ALTER TABLE contact ADD sensitive_data boolean;
 
+DROP TABLE IF EXISTS `identifier`;
 CREATE TABLE `identifier` (
 	id varchar(1536) NOT NULL,
 	organization_id varchar(1536),
