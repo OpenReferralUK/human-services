@@ -179,13 +179,14 @@ ON DUPLICATE KEY UPDATE id = id;
             {
                 command.CommandType = CommandType.Text;
                 command.CommandText = @"
-INSERT INTO contact(id, service_id, name)
-VALUES (@id, @service_id, @name)
+INSERT INTO contact(id, service_id, name, personal_data, sensitive_data)
+VALUES (@id, @service_id, @name, @confidential, @confidential)
 ON DUPLICATE KEY UPDATE id = id;
 ";
                 command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = result.ContactId;
                 command.Parameters.Add("@service_id", MySqlDbType.VarChar, 1536).Value = result.ServiceId;
                 command.Parameters.Add("@name", MySqlDbType.Text).Value = result.ContactName;
+                command.Parameters.Add("@confidential", MySqlDbType.Bit).Value = result.HasConfidentialData;
                 command.ExecuteNonQuery();
             }
         }
@@ -340,14 +341,15 @@ ON DUPLICATE KEY UPDATE id = id;
             {
                 command.CommandType = CommandType.Text;
                 command.CommandText = @"
-INSERT INTO organization(id, name, description, url)
-VALUES (@id, @name, @description, @url)
+INSERT INTO organization(id, name, description, url, email)
+VALUES (@id, @name, @description, @url, @email)
 ON DUPLICATE KEY UPDATE id = id;
 ";
                 command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = result.OrganisationId;
                 command.Parameters.Add("@name", MySqlDbType.Text).Value = result.OrganisationName;
                 command.Parameters.Add("@description", MySqlDbType.Text).Value = result.OrganisationDescription;
                 command.Parameters.Add("@url", MySqlDbType.Text).Value = result.OrganisationUrl;
+                command.Parameters.Add("@email", MySqlDbType.Text).Value = result.Email;
                 command.ExecuteNonQuery();
             }
         }

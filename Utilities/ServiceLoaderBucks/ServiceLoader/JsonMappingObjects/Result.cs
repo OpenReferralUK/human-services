@@ -73,8 +73,7 @@ namespace ServiceLoader.JsonMappingObjects
         [JsonProperty("confidDataProtect")]
         public string ConfidentialData { get; set; }
 
-        //Ensure false for now. Remove false && to reinstate this
-        public bool HasConfidentialData => false && !string.IsNullOrEmpty(ConfidentialData) &&
+        public bool HasConfidentialData => !string.IsNullOrEmpty(ConfidentialData) &&
                                     (ConfidentialData.StartsWith("true", StringComparison.OrdinalIgnoreCase) ||
                                      ConfidentialData.StartsWith("yes", StringComparison.OrdinalIgnoreCase));
 
@@ -86,20 +85,20 @@ namespace ServiceLoader.JsonMappingObjects
         public string ServiceName => Name ?? string.Empty;
         public string ServiceDescription => Description ?? string.Empty;
         public string ServiceAreaId => Area?.ToLowerInvariant();
-        public string LocationId => HasConfidentialData ? string.Empty : Venue?.ToLowerInvariant();
-        public string LocationName => HasConfidentialData ? string.Empty : Venue?.ToLowerInvariant();
-        public string LocationDescription => HasConfidentialData ? string.Empty : Venue?.ToLowerInvariant();
-        public double? LocationLatitude => HasConfidentialData ? null : Geo?.Latitude;
-        public double? LocationLongitude => HasConfidentialData ? null : Geo?.Longitude;
-        public string ServiceAtLocationId => !HasConfidentialData && !string.IsNullOrEmpty(LocationId) ? $"{ServiceId}:{LocationId}" : null;
+        public string LocationId => Venue?.ToLowerInvariant();
+        public string LocationName => Venue?.ToLowerInvariant();
+        public string LocationDescription => Venue?.ToLowerInvariant();
+        public double? LocationLatitude => Geo?.Latitude;
+        public double? LocationLongitude => Geo?.Longitude;
+        public string ServiceAtLocationId => !string.IsNullOrEmpty(LocationId) ? $"{ServiceId}:{LocationId}" : null;
         public IEnumerable<Taxonomy> Taxonomies => TaxonomyBuilder.Build(this);
         public string ContactId => !string.IsNullOrEmpty(ContactName) ? $"{ServiceId}:{ContactName}" : ServiceId;
-        public string AddressId => HasConfidentialData ? string.Empty : $"{LocationId}:{PostCode}:{LocationLongitude}:{LocationLatitude}";
-        public string AddressLine1 => HasConfidentialData ? string.Empty : Venue;
-        public string AddressCity => HasConfidentialData ? string.Empty : Area;
+        public string AddressId => $"{LocationId}:{PostCode}:{LocationLongitude}:{LocationLatitude}";
+        public string AddressLine1 => Venue;
+        public string AddressCity => Area;
         public string AddressStateProvince => string.Empty;
-        public string AddressCountry => HasConfidentialData ? string.Empty : "England";
-        public string AddressPostCode => HasConfidentialData ? string.Empty : PostCode ?? string.Empty;
+        public string AddressCountry => "England";
+        public string AddressPostCode => PostCode ?? string.Empty;
         public IEnumerable<Schedule> Schedules => ScheduleBuilder.Build(this);
         public string CostOptionId => ServiceId;
     }
