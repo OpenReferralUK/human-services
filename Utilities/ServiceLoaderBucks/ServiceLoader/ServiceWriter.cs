@@ -179,14 +179,15 @@ ON DUPLICATE KEY UPDATE id = id;
             {
                 command.CommandType = CommandType.Text;
                 command.CommandText = @"
-INSERT INTO contact(id, service_id, name, personal_data, sensitive_data)
-VALUES (@id, @service_id, @name, @confidential, @confidential)
+INSERT INTO contact(id, service_id, name, personal_data, sensitive_data, email)
+VALUES (@id, @service_id, @name, @confidential, @confidential, @email)
 ON DUPLICATE KEY UPDATE id = id;
 ";
                 command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = result.ContactId;
                 command.Parameters.Add("@service_id", MySqlDbType.VarChar, 1536).Value = result.ServiceId;
                 command.Parameters.Add("@name", MySqlDbType.Text).Value = result.ContactName;
                 command.Parameters.Add("@confidential", MySqlDbType.Bit).Value = result.HasConfidentialData;
+                command.Parameters.Add("@email", MySqlDbType.Text).Value = result.Email;
                 command.ExecuteNonQuery();
             }
         }
