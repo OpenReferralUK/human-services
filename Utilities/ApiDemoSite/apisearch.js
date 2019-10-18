@@ -91,7 +91,7 @@ function getVocabulary() {
         clearForm();
     } else {
         let url = $("#endpoint").val() + "/vocabularies/";
-        $("#Vocabulary").find("option").remove().end().append("<option></option>");
+        $("#Vocabulary").empty().append("<option></option>");
         addApiPanel("Get vocabulary list", false);
         addApiPanel(url);
         addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
@@ -118,7 +118,7 @@ function getVocabulary() {
 function getTaxonomyTerm() {
     if ($("#Vocabulary").val() !== null && $("#Vocabulary").val() !== "") {
         let taxonomyTerm = $("#TaxonomyTerm");
-        let url = $("#endpoint").val() + "/taxonomies/?vocabulary=" + $("#Vocabulary").val();
+        let url = $("#endpoint").val() + "/taxonomies/?vocabulary=" + $("#Vocabulary").val()+"&per_page=200";
         taxonomyTerm.find("option").remove().end().append("<option></option>");
         addApiPanel("Get Taxonomy terms for the vocabulary", false);
         addApiPanel(url);
@@ -130,7 +130,7 @@ function getTaxonomyTerm() {
             type: 'GET',
             url: url,
             success: function (data) {
-                $.each(data, function (key, value) {
+                $.each(data.content, function (key, value) {
                     taxonomyTerm.append("<option value='" + value.id + "'>" + value.name + "</option>");
                 });
                 // if (getUrlParameter("taxonomyTerm") !== undefined) {
@@ -142,6 +142,9 @@ function getTaxonomyTerm() {
                     $("#TaxonomyTerm").attr('disabled', true);
                 }
             },
+            error: function (code, error) {
+                taxonomyTerm.empty().append("<option>Error</option>")
+            }
 
         });
     } else {
