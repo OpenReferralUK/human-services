@@ -7,83 +7,8 @@ let coverage;
 let childTaxonomyTerm;
 let keywords;
 let objOpenReferralPlus;
+objOpenReferralPlus = new clsOpenReferralPlus();
 let viz1;
-
-function setup() {
-
-
-    $("#tabs").hide();
-
-    if (getUrlParameter("endpoint") !== undefined) {
-        $("#endpoint").val(getUrlParameter("endpoint"));
-        getVocabulary();
-        $("#TaxonomyType").attr('disabled', false);
-        $("#Vocabulary").attr('disabled', false);
-        $("#Coverage").attr('disabled', false);
-        $("#Proximity").attr('disabled', false);
-        $("#Keywords").attr('disabled', false);
-    } else {
-        updateParameters("endpoint", $("#endpoint").val());
-        setup();
-        return;
-    }
-    if (getUrlParameter("taxonomyType") !== undefined) {
-        $("#TaxonomyType").val(getUrlParameter("taxonomyType"));
-
-    }
-    if (getUrlParameter("vocabulary") !== undefined) {
-        $("#Vocabulary").val(getUrlParameter("vocabulary"));
-        getTaxonomyTerm();
-        $("#TaxonomyTerm").attr('disabled', false);
-    }
-    if (getUrlParameter("taxonomyTerm") !== undefined) {
-        $("#TaxonomyTerm").val(getUrlParameter("taxonomyTerm"));
-    }
-
-    if (getUrlParameter("coverage") !== undefined) {
-        $("#Coverage").val(getUrlParameter("coverage"));
-    }
-    if (getUrlParameter("proximity") !== undefined) {
-        $("#Proximity").val(getUrlParameter("proximity"));
-    }
-
-    if (getUrlParameter("keywords") !== undefined) {
-        $("#Keywords").val(getUrlParameter("keywords"));
-    }
-
-    endpoint = $("#endpoint").val();
-    if (endpoint !== "") {
-        $("#TaxonomyType").attr('disabled', false);
-        $("#Vocabulary").attr('disabled', false);
-        $("#Coverage").attr('disabled', false);
-        $("#Proximity").attr('disabled', false);
-        $("#execute").attr('disabled', false);
-        $("#Keywords").attr('disabled', false);
-    }
-    if (endpoint === "") {
-        $("#TaxonomyType").attr('disabled', true);
-        $("#Vocabulary").attr('disabled', true);
-        $("#Coverage").attr('disabled', true);
-        $("#Proximity").attr('disabled', true);
-        $("#TaxonomyTerm").attr('disabled', true);
-        $("#execute").attr('disabled', true);
-        $("#Keywords").attr('disabled', true);
-    }
-
-    objOpenReferralPlus = new clsOpenReferralPlus();
-    objOpenReferralPlus.idFormat = 'format';
-
-    viz1 = new clsPdViz(null, 'graph', 'graphLoading');
-    objOpenReferralPlus.objViz = viz1;
-
-    if (getUrlParameter("execute") === "true") {
-        if (getUrlParameter("page") !== undefined) {
-            executeForm(getUrlParameter("page"));
-        } else
-            executeForm();
-    }
-
-}
 
 
 function getVocabulary() {
@@ -118,7 +43,7 @@ function getVocabulary() {
 function getTaxonomyTerm() {
     if ($("#Vocabulary").val() !== null && $("#Vocabulary").val() !== "") {
         let taxonomyTerm = $("#TaxonomyTerm");
-        let url = $("#endpoint").val() + "/taxonomies/?vocabulary=" + $("#Vocabulary").val()+"&per_page=200";
+        let url = $("#endpoint").val() + "/taxonomies/?vocabulary=" + $("#Vocabulary").val() + "&per_page=200";
         taxonomyTerm.find("option").remove().end().append("<option></option>");
         addApiPanel("Get Taxonomy terms for the vocabulary", false);
         addApiPanel(url);
@@ -130,12 +55,11 @@ function getTaxonomyTerm() {
             type: 'GET',
             url: url,
             success: function (data) {
+
                 $.each(data.content, function (key, value) {
                     taxonomyTerm.append("<option value='" + value.id + "'>" + value.name + "</option>");
                 });
-                // if (getUrlParameter("taxonomyTerm") !== undefined) {
-                //     taxonomyTerm.val(getUrlParameter("taxonomyTerm"));
-                // }
+
                 $("#TaxonomyTerm").attr('disabled', false);
 
                 if ($("#TaxonomyTerm option").length === 1) {
@@ -143,7 +67,7 @@ function getTaxonomyTerm() {
                 }
             },
             error: function (code, error) {
-                taxonomyTerm.empty().append("<option>Error</option>")
+                taxonomyTerm.empty().append("<option>Error</option>");
             }
 
         });
@@ -163,6 +87,7 @@ function updateEndpoint() {
 
     endpoint = $("#endpoint").val();
     updateParameters("endpoint", endpoint);
+    clearForm(endpoint);
     $("#Vocabulary").val("");
     $("#TaxonomyTerm").val("");
     $("#Coverage").val("");
@@ -228,7 +153,8 @@ function updateParameters(parm, parmVal) {
     window.history.replaceState('', '', updateURLParameter(window.location.href, parm, parmVal));
 }
 
-function clearForm(endpoint = null) {
+function clearForm(endpoint) {
+
     if (endpoint) {
         window.location.search = "?endpoint=" + endpoint;
     } else {
@@ -237,7 +163,10 @@ function clearForm(endpoint = null) {
 }
 
 
-function executeForm(page=null) {
+function executeForm(pageNumber) {
+    if (pageNumber === undefined) {
+        pageNumber = null;
+    }
     let error = false;
     if ($("#endpoint").val() === "") {
         error = true;
@@ -260,8 +189,8 @@ function executeForm(page=null) {
 
     updateParameters("execute", true);
 
-    if (page !== null){
-        updateParameters("page", page);
+    if (pageNumber !== null) {
+        updateParameters("page", pageNumber);
     }
 
     $("#results").empty();
@@ -316,18 +245,18 @@ function executeForm(page=null) {
     } else {
         taxonomyTerm = "&taxonomy_id=" + $("#TaxonomyTerm").val();
     }
-    
-    if (page === null || page === "" || page === undefined) {
-        page = "";
+
+    if (pageNumber === null || pageNumber === "" || pageNumber === undefined) {
+        pageNumber = "";
     } else {
-        page = "&page=" + page;
+        pageNumber = "&page=" + pageNumber;
     }
 
 
     let url = $("#endpoint").val() + "/services/?" + coverage
         + taxonomyTerm + taxonomyType
         + vocabulary + proximity
-        + postcode + keywords + page;
+        + postcode + keywords + pageNumber;
 
 
     addApiPanel("Get service(s)", false);
@@ -356,24 +285,24 @@ function executeForm(page=null) {
             });
             pageNo = data.number;
             let firstPage = "";
-            if (data.first === true){
+            if (data.first === true) {
                 firstPage = "disabled='disabled'";
             }
 
             let lastPage = "";
-            if (data.last === true){
+            if (data.last === true) {
                 lastPage = "disabled='disabled'";
             }
 
             results.append(
                 "<div class='row'>" +
-                    "<div class='col-sm-1'><button class='btn btn-secondary btn-sm mt-1 mr-1' " + firstPage +
-                        "onclick='executeForm("+ (pageNo) +")'>Previous</button>" +
-                    "</div>" +
-                    "<div class='mt-1'>Page "+(pageNo+1)+"</div>" +
-                    "<div class='col-sm-1'><button class='btn btn-secondary btn-sm mt-1 ml-1' " + lastPage +
-                        "onclick='executeForm("+ (pageNo + 2) +")'>  Next  </button>" +
-                    "</div>" +
+                "<div class='col-sm-1'><button class='btn btn-secondary btn-sm mt-1 mr-1' " + firstPage +
+                "onclick='executeForm(" + (pageNo) + ")'>Previous</button>" +
+                "</div>" +
+                "<div class='mt-1'>Page " + (pageNo + 1) + "</div>" +
+                "<div class='col-sm-1'><button class='btn btn-secondary btn-sm mt-1 ml-1' " + lastPage +
+                "onclick='executeForm(" + (pageNo + 2) + ")'>  Next  </button>" +
+                "</div>" +
                 "</div>");
         },
         error: function (status, error) {
@@ -392,7 +321,8 @@ function getRawJSON(id) {
     win.focus();
 }
 
-function getVisualise(id, VisType = "image") {
+function getVisualise(id, VisType) {
+    VisType = VisType || "image";
     $("#resultTab").removeClass("active");
     $("#graphTab").addClass("active");
     $("#resultPanel").removeClass("active");
@@ -425,7 +355,10 @@ function getVisualise(id, VisType = "image") {
 
 }
 
-function addApiPanel(text, code = true) {
+function addApiPanel(text, code) {
+    if (code === undefined) {
+        code = true;
+    }
     let panel = $("#api");
     let colour = "";
     if (code) {
@@ -493,3 +426,120 @@ function updateScroll() {
     var element = document.getElementById("api");
     element.scrollTop = element.scrollHeight;
 }
+
+function setupPage() {
+
+    $("#endpoint").on("change", function () {
+        updateEndpoint();
+    });
+
+    $("#clear").on("click", function () {
+        clearForm();
+    });
+    $("#execute").on("click", function () {
+        executeForm();
+    });
+    $("#format").on("change", function () {
+        objOpenReferralPlus.get();
+    });
+    $("#allTables").on("change", function () {
+        objOpenReferralPlus.get();
+    });
+    $("#TaxonomyType").on("change", function () {
+        updateTaxonomyType();
+    });
+    $("#Keywords").on("change", function () {
+        updateKeywords();
+    });
+    $("#Vocabulary").on("change", function () {
+        updateVocabulary();
+    });
+    $("#TaxonomyTerm").on("change", function () {
+        updateTaxonomyTerm();
+    });
+    $("#ChildTaxonomyTerm").on("change", function () {
+        updateChildTaxonomyTerm();
+    });
+    $("#Coverage").on("change", function () {
+        updateCoverage();
+    });
+    $("#Proximity").on("change", function () {
+        updateProximity();
+    });
+
+
+    $("#tabs").hide();
+
+    if (getUrlParameter("endpoint") !== undefined) {
+        $("#endpoint").val(getUrlParameter("endpoint"));
+        getVocabulary();
+        $("#TaxonomyType").attr('disabled', false);
+        $("#Vocabulary").attr('disabled', false);
+        $("#Coverage").attr('disabled', false);
+        $("#Proximity").attr('disabled', false);
+        $("#Keywords").attr('disabled', false);
+    } else {
+        updateParameters("endpoint", $("#endpoint").val());
+        setupPage();
+        return;
+    }
+    if (getUrlParameter("taxonomyType") !== undefined) {
+        $("#TaxonomyType").val(getUrlParameter("taxonomyType"));
+
+    }
+    if (getUrlParameter("vocabulary") !== undefined) {
+        $("#Vocabulary").val(getUrlParameter("vocabulary"));
+        getTaxonomyTerm();
+        $("#TaxonomyTerm").attr('disabled', false);
+    }
+    if (getUrlParameter("taxonomyTerm") !== undefined) {
+        $("#TaxonomyTerm").val(getUrlParameter("taxonomyTerm"));
+    }
+
+    if (getUrlParameter("coverage") !== undefined) {
+        $("#Coverage").val(getUrlParameter("coverage"));
+    }
+    if (getUrlParameter("proximity") !== undefined) {
+        $("#Proximity").val(getUrlParameter("proximity"));
+    }
+
+    if (getUrlParameter("keywords") !== undefined) {
+        $("#Keywords").val(getUrlParameter("keywords"));
+    }
+
+    endpoint = $("#endpoint").val();
+    if (endpoint !== "") {
+        $("#TaxonomyType").attr('disabled', false);
+        $("#Vocabulary").attr('disabled', false);
+        $("#Coverage").attr('disabled', false);
+        $("#Proximity").attr('disabled', false);
+        $("#execute").attr('disabled', false);
+        $("#Keywords").attr('disabled', false);
+    }
+    if (endpoint === "") {
+        $("#TaxonomyType").attr('disabled', true);
+        $("#Vocabulary").attr('disabled', true);
+        $("#Coverage").attr('disabled', true);
+        $("#Proximity").attr('disabled', true);
+        $("#TaxonomyTerm").attr('disabled', true);
+        $("#execute").attr('disabled', true);
+        $("#Keywords").attr('disabled', true);
+    }
+
+    objOpenReferralPlus = new clsOpenReferralPlus();
+    objOpenReferralPlus.idFormat = 'format';
+
+    viz1 = new clsPdViz(null, 'graph', 'graphLoading');
+    objOpenReferralPlus.objViz = viz1;
+
+    if (getUrlParameter("execute") === "true") {
+        if (getUrlParameter("page") !== undefined) {
+            executeForm(getUrlParameter("page"));
+        } else
+            executeForm();
+    }
+
+}
+
+
+$(document).ready(setupPage());
