@@ -272,7 +272,7 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
     }
 
     if (jsonContent.hasOwnProperty('languages') || this.showAll) {
-        if (jsonContent.languages || this.showAll) {
+        if ((jsonContent.languages && jsonContent.languages.length !== 0)|| this.showAll) {
             var NodeIdLanguages = objORP.DotNodeLanguages(jsonContent.languages);
             if (NodeIdLanguages) {
                 var DotEdge = NodeIdService + ' -> ' + NodeIdLanguages + '\n';
