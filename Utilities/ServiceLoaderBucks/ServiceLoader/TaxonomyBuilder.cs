@@ -24,14 +24,14 @@ namespace ServiceLoader
                 switch (ageGroup.ToLowerInvariant())
                 {
                     case "young people":
-                        yield return new Taxonomy("OpenEligibility:20005", "Children", "OpenEligibility", true, "OpenEligibility:20002");
+                        yield return Taxonomy.OpenEligibilityChildren;
                         break;
                     case "young adults":
-                        yield return new Taxonomy("OpenEligibility:20004", "Teens", "OpenEligibility", true, "OpenEligibility:20002");
+                        yield return Taxonomy.OpenEligibilityTeens;
                         break;
                     case "older adults":
-                        yield return new Taxonomy("OpenEligibility:20003", "Adults", "OpenEligibility", true, "OpenEligibility:20002");
-                        yield return new Taxonomy("OpenEligibility:20006", "Seniors", "OpenEligibility", true, "OpenEligibility:20002");
+                        yield return Taxonomy.OpenEligibilityAdults;
+                        yield return Taxonomy.OpenEligibilitySeniors;
                         break;
                 }
             }
@@ -42,27 +42,27 @@ namespace ServiceLoader
                 switch (suitability.ToLowerInvariant())
                 {
                     case "autism":
-                        yield return new Taxonomy("OpenEligibility:20019", "Developmental Disability", "OpenEligibility", true, "OpenEligibility:200017");
+                        yield return Taxonomy.OpenEligibilityDevelopmentDisability;
                         break;
                     case "dementia":
                     case "mental health":
                     case "mental health/acquired brain injury":
-                        yield return new Taxonomy("OpenEligibility:20025", "Mental Illness", "OpenEligibility", true, "OpenEligibility:200017");
+                        yield return Taxonomy.OpenEligibilityMentalIllness;
                         break;
                     case "hearing or visual impairment":
                     case "visual and/or hearing impediment":
-                        yield return new Taxonomy("OpenEligibility:20023", "Hearing Impairment", "OpenEligibility", true, "OpenEligibility:200017");
-                        yield return new Taxonomy("OpenEligibility:20024", "Visual Impairment", "OpenEligibility", true, "OpenEligibility:200017");
+                        yield return Taxonomy.OpenEligibilityHearingImpairment;
+                        yield return Taxonomy.OpenEligibilityVisualImpairment;
                         break;
                     case "learning difficulties":
                     case "learning disability":
-                        yield return new Taxonomy("OpenEligibility:20018", "Learning Disability", "OpenEligibility", true, "OpenEligibility:200017");
+                        yield return Taxonomy.OpenEligibilityLearningDisability;
                         break;
                     case "physical difficulty":
-                        yield return new Taxonomy("OpenEligibility:20022", "Limited Mobility", "OpenEligibility", true, "OpenEligibility:200017");
+                        yield return Taxonomy.OpenEligibilityLimitedMobility;
                         break;
                     case "physical disability":
-                        yield return new Taxonomy("OpenEligibility:20020", "Physical Disability", "OpenEligibility", true, "OpenEligibility:200017");
+                        yield return Taxonomy.OpenEligibilityPhysicalDisability;
                         break;
                 }
             }
