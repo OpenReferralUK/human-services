@@ -2,18 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <script src="apisearch.js"></script>
+    <!--    <meta http-equiv="x-ua-compatible" content="IE=edge">-->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
     <script src="js/openreferralplus.js"></script>
     <script src="js/lib/pdlib/ajax.js"></script>
     <script src="js/lib/pdlib/utils.js"></script>
     <script src="js/lib/viz-js/viz.js"></script>
+
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>API on Open Referral database - extended</title>
 </head>
-<body onload="setup()">
+<body>
 <div class="mainheading">
     <h3>API on Open Referral database - extended</h3>
 </div>
@@ -23,7 +27,7 @@
         <div class="col-md-6">
             <div class="row">
                 <label class="ml-1" for="endpoint">Endpoint:</label>
-                <select id="endpoint" class="form-control" onchange="updateEndpoint()">
+                <select id="endpoint" class="form-control">
                     <option value="http://api.porism.com/ServiceDirectoryService">Bristol data</option>
                     <option value="http://api.porism.com/ServiceDirectoryServiceBucks">Bucks data</option>
                     <option value="http://api.porism.com/ServiceDirectoryServiceDemo">Demo data</option>
@@ -40,8 +44,7 @@
                         <label class="ml-1" for="TaxonomyType">Taxonomy type</label>
                     </div>
                     <div class="row">
-                        <select id="TaxonomyType" class="form-control mr-1" disabled="disabled"
-                                onchange="updateTaxonomyType()">
+                        <select id="TaxonomyType" class="form-control mr-1" disabled="disabled">
                             <option>Any</option>
                             <option value="area">Area</option>
                             <option value="cost">Cost</option>
@@ -56,7 +59,7 @@
                         <label class="ml-1" for="Keywords">Keywords</label>
                     </div>
                     <div class="row">
-                        <input id="Keywords" class="form-control ml-1" disabled="disabled" onchange="updateKeywords()">
+                        <input id="Keywords" class="form-control ml-1" disabled="disabled">
                     </div>
                 </div>
             </div>
@@ -66,35 +69,45 @@
                         <label class="ml-1" for="Vocabulary">Vocabulary</label>
                     </div>
                     <div class="row">
-                        <select id="Vocabulary" class="form-control mr-1" disabled="disabled"
-                                onchange="updateVocabulary()">
+                        <select id="Vocabulary" class="form-control mr-1" disabled="disabled">
                             <option></option>
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-8">
                     <div class="row">
-                        <label class="ml-1" for="TaxonomyTerm">Taxonomy Term</label>
-                    </div>
-                    <div class="row">
-                        <select id="TaxonomyTerm" class="form-control ml-1 mr-1" disabled="disabled"
-                                onchange="updateTaxonomyTerm()">
-                            <option></option>
-                        </select>
+                        <div class="col">
+                            <div class="row">
+                                <label class="ml-1" for="TaxonomyTerm">Taxonomy Term</label>
+                            </div>
+                            <div class="row">
+                                <select id="TaxonomyTerm" class="form-control ml-1 mr-1" disabled="disabled">
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <label for="ChildTaxonomyTerm">Child Term</label>
+                            </div>
+                            <div class="row">
+                                <select id="ChildTaxonomyTerm" class="form-control ml-1 mr-1" disabled="disabled">
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col" id="ChildChildTaxonomyTermDiv" style="display: none">
+                            <div class="row">
+                                <label for="ChildChildTaxonomyTerm">Child Term</label>
+                            </div>
+                            <div class="row">
+                                <select id="ChildChildTaxonomyTerm" class="form-control ml-1" disabled="disabled">
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
-                    <div class="row">
-                        <label for="ChildTaxonomyTerm">Child Taxonomy Term</label>
-                    </div>
-                    <div class="row">
-                        <select id="ChildTaxonomyTerm" class="form-control ml-1" disabled="disabled"
-                                onchange="updateChildTaxonomyTerm()">
-                            <option></option>
-                        </select>
-                    </div>
-                </div>
-
             </div>
             <div class="row">
                 <div class="col-sm-4">
@@ -102,7 +115,7 @@
                         <label class="ml-1" for="Coverage">Coverage (postcode)</label>
                     </div>
                     <div class="row">
-                        <input id="Coverage" class="form-control mr-1" disabled="disabled" onchange="updateCoverage()">
+                        <input id="Coverage" class="form-control mr-1" disabled="disabled">
                     </div>
                 </div>
                 <div class="col-sm-4">
@@ -110,14 +123,13 @@
                         <label class="ml-1" for="Proximity">Proximity (km)</label>
                     </div>
                     <div class="row">
-                        <input id="Proximity" type="number" class="form-control ml-1 mr-1" disabled="disabled"
-                               onchange="updateProximity()">
+                        <input id="Proximity" type="number" class="form-control ml-1 mr-1" disabled="disabled">
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="row"><label>&nbsp;</label></div>
                     <div class="row">
-                        <button id="clear" class="form-control btn btn-secondary ml-1" onclick="clearForm($('#endpoint').val())">Clear
+                        <button id="clear" class="form-control btn btn-secondary ml-1">Clear
                         </button>
                     </div>
                 </div>
@@ -125,8 +137,7 @@
 
 
             <div class="row" style="padding-top: 3%">
-                <button id="execute" class="form-control btn btn-success" disabled="disabled"
-                        onclick="executeForm()">
+                <button id="execute" class="form-control btn btn-success" disabled="disabled">
                     Execute query
                 </button>
             </div>
@@ -161,8 +172,7 @@
                 <div class="row">
                     <div class="col-sm2-2">
                         <label class="mr-1" for="format">Format</label>
-                        <select id="format" class="form-control mr-1 mb-2" style="width:auto"
-                                onchange="objOpenReferralPlus.get();">
+                        <select id="format" class="form-control mr-1 mb-2" style="width:auto">
                             <option value="image">Image</option>
                             <option value="dot script">Dot script</option>
                             <option value="json">Json</option>
@@ -171,8 +181,7 @@
 
                     <div class="col-sm2-2">
                         <label class="ml-1" for="allTables">Objects</label>
-                        <select id="allTables" class="form-control ml-1 mb-2" style="width:auto"
-                                onchange="objOpenReferralPlus.get();">
+                        <select id="allTables" class="form-control ml-1 mb-2" style="width:auto">
                             <option value="false">Populated</option>
                             <option value="true">All</option>
                         </select>
@@ -188,7 +197,7 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
@@ -196,5 +205,6 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js"></script>
+<script src="apisearch.js"></script>
 </body>
 </html>

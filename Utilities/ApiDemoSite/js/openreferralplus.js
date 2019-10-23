@@ -272,7 +272,7 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
     }
 
     if (jsonContent.hasOwnProperty('languages') || this.showAll) {
-        if ((jsonContent.languages && jsonContent.languages.length !== 0)|| this.showAll) {
+        if ((jsonContent.languages && jsonContent.languages.length !== 0) || this.showAll) {
             var NodeIdLanguages = objORP.DotNodeLanguages(jsonContent.languages);
             if (NodeIdLanguages) {
                 var DotEdge = NodeIdService + ' -> ' + NodeIdLanguages + '\n';
@@ -311,7 +311,7 @@ clsOpenReferralPlus.prototype.DotNodeService = function (jsonContent) {
     }
 
     var NodeId = "\"service_" + idService + "\"";
-    if (objORP.dotNodes.includes(NodeId)) {
+    if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
@@ -420,7 +420,7 @@ clsOpenReferralPlus.prototype.DotNodeOrganization = function (jsonContent) {
     }
 
     var NodeId = "\"organization_" + objORP.nextNodeId++ + "\"";
-    if (objORP.dotNodes.includes(NodeId)) {
+    if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
@@ -575,7 +575,7 @@ clsOpenReferralPlus.prototype.DotNodeArea = function (jsonContent) {
     }
 
     var NodeId = "\"area_" + idArea + "\"";
-    if (objORP.dotNodes.includes(NodeId)) {
+    if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
@@ -631,7 +631,7 @@ clsOpenReferralPlus.prototype.DotNodeServiceAtLocation = function (jsonContent) 
     }
 
     var NodeId = "\"service_at_location_" + idServiceAtLocation + "\"";
-    if (objORP.dotNodes.includes(NodeId)) {
+    if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
@@ -701,7 +701,7 @@ clsOpenReferralPlus.prototype.DotNodeLocation = function (jsonContent) {
 
 
     var NodeId = "\"location_" + objORP.nextNodeId++ + "\"";
-    if (objORP.dotNodes.includes(NodeId)) {
+    if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
@@ -836,7 +836,7 @@ clsOpenReferralPlus.prototype.DotNodePhysicalAddress = function (jsonContent) {
     }
 
     var NodeId = "\"physical_address_" + idAddress + "\"";
-    if (objORP.dotNodes.includes(NodeId)) {
+    if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
@@ -934,7 +934,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
     }
 
     var NodeId = "\"regular_schedule_" + objORP.nextNodeId++ + "\"";
-    if (objORP.dotNodes.includes(NodeId)) {
+    if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
@@ -1164,7 +1164,7 @@ clsOpenReferralPlus.prototype.DotNodeHolidaySchedules = function (jsonContent) {
     }
 
     var NodeId = "\"holiday_schedules_" + objORP.nextNodeId++ + "\"";
-    if (objORP.dotNodes.includes(NodeId)) {
+    if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
@@ -1366,7 +1366,7 @@ clsOpenReferralPlus.prototype.DotNodeContacts = function (jsonContent) {
     }
 
     var NodeId = "\"contact_" + objORP.nextNodeId++ + "\"";
-    if (objORP.dotNodes.includes(NodeId)) {
+    if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
@@ -1438,7 +1438,7 @@ clsOpenReferralPlus.prototype.DotNodePhone = function (jsonContent) {
     }
 
     var NodeId = "\"phone_" + objORP.nextNodeId++ + "\"";
-    if (objORP.dotNodes.includes(NodeId)) {
+    if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
@@ -1532,7 +1532,7 @@ clsOpenReferralPlus.prototype.DotNodeCostOptions = function (jsonContent) {
     }
 
     var NodeId = "\"cost_option_" + objORP.nextNodeId++ + "\"";
-    if (objORP.dotNodes.includes(NodeId)) {
+    if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
@@ -1668,7 +1668,7 @@ clsOpenReferralPlus.prototype.DotNodeFundings = function (jsonContent) {
     }
 
     var NodeId = "\"language_" + objORP.nextNodeId++ + "\"";
-    if (objORP.dotNodes.includes(NodeId)) {
+    if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
@@ -1754,7 +1754,7 @@ clsOpenReferralPlus.prototype.DotNodeEligibilitys = function (jsonContent) {
     }
 
     var NodeId = "\"eligibility_" + objORP.nextNodeId++ + "\"";
-    if (objORP.dotNodes.includes(NodeId)) {
+    if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
@@ -1840,7 +1840,7 @@ clsOpenReferralPlus.prototype.DotNodeReviews = function (jsonContent) {
     }
 
     var NodeId = "\"review_" + objORP.nextNodeId++ + "\"";
-    if (objORP.dotNodes.includes(NodeId)) {
+    if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
