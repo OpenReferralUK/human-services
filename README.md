@@ -36,10 +36,15 @@ The OpenReferral schema defines a structure for human services data. We *extend*
 For the LGA/DCMS Loneliness project application profile, these resources describe the schema:
 
 * [Documentation for the application profile](http://htmlpreview.github.io/?https://github.com/esd-org-uk/human-services/blob/master/Schemas/documentation.html) giving each table/class and their fields/properties
-* [Tabular data package with extensions and application profile](https://raw.githubusercontent.com/esd-org-uk/human-services/master/SchemaGenerator/Generator/ExtendedDataPackage.json)
+* [Tabular data package with extensions and application profiles](https://raw.githubusercontent.com/esd-org-uk/human-services/master/SchemaGenerator/Generator/ExtendedDataPackage.json)
 * [Application profile entity relation diagram](https://github.com/esd-org-uk/human-services/raw/master/Resources/LGA_ApplicationProfileBasicEntityRelationshipDiagram.png)
 * JSON schema for a service - [simple](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/service.schema.json) and [verbose](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/service.schema.verbose.json)
  
+For Open Community alpha work led by Buckinghamshire County Council, we compared the [proposed changes to Open Referral arising from the  discovery phase work](https://opencommunitystandard.github.io/specification/#proposed-changes) with those proposed by LGA work. The document [BUCKS Community Services Data as an Application Profile of Open Referral](https://docs.google.com/document/d/1V88KW7xeGKqO5SP2r_0Mg2Kv_R49ug8_Xv4NqYi2bXw/edit#) details the comparison and resultant application profile changes with a MoSCoW rating. These changes are recorded in machine readable format as a second application profile in the [Tabular data package with extensions and application profiles](https://raw.githubusercontent.com/esd-org-uk/human-services/master/SchemaGenerator/Generator/ExtendedDataPackage.json). From this we auto-generated:
+* [Application profile entity relation diagram for Open community](https://github.com/esd-org-uk/human-services/raw/master/Resources/OpenCommunityApplicationProfileERD.png).
+
+We are assessing the LGA/DCMS and Open Community application profiles against refined user stories, illustrative applications and smaple imported data with aview to recommending a unified schema for English services.
+
 The [SchemaGenerator folder](https://github.com/esd-org-uk/human-services/tree/master/SchemaGenerator) gives more schemas and code for generating them and other resources from a tabular data package.
 
 ## The API
