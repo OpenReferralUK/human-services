@@ -119,8 +119,8 @@ VALUES (@id, @service_id, @service_at_location_id, @byday, @description, @weekly
 ON DUPLICATE KEY UPDATE id = id;
 ";
                     command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = schedule.Id;
-                    command.Parameters.Add("@service_id", MySqlDbType.VarChar, 1536).Value = result.ServiceId;
-                    command.Parameters.Add("@service_at_location_id", MySqlDbType.VarChar, 1536).Value = result.ServiceAtLocationId;
+                    command.Parameters.Add("@service_id", MySqlDbType.VarChar, 1536).Value = string.IsNullOrEmpty(result.ServiceAtLocationId) ? result.ServiceId : null;
+                    command.Parameters.Add("@service_at_location_id", MySqlDbType.VarChar, 1536).Value = string.IsNullOrEmpty(result.ServiceAtLocationId) ? null : result.ServiceAtLocationId;
                     command.Parameters.Add("@byday", MySqlDbType.Text).Value = schedule.Day;
                     command.Parameters.Add("@description", MySqlDbType.Text).Value = schedule.Description;
                     command.Parameters.Add("@weeklyMonthly", MySqlDbType.Text).Value = schedule.WeeklyMonthly;
