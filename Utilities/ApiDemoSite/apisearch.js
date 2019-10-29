@@ -84,7 +84,6 @@ function getTaxonomyTerm() {
                 }).get();
                 arr.sort(function (o1, o2) {
                     return o1.t - o2.t;
-                    // return o1.t > o2.t ? 1 : o1.t < o2.t ? -1 : 0;
                 });
                 options.each(function (i, o) {
                     o.value = arr[i].v;
