@@ -2574,6 +2574,9 @@
                     {
                       "name": "openCommunity",
                       "moscow": "must"
+                    },
+                    {
+                      "name": "LGA"
                     }
                   ],
                   "constraints": {
@@ -2589,6 +2592,9 @@
                     {
                       "name": "openCommunity",
                       "moscow": "must"
+                    },
+                    {
+                      "name": "LGA"
                     }
                   ],
                   "constraints": {

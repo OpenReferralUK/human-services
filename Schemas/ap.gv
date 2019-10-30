@@ -184,6 +184,8 @@ eligibility [label=<
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
 <tr><td port='service_id'  bgcolor="lawngreen"><b>service_id</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>eligibility</b></td></tr>
+<tr><td  bgcolor="palevioletred"><b>minimum_age</b></td></tr>
+<tr><td  bgcolor="palevioletred"><b>maximum_age</b></td></tr>
 </table>
 >]
 
