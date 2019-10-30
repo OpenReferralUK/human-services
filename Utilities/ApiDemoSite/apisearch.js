@@ -598,7 +598,7 @@ function setupPage() {
     });
 
     $("#clear").on("click", function () {
-        clearForm();
+        clearForm($("#endpoint").val());
     });
     $("#execute").on("click", function () {
         executeForm();
