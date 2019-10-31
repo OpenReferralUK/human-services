@@ -75,21 +75,16 @@ function getTaxonomyTerm() {
             success: function (data) {
 
                 $.each(data.content, function (key, value) {
-                    taxonomyTerm.append("<option value='" + value.id + "'>" + value.name + "</option>");
+                    taxonomyTerm.append("<option value='" + value.id + "'>" + value.name.substring(0, 49) + "</option>");
                 });
 
                 var options = $('#TaxonomyTerm option');
-                var arr = options.map(function (_, o) {
-                    return {t: $(o).text(), v: o.value};
-                }).get();
-                arr.sort(function (o1, o2) {
-                    return o1.t - o2.t;
+                options.sort(function(a,b) {
+                    if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
+                    else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
+                    else return 0;
                 });
-                options.each(function (i, o) {
-                    o.value = arr[i].v;
-                    $(o).text(arr[i].t);
-                });
-
+                $("#TaxonomyTerm").empty().append(options);
                 $("#TaxonomyTerm").prop('disabled', false);
 
                 if ($("#TaxonomyTerm option").length === 1) {
@@ -133,17 +128,12 @@ function getChildTaxonomyTerm() {
                 });
 
                 var options = $('#ChildTaxonomyTerm option');
-                var arr = options.map(function (_, o) {
-                    return {t: $(o).text(), v: o.value};
-                }).get();
-                arr.sort(function (o1, o2) {
-                    return o1.t - o2.t;
+                options.sort(function(a,b) {
+                    if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
+                    else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
+                    else return 0;
                 });
-                options.each(function (i, o) {
-                    o.value = arr[i].v;
-                    $(o).text(arr[i].t);
-                });
-
+                $("#ChildTaxonomyTerm").empty().append(options);
                 $("#ChildTaxonomyTerm").prop('disabled', false);
 
                 if ($("#ChildTaxonomyTerm option").length === 1) {
@@ -187,16 +177,12 @@ function getChildChildTaxonomyTerm() {
                 });
 
                 var options = $('#ChildChildTaxonomyTerm option');
-                var arr = options.map(function (_, o) {
-                    return {t: $(o).text(), v: o.value};
-                }).get();
-                arr.sort(function (o1, o2) {
-                    return o1.t - o2.t;
+                options.sort(function(a,b) {
+                    if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
+                    else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
+                    else return 0;
                 });
-                options.each(function (i, o) {
-                    o.value = arr[i].v;
-                    $(o).text(arr[i].t);
-                });
+                $("#ChildChildTaxonomyTerm").empty().append(options);
 
                 $("#ChildChildTaxonomyTerm").prop('disabled', false);
 
@@ -440,13 +426,21 @@ function executeForm(pageNumber) {
                 results.append("<div><p>No results found</p></div>");
             }
             $.each(data.content, function (key, value) {
-                results.append("<div class='row colhover'>"
+                results.append("<div class='row rowhover'>"
                     + "<div class='col-sm-1'>" + value.id + "</div>"
                     + "<div class='col-sm-9'>" + value.name + "</div>"
                     + "<div class='col-sm-2'>"
-                    + "<div class='container-fluid'><button class='btn btn-secondary btn-sm mb-1' onclick='getVisualise(" + value.id + ")'>Visualise</button>" + "&nbsp;"
-                    + "<button class='btn btn-secondary btn-sm mb-1' onclick='getJSON(" + value.id + ")'>JSON</button> </div></div> ");
+                    + "<div class='container-fluid visualise'><button id='" + value.id + "' class='btn btn-secondary btn-sm mb-1 visualiseButton'>Visualise</button>" + "&nbsp;"
+                    + "<button id='json" + value.id + "' class='btn btn-secondary btn-sm mb-1' onclick='getJSON(" + value.id + ")'>JSON</button> </div></div> ");
+                $("#" + value.id).on("click", function () {
+                    getVisualise(value.id);
+                });
+                $("#json" + value.id).on("click", function () {
+                    getJSON(value.id);
+                });
+
             });
+
             pageNo = data.number;
             let firstPage = "";
             if (data.first === true) {
@@ -459,13 +453,15 @@ function executeForm(pageNumber) {
             }
 
             results.append(
+                "<div class='container-fluid'>" +
                 "<div class='row'>" +
-                "<div class='col-sm-1'><button class='btn btn-secondary btn-sm mt-1 mr-1' " + firstPage +
+                "<div><button class='btn btn-secondary btn-sm mt-1 mr-1' " + firstPage +
                 "onclick='executeForm(" + (pageNo) + ")'>Previous</button>" +
                 "</div>" +
-                "<div class='mt-1'>Page " + (pageNo + 1) + "</div>" +
-                "<div class='col-sm-1'><button class='btn btn-secondary btn-sm mt-1 ml-1' " + lastPage +
+                "<div class=' mt-1'>Page " + (pageNo + 1) + "</div>" +
+                "<div><button class='btn btn-secondary btn-sm mt-1 ml-1' " + lastPage +
                 "onclick='executeForm(" + (pageNo + 2) + ")'>  Next  </button>" +
+                "</div>" +
                 "</div>" +
                 "</div>");
         },
