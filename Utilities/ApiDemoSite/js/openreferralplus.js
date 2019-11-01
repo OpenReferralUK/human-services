@@ -951,6 +951,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
             }
         } catch (e) {
             jsonLength = 1;
+            jsonContent = [{}];
         }
     } else if (!this.showAll) {
         jsonLength = jsonContent.length;
@@ -976,7 +977,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
         }
         Dot += "</tr>";
     }
-    if (jsonContent[0].opensAt !== null || this.showAll) {
+    if ((jsonContent[0].opensAt !== null && jsonContent[0].opensAt !== undefined && jsonContent[0].opensAt !== "") || this.showAll) {
         Dot += "<tr><td align='left' balign='left' valign='top'><b>opensAt  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
@@ -996,7 +997,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
         Dot += "</tr>";
     }
 
-    if (jsonContent[0].closesAt !== null || this.showAll) {
+    if ((jsonContent[0].closesAt !== null && jsonContent[0].closesAt !== undefined && jsonContent[0].closesAt !== "") || this.showAll) {
         Dot += "<tr><td align='left' balign='left' valign='top'><b>closesAt  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
@@ -1016,7 +1017,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
         Dot += "</tr>";
     }
 
-    if (jsonContent[0].validFrom !== null || this.showAll) {
+    if ((jsonContent[0].validFrom !== null && jsonContent[0].validFrom !== undefined && jsonContent[0].validFrom !== "") || this.showAll) {
         Dot += "<tr><td align='left' balign='left' valign='top'><b>validFrom  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
@@ -1036,7 +1037,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
         Dot += "</tr>";
     }
 
-    if (jsonContent[0].validTo !== null || this.showAll) {
+    if ((jsonContent[0].validTo !== null && jsonContent[0].validTo !== undefined && jsonContent[0].validTo !== "") || this.showAll) {
         Dot += "<tr><td align='left' balign='left' valign='top'><b>validTo  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
@@ -1056,7 +1057,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
         Dot += "</tr>";
     }
 
-    if (jsonContent[0].dtstart !== null || this.showAll) {
+    if ((jsonContent[0].dtstart !== null && jsonContent[0].dtstart !== undefined && jsonContent[0].dtstart !== "") || this.showAll) {
         Dot += "<tr><td align='left' balign='left' valign='top'><b>dtstart  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
@@ -1076,7 +1077,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
         Dot += "</tr>";
     }
 
-    if (jsonContent[0].freq !== null || this.showAll) {
+    if ((jsonContent[0].freq !== null && jsonContent[0].freq !== undefined && jsonContent[0].freq !== "") || this.showAll) {
         Dot += "<tr><td align='left' balign='left' valign='top'><b>freq  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
@@ -1096,7 +1097,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
         Dot += "</tr>";
     }
 
-    if (jsonContent[0].interval !== null || this.showAll) {
+    if ((jsonContent[0].interval !== null && jsonContent[0].interval !== undefined && jsonContent[0].interval !== "") || this.showAll) {
         Dot += "<tr><td align='left' balign='left' valign='top'><b>interval  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
@@ -1116,7 +1117,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
         Dot += "</tr>";
     }
 
-    if (jsonContent[0].byday !== null || this.showAll) {
+    if ((jsonContent[0].byday !== null && jsonContent[0].byday !== undefined && jsonContent[0].byday !== "") || this.showAll) {
         Dot += "<tr><td align='left' balign='left' valign='top'><b>byday  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
@@ -1136,7 +1137,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
         Dot += "</tr>";
     }
 
-    if (jsonContent[0].bymonthday !== null || this.showAll) {
+    if ((jsonContent[0].bymonthday !== null && jsonContent[0].bymonthday !== undefined && jsonContent[0].bymonthday !== "") || this.showAll) {
         Dot += "<tr><td align='left' balign='left' valign='top'><b>bymonthday  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
@@ -1155,7 +1156,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
         Dot += "</tr>";
     }
 
-    if (jsonContent[0].description !== null || this.showAll) {
+    if ((jsonContent[0].description !== null && jsonContent[0].description !== undefined && jsonContent[0].description !== "") || this.showAll) {
         Dot += "<tr><td align='left' balign='left' valign='top'><b>description  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
@@ -1585,10 +1586,12 @@ clsOpenReferralPlus.prototype.DotNodeCostOptions = function (jsonContent) {
         try {
             jsonLength = jsonContent.length;
             if (jsonLength === 0 && this.showAll) {
+                jsonContent = [{}];
                 jsonLength = 1;
             }
         } catch (e) {
             jsonLength = 1;
+            jsonContent = {"id": null};
         }
     } else if (!this.showAll) {
         jsonLength = jsonContent.length;
@@ -1827,6 +1830,7 @@ clsOpenReferralPlus.prototype.DotNodeEligibilitys = function (jsonContent) {
             jsonLength = jsonContent.length;
             if (jsonLength === 0 && this.showAll) {
                 jsonLength = 1;
+                jsonContent = [{}];
             }
         } catch (e) {
             jsonLength = 1;
@@ -1837,35 +1841,44 @@ clsOpenReferralPlus.prototype.DotNodeEligibilitys = function (jsonContent) {
 
     Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='" + (numCols + 1) + "' bgcolor='lightgrey'><b>eligibility</b>  </td></tr>";
 
-    for (let i = 0; i < jsonLength; i++) {
-        try {
-            let jsonEligibility = jsonContent[i];
-            if (jsonEligibility.id === undefined && this.showAll) {
-                Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td><td align='left' balign='left' valign='top'>" + "    " + "</td></tr>";
-            }
-            if (jsonEligibility.id || (jsonEligibility.id === "") && this.showAll) {
-                Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonEligibility.id) ? nl2br(objORP.objViz.prepareString(jsonEligibility.id)) : '') + "</td></tr>";
-            }
-        } catch (e) {
-            if (this.showAll) {
-                Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td><td align='left' balign='left' valign='top'>" + "" + "</td></tr>";
+    if (jsonContent[0].id !== null || this.showAll) {
+        Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td>";
+        for (let i = 0; i < jsonLength; i++) {
+            try {
+                let jsonEligibility = jsonContent[i];
+                if (jsonEligibility.id === undefined && this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
+                }
+                if (jsonEligibility.id || ((jsonEligibility.id === "" || jsonEligibility.id === null) && this.showAll)) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.id) ? nl2br(objORP.objViz.prepareString(jsonEligibility.id)) : '') + "</td>";
+                }
+            } catch (e) {
+                if (this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "&nbsp;&nbsp;&nbsp;" + "</td>";
+                }
             }
         }
+        Dot += "</tr>";
     }
-    for (let i = 0; i < jsonLength; i++) {
-        try {
-            let jsonEligibility = jsonContent[i];
-            if (jsonEligibility.eligibility === undefined && this.showAll) {
-                Dot += "<tr><td align='left' balign='left' valign='top'><b>eligibility  </b></td><td align='left' balign='left' valign='top'>" + "    " + "</td></tr>";
-            }
-            if (jsonEligibility.eligibility || (jsonEligibility.eligibility === "") && this.showAll) {
-                Dot += "<tr><td align='left' balign='left' valign='top'><b>eligibility  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonEligibility.eligibility) ? nl2br(objORP.objViz.prepareString(jsonEligibility.eligibility)) : '') + "</td></tr>";
-            }
-        } catch (e) {
-            if (this.showAll) {
-                Dot += "<tr><td align='left' balign='left' valign='top'><b>eligibility  </b></td><td align='left' balign='left' valign='top'>" + "" + "</td></tr>";
+
+    if (jsonContent[0].eligibility !== null || this.showAll) {
+        Dot += "<tr><td align='left' balign='left' valign='top'><b>eligibility  </b></td>";
+        for (let i = 0; i < jsonLength; i++) {
+            try {
+                let jsonEligibility = jsonContent[i];
+                if (jsonEligibility.eligibility === undefined && this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
+                }
+                if (jsonEligibility.eligibility || ((jsonEligibility.eligibility === "" || jsonEligibility.eligibility === null) && this.showAll)) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.eligibility) ? nl2br(objORP.objViz.prepareString(jsonEligibility.eligibility)) : '') + "</td>";
+                }
+            } catch (e) {
+                if (this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "&nbsp;&nbsp;&nbsp;" + "</td>";
+                }
             }
         }
+        Dot += "</tr>";
     }
 
     Dot += "</table>>";
