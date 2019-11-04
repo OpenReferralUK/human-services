@@ -228,9 +228,6 @@
                   "source": "openReferral",
                   "applicationProfile": [
                     {
-                      "name": "LGA"
-                    },
-                    {
                       "name": "openCommunity",
                       "moscow": "must"
                     }
@@ -755,6 +752,9 @@
                   "type": "string",
                   "source": "openCommunity",
                   "applicationProfile": [
+                    {
+                      "name": "LGA"
+                    },
                     {
                       "name": "openCommunity",
                       "moscow": "must"
