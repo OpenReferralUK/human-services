@@ -886,6 +886,9 @@
                   "source": "openReferral",
                   "applicationProfile": [
                     {
+                      "name": "openReferral"
+                    },
+                    {
                       "name": "openCommunity",
                       "moscow": "must",
                       "schemes": [
@@ -2167,6 +2170,9 @@
                   "type": "string",
                   "source": "openCommunity",
                   "applicationProfile": [
+                    {
+                      "name": "LGA"
+                    },
                     {
                       "name": "openCommunity",
                       "moscow": "should"
