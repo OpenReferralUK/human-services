@@ -228,6 +228,9 @@
                   "source": "openReferral",
                   "applicationProfile": [
                     {
+                      "name": "LGA"
+                    },
+                    {
                       "name": "openCommunity",
                       "moscow": "must"
                     }

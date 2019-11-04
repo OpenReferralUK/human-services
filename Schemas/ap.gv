@@ -21,6 +21,7 @@ organization [label=<
 <tr><td  bgcolor="lawngreen"><b>url</b></td></tr>
 <tr><td  bgcolor="lightblue"><b>logo</b></td></tr>
 <tr><td  bgcolor="lightblue"><b>uri</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>assured_date</b></td></tr>
 </table>
 >]
 
