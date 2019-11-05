@@ -753,6 +753,9 @@
                   "source": "openCommunity",
                   "applicationProfile": [
                     {
+                      "name": "LGA"
+                    },
+                    {
                       "name": "openCommunity",
                       "moscow": "must"
                     }
@@ -882,6 +885,9 @@
                   "type": "string",
                   "source": "openReferral",
                   "applicationProfile": [
+                    {
+                      "name": "openReferral"
+                    },
                     {
                       "name": "openCommunity",
                       "moscow": "must",
@@ -2165,6 +2171,9 @@
                   "source": "openCommunity",
                   "applicationProfile": [
                     {
+                      "name": "LGA"
+                    },
+                    {
                       "name": "openCommunity",
                       "moscow": "should"
                     }
@@ -2574,6 +2583,9 @@
                     {
                       "name": "openCommunity",
                       "moscow": "must"
+                    },
+                    {
+                      "name": "LGA"
                     }
                   ],
                   "constraints": {
@@ -2589,6 +2601,9 @@
                     {
                       "name": "openCommunity",
                       "moscow": "must"
+                    },
+                    {
+                      "name": "LGA"
                     }
                   ],
                   "constraints": {

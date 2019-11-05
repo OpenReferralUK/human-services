@@ -9,12 +9,13 @@
     text-align: center;
 }
 
-.colhover:hover{
+.rowhover:hover {
     background-color: lightgrey;
 }
 
-.graph{
+.graph {
     alignment: center;
     width: 85vh;
     height: 85vw;
 }
+

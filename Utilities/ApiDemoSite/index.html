@@ -24,12 +24,13 @@
 
 <div class="container-fluid" style="padding-left: 5%; padding-right: 5%">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-8">
             <div class="row">
                 <label class="ml-1" for="endpoint">Endpoint:</label>
                 <select id="endpoint" class="form-control">
                     <option value="http://api.porism.com/ServiceDirectoryService">Bristol data</option>
                     <option value="http://api.porism.com/ServiceDirectoryServiceBucks">Bucks data</option>
+                    <option value="http://api.porism.com/ServiceDirectoryServiceOpenActive">Open active data</option>
                     <option value="http://api.porism.com/ServiceDirectoryServiceDemo">Demo data</option>
                 </select>
             </div>
@@ -143,7 +144,7 @@
             </div>
 
         </div>
-        <div class="col-md-6" id="api">
+        <div class="col-md-6 col-sm-4" id="api">
             <h5>API calls made:</h5>
         </div>
     </div>

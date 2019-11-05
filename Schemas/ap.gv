@@ -39,6 +39,7 @@ service [label=<
 <tr><td  bgcolor="lawngreen"><b>fees</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>accreditations</b></td></tr>
 <tr><td  bgcolor="lightblue"><b>deliverable_type</b></td></tr>
+<tr><td  bgcolor="palevioletred"><b>assured_date</b></td></tr>
 <tr><td  bgcolor="lightblue"><b>attending_type</b></td></tr>
 <tr><td  bgcolor="lightblue"><b>attending_access</b></td></tr>
 </table>
@@ -52,10 +53,12 @@ service_taxonomy [label=<
 <tr><td bgcolor="lawngreen"><b>service_taxonomy</b></td></tr>
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
 <tr><td port='service_id'  bgcolor="lawngreen"><b>service_id</b></td></tr>
+<tr><td port='taxonomy_id'  bgcolor="lawngreen"><b>taxonomy_id</b></td></tr>
 </table>
 >]
 
 service:id -> service_taxonomy:service_id;
+taxonomy:id -> service_taxonomy:taxonomy_id;
 
 
 service_at_location [label=<
@@ -141,6 +144,7 @@ regular_schedule [label=<
 <tr><td  bgcolor="lightblue"><b>interval</b></td></tr>
 <tr><td  bgcolor="lightblue"><b>byday</b></td></tr>
 <tr><td  bgcolor="lightblue"><b>bymonthday</b></td></tr>
+<tr><td  bgcolor="palevioletred"><b>description</b></td></tr>
 </table>
 >]
 
@@ -184,6 +188,8 @@ eligibility [label=<
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
 <tr><td port='service_id'  bgcolor="lawngreen"><b>service_id</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>eligibility</b></td></tr>
+<tr><td  bgcolor="palevioletred"><b>minimum_age</b></td></tr>
+<tr><td  bgcolor="palevioletred"><b>maximum_age</b></td></tr>
 </table>
 >]
 
