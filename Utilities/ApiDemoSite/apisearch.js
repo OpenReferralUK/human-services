@@ -6,6 +6,9 @@ let proximity;
 let coverage;
 let childTaxonomyTerm;
 let childChildTaxonomyTerm;
+let day;
+let startTime;
+let endTime;
 let keywords;
 let objOpenReferralPlus;
 objOpenReferralPlus = new clsOpenReferralPlus();
@@ -91,7 +94,7 @@ function getTaxonomyTerm() {
                     $("#TaxonomyTerm").attr('disabled', true);
                 }
 
-                if (getUrlParameter("taxonomyTerm") === undefined || getUrlParameter("taxonomyTerm") === ""){
+                if (getUrlParameter("taxonomyTerm") === undefined || getUrlParameter("taxonomyTerm") === "") {
                     $("#TaxonomyTerm").val($("#TaxonomyTerm option:first").val());
                 }
             },
@@ -289,6 +292,21 @@ function updateProximity() {
     updateParameters("proximity", proximity);
 }
 
+function updateDay() {
+    day = $("#Day").val();
+    updateParameters("day", day);
+}
+
+function updateStartTime() {
+    startTime = $("#StartTime").val();
+    updateParameters("startTime", startTime);
+}
+
+function updateEndTime() {
+    endTime = $("#EndTime").val();
+    updateParameters("endTime", endTime);
+}
+
 function updateKeywords() {
     keywords = $("#Keywords").val();
     updateParameters("keywords", keywords);
@@ -353,6 +371,9 @@ function executeForm(pageNumber) {
     taxonomyTerm = $("#TaxonomyTerm").val();
     childTaxonomyTerm = $("#ChildTaxonomyTerm").val();
     childChildTaxonomyTerm = $("#ChildChildTaxonomyTerm").val();
+    day = $("#Day").val();
+    startTime = $("#StartTime").val();
+    endTime = $("#EndTime").val();
     vocabulary = $("#Vocabulary").val();
     keywords = $("#Keywords").val();
 
@@ -368,6 +389,24 @@ function executeForm(pageNumber) {
         coverage = "";
     } else {
         coverage = "&coverage=" + $("#Coverage").val();
+    }
+
+    if (day === null || day === "" || day === undefined) {
+        day = "";
+    } else {
+        day = "&day=" + $("#Day").val();
+    }
+
+    if (startTime === null || startTime === "" || startTime === undefined) {
+        startTime = "";
+    } else {
+        startTime = "&startTime=" + $("#StartTime").val();
+    }
+
+    if (endTime === null || endTime === "" || endTime === undefined) {
+        endTime = "";
+    } else {
+        endTime = "&endTime=" + $("#EndTime").val();
     }
 
     if (keywords === null || keywords === "" || keywords === undefined) {
@@ -407,10 +446,8 @@ function executeForm(pageNumber) {
     }
 
 
-    let url = $("#endpoint").val() + "/services/?" + coverage
-        + taxonomyTerm + taxonomyType
-        + vocabulary + proximity
-        + postcode + keywords + pageNumber;
+    let url = $("#endpoint").val() + "/services/?" + coverage + taxonomyTerm + taxonomyType
+        + vocabulary + proximity + postcode + day + startTime + endTime + keywords + pageNumber;
 
 
     addApiPanel("Get service(s)", false);
@@ -633,6 +670,15 @@ function setupPage() {
     $("#Proximity").on("change", function () {
         updateProximity();
     });
+    $("#Day").on("change", function () {
+        updateDay();
+    });
+    $("#StartTime").on("change", function () {
+        updateStartTime();
+    });
+    $("#EndTime").on("change", function () {
+        updateEndTime();
+    });
 
 
     $("#tabs").hide();
@@ -684,6 +730,16 @@ function setupPage() {
         $("#Keywords").val(getUrlParameter("keywords"));
     }
 
+    if (getUrlParameter("day") !== undefined) {
+        $("#Day").val(getUrlParameter("day"));
+    }
+    if (getUrlParameter("startTime") !== undefined) {
+        $("#StartTime").val(getUrlParameter("startTime"));
+    }
+    if (getUrlParameter("endTime") !== undefined) {
+        $("#EndTime").val(getUrlParameter("endTime"));
+    }
+
     endpoint = $("#endpoint").val();
     if (endpoint !== "") {
         $("#TaxonomyType").attr('disabled', false);
@@ -692,6 +748,9 @@ function setupPage() {
         $("#Proximity").attr('disabled', false);
         $("#execute").attr('disabled', false);
         $("#Keywords").attr('disabled', false);
+        $("#Day").attr('disabled', false);
+        $("#StartTime").attr('disabled', false);
+        $("#EndTime").attr('disabled', false);
     }
     if (endpoint === "") {
         $("#TaxonomyType").attr('disabled', true);
@@ -701,6 +760,9 @@ function setupPage() {
         $("#TaxonomyTerm").attr('disabled', true);
         $("#execute").attr('disabled', true);
         $("#Keywords").attr('disabled', true);
+        $("#Day").attr('disabled', true);
+        $("#StartTime").attr('disabled', true);
+        $("#EndTime").attr('disabled', true);
     }
 
     objOpenReferralPlus = new clsOpenReferralPlus();

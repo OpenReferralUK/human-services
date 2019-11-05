@@ -948,6 +948,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
             jsonLength = jsonContent.length;
             if (jsonLength === 0 && this.showAll) {
                 jsonLength = 1;
+                jsonContent = [{}];
             }
         } catch (e) {
             jsonLength = 1;
@@ -1439,7 +1440,7 @@ clsOpenReferralPlus.prototype.DotNodeContacts = function (jsonContent) {
     }
 
     Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='" + (numCols + 1) + "' bgcolor='lightgrey'><b>contact</b>  </td></tr>";
-    if (jsonContent[0].id !== null || this.showAll) {
+    if ((jsonContent[0].id !== null && jsonContent[0].id !== "") || this.showAll) {
         Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
@@ -1459,7 +1460,7 @@ clsOpenReferralPlus.prototype.DotNodeContacts = function (jsonContent) {
         Dot += "</tr>";
     }
 
-    if (jsonContent[0].name !== null || this.showAll) {
+    if ((jsonContent[0].name !== null && jsonContent[0].name !== "") || this.showAll) {
         Dot += "<tr><td align='left' balign='left' valign='top'><b>name  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
@@ -1479,7 +1480,7 @@ clsOpenReferralPlus.prototype.DotNodeContacts = function (jsonContent) {
         Dot += "</tr>";
     }
 
-    if (jsonContent[0].title !== null || this.showAll) {
+    if ((jsonContent[0].title !== null && jsonContent[0].title !== "") || this.showAll) {
         Dot += "<tr><td align='left' balign='left' valign='top'><b>title  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
