@@ -61,7 +61,7 @@ function getRootTerm(term) {
 function getTaxonomyTerm() {
     if ($("#Vocabulary").val() !== null && $("#Vocabulary").val() !== "") {
         let taxonomyTerm = $("#TaxonomyTerm");
-        let url = $("#endpoint").val() + "/taxonomies/?vocabulary=" + $("#Vocabulary").val() + "&per_page=200&root_only=true";
+        let url = $("#endpoint").val() + "/taxonomies/?vocabulary=" + $("#Vocabulary").val() + "&per_page=500&root_only=true";
         taxonomyTerm.find("option").remove().end().append("<option></option>");
         addApiPanel("Get Taxonomy terms for the vocabulary", false);
         addApiPanel(url);
@@ -79,7 +79,7 @@ function getTaxonomyTerm() {
                 });
 
                 var options = $('#TaxonomyTerm option');
-                options.sort(function(a,b) {
+                options.sort(function (a, b) {
                     if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
                     else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
                     else return 0;
@@ -89,6 +89,10 @@ function getTaxonomyTerm() {
 
                 if ($("#TaxonomyTerm option").length === 1) {
                     $("#TaxonomyTerm").attr('disabled', true);
+                }
+
+                if (getUrlParameter("taxonomyTerm") === undefined || getUrlParameter("taxonomyTerm") === ""){
+                    $("#TaxonomyTerm").val($("#TaxonomyTerm option:first").val());
                 }
             },
             error: function (code, error) {
@@ -106,7 +110,7 @@ function getTaxonomyTerm() {
 function getChildTaxonomyTerm() {
     if ($("#TaxonomyTerm").val() !== null && $("#TaxonomyTerm").val() !== "") {
         let childTaxonomyTerm = $("#ChildTaxonomyTerm");
-        let url = $("#endpoint").val() + "/taxonomies/?vocabulary=" + $("#Vocabulary").val() + "&per_page=200" +
+        let url = $("#endpoint").val() + "/taxonomies/?vocabulary=" + $("#Vocabulary").val() + "&per_page=500" +
             "&parent_id=" + $("#TaxonomyTerm").val();
         childTaxonomyTerm.find("option").remove().end().append("<option></option>");
         addApiPanel("Get Taxonomy terms for the parent term", false);
@@ -128,7 +132,7 @@ function getChildTaxonomyTerm() {
                 });
 
                 var options = $('#ChildTaxonomyTerm option');
-                options.sort(function(a,b) {
+                options.sort(function (a, b) {
                     if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
                     else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
                     else return 0;
@@ -177,7 +181,7 @@ function getChildChildTaxonomyTerm() {
                 });
 
                 var options = $('#ChildChildTaxonomyTerm option');
-                options.sort(function(a,b) {
+                options.sort(function (a, b) {
                     if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
                     else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
                     else return 0;

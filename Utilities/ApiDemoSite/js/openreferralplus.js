@@ -5,8 +5,6 @@ var clsOpenReferralPlus = function () {
     this.idEndpoint = null;
     this.idResource = null;
     this.idParameter = null;
-    // this.idVisualize = null;
-    // this.idLoading = null;
     this.idFormat = null;
     this.objViz = null;
 
@@ -205,15 +203,17 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
 
 
     if (jsonContent.hasOwnProperty('service_areas')) {
-        var NodeIdServiceAreas = objORP.DotListAreas(jsonContent.service_areas);
-        if (NodeIdServiceAreas) {
-            var DotEdge = NodeIdService + ' -> ' + NodeIdServiceAreas + '\n';
-            objORP.Dot += DotEdge;
+        if (jsonContent.service_areas || this.showAll) {
+            var NodeIdServiceAreas = objORP.DotListAreas(jsonContent.service_areas);
+            if (NodeIdServiceAreas) {
+                var DotEdge = NodeIdService + ' -> ' + NodeIdServiceAreas + '\n';
+                objORP.Dot += DotEdge;
+            }
         }
     }
 
     if (jsonContent.hasOwnProperty('contacts')) {
-        if (jsonContent.contacts) {
+        if (jsonContent.contacts || this.showAll) {
             var NodeIdContacts = objORP.DotNodeContacts(jsonContent.contacts);
             if (NodeIdContacts) {
                 var DotEdge = NodeIdService + " -> " + NodeIdContacts + "\n";
@@ -977,16 +977,16 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
         }
         Dot += "</tr>";
     }
-    if ((jsonContent[0].opensAt !== null && jsonContent[0].opensAt !== undefined && jsonContent[0].opensAt !== "") || this.showAll) {
-        Dot += "<tr><td align='left' balign='left' valign='top'><b>opensAt  </b></td>";
+    if ((jsonContent[0].opens_at !== null && jsonContent[0].opens_at !== undefined && jsonContent[0].opens_at !== "") || this.showAll) {
+        Dot += "<tr><td align='left' balign='left' valign='top'><b>opens_at  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
                 let jsonRegularSchedule = jsonContent[i];
-                if (jsonRegularSchedule.opensAt === undefined && this.showAll) {
+                if (jsonRegularSchedule.opens_at === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
                 }
-                if (jsonRegularSchedule.opensAt || ((jsonRegularSchedule.opensAt === "" || jsonRegularSchedule.opensAt === null) && this.showAll)) {
-                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.opensAt) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.opensAt)) : '') + "</td>";
+                if (jsonRegularSchedule.opens_at || ((jsonRegularSchedule.opens_at === "" || jsonRegularSchedule.opens_at === null) && this.showAll)) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.opens_at) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.opens_at)) : '') + "</td>";
                 }
             } catch (e) {
                 if (this.showAll) {
@@ -997,16 +997,16 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
         Dot += "</tr>";
     }
 
-    if ((jsonContent[0].closesAt !== null && jsonContent[0].closesAt !== undefined && jsonContent[0].closesAt !== "") || this.showAll) {
-        Dot += "<tr><td align='left' balign='left' valign='top'><b>closesAt  </b></td>";
+    if ((jsonContent[0].closes_at !== null && jsonContent[0].closes_at !== undefined && jsonContent[0].closes_at !== "") || this.showAll) {
+        Dot += "<tr><td align='left' balign='left' valign='top'><b>closes_at  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
                 let jsonRegularSchedule = jsonContent[i];
-                if (jsonRegularSchedule.closesAt === undefined && this.showAll) {
+                if (jsonRegularSchedule.closes_at === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
                 }
-                if (jsonRegularSchedule.closesAt || ((jsonRegularSchedule.closesAt === "" || jsonRegularSchedule.closesAt === null) && this.showAll)) {
-                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.closesAt) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.closesAt)) : '') + "</td>";
+                if (jsonRegularSchedule.closes_at || ((jsonRegularSchedule.closes_at === "" || jsonRegularSchedule.closes_at === null) && this.showAll)) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.closes_at) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.closes_at)) : '') + "</td>";
                 }
             } catch (e) {
                 if (this.showAll) {
@@ -1017,16 +1017,16 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
         Dot += "</tr>";
     }
 
-    if ((jsonContent[0].validFrom !== null && jsonContent[0].validFrom !== undefined && jsonContent[0].validFrom !== "") || this.showAll) {
-        Dot += "<tr><td align='left' balign='left' valign='top'><b>validFrom  </b></td>";
+    if ((jsonContent[0].valid_from !== null && jsonContent[0].valid_from !== undefined && jsonContent[0].valid_from !== "") || this.showAll) {
+        Dot += "<tr><td align='left' balign='left' valign='top'><b>valid_from  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
                 let jsonRegularSchedule = jsonContent[i];
-                if (jsonRegularSchedule.validFrom === undefined && this.showAll) {
+                if (jsonRegularSchedule.valid_from === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
                 }
-                if (jsonRegularSchedule.validFrom || ((jsonRegularSchedule.validFrom === "" || jsonRegularSchedule.validFrom === null) && this.showAll)) {
-                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.validFrom) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.validFrom)) : '') + "</td>";
+                if (jsonRegularSchedule.valid_from || ((jsonRegularSchedule.valid_from === "" || jsonRegularSchedule.valid_from === null) && this.showAll)) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.valid_from) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.valid_from)) : '') + "</td>";
                 }
             } catch (e) {
                 if (this.showAll) {
@@ -1037,16 +1037,16 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
         Dot += "</tr>";
     }
 
-    if ((jsonContent[0].validTo !== null && jsonContent[0].validTo !== undefined && jsonContent[0].validTo !== "") || this.showAll) {
-        Dot += "<tr><td align='left' balign='left' valign='top'><b>validTo  </b></td>";
+    if ((jsonContent[0].valid_to !== null && jsonContent[0].valid_to !== undefined && jsonContent[0].valid_to !== "") || this.showAll) {
+        Dot += "<tr><td align='left' balign='left' valign='top'><b>valid_to  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
                 let jsonRegularSchedule = jsonContent[i];
-                if (jsonRegularSchedule.validTo === undefined && this.showAll) {
+                if (jsonRegularSchedule.valid_to === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
                 }
-                if (jsonRegularSchedule.validTo || ((jsonRegularSchedule.validTo === "" || jsonRegularSchedule.validTo === null) && this.showAll)) {
-                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.validTo) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.validTo)) : '') + "</td>";
+                if (jsonRegularSchedule.valid_to || ((jsonRegularSchedule.valid_to === "" || jsonRegularSchedule.valid_to === null) && this.showAll)) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.valid_to) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.valid_to)) : '') + "</td>";
                 }
             } catch (e) {
                 if (this.showAll) {
@@ -1264,15 +1264,15 @@ clsOpenReferralPlus.prototype.DotNodeHolidaySchedules = function (jsonContent) {
     for (let i = 0; i < jsonLength; i++) {
         try {
             let jsonHolidaySchedule = jsonContent[i];
-            if (jsonHolidaySchedule.opensAt === undefined && this.showAll) {
-                Dot += "<tr><td align='left' balign='left' valign='top'><b>opensAt  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
+            if (jsonHolidaySchedule.opens_at === undefined && this.showAll) {
+                Dot += "<tr><td align='left' balign='left' valign='top'><b>opens_at  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
             }
-            if (jsonHolidaySchedule.opensAt || (jsonHolidaySchedule.opensAt === "") && this.showAll) {
-                Dot += "<tr><td align='left' balign='left' valign='top'><b>opensAt  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonHolidaySchedule.opensAt) ? nl2br(objORP.objViz.prepareString(jsonHolidaySchedule.opensAt)) : '') + "</td></tr>";
+            if (jsonHolidaySchedule.opens_at || (jsonHolidaySchedule.opens_at === "") && this.showAll) {
+                Dot += "<tr><td align='left' balign='left' valign='top'><b>opens_at  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonHolidaySchedule.opens_at) ? nl2br(objORP.objViz.prepareString(jsonHolidaySchedule.opens_at)) : '') + "</td></tr>";
             }
         } catch (e) {
             if (this.showAll) {
-                Dot += "<tr><td align='left' balign='left' valign='top'><b>opensAt  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
+                Dot += "<tr><td align='left' balign='left' valign='top'><b>opens_at  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
             }
         }
     }
@@ -1280,15 +1280,15 @@ clsOpenReferralPlus.prototype.DotNodeHolidaySchedules = function (jsonContent) {
     for (let i = 0; i < jsonLength; i++) {
         try {
             let jsonHolidaySchedule = jsonContent[i];
-            if (jsonHolidaySchedule.closesAt === undefined && this.showAll) {
-                Dot += "<tr><td align='left' balign='left' valign='top'><b>closesAt  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
+            if (jsonHolidaySchedule.closes_at === undefined && this.showAll) {
+                Dot += "<tr><td align='left' balign='left' valign='top'><b>closes_at  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
             }
-            if (jsonHolidaySchedule.closesAt || (jsonHolidaySchedule.closesAt === "") && this.showAll) {
-                Dot += "<tr><td align='left' balign='left' valign='top'><b>closesAt  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonHolidaySchedule.closesAt) ? nl2br(objORP.objViz.prepareString(jsonHolidaySchedule.closesAt)) : '') + "</td></tr>";
+            if (jsonHolidaySchedule.closes_at || (jsonHolidaySchedule.closes_at === "") && this.showAll) {
+                Dot += "<tr><td align='left' balign='left' valign='top'><b>closes_at  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonHolidaySchedule.closes_at) ? nl2br(objORP.objViz.prepareString(jsonHolidaySchedule.closes_at)) : '') + "</td></tr>";
             }
         } catch (e) {
             if (this.showAll) {
-                Dot += "<tr><td align='left' balign='left' valign='top'><b>closesAt  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
+                Dot += "<tr><td align='left' balign='left' valign='top'><b>closes_at  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
             }
         }
     }
@@ -1400,8 +1400,15 @@ clsOpenReferralPlus.prototype.DotNodeLanguages = function (jsonContent) {
 clsOpenReferralPlus.prototype.DotNodeContacts = function (jsonContent) {
 
     var objORP = this;
-
-    let numCols = jsonContent.length;
+    var numCols;
+    try {
+        numCols = jsonContent.length;
+        if (numCols === 0 && this.showAll) {
+            numCols = 2;
+        }
+    } catch (e) {
+        numCols = 2;
+    }
     if (!numCols) {
         return false;
     }
@@ -1415,31 +1422,82 @@ clsOpenReferralPlus.prototype.DotNodeContacts = function (jsonContent) {
 
     var Dot = '\n';
 
+    var jsonLength;
+    if (this.showAll) {
+        try {
+            jsonLength = jsonContent.length;
+            if (jsonLength === 0 && this.showAll) {
+                jsonLength = 1;
+                jsonContent = [{}];
+            }
+        } catch (e) {
+            jsonLength = 1;
+            jsonContent = [{}];
+        }
+    } else if (!this.showAll) {
+        jsonLength = jsonContent.length;
+    }
+
     Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='" + (numCols + 1) + "' bgcolor='lightgrey'><b>contact</b>  </td></tr>";
-
-    Dot += "<tr>";
-    Dot += "<td align='left' balign='left' valign='top'><b>id  </b></td>";
-    for (let i = 0; i < jsonContent.length; i++) {
-        var jsonContact = jsonContent[i];
-        Dot += "<td align='left' balign='left' valign='top'>" + jsonContact.id + "</td>";
+    if (jsonContent[0].id !== null || this.showAll) {
+        Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td>";
+        for (let i = 0; i < jsonLength; i++) {
+            try {
+                let jsonContact = jsonContent[i];
+                if (jsonContact.id === undefined && this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
+                }
+                if (jsonContact.id || ((jsonContact.id === "" || jsonContact.id === null) && this.showAll)) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonContact.id) ? nl2br(objORP.objViz.prepareString(jsonContact.id)) : '') + "</td>";
+                }
+            } catch (e) {
+                if (this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "&nbsp;&nbsp;&nbsp;" + "</td>";
+                }
+            }
+        }
+        Dot += "</tr>";
     }
-    Dot += "</tr>";
 
-    Dot += "<tr>";
-    Dot += "<td align='left' balign='left' valign='top'><b>name  </b></td>";
-    for (let i = 0; i < jsonContent.length; i++) {
-        let jsonContact = jsonContent[i];
-        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonContact.name) ? nl2br(objORP.objViz.prepareString(jsonContact.name)) : '') + "</td>";
+    if (jsonContent[0].name !== null || this.showAll) {
+        Dot += "<tr><td align='left' balign='left' valign='top'><b>name  </b></td>";
+        for (let i = 0; i < jsonLength; i++) {
+            try {
+                let jsonContact = jsonContent[i];
+                if (jsonContact.name === undefined && this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
+                }
+                if (jsonContact.name || ((jsonContact.name === "" || jsonContact.name === null) && this.showAll)) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonContact.name) ? nl2br(objORP.objViz.prepareString(jsonContact.name)) : '') + "</td>";
+                }
+            } catch (e) {
+                if (this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "&nbsp;&nbsp;&nbsp;" + "</td>";
+                }
+            }
+        }
+        Dot += "</tr>";
     }
-    Dot += "</tr>";
 
-    Dot += "<tr>";
-    Dot += "<td align='left' balign='left' valign='top'><b>title  </b></td>";
-    for (let i = 0; i < jsonContent.length; i++) {
-        let jsonContact = jsonContent[i];
-        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonContact.title) ? nl2br(objORP.objViz.prepareString(jsonContact.title)) : '') + "</td>";
+    if (jsonContent[0].title !== null || this.showAll) {
+        Dot += "<tr><td align='left' balign='left' valign='top'><b>title  </b></td>";
+        for (let i = 0; i < jsonLength; i++) {
+            try {
+                let jsonContact = jsonContent[i];
+                if (jsonContact.title === undefined && this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
+                }
+                if (jsonContact.title || ((jsonContact.title === "" || jsonContact.title === null) && this.showAll)) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonContact.title) ? nl2br(objORP.objViz.prepareString(jsonContact.title)) : '') + "</td>";
+                }
+            } catch (e) {
+                if (this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "&nbsp;&nbsp;&nbsp;" + "</td>";
+                }
+            }
+        }
+        Dot += "</tr>";
     }
-    Dot += "</tr>";
 
     Dot += "</table>>";
 //	Dot += ", URL='' ";
@@ -1620,16 +1678,16 @@ clsOpenReferralPlus.prototype.DotNodeCostOptions = function (jsonContent) {
         Dot += "</tr>";
     }
 
-    if ((jsonContent[0].validFrom !== null && jsonContent[0].validFrom !== undefined) || this.showAll) {
-        Dot += "<tr><td align='left' balign='left' valign='top'><b>validFrom  </b></td>";
+    if ((jsonContent[0].valid_from !== null && jsonContent[0].valid_from !== undefined) || this.showAll) {
+        Dot += "<tr><td align='left' balign='left' valign='top'><b>valid_from  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
                 let jsonCostOption = jsonContent[i];
-                if ((jsonCostOption.validFrom === undefined || jsonCostOption.validFrom === null) && this.showAll) {
+                if ((jsonCostOption.valid_from === undefined || jsonCostOption.valid_from === null) && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
                 }
-                if (jsonCostOption.validFrom || ((jsonCostOption.validFrom === "") && this.showAll)) {
-                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonCostOption.validFrom) ? nl2br(objORP.objViz.prepareString(jsonCostOption.validFrom)) : '') + "</td>";
+                if (jsonCostOption.valid_from || ((jsonCostOption.valid_from === "") && this.showAll)) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonCostOption.valid_from) ? nl2br(objORP.objViz.prepareString(jsonCostOption.valid_from)) : '') + "</td>";
                 }
             } catch (e) {
                 if (this.showAll) {
@@ -1640,16 +1698,16 @@ clsOpenReferralPlus.prototype.DotNodeCostOptions = function (jsonContent) {
         Dot += "</tr>";
     }
 
-    if ((jsonContent[0].validTo !== null && jsonContent[0].validTo !== undefined) || this.showAll) {
-        Dot += "<tr><td align='left' balign='left' valign='top'><b>validTo  </b></td>";
+    if ((jsonContent[0].valid_to !== null && jsonContent[0].valid_to !== undefined) || this.showAll) {
+        Dot += "<tr><td align='left' balign='left' valign='top'><b>valid_to  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
                 let jsonCostOption = jsonContent[i];
-                if ((jsonCostOption.validTo === undefined || jsonCostOption.validTo === null) && this.showAll) {
+                if ((jsonCostOption.valid_to === undefined || jsonCostOption.valid_to === null) && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
                 }
-                if (jsonCostOption.validTo || ((jsonCostOption.validTo === "") && this.showAll)) {
-                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonCostOption.validTo) ? nl2br(objORP.objViz.prepareString(jsonCostOption.validTo)) : '') + "</td>";
+                if (jsonCostOption.valid_to || ((jsonCostOption.valid_to === "") && this.showAll)) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonCostOption.valid_to) ? nl2br(objORP.objViz.prepareString(jsonCostOption.valid_to)) : '') + "</td>";
                 }
             } catch (e) {
                 if (this.showAll) {
@@ -1838,47 +1896,28 @@ clsOpenReferralPlus.prototype.DotNodeEligibilitys = function (jsonContent) {
     } else if (!this.showAll) {
         jsonLength = jsonContent.length;
     }
+    var objORP = this;
 
-    Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='" + (numCols + 1) + "' bgcolor='lightgrey'><b>eligibility</b>  </td></tr>";
+    NodeId = 'list_taxonomies_' + String(objORP.nextNodeId++);
 
-    if (jsonContent[0].id !== null || this.showAll) {
-        Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td>";
-        for (let i = 0; i < jsonLength; i++) {
-            try {
-                let jsonEligibility = jsonContent[i];
-                if (jsonEligibility.id === undefined && this.showAll) {
-                    Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonEligibility.id || ((jsonEligibility.id === "" || jsonEligibility.id === null) && this.showAll)) {
-                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.id) ? nl2br(objORP.objViz.prepareString(jsonEligibility.id)) : '') + "</td>";
-                }
-            } catch (e) {
-                if (this.showAll) {
-                    Dot += "<td align='left' balign='left' valign='top'>" + "&nbsp;&nbsp;&nbsp;" + "</td>";
-                }
-            }
-        }
+    objORP.dotNodes.push(NodeId);
+
+    var Dot = '\n';
+
+    Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='3' bgcolor='lightgrey'><b>eligibility</b></td></tr>";
+    Dot += "<tr>";
+    Dot += "<td align='left' balign='left' valign='top'><b>id</b></td>";
+    Dot += "<td align='left' balign='left' valign='top'><b>eligibility</b></td>";
+
+    Dot += "</tr>";
+
+    for (let i = 0; i < jsonContent.length; i++) {
+        var jsonEligibility = jsonContent[i];
+        Dot += "<tr>";
+        Dot += "<td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonEligibility.id)) + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonEligibility.eligibility)) + "</td>";
         Dot += "</tr>";
-    }
 
-    if (jsonContent[0].eligibility !== null || this.showAll) {
-        Dot += "<tr><td align='left' balign='left' valign='top'><b>eligibility  </b></td>";
-        for (let i = 0; i < jsonLength; i++) {
-            try {
-                let jsonEligibility = jsonContent[i];
-                if (jsonEligibility.eligibility === undefined && this.showAll) {
-                    Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonEligibility.eligibility || ((jsonEligibility.eligibility === "" || jsonEligibility.eligibility === null) && this.showAll)) {
-                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.eligibility) ? nl2br(objORP.objViz.prepareString(jsonEligibility.eligibility)) : '') + "</td>";
-                }
-            } catch (e) {
-                if (this.showAll) {
-                    Dot += "<td align='left' balign='left' valign='top'>" + "&nbsp;&nbsp;&nbsp;" + "</td>";
-                }
-            }
-        }
-        Dot += "</tr>";
     }
 
     Dot += "</table>>";
@@ -1888,7 +1927,6 @@ clsOpenReferralPlus.prototype.DotNodeEligibilitys = function (jsonContent) {
     objORP.Dot += Dot;
 
     return NodeId;
-
 };
 
 
@@ -2113,41 +2151,79 @@ clsOpenReferralPlus.prototype.DotNodeReviews = function (jsonContent) {
 };
 
 
+/**
+ * @return {string}
+ */
 clsOpenReferralPlus.prototype.DotListAreas = function (jsonContent) {
-
     var objORP = this;
+    var numCols;
+    try {
+        numCols = jsonContent.length;
+        if (numCols === 0 && this.showAll) {
+            numCols = 2;
+        }
+    } catch (e) {
+        numCols = 2;
+    }
+    if (!numCols) {
+        return false;
+    }
 
-    NodeId = 'list_areas_' + String(objORP.nextNodeId++);
+    var NodeId = "\"service_area" + objORP.nextNodeId++ + "\"";
+    if (objORP.dotNodes.indexOf(NodeId) > -1) {
+        return NodeId;
+    }
+
+    objORP.dotNodes.push(NodeId);
+
+    var jsonLength;
+    if (this.showAll) {
+        try {
+            jsonLength = jsonContent.length;
+            if (jsonLength === 0 && this.showAll) {
+                jsonLength = 1;
+                jsonContent = [{}];
+            }
+        } catch (e) {
+            jsonLength = 1;
+        }
+    } else if (!this.showAll) {
+        jsonLength = jsonContent.length;
+    }
+
+
+    NodeId = 'list_taxonomies_' + String(objORP.nextNodeId++);
 
     objORP.dotNodes.push(NodeId);
 
     var Dot = '\n';
 
-    Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='3' bgcolor='lightgrey'><b>service_area</b>  </td></tr>";
+    Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='3' bgcolor='lightgrey'><b>service_area</b></td></tr>";
     Dot += "<tr>";
     Dot += "<td align='left' balign='left' valign='top'><b>service_area</b></td>";
-    Dot += "<td align='left' balign='left' valign='top'><b>uri  </b></td>";
+    Dot += "<td align='left' balign='left' valign='top'><b>uri</b></td>";
 
     Dot += "</tr>";
 
     for (let i = 0; i < jsonContent.length; i++) {
-        var jsonArea = jsonContent[i];
+        var jsonServiceArea = jsonContent[i];
         Dot += "<tr>";
-        Dot += "<td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonArea.service_area)) + "</td>";
-        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonArea.uri) ? nl2br(objORP.objViz.prepareString(jsonArea.uri)) : '') + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonServiceArea.service_area)) + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonServiceArea.uri)) + "</td>";
         Dot += "</tr>";
+
     }
 
     Dot += "</table>>";
-
+//	Dot += ", URL='' ";
     Dot += "]; \n";
 
     objORP.Dot += Dot;
 
     return NodeId;
-
-
 };
+
+
 
 
 clsOpenReferralPlus.prototype.DotListTaxonomies = function (jsonContent) {
