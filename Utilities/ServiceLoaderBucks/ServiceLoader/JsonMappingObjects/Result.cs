@@ -97,7 +97,7 @@ namespace ServiceLoader.JsonMappingObjects
         public string AddressLine1 => Venue;
         public string AddressCity => Area;
         public string AddressStateProvince => string.Empty;
-        public string AddressCountry => "England";
+        public string AddressCountry => "GB";
         public string AddressPostCode => PostCode ?? string.Empty;
         public IEnumerable<Schedule> Schedules => ScheduleBuilder.Build(this);
         public string CostOptionId => ServiceId;
