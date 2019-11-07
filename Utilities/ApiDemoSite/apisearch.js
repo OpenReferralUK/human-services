@@ -6,6 +6,9 @@ let proximity;
 let coverage;
 let childTaxonomyTerm;
 let childChildTaxonomyTerm;
+let day;
+let startTime;
+let endTime;
 let keywords;
 let objOpenReferralPlus;
 objOpenReferralPlus = new clsOpenReferralPlus();
@@ -61,7 +64,7 @@ function getRootTerm(term) {
 function getTaxonomyTerm() {
     if ($("#Vocabulary").val() !== null && $("#Vocabulary").val() !== "") {
         let taxonomyTerm = $("#TaxonomyTerm");
-        let url = $("#endpoint").val() + "/taxonomies/?vocabulary=" + $("#Vocabulary").val() + "&per_page=200&root_only=true";
+        let url = $("#endpoint").val() + "/taxonomies/?vocabulary=" + $("#Vocabulary").val() + "&per_page=500&root_only=true";
         taxonomyTerm.find("option").remove().end().append("<option></option>");
         addApiPanel("Get Taxonomy terms for the vocabulary", false);
         addApiPanel(url);
@@ -79,7 +82,7 @@ function getTaxonomyTerm() {
                 });
 
                 var options = $('#TaxonomyTerm option');
-                options.sort(function(a,b) {
+                options.sort(function (a, b) {
                     if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
                     else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
                     else return 0;
@@ -89,6 +92,10 @@ function getTaxonomyTerm() {
 
                 if ($("#TaxonomyTerm option").length === 1) {
                     $("#TaxonomyTerm").attr('disabled', true);
+                }
+
+                if (getUrlParameter("taxonomyTerm") === undefined || getUrlParameter("taxonomyTerm") === "") {
+                    $("#TaxonomyTerm").val($("#TaxonomyTerm option:first").val());
                 }
             },
             error: function (code, error) {
@@ -106,7 +113,7 @@ function getTaxonomyTerm() {
 function getChildTaxonomyTerm() {
     if ($("#TaxonomyTerm").val() !== null && $("#TaxonomyTerm").val() !== "") {
         let childTaxonomyTerm = $("#ChildTaxonomyTerm");
-        let url = $("#endpoint").val() + "/taxonomies/?vocabulary=" + $("#Vocabulary").val() + "&per_page=200" +
+        let url = $("#endpoint").val() + "/taxonomies/?vocabulary=" + $("#Vocabulary").val() + "&per_page=500" +
             "&parent_id=" + $("#TaxonomyTerm").val();
         childTaxonomyTerm.find("option").remove().end().append("<option></option>");
         addApiPanel("Get Taxonomy terms for the parent term", false);
@@ -128,7 +135,7 @@ function getChildTaxonomyTerm() {
                 });
 
                 var options = $('#ChildTaxonomyTerm option');
-                options.sort(function(a,b) {
+                options.sort(function (a, b) {
                     if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
                     else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
                     else return 0;
@@ -177,7 +184,7 @@ function getChildChildTaxonomyTerm() {
                 });
 
                 var options = $('#ChildChildTaxonomyTerm option');
-                options.sort(function(a,b) {
+                options.sort(function (a, b) {
                     if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
                     else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
                     else return 0;
@@ -285,6 +292,21 @@ function updateProximity() {
     updateParameters("proximity", proximity);
 }
 
+function updateDay() {
+    day = $("#Day").val();
+    updateParameters("day", day);
+}
+
+function updateStartTime() {
+    startTime = $("#StartTime").val();
+    updateParameters("startTime", startTime);
+}
+
+function updateEndTime() {
+    endTime = $("#EndTime").val();
+    updateParameters("endTime", endTime);
+}
+
 function updateKeywords() {
     keywords = $("#Keywords").val();
     updateParameters("keywords", keywords);
@@ -349,6 +371,9 @@ function executeForm(pageNumber) {
     taxonomyTerm = $("#TaxonomyTerm").val();
     childTaxonomyTerm = $("#ChildTaxonomyTerm").val();
     childChildTaxonomyTerm = $("#ChildChildTaxonomyTerm").val();
+    day = $("#Day").val();
+    startTime = $("#StartTime").val();
+    endTime = $("#EndTime").val();
     vocabulary = $("#Vocabulary").val();
     keywords = $("#Keywords").val();
 
@@ -364,6 +389,24 @@ function executeForm(pageNumber) {
         coverage = "";
     } else {
         coverage = "&coverage=" + $("#Coverage").val();
+    }
+
+    if (day === null || day === "" || day === undefined) {
+        day = "";
+    } else {
+        day = "&day=" + $("#Day").val();
+    }
+
+    if (startTime === null || startTime === "" || startTime === undefined) {
+        startTime = "";
+    } else {
+        startTime = "&startTime=" + $("#StartTime").val();
+    }
+
+    if (endTime === null || endTime === "" || endTime === undefined) {
+        endTime = "";
+    } else {
+        endTime = "&endTime=" + $("#EndTime").val();
     }
 
     if (keywords === null || keywords === "" || keywords === undefined) {
@@ -403,10 +446,8 @@ function executeForm(pageNumber) {
     }
 
 
-    let url = $("#endpoint").val() + "/services/?" + coverage
-        + taxonomyTerm + taxonomyType
-        + vocabulary + proximity
-        + postcode + keywords + pageNumber;
+    let url = $("#endpoint").val() + "/services/?" + coverage + taxonomyTerm + taxonomyType
+        + vocabulary + proximity + postcode + day + startTime + endTime + keywords + pageNumber;
 
 
     addApiPanel("Get service(s)", false);
@@ -629,6 +670,15 @@ function setupPage() {
     $("#Proximity").on("change", function () {
         updateProximity();
     });
+    $("#Day").on("change", function () {
+        updateDay();
+    });
+    $("#StartTime").on("change", function () {
+        updateStartTime();
+    });
+    $("#EndTime").on("change", function () {
+        updateEndTime();
+    });
 
 
     $("#tabs").hide();
@@ -680,6 +730,16 @@ function setupPage() {
         $("#Keywords").val(getUrlParameter("keywords"));
     }
 
+    if (getUrlParameter("day") !== undefined) {
+        $("#Day").val(getUrlParameter("day"));
+    }
+    if (getUrlParameter("startTime") !== undefined) {
+        $("#StartTime").val(getUrlParameter("startTime"));
+    }
+    if (getUrlParameter("endTime") !== undefined) {
+        $("#EndTime").val(getUrlParameter("endTime"));
+    }
+
     endpoint = $("#endpoint").val();
     if (endpoint !== "") {
         $("#TaxonomyType").attr('disabled', false);
@@ -688,6 +748,9 @@ function setupPage() {
         $("#Proximity").attr('disabled', false);
         $("#execute").attr('disabled', false);
         $("#Keywords").attr('disabled', false);
+        $("#Day").attr('disabled', false);
+        $("#StartTime").attr('disabled', false);
+        $("#EndTime").attr('disabled', false);
     }
     if (endpoint === "") {
         $("#TaxonomyType").attr('disabled', true);
@@ -697,6 +760,9 @@ function setupPage() {
         $("#TaxonomyTerm").attr('disabled', true);
         $("#execute").attr('disabled', true);
         $("#Keywords").attr('disabled', true);
+        $("#Day").attr('disabled', true);
+        $("#StartTime").attr('disabled', true);
+        $("#EndTime").attr('disabled', true);
     }
 
     objOpenReferralPlus = new clsOpenReferralPlus();
