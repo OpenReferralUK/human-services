@@ -78,11 +78,11 @@ namespace ServiceLoader.JsonMappingObjects
                                      ConfidentialData.StartsWith("yes", StringComparison.OrdinalIgnoreCase));
 
         public string OrganisationId => Organisation ?? ServiceId;
-        public string OrganisationName => Organisation ?? string.Empty;
-        public string OrganisationDescription => Organisation ?? string.Empty;
+        public string OrganisationName => !string.IsNullOrEmpty(Organisation) ? Organisation : "Unknown";
+        public string OrganisationDescription => OrganisationName;
         public string OrganisationUrl => Url;
         public string ServiceId => Id.ToString(CultureInfo.InvariantCulture);
-        public string ServiceName => Name ?? string.Empty;
+        public string ServiceName => !string.IsNullOrEmpty(Name) ? Name : "Unknown";
         public string ServiceDescription => Description ?? string.Empty;
         public string ServiceAreaId => Area?.ToLowerInvariant();
         public string LocationId => Venue?.ToLowerInvariant();
@@ -96,7 +96,7 @@ namespace ServiceLoader.JsonMappingObjects
         public string AddressId => $"{LocationId}:{PostCode}:{LocationLongitude}:{LocationLatitude}";
         public string AddressLine1 => Venue;
         public string AddressCity => Area;
-        public string AddressStateProvince => string.Empty;
+        public string AddressStateProvince => "Buckinghamshire";
         public string AddressCountry => "GB";
         public string AddressPostCode => PostCode ?? string.Empty;
         public IEnumerable<Schedule> Schedules => ScheduleBuilder.Build(this);
