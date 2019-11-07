@@ -259,6 +259,17 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
             }
         }
     }
+
+    if (jsonContent.hasOwnProperty('regular_schedules') || this.showAll) {
+        if (jsonContent.regular_schedules) {
+            var NodeIdRegularSchedules = objORP.DotNodeRegularSchedule(jsonContent.regular_schedules);
+            if (NodeIdRegularSchedules) {
+                var DotEdge = NodeIdService + ' -> ' + NodeIdRegularSchedules + '\n';
+                objORP.Dot += DotEdge;
+            }
+        }
+    }
+
     if (jsonContent.hasOwnProperty('holiday_schedules') || this.showAll) {
         if (jsonContent.holiday_schedules || this.showAll) {
             var NodeIdHolidaySchedules = objORP.DotNodeHolidaySchedules(jsonContent.holiday_schedules);
@@ -855,16 +866,16 @@ clsOpenReferralPlus.prototype.DotNodePhysicalAddress = function (jsonContent) {
     }
 
     if (jsonContent.hasOwnProperty('attention')) {
-        if (jsonContent.qttention) {
+        if (jsonContent.attention) {
             Dot += "<tr><td align='left' balign='left' valign='top'><b>attention  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.attention)) + "</td></tr>";
         } else if (this.showAll) {
             Dot += "<tr><td align='left' balign='left' valign='top'><b>attention  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
         }
     }
 
-    if (jsonContent.hasOwnProperty('address1')) {
-        if (jsonContent.address1) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>address_1  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.address1)) + "</td></tr>";
+    if (jsonContent.hasOwnProperty('address_1')) {
+        if (jsonContent.address_1) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>address_1  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.address_1)) + "</td></tr>";
         } else if (this.showAll) {
             Dot += "<tr><td align='left' balign='left' valign='top'><b>address_1  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
         }
@@ -878,17 +889,17 @@ clsOpenReferralPlus.prototype.DotNodePhysicalAddress = function (jsonContent) {
         }
     }
 
-    if (jsonContent.hasOwnProperty('stateProvince')) {
-        if (jsonContent.stateProvince) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>state_province  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.stateProvince)) + "</td></tr>";
+    if (jsonContent.hasOwnProperty('state_province')) {
+        if (jsonContent.state_province) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>state_province  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.state_province)) + "</td></tr>";
         } else if (this.showAll) {
             Dot += "<tr><td align='left' balign='left' valign='top'><b>state_province  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
         }
     }
 
-    if (jsonContent.hasOwnProperty('postalCode')) {
-        if (jsonContent.postalCode) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>postal_code  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.postalCode)) + "</td></tr>";
+    if (jsonContent.hasOwnProperty('postal_code')) {
+        if (jsonContent.postal_code) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>postal_code  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.postal_code)) + "</td></tr>";
         } else if (this.showAll) {
             Dot += "<tr><td align='left' balign='left' valign='top'><b>postal_code  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
         }

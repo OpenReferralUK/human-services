@@ -400,13 +400,13 @@ function executeForm(pageNumber) {
     if (startTime === null || startTime === "" || startTime === undefined) {
         startTime = "";
     } else {
-        startTime = "&startTime=" + $("#StartTime").val();
+        startTime = "&start_time=" + $("#StartTime").val();
     }
 
     if (endTime === null || endTime === "" || endTime === undefined) {
         endTime = "";
     } else {
-        endTime = "&endTime=" + $("#EndTime").val();
+        endTime = "&end_time=" + $("#EndTime").val();
     }
 
     if (keywords === null || keywords === "" || keywords === undefined) {
