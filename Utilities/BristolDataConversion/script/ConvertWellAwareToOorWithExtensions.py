@@ -1,8 +1,10 @@
 import csv
 import os
+import uuid
 import re
 import datetime
 import ApplyEsdTags as esdTags
+from utils.stripFormatting import stripAll
 
 if not os.path.isdir("../OpenReferral"):
     os.mkdir("../OpenReferral")
@@ -95,7 +97,9 @@ fields_service_taxonomy = [
     'service_id',
     'taxonomy_id'
 ]
-writer_service_taxonomy = csv.DictWriter(csv_out_service_taxonomy, fieldnames=fields_service_taxonomy, quoting=csv.QUOTE_ALL)
+writer_service_taxonomy = csv.DictWriter(csv_out_service_taxonomy,
+                                         fieldnames=fields_service_taxonomy,
+                                         quoting=csv.QUOTE_ALL)
 writer_service_taxonomy.writeheader()
 count_out_service_taxonomy = 0
 
@@ -122,9 +126,10 @@ except IOError:
 fields_service_at_location = [
     'id',
     'service_id',
-    'location_id',
+    'location_id'
 ]
-writer_service_at_location = csv.DictWriter(csv_out_service_at_location, fieldnames=fields_service_at_location, quoting=csv.QUOTE_ALL)
+writer_service_at_location = csv.DictWriter(csv_out_service_at_location, fieldnames=fields_service_at_location,
+                                            quoting=csv.QUOTE_ALL)
 writer_service_at_location.writeheader()
 count_out_service_at_location = 0
 
@@ -186,9 +191,10 @@ fields_physical_address = [
     'city',
     'state_province',
     'postal_code',
-    'country',
+    'country'
 ]
-writer_physical_address = csv.DictWriter(csv_out_physical_address, fieldnames=fields_physical_address, quoting=csv.QUOTE_ALL)
+writer_physical_address = csv.DictWriter(csv_out_physical_address, fieldnames=fields_physical_address,
+                                         quoting=csv.QUOTE_ALL)
 writer_physical_address.writeheader()
 count_out_physical_address = 0
 
@@ -212,7 +218,8 @@ fields_regular_schedule = [
     'bymonthday',
     'description'
 ]
-writer_regular_schedule = csv.DictWriter(csv_out_regular_schedule, fieldnames=fields_regular_schedule, quoting=csv.QUOTE_ALL)
+writer_regular_schedule = csv.DictWriter(csv_out_regular_schedule, fieldnames=fields_regular_schedule,
+                                         quoting=csv.QUOTE_ALL)
 writer_regular_schedule.writeheader()
 count_out_regular_schedule = 0
 
@@ -231,7 +238,8 @@ fields_holiday_schedule = [
     'start_date',
     'end_date'
 ]
-writer_holiday_schedule = csv.DictWriter(csv_out_holiday_schedule, fieldnames=fields_holiday_schedule, quoting=csv.QUOTE_ALL)
+writer_holiday_schedule = csv.DictWriter(csv_out_holiday_schedule, fieldnames=fields_holiday_schedule,
+                                         quoting=csv.QUOTE_ALL)
 writer_holiday_schedule.writeheader()
 count_out_holiday_schedule = 0
 
@@ -365,9 +373,10 @@ def setupOrganization(row):
 
     if "OrganisationLink" in row:
         if row["OrganisationLink"].strip():
-            Name = row["OrganisationLink"].strip()
+            Name = (row["OrganisationLink"].strip()).replace("&amp;", "&")
 
     row_organization.update({'name': Name})
+    row_organization.update({'description': Name})
 
     if "ImageURL" in row:
         if row["ImageURL"].strip():
@@ -401,18 +410,18 @@ def setupService(row):
 
     if "Title" in row:
         if row['Title'].strip():
-            row_service.update({'name': row["Title"].strip()})
+            row_service.update({'name': (row["Title"].strip()).replace("&amp;", "&")})
 
     if "Content" in row:
         if row['Content'].strip():
-            row_service.update({'description': row["Content"].strip()})
+            row_service.update({'description': stripAll(row["Content"].strip())})
 
     if "Contactdetails" in row:
         Description = ''
         if row["Contactdetails"].strip():
             if "Description" in row_service:
                 Description = row_service["description"] + '\n'
-            row_service.update({'description': Description + row["Content"].strip()})
+            row_service.update({'description': stripAll(Description + row["Content"].strip())})
 
     if "Websiteurl" in row:
         if row['Websiteurl'].strip():
@@ -424,7 +433,6 @@ def setupService(row):
 
     if "Telephone" in row:
         if row['Telephone'].strip():
-
             row_contact = {}
             count_out_contact += 1
             idContact = count_out_contact
@@ -464,7 +472,7 @@ def setupService(row):
                 writer_service_taxonomy.writerow(row_service_taxonomy)
 
     if "Service" in row:
-        if (row["Service"]):
+        if row["Service"]:
 
             Services = row["Service"].split('|')
             for taxonomyLabel in Services:
@@ -509,7 +517,7 @@ def setupService(row):
                 writer_service_taxonomy.writerow(row_service_taxonomy)
 
     if "AgeGroup" in row:
-        if (row["AgeGroup"]):
+        if row["AgeGroup"]:
 
             AgeGroups = row["AgeGroup"].split('|')
             for taxonomyLabel in AgeGroups:
@@ -530,7 +538,7 @@ def setupService(row):
                 writer_service_taxonomy.writerow(row_service_taxonomy)
 
     if "UserGroup" in row:
-        if (row["UserGroup"]):
+        if row["UserGroup"]:
 
             UserGroups = row["UserGroup"].split('|')
             for taxonomyLabel in UserGroups:
@@ -553,13 +561,13 @@ def setupService(row):
     idServiceAtLocation = ''
 
     if "Address" in row:
-        if (row["Address"]):
+        if row["Address"]:
             AddressPostcode = makeAddressPostcode(row['Address'])
 
             Postcode = AddressPostcode['Postcode']
             FirstLineOfAddress = AddressPostcode['FirstLineOfAddress']
 
-            if not (Postcode):
+            if not Postcode:
                 if "Postcodeareawheretheorganisationworks" in row:
                     if row["Postcodeareawheretheorganisationworks"].strip():
                         Postcode = row["Postcodeareawheretheorganisationworks"].strip()
@@ -569,7 +577,7 @@ def setupService(row):
             idPhysicalAddress = getPhysicalAddressId(Postcode, '', FirstLineOfAddress)
             idLocation = idPhysicalAddress
 
-            if not (idPhysicalAddress):
+            if not idPhysicalAddress:
                 idLocation = writeLocation(AddressPostcode['AddressLines'], Postcode, row)
 
             row_service_at_location = {}
@@ -581,7 +589,7 @@ def setupService(row):
             writer_service_at_location.writerow(row_service_at_location)
 
     if "District" in row:
-        if (row["District"]):
+        if row["District"]:
 
             Districts = row["District"].split('|')
             for AreaName in Districts:
@@ -614,19 +622,19 @@ def setupService(row):
     if "CostInformation" in row:
         if Fees:
             Fees += "\n"
-        if (row["CostInformation"].strip()):
+        if row["CostInformation"].strip():
             Fees += row["CostInformation"].strip()
 
     if "ConcessionsInformation" in row:
         if Fees:
             Fees += "\n"
-        if (row["ConcessionsInformation"].strip()):
+        if row["ConcessionsInformation"].strip():
             Fees += row["CostInformation"].strip()
 
     if "Cost" in row:
         if Fees:
             Fees += "\n"
-        if (row["Cost"].strip()):
+        if row["Cost"].strip():
             Fees += row["Cost"].strip()
 
     row_service['fees'] = Fees
@@ -636,11 +644,11 @@ def setupService(row):
     row_schedule = {}
 
     if 'Startdate' in row:
-        if (row['Startdate'].strip()):
+        if row['Startdate'].strip():
             row_schedule.update({'valid_from': FormatDate(row['Startdate'].strip())})
             row_schedule.update({'dtstart': FormatDate(row['Startdate'].strip())})
     if 'Enddate' in row:
-        if (row['Enddate'].strip()):
+        if row['Enddate'].strip():
             row_schedule.update({'valid_to': FormatDate(row['Enddate'].strip())})
 
     Day = ''
@@ -649,7 +657,7 @@ def setupService(row):
     AvailabilityDescription = ''
 
     if 'Startdate' in row:
-        if (row['Startdate']):
+        if row['Startdate']:
             objDate = datetime.datetime.strptime(row['Startdate'], '%Y%m%d')
             DayNum = objDate.weekday()
             Day = ''
@@ -683,7 +691,7 @@ def setupService(row):
         #            row_Session.update({'Frequency': 'daily'})
         #            AvailabilityDescription = 'Every Day'
 
-        if (row['Recurringoption'] == 'weekly'):
+        if row['Recurringoption'] == 'weekly':
             row_schedule.update({'freq': 'WEEKLY'})
             if Day:
                 row_schedule.update({'byday': Day})
@@ -705,14 +713,14 @@ def setupService(row):
                         DayOffset = -1
 
                     if Day:
-                        if (DayOffset):
+                        if DayOffset:
                             Day = str(DayOffset) + Day
                         row_schedule.update({'byday': Day})
 
                         AvailabilityDescription = "On the " + row[
                             'Whichoccurrenceofthedayofthemonth'].strip() + ' ' + txtDay + " of each month"
 
-        if (row['Recurringoption'] == 'fortnightly'):
+        if row['Recurringoption'] == 'fortnightly':
 
             row_schedule.update({'freq': 'WEEKLY'})
             row_schedule.update({'interval': '2'})
@@ -722,7 +730,7 @@ def setupService(row):
 
             AvailabilityDescription = "Fortnightly on a " + txtDay
 
-        if (row['Recurringoption'] == 'monthly'):
+        if row['Recurringoption'] == 'monthly':
             row_schedule.update({'bymonthday': DayDD})
             row_schedule.update({'freq': 'MONTHLY'})
             AvailabilityDescription = "On the " + str(DayDD) + " of each month"
@@ -746,32 +754,32 @@ def setupService(row):
                         'Whichoccurrenceofthedayofthemonth'].strip() + " month"
 
     if 'Starttime' in row:
-        if (row['Starttime']):
+        if row['Starttime']:
             row_schedule.update({'opens_at': row['Starttime']})
             AvailabilityDescription += " from " + row['Starttime']
     if 'Endtime' in row:
-        if (row['Endtime']):
+        if row['Endtime']:
             row_schedule.update({'closes_at': row['Endtime']})
             AvailabilityDescription += " to " + row['Endtime']
 
     if AvailabilityDescription.strip():
-        row_schedule.update({'description': AvailabilityDescription})
+        row_schedule.update({'description': stripAll(AvailabilityDescription)})
 
     if row_schedule:
         count_out_regular_schedule += 1
         idSchedule = count_out_regular_schedule
         row_schedule.update({'id': idSchedule})
 
-        if idServiceAtLocation & idService:
+        if idServiceAtLocation and idService:
             row_schedule.update({'service_at_location_id': idServiceAtLocation})
-            row_schedule.update({'service_id': idService})
+            row_schedule.update({'service_id': None})
         else:
             if idServiceAtLocation:
                 row_schedule.update({'service_at_location_id': idServiceAtLocation})
-                row_schedule.update({'service_id': "NULL"})
+                row_schedule.update({'service_id': None})
             else:
                 row_schedule.update({'service_id': idService})
-                row_schedule.update({'service_at_location_id': "NULL"})
+                row_schedule.update({'service_at_location_id': None})
 
         writer_regular_schedule.writerow(row_schedule)
 
@@ -781,7 +789,7 @@ def makeAddressPostcode(AddressLine):
     FirstLineOfAddress = ''
     LastLineOfAddress = ''
 
-    if (len(listAddress) > 0):
+    if len(listAddress) > 0:
         FirstLineOfAddress = listAddress[0].strip()
         LastLineOfAddress = listAddress[len(listAddress) - 1].strip()
 
@@ -789,7 +797,7 @@ def makeAddressPostcode(AddressLine):
     objMatch = re.search(
         r'(([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2}))$',
         LastLineOfAddress, re.M | re.I)
-    if (objMatch):
+    if objMatch:
         Postcode = objMatch.group(0)
         listAddress[len(listAddress) - 1] = listAddress[len(listAddress) - 1].replace(Postcode, '')
 
@@ -860,23 +868,24 @@ def writeLocation(listAddressLines, Postcode, row):
     row_physical_address.update({'location_id': idLocation})
 
     FirstLineOfAddress = ''
-    if (len(listAddressLines) > 0):
+    if len(listAddressLines) > 0:
         row_physical_address.update({"address_1": listAddressLines[0].strip()})
         FirstLineOfAddress = listAddressLines[0].strip()
 
     RemainingAddress = ''
 
-    if (len(listAddressLines) > 1):
+    if len(listAddressLines) > 1:
         RemainingAddress += ', ' + listAddressLines[1].strip()
-    if (len(listAddressLines) > 2):
+    if len(listAddressLines) > 2:
         RemainingAddress += ', ' + listAddressLines[2].strip()
-    if (len(listAddressLines) > 3):
+    if len(listAddressLines) > 3:
         RemainingAddress += ', ' + listAddressLines[3].strip()
-    if (len(listAddressLines) > 4):
+    if len(listAddressLines) > 4:
         RemainingAddress += ', ' + listAddressLines[4].strip()
 
     row_physical_address.update({"city": RemainingAddress})
     row_physical_address.update({"postal_code": Postcode})
+    row_physical_address.update({"state_province": ""})
 
     if 'lat' in row and 'lng' in row:
         if row['lat'] and row['lng']:
@@ -1207,35 +1216,35 @@ for key, value in listPrimaryServiceLabels.items():
     row_taxonomy = {}
     row_taxonomy.update({'id': value['id']})
     row_taxonomy.update({'name': key})
-    row_taxonomy.update({'vocabulary': "BCC Primary Service"})
+    row_taxonomy.update({'vocabulary': "BCC Primary Services"})
     writer_taxonomy.writerow(row_taxonomy)
 
 for key, value in listServiceLabels.items():
     row_taxonomy = {}
     row_taxonomy.update({'id': value['id']})
     row_taxonomy.update({'name': key})
-    row_taxonomy.update({'vocabulary': "BCC Service"})
+    row_taxonomy.update({'vocabulary': "BCC Services"})
     writer_taxonomy.writerow(row_taxonomy)
 
 for key, value in listAgeGroupLabels.items():
     row_taxonomy = {}
     row_taxonomy.update({'id': value['id']})
     row_taxonomy.update({'name': key})
-    row_taxonomy.update({'vocabulary': "BCC Age Group"})
+    row_taxonomy.update({'vocabulary': "BCC Age Groups"})
     writer_taxonomy.writerow(row_taxonomy)
 
 for key, value in listUserGroupLabels.items():
     row_taxonomy = {}
     row_taxonomy.update({'id': value['id']})
     row_taxonomy.update({'name': key})
-    row_taxonomy.update({'vocabulary': "BCC User Group"})
+    row_taxonomy.update({'vocabulary': "BCC User Groups"})
     writer_taxonomy.writerow(row_taxonomy)
 
 for key, value in listSearchLabels.items():
     row_taxonomy = {}
     row_taxonomy.update({'id': value['id']})
     row_taxonomy.update({'name': key})
-    row_taxonomy.update({'vocabulary': "BCC Search Term"})
+    row_taxonomy.update({'vocabulary': "BCC Search Terms"})
     writer_taxonomy.writerow(row_taxonomy)
 
 csv_in_Organisations.close()

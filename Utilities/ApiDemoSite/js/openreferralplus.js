@@ -127,8 +127,11 @@ clsOpenReferralPlus.prototype.get = function () {
                     break;
                 case 'json':
                     $(objORP.objViz.tagElement).empty();
-                    $(objORP.objViz.tagElement).append("<button class='btn btn-secondary' onclick='getRawJSON(" + jsonContent.id + ")'>Raw JSON</button>");
+                    $(objORP.objViz.tagElement).append("<button id='Raw" + jsonContent.id + "' class='btn btn-secondary' onclick='getRawJSON(" + jsonContent.id + ")'>Raw JSON</button>");
                     $(objORP.objViz.tagElement).append('<pre>' + nl2br(htmlEntities(JSON.stringify(jsonContent, null, 1))) + '</pre>');
+                    $("#Raw" + jsonContent.id).on("click", function () {
+                        getRawJSON(jsonContent.id);
+                    });
                     break;
             }
         }
@@ -396,6 +399,22 @@ clsOpenReferralPlus.prototype.DotNodeService = function (jsonContent) {
             Dot += "<tr><td align='left' balign='left' valign='top'><b>deliverable type  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.deliverableType)) + "</td></tr>";
         } else if (this.showAll) {
             Dot += "<tr><td align='left' balign='left' valign='top'><b>deliverable type  </b></td><td align='left' balign='left' valign='top'>" + '' + "</td></tr>";
+        }
+    }
+    
+    if (jsonContent.hasOwnProperty('attending_type')) {
+        if (jsonContent.attending_type) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>attending type  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.attending_type)) + "</td></tr>";
+        } else if (this.showAll) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>attending type  </b></td><td align='left' balign='left' valign='top'>" + '' + "</td></tr>";
+        }
+    }
+    
+    if (jsonContent.hasOwnProperty('attending_access')) {
+        if (jsonContent.attending_access) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>attending access  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.attending_access)) + "</td></tr>";
+        } else if (this.showAll) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>attending access  </b></td><td align='left' balign='left' valign='top'>" + '' + "</td></tr>";
         }
     }
 
@@ -1916,18 +1935,30 @@ clsOpenReferralPlus.prototype.DotNodeEligibilitys = function (jsonContent) {
 
     var Dot = '\n';
 
-    Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='3' bgcolor='lightgrey'><b>eligibility</b></td></tr>";
+    Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='4' bgcolor='lightgrey'><b>eligibility</b></td></tr>";
     Dot += "<tr>";
     Dot += "<td align='left' balign='left' valign='top'><b>id</b></td>";
     Dot += "<td align='left' balign='left' valign='top'><b>eligibility</b></td>";
+    Dot += "<td align='left' balign='left' valign='top'><b>min_age</b></td>";
+    Dot += "<td align='left' balign='left' valign='top'><b>max_age</b></td>";
 
     Dot += "</tr>";
 
+
     for (let i = 0; i < jsonContent.length; i++) {
         var jsonEligibility = jsonContent[i];
+        if (!jsonEligibility.hasOwnProperty('min_age')){
+            jsonEligibility.min_age = "";
+        }
+        if (!jsonEligibility.hasOwnProperty('max_age')){
+            jsonEligibility.max_age = "";
+        }
         Dot += "<tr>";
-        Dot += "<td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonEligibility.id)) + "</td>";
-        Dot += "<td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonEligibility.eligibility)) + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.id) ? nl2br(objORP.objViz.prepareString(jsonEligibility.id)) : '') + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.eligibility) ? nl2br(objORP.objViz.prepareString(jsonEligibility.eligibility)) : '') + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.min_age) ? nl2br(objORP.objViz.prepareString(jsonEligibility.min_age)) : '') + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.max_age) ? nl2br(objORP.objViz.prepareString(jsonEligibility.max_age)) : '') + "</td>";
+
         Dot += "</tr>";
 
     }
@@ -2234,8 +2265,6 @@ clsOpenReferralPlus.prototype.DotListAreas = function (jsonContent) {
 
     return NodeId;
 };
-
-
 
 
 clsOpenReferralPlus.prototype.DotListTaxonomies = function (jsonContent) {
