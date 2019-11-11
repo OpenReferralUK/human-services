@@ -297,13 +297,20 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
 
 
     if (jsonContent.hasOwnProperty('service_taxonomys')) {
-        var NodeIdServiceTaxonomies = objORP.DotListTaxonomies(jsonContent.service_taxonomys);
-        if (NodeIdServiceTaxonomies) {
-            var DotEdge = NodeIdService + ' -> ' + NodeIdServiceTaxonomies + '\n';
-            objORP.Dot += DotEdge;
+        let taxonomy = false;
+        for (let item of jsonContent.service_taxonomys) {
+            if (item.hasOwnProperty('taxonomy')){
+                taxonomy = true;
+            }
+        }
+        if (taxonomy || this.showAll) {
+            var NodeIdServiceTaxonomies = objORP.DotListTaxonomies(jsonContent.service_taxonomys);
+            if (NodeIdServiceTaxonomies) {
+                var DotEdge = NodeIdService + ' -> ' + NodeIdServiceTaxonomies + '\n';
+                objORP.Dot += DotEdge;
+            }
         }
     }
-
 
 };
 
@@ -673,7 +680,7 @@ clsOpenReferralPlus.prototype.DotNodeServiceAtLocation = function (jsonContent) 
 
     if (jsonContent.hasOwnProperty('id')) {
         if (jsonContent.id) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td><td align='left' balign='left' valign='top'>" + jsonContent.id + "</td></tr>";
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td><td align='left' balign='left' valign='top'>" + ((jsonContent.id) ? nl2br(objORP.objViz.prepareString(jsonContent.id)) : '') + "</td></tr>";
         }
     }
 
@@ -878,7 +885,7 @@ clsOpenReferralPlus.prototype.DotNodePhysicalAddress = function (jsonContent) {
 
     if (jsonContent.hasOwnProperty('id')) {
         if (jsonContent.id) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td><td align='left' balign='left' valign='top'>" + jsonContent.id + "</td></tr>";
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td><td align='left' balign='left' valign='top'>" + ((jsonContent.id) ? nl2br(objORP.objViz.prepareString(jsonContent.id)) : '') + "</td></tr>";
         } else if (this.showAll) {
             Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
         }
@@ -1595,7 +1602,7 @@ clsOpenReferralPlus.prototype.DotNodePhone = function (jsonContent) {
     for (let i = 0; i < jsonLength; i++) {
         try {
             var jsonPhone = jsonContent[i];
-            Dot += "<td align='left' balign='left' valign='top'>" + jsonPhone.id + "</td>";
+            Dot += "<td align='left' balign='left' valign='top'>" + ((jsonPhone.id) ? nl2br(objORP.objViz.prepareString(jsonPhone.id)) : '') + "</td>";
         } catch (e) {
             Dot += "<td align='left' balign='left' valign='top'>" + " " + "</td>";
         }
@@ -1947,12 +1954,7 @@ clsOpenReferralPlus.prototype.DotNodeEligibilitys = function (jsonContent) {
 
     for (let i = 0; i < jsonContent.length; i++) {
         var jsonEligibility = jsonContent[i];
-        if (!jsonEligibility.hasOwnProperty('min_age')){
-            jsonEligibility.min_age = "";
-        }
-        if (!jsonEligibility.hasOwnProperty('max_age')){
-            jsonEligibility.max_age = "";
-        }
+
         Dot += "<tr>";
         Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.id) ? nl2br(objORP.objViz.prepareString(jsonEligibility.id)) : '') + "</td>";
         Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.eligibility) ? nl2br(objORP.objViz.prepareString(jsonEligibility.eligibility)) : '') + "</td>";
@@ -2251,8 +2253,8 @@ clsOpenReferralPlus.prototype.DotListAreas = function (jsonContent) {
     for (let i = 0; i < jsonContent.length; i++) {
         var jsonServiceArea = jsonContent[i];
         Dot += "<tr>";
-        Dot += "<td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonServiceArea.service_area)) + "</td>";
-        Dot += "<td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonServiceArea.uri)) + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonServiceArea.service_area) ? nl2br(objORP.objViz.prepareString(jsonServiceArea.service_area)) : '') + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonServiceArea.uri) ? nl2br(objORP.objViz.prepareString(jsonServiceArea.uri)) : '') + "</td>";
         Dot += "</tr>";
 
     }

@@ -178,6 +178,7 @@ clsPdViz.prototype.prepareString = function (inString, MaxLength, BreakLength) {
         outString = this.splitStringIntoLines(outString, BreakLength, '<br/>');
     }
 
+
     return outString;
 
 };
