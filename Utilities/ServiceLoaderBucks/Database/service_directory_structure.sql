@@ -450,7 +450,6 @@ ALTER TABLE organization ADD legal_status text;
 ALTER TABLE organization ADD assured_date datetime;
 
 ALTER TABLE service ADD application_process text;
-ALTER TABLE service ADD assured_date datetime;
 
 ALTER TABLE eligibility ADD minimum_age int;
 ALTER TABLE eligibility ADD maximum_age int;
