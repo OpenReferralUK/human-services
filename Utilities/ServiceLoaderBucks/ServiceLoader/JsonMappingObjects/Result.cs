@@ -20,7 +20,7 @@ namespace ServiceLoader.JsonMappingObjects
         public string Description { get; set; }
 
         [JsonProperty("price")]
-        public string Price { get; set; }
+        public string PriceDescription { get; set; }
 
         [JsonProperty("category")]
         public string Category { get; set; }
@@ -84,6 +84,7 @@ namespace ServiceLoader.JsonMappingObjects
         public string ServiceId => Id.ToString(CultureInfo.InvariantCulture);
         public string ServiceName => !string.IsNullOrEmpty(Name) ? Name : "Unknown";
         public string ServiceDescription => Description ?? string.Empty;
+        public string ServiceAttendingType => string.IsNullOrEmpty(LocationId) ? "online" : null;
         public string ServiceAreaId => Area?.ToLowerInvariant();
         public string LocationId => Venue?.ToLowerInvariant();
         public string LocationName => Venue?.ToLowerInvariant();
@@ -101,5 +102,6 @@ namespace ServiceLoader.JsonMappingObjects
         public string AddressPostCode => PostCode ?? string.Empty;
         public IEnumerable<Schedule> Schedules => ScheduleBuilder.Build(this);
         public string CostOptionId => ServiceId;
+        public decimal? PriceAmount => PriceParser.Parse(PriceDescription);
     }
 }

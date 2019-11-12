@@ -90,18 +90,19 @@ ON DUPLICATE KEY UPDATE id = id;
 
         private void WriteCostOption(Result result)
         {
-            if (string.IsNullOrEmpty(result.Price)) return;
+            if (string.IsNullOrEmpty(result.PriceDescription)) return;
             using (var command = _connection.CreateCommand())
             {
                 command.CommandType = CommandType.Text;
                 command.CommandText = @"
-INSERT INTO cost_option(id, service_id, amount)
-VALUES (@id, @service_id, @amount)
+INSERT INTO cost_option(id, service_id, amount, amount_description)
+VALUES (@id, @service_id, @amount, @amount_description)
 ON DUPLICATE KEY UPDATE id = id;
 ";
                 command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = result.CostOptionId;
                 command.Parameters.Add("@service_id", MySqlDbType.VarChar, 1536).Value = result.ServiceId;
-                command.Parameters.Add("@amount", MySqlDbType.Text).Value = result.Price;
+                command.Parameters.Add("@amount", MySqlDbType.Decimal).Value = result.PriceAmount;
+                command.Parameters.Add("@amount_description", MySqlDbType.Text).Value = result.PriceDescription;
                 command.ExecuteNonQuery();
             }
         }
@@ -322,8 +323,8 @@ ON DUPLICATE KEY UPDATE id = id;
             {
                 command.CommandType = CommandType.Text;
                 command.CommandText = @"
-INSERT INTO service(id, organization_id, name, description, url, email, status)
-VALUES (@id, @organization_id, @name, @description, @url, @email, 'active')
+INSERT INTO service(id, organization_id, name, description, url, email, status, attending_type)
+VALUES (@id, @organization_id, @name, @description, @url, @email, 'active', @attending_type)
 ON DUPLICATE KEY UPDATE id = id;
 ";
                 command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = result.ServiceId;
@@ -332,6 +333,7 @@ ON DUPLICATE KEY UPDATE id = id;
                 command.Parameters.Add("@description", MySqlDbType.Text).Value = result.ServiceDescription;
                 command.Parameters.Add("@url", MySqlDbType.Text).Value = result.Url;
                 command.Parameters.Add("@email", MySqlDbType.Text).Value = result.Email;
+                command.Parameters.Add("@attending_type", MySqlDbType.Text).Value = result.ServiceAttendingType;
                 command.ExecuteNonQuery();
             }
         }
