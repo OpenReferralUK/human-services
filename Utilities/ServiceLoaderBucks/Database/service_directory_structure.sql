@@ -63,7 +63,7 @@ CREATE TABLE `cost_option` (
   `valid_from` datetime DEFAULT NULL,
   `valid_to` datetime DEFAULT NULL,
   `option` text,
-  `amount` decimal,
+  `amount` decimal(5,2),
   `amount_description` text,
   PRIMARY KEY (`id`),
   KEY `FK_cost_option_1` (`service_id`),
