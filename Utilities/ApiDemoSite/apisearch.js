@@ -400,13 +400,13 @@ function executeForm(pageNumber) {
     if (startTime === null || startTime === "" || startTime === undefined) {
         startTime = "";
     } else {
-        startTime = "&startTime=" + $("#StartTime").val();
+        startTime = "&start_time=" + $("#StartTime").val();
     }
 
     if (endTime === null || endTime === "" || endTime === undefined) {
         endTime = "";
     } else {
-        endTime = "&endTime=" + $("#EndTime").val();
+        endTime = "&end_time=" + $("#EndTime").val();
     }
 
     if (keywords === null || keywords === "" || keywords === undefined) {
@@ -444,11 +444,17 @@ function executeForm(pageNumber) {
     } else {
         pageNumber = "&page=" + pageNumber;
     }
-
-
-    let url = $("#endpoint").val() + "/services/?" + coverage + taxonomyTerm + taxonomyType
-        + vocabulary + proximity + postcode + day + startTime + endTime + keywords + pageNumber;
-
+    let url = "";
+    if ($("#endpoint").val() !== "http://ec2-52-212-176-170.eu-west-1.compute.amazonaws.com:8080/o/ServiceDirectoryService/v2") {
+        url = $("#endpoint").val() + "/services/?" + coverage + taxonomyTerm + taxonomyType
+            + vocabulary + proximity + postcode + day + startTime + endTime + keywords + pageNumber;
+    } else {
+        if (pageNumber === undefined || pageNumber === "") {
+            pageNumber = "&page=1";
+        }
+        url = $("#endpoint").val() + "/hservices/?" + coverage + taxonomyTerm + taxonomyType
+            + vocabulary + proximity + postcode + day + startTime + endTime + keywords + pageNumber;
+    }
 
     addApiPanel("Get service(s)", false);
     addApiPanel(url, true);
@@ -467,8 +473,8 @@ function executeForm(pageNumber) {
                 results.append("<div><p>No results found</p></div>");
             }
             $.each(data.content, function (key, value) {
-                results.append("<div class='row rowhover'>"
-                    + "<div class='col-sm-1'>" + value.id + "</div>"
+                results.append("<div id='col" + value.id + "' class='row rowhover'>"
+                    + "<div id='text" + value.id + "' class='col-sm-1 text-truncate'>" + value.id + "</div>"
                     + "<div class='col-sm-9'>" + value.name + "</div>"
                     + "<div class='col-sm-2'>"
                     + "<div class='container-fluid visualise'><button id='" + value.id + "' class='btn btn-secondary btn-sm mb-1 visualiseButton'>Visualise</button>" + "&nbsp;"
@@ -479,6 +485,16 @@ function executeForm(pageNumber) {
                 $("#json" + value.id).on("click", function () {
                     getJSON(value.id);
                 });
+
+                if (value.id.length > 8) {
+                    $("#col" + value.id).hover(function () {
+                        $("#text" + value.id).removeClass("text-truncate");
+                        $("#text" + value.id).prop("style", "font-size: 70%");
+                    }, function () {
+                        $("#text" + value.id).addClass("text-truncate");
+                        $("#text" + value.id).prop("style", "font-size: 100%");
+                    });
+                }
 
             });
 
@@ -508,6 +524,7 @@ function executeForm(pageNumber) {
         },
         error: function (status, error) {
             $("#results").empty().append("<div>An error has occurred</div>");
+            $("#results").append('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show error</button>');
         }
     });
 }

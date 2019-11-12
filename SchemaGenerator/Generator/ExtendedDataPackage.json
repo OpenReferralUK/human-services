@@ -3480,7 +3480,7 @@
                 {
                   "name": "amount",
                   "description": "The actual cost",
-                  "type": "string",
+                  "type": "number",
                   "source": "LGA",
                   "applicationProfile": [
                     {

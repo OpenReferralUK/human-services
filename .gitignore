@@ -1,5 +1,6 @@
 **/.vs
 **/.idea
+**/.svn
 /Utilities/ServiceLoaderBucks/packages/
 bin/
 obj/

@@ -127,8 +127,11 @@ clsOpenReferralPlus.prototype.get = function () {
                     break;
                 case 'json':
                     $(objORP.objViz.tagElement).empty();
-                    $(objORP.objViz.tagElement).append("<button class='btn btn-secondary' onclick='getRawJSON(" + jsonContent.id + ")'>Raw JSON</button>");
+                    $(objORP.objViz.tagElement).append("<button id='Raw" + jsonContent.id + "' class='btn btn-secondary' onclick='getRawJSON(" + jsonContent.id + ")'>Raw JSON</button>");
                     $(objORP.objViz.tagElement).append('<pre>' + nl2br(htmlEntities(JSON.stringify(jsonContent, null, 1))) + '</pre>');
+                    $("#Raw" + jsonContent.id).on("click", function () {
+                        getRawJSON(jsonContent.id);
+                    });
                     break;
             }
         }
@@ -259,6 +262,17 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
             }
         }
     }
+
+    if (jsonContent.hasOwnProperty('regular_schedules') || this.showAll) {
+        if (jsonContent.regular_schedules) {
+            var NodeIdRegularSchedules = objORP.DotNodeRegularSchedule(jsonContent.regular_schedules);
+            if (NodeIdRegularSchedules) {
+                var DotEdge = NodeIdService + ' -> ' + NodeIdRegularSchedules + '\n';
+                objORP.Dot += DotEdge;
+            }
+        }
+    }
+
     if (jsonContent.hasOwnProperty('holiday_schedules') || this.showAll) {
         if (jsonContent.holiday_schedules || this.showAll) {
             var NodeIdHolidaySchedules = objORP.DotNodeHolidaySchedules(jsonContent.holiday_schedules);
@@ -283,13 +297,20 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
 
 
     if (jsonContent.hasOwnProperty('service_taxonomys')) {
-        var NodeIdServiceTaxonomies = objORP.DotListTaxonomies(jsonContent.service_taxonomys);
-        if (NodeIdServiceTaxonomies) {
-            var DotEdge = NodeIdService + ' -> ' + NodeIdServiceTaxonomies + '\n';
-            objORP.Dot += DotEdge;
+        let taxonomy = false;
+        for (let item of jsonContent.service_taxonomys) {
+            if (item.hasOwnProperty('taxonomy')){
+                taxonomy = true;
+            }
+        }
+        if (taxonomy || this.showAll) {
+            var NodeIdServiceTaxonomies = objORP.DotListTaxonomies(jsonContent.service_taxonomys);
+            if (NodeIdServiceTaxonomies) {
+                var DotEdge = NodeIdService + ' -> ' + NodeIdServiceTaxonomies + '\n';
+                objORP.Dot += DotEdge;
+            }
         }
     }
-
 
 };
 
@@ -385,6 +406,22 @@ clsOpenReferralPlus.prototype.DotNodeService = function (jsonContent) {
             Dot += "<tr><td align='left' balign='left' valign='top'><b>deliverable type  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.deliverableType)) + "</td></tr>";
         } else if (this.showAll) {
             Dot += "<tr><td align='left' balign='left' valign='top'><b>deliverable type  </b></td><td align='left' balign='left' valign='top'>" + '' + "</td></tr>";
+        }
+    }
+    
+    if (jsonContent.hasOwnProperty('attending_type')) {
+        if (jsonContent.attending_type) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>attending type  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.attending_type)) + "</td></tr>";
+        } else if (this.showAll) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>attending type  </b></td><td align='left' balign='left' valign='top'>" + '' + "</td></tr>";
+        }
+    }
+    
+    if (jsonContent.hasOwnProperty('attending_access')) {
+        if (jsonContent.attending_access) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>attending access  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.attending_access)) + "</td></tr>";
+        } else if (this.showAll) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>attending access  </b></td><td align='left' balign='left' valign='top'>" + '' + "</td></tr>";
         }
     }
 
@@ -643,7 +680,7 @@ clsOpenReferralPlus.prototype.DotNodeServiceAtLocation = function (jsonContent) 
 
     if (jsonContent.hasOwnProperty('id')) {
         if (jsonContent.id) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td><td align='left' balign='left' valign='top'>" + jsonContent.id + "</td></tr>";
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td><td align='left' balign='left' valign='top'>" + ((jsonContent.id) ? nl2br(objORP.objViz.prepareString(jsonContent.id)) : '') + "</td></tr>";
         }
     }
 
@@ -848,23 +885,23 @@ clsOpenReferralPlus.prototype.DotNodePhysicalAddress = function (jsonContent) {
 
     if (jsonContent.hasOwnProperty('id')) {
         if (jsonContent.id) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td><td align='left' balign='left' valign='top'>" + jsonContent.id + "</td></tr>";
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td><td align='left' balign='left' valign='top'>" + ((jsonContent.id) ? nl2br(objORP.objViz.prepareString(jsonContent.id)) : '') + "</td></tr>";
         } else if (this.showAll) {
             Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
         }
     }
 
     if (jsonContent.hasOwnProperty('attention')) {
-        if (jsonContent.qttention) {
+        if (jsonContent.attention) {
             Dot += "<tr><td align='left' balign='left' valign='top'><b>attention  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.attention)) + "</td></tr>";
         } else if (this.showAll) {
             Dot += "<tr><td align='left' balign='left' valign='top'><b>attention  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
         }
     }
 
-    if (jsonContent.hasOwnProperty('address1')) {
-        if (jsonContent.address1) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>address_1  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.address1)) + "</td></tr>";
+    if (jsonContent.hasOwnProperty('address_1')) {
+        if (jsonContent.address_1) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>address_1  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.address_1)) + "</td></tr>";
         } else if (this.showAll) {
             Dot += "<tr><td align='left' balign='left' valign='top'><b>address_1  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
         }
@@ -878,17 +915,17 @@ clsOpenReferralPlus.prototype.DotNodePhysicalAddress = function (jsonContent) {
         }
     }
 
-    if (jsonContent.hasOwnProperty('stateProvince')) {
-        if (jsonContent.stateProvince) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>state_province  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.stateProvince)) + "</td></tr>";
+    if (jsonContent.hasOwnProperty('state_province')) {
+        if (jsonContent.state_province) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>state_province  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.state_province)) + "</td></tr>";
         } else if (this.showAll) {
             Dot += "<tr><td align='left' balign='left' valign='top'><b>state_province  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
         }
     }
 
-    if (jsonContent.hasOwnProperty('postalCode')) {
-        if (jsonContent.postalCode) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>postal_code  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.postalCode)) + "</td></tr>";
+    if (jsonContent.hasOwnProperty('postal_code')) {
+        if (jsonContent.postal_code) {
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>postal_code  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.postal_code)) + "</td></tr>";
         } else if (this.showAll) {
             Dot += "<tr><td align='left' balign='left' valign='top'><b>postal_code  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
         }
@@ -1565,7 +1602,7 @@ clsOpenReferralPlus.prototype.DotNodePhone = function (jsonContent) {
     for (let i = 0; i < jsonLength; i++) {
         try {
             var jsonPhone = jsonContent[i];
-            Dot += "<td align='left' balign='left' valign='top'>" + jsonPhone.id + "</td>";
+            Dot += "<td align='left' balign='left' valign='top'>" + ((jsonPhone.id) ? nl2br(objORP.objViz.prepareString(jsonPhone.id)) : '') + "</td>";
         } catch (e) {
             Dot += "<td align='left' balign='left' valign='top'>" + " " + "</td>";
         }
@@ -1905,18 +1942,25 @@ clsOpenReferralPlus.prototype.DotNodeEligibilitys = function (jsonContent) {
 
     var Dot = '\n';
 
-    Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='3' bgcolor='lightgrey'><b>eligibility</b></td></tr>";
+    Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='4' bgcolor='lightgrey'><b>eligibility</b></td></tr>";
     Dot += "<tr>";
     Dot += "<td align='left' balign='left' valign='top'><b>id</b></td>";
     Dot += "<td align='left' balign='left' valign='top'><b>eligibility</b></td>";
+    Dot += "<td align='left' balign='left' valign='top'><b>min_age</b></td>";
+    Dot += "<td align='left' balign='left' valign='top'><b>max_age</b></td>";
 
     Dot += "</tr>";
 
+
     for (let i = 0; i < jsonContent.length; i++) {
         var jsonEligibility = jsonContent[i];
+
         Dot += "<tr>";
-        Dot += "<td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonEligibility.id)) + "</td>";
-        Dot += "<td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonEligibility.eligibility)) + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.id) ? nl2br(objORP.objViz.prepareString(jsonEligibility.id)) : '') + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.eligibility) ? nl2br(objORP.objViz.prepareString(jsonEligibility.eligibility)) : '') + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.min_age) ? nl2br(objORP.objViz.prepareString(jsonEligibility.min_age)) : '') + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.max_age) ? nl2br(objORP.objViz.prepareString(jsonEligibility.max_age)) : '') + "</td>";
+
         Dot += "</tr>";
 
     }
@@ -2209,8 +2253,8 @@ clsOpenReferralPlus.prototype.DotListAreas = function (jsonContent) {
     for (let i = 0; i < jsonContent.length; i++) {
         var jsonServiceArea = jsonContent[i];
         Dot += "<tr>";
-        Dot += "<td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonServiceArea.service_area)) + "</td>";
-        Dot += "<td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonServiceArea.uri)) + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonServiceArea.service_area) ? nl2br(objORP.objViz.prepareString(jsonServiceArea.service_area)) : '') + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonServiceArea.uri) ? nl2br(objORP.objViz.prepareString(jsonServiceArea.uri)) : '') + "</td>";
         Dot += "</tr>";
 
     }
@@ -2223,8 +2267,6 @@ clsOpenReferralPlus.prototype.DotListAreas = function (jsonContent) {
 
     return NodeId;
 };
-
-
 
 
 clsOpenReferralPlus.prototype.DotListTaxonomies = function (jsonContent) {

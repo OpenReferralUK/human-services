@@ -59,7 +59,8 @@ def main():
         'service_id',
         'taxonomy_id'
     ]
-    writer_service_taxonomy = csv.DictWriter(csv_out_service_taxonomy, fieldnames=fields_service_taxonomy, quoting=csv.QUOTE_ALL)
+    writer_service_taxonomy = csv.DictWriter(csv_out_service_taxonomy, fieldnames=fields_service_taxonomy,
+                                             quoting=csv.QUOTE_ALL)
     count_out_service_taxonomy = 0
 
     try:
@@ -86,7 +87,7 @@ def main():
 
             row_taxonomy.update({'id': row_in_esdTag["uri"]})
             row_taxonomy.update({'name': row_in_esdTag["Label"]})
-            row_taxonomy.update({'vocabulary': row_in_esdTag["Scheme"]})
+            row_taxonomy.update({'vocabulary': row_in_esdTag["Scheme"] + "s"})
 
             writer_taxonomy.writerow(row_taxonomy)
 
