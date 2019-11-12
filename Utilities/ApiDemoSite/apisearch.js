@@ -524,7 +524,12 @@ function executeForm(pageNumber) {
         },
         error: function (status, error) {
             $("#results").empty().append("<div>An error has occurred</div>");
-            $("#results").append('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show error</button>');
+            $("#results").append('<button class="show-error btn btn-secondary">Show error</button>');
+            $(".show-error").on("click", () => {
+                let win = window.open(url, "_blank");
+                win.focus();
+            })
+
         }
     });
 }
