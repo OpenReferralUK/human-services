@@ -423,6 +423,7 @@ cost_option [label=<
 <tr><td  bgcolor="lightblue"><b>valid_to</b></td></tr>
 <tr><td  bgcolor="lightblue"><b>option</b></td></tr>
 <tr><td  bgcolor="lightblue"><b>amount</b></td></tr>
+<tr><td  bgcolor="lightblue"><b>amount_description</b></td></tr>
 </table>
 >]
 

@@ -3487,6 +3487,17 @@
                       "name": "LGA"
                     }
                   ]
+                },
+                {
+                  "name": "amount_description",
+                  "description": "Specific details about the actual cost",
+                  "type": "string",
+                  "source": "LGA",
+                  "applicationProfile": [
+                    {
+                      "name": "LGA"
+                    }
+                  ]
                 }
               ],
               "primaryKey": "id",
