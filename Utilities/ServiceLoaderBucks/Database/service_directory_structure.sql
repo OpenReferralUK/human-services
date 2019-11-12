@@ -63,7 +63,8 @@ CREATE TABLE `cost_option` (
   `valid_from` datetime DEFAULT NULL,
   `valid_to` datetime DEFAULT NULL,
   `option` text,
-  `amount` text,
+  `amount` decimal,
+  `amount_description` text,
   PRIMARY KEY (`id`),
   KEY `FK_cost_option_1` (`service_id`),
   CONSTRAINT `FK_cost_option_1` FOREIGN KEY (`service_id`) REFERENCES `service` (`id`)
@@ -84,6 +85,22 @@ CREATE TABLE `eligibility` (
   PRIMARY KEY (`id`),
   KEY `FK_eligibility_1` (`service_id`),
   CONSTRAINT `FK_eligibility_1` FOREIGN KEY (`service_id`) REFERENCES `service` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `esd_link`
+--
+
+DROP TABLE IF EXISTS `esd_link`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `esd_link` (
+  `id` VARCHAR(1536) NOT NULL,
+  `taxonomy_id` VARCHAR(1536) NULL,
+  `need_id` VARCHAR(1536) NULL,
+  `circumstance_id` VARCHAR(1536) NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -326,8 +343,10 @@ CREATE TABLE `service` (
   `fees` text,
   `accreditations` text,
   `deliverable_type` text,
+  `assured_date` datetime,
   `attending_type` varchar(20),
   `attending_access` varchar(20),
+  `parent_id` varchar(1536),
   PRIMARY KEY (`id`),
   KEY `FK_service_1` (`organization_id`),
   CONSTRAINT `FK_service_1` FOREIGN KEY (`organization_id`) REFERENCES `organization` (`id`)
@@ -407,6 +426,12 @@ CREATE TABLE `taxonomy` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
+CREATE FULLTEXT INDEX service_search ON service(`name`, description);
+CREATE FULLTEXT INDEX service_name_search ON service(`name`);
+CREATE FULLTEXT INDEX service_description_search ON service(`description`);
+CREATE FULLTEXT INDEX taxonomy_search ON taxonomy(`name`);
+
 --
 -- Dumping routines for database 'ServiceDirectoryBucks'
 --
@@ -420,9 +445,6 @@ CREATE TABLE `taxonomy` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-/*Additional fields and table from service_directory_structure_1.sql, which can now be deleted*/
-
-#MUST
 ALTER TABLE organization ADD email text;
 ALTER TABLE organization ADD legal_status text;
 ALTER TABLE organization ADD assured_date datetime;
