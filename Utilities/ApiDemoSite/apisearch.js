@@ -512,15 +512,19 @@ function executeForm(pageNumber) {
             results.append(
                 "<div class='container-fluid'>" +
                 "<div class='row'>" +
-                "<div><button class='btn btn-secondary btn-sm mt-1 mr-1' " + firstPage +
-                "onclick='executeForm(" + (pageNo) + ")'>Previous</button>" +
+                "<div><button id='previousPage' class='btn btn-secondary btn-sm mt-1 mr-1' " + firstPage + ">Previous</button>" +
                 "</div>" +
-                "<div class=' mt-1'>Page " + (pageNo + 1) + "</div>" +
-                "<div><button class='btn btn-secondary btn-sm mt-1 ml-1' " + lastPage +
-                "onclick='executeForm(" + (pageNo + 2) + ")'>  Next  </button>" +
+                "<div class=' mt-1'>Page " + (pageNo) + "</div>" +
+                "<div><button id='nextPage' class='btn btn-secondary btn-sm mt-1 ml-1' " + lastPage + ">  Next  </button>" +
                 "</div>" +
                 "</div>" +
                 "</div>");
+            $("#nextPage").on("click", () => {
+                executeForm(pageNo + 1);
+            });
+            $("#previousPage").on("click", () => {
+                executeForm(pageNo - 1);
+            });
         },
         error: function (status, error) {
             $("#results").empty().append("<div>An error has occurred</div>");
@@ -528,7 +532,7 @@ function executeForm(pageNumber) {
             $(".show-error").on("click", () => {
                 let win = window.open(url, "_blank");
                 win.focus();
-            })
+            });
 
         }
     });
