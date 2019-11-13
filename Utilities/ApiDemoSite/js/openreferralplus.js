@@ -135,14 +135,14 @@ clsOpenReferralPlus.prototype.get = function () {
                     break;
             }
         },
-        error(status, code){
+        error(status, code) {
             $("#graphLoading").empty();
             $("#graphLoading").append("<div>An error has occurred while fetching the service</div>");
             $("#graphLoading").append('<button class="show-error-vis btn btn-secondary">Show error</button>');
             $(".show-error-vis").on("click", () => {
                 let win = window.open(url, "_blank");
                 win.focus();
-            })
+            });
         }
     });
 
@@ -308,7 +308,7 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
     if (jsonContent.hasOwnProperty('service_taxonomys')) {
         let taxonomy = false;
         for (let item of jsonContent.service_taxonomys) {
-            if (item.hasOwnProperty('taxonomy')){
+            if (item.hasOwnProperty('taxonomy')) {
                 taxonomy = true;
             }
         }
@@ -417,7 +417,7 @@ clsOpenReferralPlus.prototype.DotNodeService = function (jsonContent) {
             Dot += "<tr><td align='left' balign='left' valign='top'><b>deliverable type  </b></td><td align='left' balign='left' valign='top'>" + '' + "</td></tr>";
         }
     }
-    
+
     if (jsonContent.hasOwnProperty('attending_type')) {
         if (jsonContent.attending_type) {
             Dot += "<tr><td align='left' balign='left' valign='top'><b>attending type  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.attending_type)) + "</td></tr>";
@@ -425,7 +425,7 @@ clsOpenReferralPlus.prototype.DotNodeService = function (jsonContent) {
             Dot += "<tr><td align='left' balign='left' valign='top'><b>attending type  </b></td><td align='left' balign='left' valign='top'>" + '' + "</td></tr>";
         }
     }
-    
+
     if (jsonContent.hasOwnProperty('attending_access')) {
         if (jsonContent.attending_access) {
             Dot += "<tr><td align='left' balign='left' valign='top'><b>attending access  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.attending_access)) + "</td></tr>";
@@ -668,7 +668,7 @@ clsOpenReferralPlus.prototype.DotNodeServiceAtLocation = function (jsonContent) 
     var objORP = this;
 
     var idServiceAtLocation = null;
-    if (jsonContent === undefined){
+    if (jsonContent === undefined) {
         jsonContent = [{}];
     }
     if (jsonContent.hasOwnProperty('id')) {
@@ -1795,9 +1795,8 @@ clsOpenReferralPlus.prototype.DotNodeCostOptions = function (jsonContent) {
                 let jsonCostOption = jsonContent[i];
                 if ((jsonCostOption.amount === undefined || jsonCostOption.amount === null) && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonCostOption.amount || (jsonCostOption.amount === "" && this.showAll)) {
-                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonCostOption.amount) ? nl2br(objORP.objViz.prepareString(jsonCostOption.amount)) : '') + "</td>";
+                } else if (jsonCostOption.amount !== null || (jsonCostOption.amount === "" && this.showAll)) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonCostOption.amount) ? jsonCostOption.amount : 0) + "</td>";
                 }
             } catch (e) {
                 if (this.showAll) {
@@ -1807,16 +1806,16 @@ clsOpenReferralPlus.prototype.DotNodeCostOptions = function (jsonContent) {
         }
         Dot += "</tr>";
     }
-    if ((jsonContent[0].description !== null && jsonContent[0].description !== undefined) || this.showAll) {
-        Dot += "<tr><td align='left' balign='left' valign='top'><b>description  </b></td>";
+    if ((jsonContent[0].amount_description !== null && jsonContent[0].amount_description !== undefined) || this.showAll) {
+        Dot += "<tr><td align='left' balign='left' valign='top'><b>amount_description  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
                 let jsonCostOption = jsonContent[i];
-                if ((jsonCostOption.description === undefined || jsonCostOption.description === null) && this.showAll) {
+                if ((jsonCostOption.amount_description === undefined || jsonCostOption.amount_description === null) && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
                 }
-                if (jsonCostOption.description || ((jsonCostOption.description === "" || jsonCostOption.description === null) && this.showAll)) {
-                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonCostOption.description) ? nl2br(objORP.objViz.prepareString(jsonCostOption.description)) : '') + "</td>";
+                if (jsonCostOption.amount_description || ((jsonCostOption.amount_description === "" || jsonCostOption.amount_description === null) && this.showAll)) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonCostOption.amount_description) ? nl2br(objORP.objViz.prepareString(jsonCostOption.amount_description)) : '') + "</td>";
                 }
             } catch (e) {
                 if (this.showAll) {
@@ -1989,8 +1988,8 @@ clsOpenReferralPlus.prototype.DotNodeEligibilitys = function (jsonContent) {
         Dot += "<tr>";
         Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.id) ? nl2br(objORP.objViz.prepareString(jsonEligibility.id)) : '') + "</td>";
         Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.eligibility) ? nl2br(objORP.objViz.prepareString(jsonEligibility.eligibility)) : '') + "</td>";
-        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.minimumAge) ? nl2br(objORP.objViz.prepareString(jsonEligibility.minimumAge)) : '') + "</td>";
-        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.maximumAge) ? nl2br(objORP.objViz.prepareString(jsonEligibility.maximumAge)) : '') + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.minimum_age) ? nl2br(objORP.objViz.prepareString(jsonEligibility.minimum_age)) : '') + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.maximum_age) ? nl2br(objORP.objViz.prepareString(jsonEligibility.maximum_age)) : '') + "</td>";
 
         Dot += "</tr>";
 
