@@ -483,3 +483,11 @@ ALTER TABLE contact ADD department text;
 
 ALTER TABLE phone ADD extension text;
 ALTER TABLE phone ADD description text;
+
+CREATE TABLE `esd_external_id` (
+  `uuid` varchar(1586) NOT NULL,
+  `external_id` varchar(1586) DEFAULT NULL,
+  `origin` text,
+  `reference_table` text,
+  PRIMARY KEY (`uuid`)
+);
