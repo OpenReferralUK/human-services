@@ -1,4 +1,6 @@
-﻿namespace ServiceLoader
+﻿using System;
+
+namespace ServiceLoader
 {
     public class Taxonomy
     {
@@ -17,7 +19,8 @@
         public bool IsEligibility { get; }
         public string ParentId { get; }
 
-        public string EligibilityId { get { return IsEligibility ? Id : null; } }
+        private readonly string _eligibilityId = Guid.NewGuid().ToString();
+        public string EligibilityId { get { return IsEligibility ? _eligibilityId : null; } }
 
         public static readonly Taxonomy OpenEligibilityAgeGroup = new Taxonomy("OpenEligibility:20002", "Age Group", "OpenEligibility", true);
         public static readonly Taxonomy OpenEligibilityDisability = new Taxonomy("OpenEligibility:20017", "Disability", "OpenEligibility", true);

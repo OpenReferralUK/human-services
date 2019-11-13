@@ -86,10 +86,10 @@ namespace ServiceLoader
                 var dayAbbrv = day.Substring(0, 2).ToUpperInvariant();
                 if (!ValidDays.Contains(dayAbbrv, StringComparer.Ordinal)) continue;
 
-                yield return new Schedule($"{result.ServiceId}:{day}", $"{dayPrefix}{dayAbbrv}", result.Frequency, weeklyMonthly, times?.StartTime, times?.EndTime, interval);
+                yield return new Schedule($"{dayPrefix}{dayAbbrv}", result.Frequency, weeklyMonthly, times?.StartTime, times?.EndTime, interval);
             }
 
-            if (!days.Any()) yield return new Schedule($"{result.ServiceId}:unknown", string.Empty, result.Frequency, weeklyMonthly, times?.StartTime, times?.EndTime, interval);
+            if (!days.Any()) yield return new Schedule(string.Empty, result.Frequency, weeklyMonthly, times?.StartTime, times?.EndTime, interval);
         }
 
         private static string ParseInterval(IEnumerable<string> parts)

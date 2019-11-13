@@ -4,9 +4,9 @@ namespace ServiceLoader
 {
     public class Schedule
     {
-        public Schedule(string id, string day, string description, string weeklyMonthly, TimeSpan? opensAt, TimeSpan? closesAt, string interval)
+        public Schedule(string day, string description, string weeklyMonthly, TimeSpan? opensAt, TimeSpan? closesAt, string interval)
         {
-            Id = id;
+            Id = Guid.NewGuid().ToString();
             Day = day;
             Description = description;
             WeeklyMonthly = weeklyMonthly;

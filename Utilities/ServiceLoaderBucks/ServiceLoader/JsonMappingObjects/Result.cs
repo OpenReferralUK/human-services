@@ -77,31 +77,33 @@ namespace ServiceLoader.JsonMappingObjects
                                     (ConfidentialData.StartsWith("true", StringComparison.OrdinalIgnoreCase) ||
                                      ConfidentialData.StartsWith("yes", StringComparison.OrdinalIgnoreCase));
 
-        public string OrganisationId => Organisation ?? ServiceId;
+        public string OrganisationId = Guid.NewGuid().ToString();
         public string OrganisationName => !string.IsNullOrEmpty(Organisation) ? Organisation : "Unknown";
         public string OrganisationDescription => OrganisationName;
         public string OrganisationUrl => Url;
-        public string ServiceId => Id.ToString(CultureInfo.InvariantCulture);
+        public string ExternalServiceId => Id.ToString(CultureInfo.InvariantCulture);
+        public string ServiceId = Guid.NewGuid().ToString();
         public string ServiceName => !string.IsNullOrEmpty(Name) ? Name : "Unknown";
         public string ServiceDescription => Description ?? string.Empty;
         public string ServiceAttendingType => string.IsNullOrEmpty(LocationId) ? "online" : null;
-        public string ServiceAreaId => Area?.ToLowerInvariant();
-        public string LocationId => Venue?.ToLowerInvariant();
+        private readonly string _serviceAreaId = Guid.NewGuid().ToString();
+        public string ServiceAreaId => string.IsNullOrEmpty(Area) ? null : _serviceAreaId;
+        private readonly string _locationId = Guid.NewGuid().ToString();
+        public string LocationId => string.IsNullOrEmpty(Venue) ? null : _locationId;
         public string LocationName => Venue?.ToLowerInvariant();
         public string LocationDescription => Venue?.ToLowerInvariant();
         public double? LocationLatitude => Geo?.Latitude;
         public double? LocationLongitude => Geo?.Longitude;
-        public string ServiceAtLocationId => !string.IsNullOrEmpty(LocationId) ? $"{ServiceId}:{LocationId}" : null;
+        private readonly string _serviceAtLocationId = Guid.NewGuid().ToString();
+        public string ServiceAtLocationId => !string.IsNullOrEmpty(LocationId) ? _serviceAtLocationId : null;
         public IEnumerable<Taxonomy> Taxonomies => TaxonomyBuilder.Build(this);
-        public string ContactId => !string.IsNullOrEmpty(ContactName) ? $"{ServiceId}:{ContactName}" : ServiceId;
-        public string AddressId => $"{LocationId}:{PostCode}:{LocationLongitude}:{LocationLatitude}";
+        public readonly string ContactId = Guid.NewGuid().ToString();
         public string AddressLine1 => Venue;
         public string AddressCity => Area;
-        public string AddressStateProvince => "Buckinghamshire";
-        public string AddressCountry => "GB";
+        public readonly string AddressStateProvince = "Buckinghamshire";
+        public readonly string AddressCountry = "GB";
         public string AddressPostCode => PostCode ?? string.Empty;
         public IEnumerable<Schedule> Schedules => ScheduleBuilder.Build(this);
-        public string CostOptionId => ServiceId;
         public decimal? PriceAmount => PriceParser.Parse(PriceDescription);
     }
 }

@@ -40,12 +40,28 @@ namespace ServiceLoader
                     WriteAddress(result);
                     WriteSchedule(result);
                     WriteCostOption(result);
+                    WriteExternalId(result);
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
                     Logger.Error(e);
                 }
+            }
+        }
+
+        private void WriteExternalId(Result result)
+        {
+            using (var command = _connection.CreateCommand())
+            {
+                command.CommandType = CommandType.Text;
+                command.CommandText = @"
+INSERT INTO esd_external_id(uuid, external_id, reference_table)
+VALUES (@id, @external_id, 'service');
+";
+                command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = result.ServiceId;
+                command.Parameters.Add("@external_id", MySqlDbType.VarChar, 1536).Value = result.ExternalServiceId;
+                command.ExecuteNonQuery();
             }
         }
 
@@ -61,8 +77,8 @@ INSERT INTO link_taxonomy(id, link_type, link_id, taxonomy_id)
 VALUES (@id, 'eligibility', @link_id, @taxomomy_id)
 ON DUPLICATE KEY UPDATE id = id;
 ";
-                    command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = $"{result.ServiceId}:{taxonomy.EligibilityId}";
-                    command.Parameters.Add("@link_id", MySqlDbType.Text).Value = $"{result.ServiceId}:{taxonomy.EligibilityId}";
+                    command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = Guid.NewGuid().ToString();
+                    command.Parameters.Add("@link_id", MySqlDbType.Text).Value = taxonomy.EligibilityId;
                     command.Parameters.Add("@taxomomy_id", MySqlDbType.VarChar, 1536).Value = taxonomy.Id;
                     command.ExecuteNonQuery();
                 }
@@ -81,7 +97,7 @@ INSERT INTO eligibility(id, service_id)
 VALUES (@id, @service_id)
 ON DUPLICATE KEY UPDATE id = id;
 ";
-                    command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = $"{result.ServiceId}:{taxonomy.EligibilityId}";
+                    command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = taxonomy.EligibilityId;
                     command.Parameters.Add("@service_id", MySqlDbType.VarChar, 1536).Value = result.ServiceId;
                     command.ExecuteNonQuery();
                 }
@@ -99,7 +115,7 @@ INSERT INTO cost_option(id, service_id, amount, amount_description)
 VALUES (@id, @service_id, @amount, @amount_description)
 ON DUPLICATE KEY UPDATE id = id;
 ";
-                command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = result.CostOptionId;
+                command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = Guid.NewGuid().ToString();
                 command.Parameters.Add("@service_id", MySqlDbType.VarChar, 1536).Value = result.ServiceId;
                 command.Parameters.Add("@amount", MySqlDbType.Decimal).Value = result.PriceAmount;
                 command.Parameters.Add("@amount_description", MySqlDbType.Text).Value = result.PriceDescription;
@@ -144,7 +160,7 @@ INSERT INTO physical_address(id, location_id, address_1, city, postal_code, stat
 VALUES (@id, @location_id, @address_1, @city, @postal_code, @state_province, @country)
 ON DUPLICATE KEY UPDATE id = id;
 ";
-                command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = result.AddressId;
+                command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = Guid.NewGuid().ToString();
                 command.Parameters.Add("@location_id", MySqlDbType.VarChar, 1536).Value = result.LocationId;
                 command.Parameters.Add("@address_1", MySqlDbType.Text).Value = result.AddressLine1;
                 command.Parameters.Add("@city", MySqlDbType.Text).Value = result.AddressCity;
@@ -166,7 +182,7 @@ INSERT INTO phone(id, contact_id, number)
 VALUES (@id, @contact_id, @number)
 ON DUPLICATE KEY UPDATE id = id;
 ";
-                command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = result.ContactId;
+                command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = Guid.NewGuid().ToString();
                 command.Parameters.Add("@contact_id", MySqlDbType.VarChar, 1536).Value = result.ContactId;
                 command.Parameters.Add("@number", MySqlDbType.Text).Value = result.Phone;
                 command.ExecuteNonQuery();
@@ -205,7 +221,7 @@ INSERT INTO service_taxonomy(id, service_id, taxonomy_id)
 VALUES (@id, @service_id, @taxonomy_id)
 ON DUPLICATE KEY UPDATE id = id;
 ";
-                    command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = $"{result.ServiceId}:{taxonomy.Id}";
+                    command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = Guid.NewGuid().ToString();
                     command.Parameters.Add("@service_id", MySqlDbType.VarChar, 1536).Value = result.ServiceId;
                     command.Parameters.Add("@taxonomy_id", MySqlDbType.VarChar, 1536).Value = taxonomy.Id;
                     command.ExecuteNonQuery();
@@ -237,7 +253,6 @@ ON DUPLICATE KEY UPDATE id = id;
 
         private void WriteTopLevelTaxonomies()
         {
-            //To think about: Hard coded IDs here are also hard coded in TaxonomyBuilder. Should they exist in a class of their own?
             //Open eligibility data at https://github.com/auntbertha/openeligibility/blob/master/taxonomy
             var openEligibilityTopLevelTaxonomies = new List<Taxonomy>
             {
