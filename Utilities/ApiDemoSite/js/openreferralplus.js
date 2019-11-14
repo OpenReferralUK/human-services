@@ -135,11 +135,11 @@ clsOpenReferralPlus.prototype.get = function () {
                     break;
             }
         },
-        error(status, code) {
+        error: function(status, code) {
             $("#graphLoading").empty();
             $("#graphLoading").append("<div>An error has occurred while fetching the service</div>");
             $("#graphLoading").append('<button class="show-error-vis btn btn-secondary">Show error</button>');
-            $(".show-error-vis").on("click", () => {
+            $(".show-error-vis").on("click", function(){
                 let win = window.open(url, "_blank");
                 win.focus();
             });
@@ -307,11 +307,11 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
 
     if (jsonContent.hasOwnProperty('service_taxonomys')) {
         let taxonomy = false;
-        for (let item of jsonContent.service_taxonomys) {
+         jsonContent.service_taxonomys.forEach(function (item) {
             if (item.hasOwnProperty('taxonomy')) {
                 taxonomy = true;
             }
-        }
+        });
         if (taxonomy || this.showAll) {
             var NodeIdServiceTaxonomies = objORP.DotListTaxonomies(jsonContent.service_taxonomys);
             if (NodeIdServiceTaxonomies) {
@@ -1346,30 +1346,30 @@ clsOpenReferralPlus.prototype.DotNodeHolidaySchedules = function (jsonContent) {
     for (let i = 0; i < jsonLength; i++) {
         try {
             let jsonHolidaySchedule = jsonContent[i];
-            if (jsonHolidaySchedule.startDate === undefined && this.showAll) {
-                Dot += "<tr><td align='left' balign='left' valign='top'><b>startDate  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
+            if (jsonHolidaySchedule.start_date === undefined && this.showAll) {
+                Dot += "<tr><td align='left' balign='left' valign='top'><b>start_date  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
             }
-            if (jsonHolidaySchedule.startDate || (jsonHolidaySchedule.startDate === "") && this.showAll) {
-                Dot += "<tr><td align='left' balign='left' valign='top'><b>startDate  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonHolidaySchedule.startDate) ? nl2br(objORP.objViz.prepareString(jsonHolidaySchedule.startDate)) : '') + "</td></tr>";
+            if (jsonHolidaySchedule.start_date || (jsonHolidaySchedule.start_date === "") && this.showAll) {
+                Dot += "<tr><td align='left' balign='left' valign='top'><b>start_date  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonHolidaySchedule.start_date) ? nl2br(objORP.objViz.prepareString(jsonHolidaySchedule.start_date)) : '') + "</td></tr>";
             }
         } catch (e) {
             if (this.showAll) {
-                Dot += "<tr><td align='left' balign='left' valign='top'><b>startDate  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
+                Dot += "<tr><td align='left' balign='left' valign='top'><b>start_date  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
             }
         }
     }
     for (let i = 0; i < jsonLength; i++) {
         try {
             let jsonHolidaySchedule = jsonContent[i];
-            if (jsonHolidaySchedule.endDate === undefined && this.showAll) {
-                Dot += "<tr><td align='left' balign='left' valign='top'><b>endDate  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
+            if (jsonHolidaySchedule.end_date === undefined && this.showAll) {
+                Dot += "<tr><td align='left' balign='left' valign='top'><b>end_date  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
             }
-            if (jsonHolidaySchedule.endDate || (jsonHolidaySchedule.endDate === "") && this.showAll) {
-                Dot += "<tr><td align='left' balign='left' valign='top'><b>endDate  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonHolidaySchedule.endDate) ? nl2br(objORP.objViz.prepareString(jsonHolidaySchedule.endDate)) : '') + "</td></tr>";
+            if (jsonHolidaySchedule.end_date || (jsonHolidaySchedule.end_date === "") && this.showAll) {
+                Dot += "<tr><td align='left' balign='left' valign='top'><b>end_date  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonHolidaySchedule.end_date) ? nl2br(objORP.objViz.prepareString(jsonHolidaySchedule.end_date)) : '') + "</td></tr>";
             }
         } catch (e) {
             if (this.showAll) {
-                Dot += "<tr><td align='left' balign='left' valign='top'><b>endDate  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
+                Dot += "<tr><td align='left' balign='left' valign='top'><b>end_date  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
             }
         }
     }
@@ -1814,7 +1814,7 @@ clsOpenReferralPlus.prototype.DotNodeCostOptions = function (jsonContent) {
                 if ((jsonCostOption.amount_description === undefined || jsonCostOption.amount_description === null) && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
                 }
-                if (jsonCostOption.amount_description || ((jsonCostOption.amount_description === "" || jsonCostOption.amount_description === null) && this.showAll)) {
+                if (jsonCostOption.amount_description || (jsonCostOption.amount_description === "" && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonCostOption.amount_description) ? nl2br(objORP.objViz.prepareString(jsonCostOption.amount_description)) : '') + "</td>";
                 }
             } catch (e) {
