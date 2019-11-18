@@ -362,7 +362,7 @@ clsOpenReferralPlus.prototype.DotNodeService = function (jsonContent) {
         if (jsonContent.description) {
             Dot += "<tr><td align='left' balign='left' valign='top'><b>description  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.description)) + "</td></tr>";
         } else {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>name  </b></td><td align='left' balign='left' valign='top'>" + '' + "</td></tr>";
+            Dot += "<tr><td align='left' balign='left' valign='top'><b>description  </b></td><td align='left' balign='left' valign='top'>" + '' + "</td></tr>";
         }
     }
 

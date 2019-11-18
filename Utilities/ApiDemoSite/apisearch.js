@@ -88,6 +88,8 @@ function getTaxonomyTerm() {
                     else return 0;
                 });
                 $("#TaxonomyTerm").empty().append(options);
+                $("#TaxonomyTerm").val("");
+
                 $("#TaxonomyTerm").prop('disabled', false);
 
                 if ($("#TaxonomyTerm option").length === 1) {
@@ -141,6 +143,8 @@ function getChildTaxonomyTerm() {
                     else return 0;
                 });
                 $("#ChildTaxonomyTerm").empty().append(options);
+                $("#ChildTaxonomyTerm").val("");
+
                 $("#ChildTaxonomyTerm").prop('disabled', false);
 
                 if ($("#ChildTaxonomyTerm option").length === 1) {
@@ -190,6 +194,7 @@ function getChildChildTaxonomyTerm() {
                     else return 0;
                 });
                 $("#ChildChildTaxonomyTerm").empty().append(options);
+                $("#ChildChildTaxonomyTerm").val("");
 
                 $("#ChildChildTaxonomyTerm").prop('disabled', false);
 
@@ -467,6 +472,7 @@ function executeForm(pageNumber) {
         async: true,
         type: 'GET',
         url: url,
+        timeout: 30000,
         success: function (data) {
             results.empty();
             if (data.totalElements === 0) {
