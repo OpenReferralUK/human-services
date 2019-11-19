@@ -51,7 +51,7 @@ The [SchemaGenerator folder](https://github.com/esd-org-uk/human-services/tree/m
 
 An alpha API is being developed to get and post data in the standard format.
 
-Here is [Swagger documentation for the API based on alpha web-sevices](http://api.porism.com/ServiceDirectoryService/swagger-ui.html).  API responses for methods which get services, organizations, etc are in the schema’s JSON format.
+Here is [Swagger documentation for the API based on alpha web-sevices](https://api.porism.com/ServiceDirectoryService/swagger-ui.html).  API responses for methods which get services, organizations, etc are in the schema’s JSON format.
 
 Different API endpoints will be supported for different databases. Currently the http://api.porism.com/ServiceDirectoryService/ end point serves historic Bristol services data for illustration with no guarantees on accuracy. A few demonstration services with all properties populated are being added to the end point http://api.porism.com/ServiceDirectoryServiceDemo/.
 
