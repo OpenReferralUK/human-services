@@ -633,14 +633,24 @@ function postValidate(data) {
     console.log(data);
     console.log(typeof data);
     console.log(JSON.stringify(data));
+    addApiPanel("Post JSON for validate", false);
+    addApiPanel(url);
+    updateScroll();
 
     $.post({url: url, contentType: "application/json"}, JSON.stringify(data), function (resBody) {
         console.log(resBody);
-        let res = JSON.stringify(resBody, null, 1);
-        $("#validatePanel").empty().append(
-            "<div class='container-fluid'><p class='mt-1'><pre>" + res + "</pre></p></div>"
-        );
+        // let res = JSON.stringify(resBody, null, 1);
+        $("#validatePanel").empty();
+        // $("#validatePanel").append(
+        //     "<div class='container-fluid'><p class='mt-1'><pre>" + res + "</pre></p></div>"
+        // );
+        $("#validatePanel").append("<h3>Issues</h3>");
+        for (let i = 0; i < resBody.issues.length; i++) {
+            $("#validatePanel").append("<p>" + resBody.issues[i].message + "</p>");
+        }
+        $("#validatePanel").append("<h3>Richness percentage</h3><p>Score: " + resBody.richnessPercentage + "%</p>");
     }, "json");
+
 }
 
 function addApiPanel(text, code) {

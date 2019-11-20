@@ -2362,7 +2362,7 @@ clsORP_LoadingImage.prototype.set = function (boolOn) {
             objLoadingImage.spanLoading = document.createElement('span');
             objLoadingImage.tagLoading.appendChild(objLoadingImage.spanLoading);
         }
-        objLoadingImage.spanLoading.innerHTML = '<img src="images/ajax-loader.gif"/>';
+        objLoadingImage.spanLoading.innerHTML = '<img src="images/ajax-loader.gif" alt="Loading"/>';
     } else {
         if (objLoadingImage.spanLoading !== null) {
             objLoadingImage.spanLoading.parentElement.removeChild(objLoadingImage.spanLoading);
