@@ -70,6 +70,7 @@
     <Compile Include="Models\Column.cs" />
     <Compile Include="Models\CSVSchema.cs" />
     <Compile Include="Models\CSVSchemaRow.cs" />
+    <Compile Include="Models\DataPackage.cs" />
     <Compile Include="Models\HTML.cs" />
     <Compile Include="Models\Profile.cs" />
     <Compile Include="Models\SQL.cs" />

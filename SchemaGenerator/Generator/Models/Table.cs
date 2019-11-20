@@ -105,7 +105,7 @@ namespace Convertor.Models
         {
             StringBuilder table = new StringBuilder();
             table.AppendLine();
-            table.AppendFormat("<h1>{0}</h1>", Name);
+            table.AppendFormat("<h2>{0}</h2>", Name);
             table.AppendFormat("<p>{0}</p>", Description);
             if (!IsOriginal)
             {

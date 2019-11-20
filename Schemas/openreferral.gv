@@ -30,6 +30,14 @@ organization [label=<
 
 
 
+identifier [label=<
+<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+<tr><td bgcolor="palevioletred"><b>identifier</b></td></tr>
+</table>
+>]
+
+
+
 program [label=<
 <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
 <tr><td bgcolor="lawngreen"><b>program</b></td></tr>
@@ -368,6 +376,30 @@ meta_table_description [label=<
 <tr><td  bgcolor="lawngreen"><b>name</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>language</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>character_set</b></td></tr>
+</table>
+>]
+
+
+
+cost_option [label=<
+<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+<tr><td bgcolor="lightblue"><b>cost_option</b></td></tr>
+</table>
+>]
+
+
+
+review [label=<
+<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+<tr><td bgcolor="lightblue"><b>review</b></td></tr>
+</table>
+>]
+
+
+
+link_taxonomy [label=<
+<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+<tr><td bgcolor="lightblue"><b>link_taxonomy</b></td></tr>
 </table>
 >]
 

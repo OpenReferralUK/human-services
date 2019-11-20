@@ -29,36 +29,36 @@ namespace Convertor
                 return;
             }
 
-            List<Table> tables = FilterJSON(options);
+            DataPackage dataPackage = FilterJSON(options);
 
             if (options.ExportType == "gv")
             {
-                ERD erd = new ERD(tables);
+                ERD erd = new ERD(dataPackage.Tables);
                 erd.Generate(options);
             }
             else if (options.ExportType == "json")
             {
-                JSONSchema schema = new JSONSchema(tables);
+                JSONSchema schema = new JSONSchema(dataPackage.Tables);
                 schema.Generate(options);
             }
             else if (options.ExportType == "table")
             {
-                JSONTable schema = new JSONTable(tables);
+                JSONTable schema = new JSONTable(dataPackage.Tables);
                 schema.Generate(options);
             }
             else if (options.ExportType == "csv")
             {
-                CSVSchema schema = new CSVSchema(tables);
+                CSVSchema schema = new CSVSchema(dataPackage.Tables);
                 schema.Generate(options);
             }
             else if (options.ExportType == "sql")
             {
-                SQL sql = new SQL(tables);
+                SQL sql = new SQL(dataPackage.Tables);
                 sql.Generate(options);
             }
             else if (options.ExportType == "html")
             {
-                HTML html = new HTML(tables);
+                HTML html = new HTML(dataPackage);
                 html.Generate(options);
             }
             else
@@ -67,14 +67,17 @@ namespace Convertor
             }
         }
 
-        private static List<Table> FilterJSON(Options options)
+        private static DataPackage FilterJSON(Options options)
         {
-            List<Table> tables = new List<Table>();
+            DataPackage package = new DataPackage();
             HashSet<string> excludedColumns = new HashSet<string>();
 
             dynamic dataPackage = JObject.Parse(File.ReadAllText("ExtendedDataPackage.json"));
             if (dataPackage != null && dataPackage.resources != null)
             {
+                package.Title = dataPackage.title;
+                package.Description = dataPackage.description;
+
                 foreach (dynamic resource in dataPackage.resources)
                 {
                     if (resource.schema == null)
@@ -141,13 +144,13 @@ namespace Convertor
                         }
                     }
 
-                    tables.Add(table);
+                    package.Tables.Add(table);
                 }
             }
 
             List<Table> results = new List<Table>();
 
-            foreach (Table table in tables)
+            foreach (Table table in package.Tables)
             {
                 if (table.Columns.Count == 0)
                 {
@@ -168,7 +171,7 @@ namespace Convertor
                 results.Add(table);
             }
 
-            return results;
+            return package;
         }
 
         private static bool IsValid(int filter, dynamic source, dynamic applicationProfile, Options options)

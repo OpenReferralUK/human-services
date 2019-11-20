@@ -1,4 +1,5 @@
 ﻿using Generator;
+using Generator.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,17 +11,22 @@ namespace Convertor.Models
 {
     internal class HTML
     {
-        List<Table> tables = new List<Table>();
+        private DataPackage dataPackage;
 
-        internal HTML(List<Table> tables)
+        internal HTML(DataPackage dataPackage)
         {
-            this.tables = tables;
+            this.dataPackage = dataPackage;
         }
 
         internal void Generate(Options options)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append(@"<html><body><style>
+            sb.Append(@"<html>");
+            if (!string.IsNullOrEmpty(dataPackage.Title))
+            {
+                sb.AppendFormat(@"<title>{0}</title>", dataPackage.Title);
+            }
+            sb.Append(@"<body><style>
             table {
                 width:100%;
                 border-collapse: collapse;
@@ -41,7 +47,17 @@ namespace Convertor.Models
 
             </style>");
 
-            foreach(Table table in tables)
+            if (!string.IsNullOrEmpty(dataPackage.Title))
+            {
+                sb.AppendFormat(@"<h1>{0}</h1>", dataPackage.Title);
+            }
+
+            if (!string.IsNullOrEmpty(dataPackage.Description))
+            {
+                sb.AppendFormat(@"<p>{0}</p>", dataPackage.Description);
+            }
+
+            foreach (Table table in dataPackage.Tables)
             {
                 sb.Append(table.ToHTML(options));
             }

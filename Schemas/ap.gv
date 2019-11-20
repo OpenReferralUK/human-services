@@ -26,6 +26,22 @@ organization [label=<
 
 
 
+identifier [label=<
+<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+<tr><td bgcolor="palevioletred"><b>identifier</b></td></tr>
+</table>
+>]
+
+
+
+program [label=<
+<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+<tr><td bgcolor="lawngreen"><b>program</b></td></tr>
+</table>
+>]
+
+
+
 service [label=<
 <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
 <tr><td bgcolor="lawngreen"><b>service</b></td></tr>
@@ -129,6 +145,14 @@ physical_address [label=<
 location:id -> physical_address:location_id;
 
 
+postal_address [label=<
+<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+<tr><td bgcolor="lawngreen"><b>postal_address</b></td></tr>
+</table>
+>]
+
+
+
 regular_schedule [label=<
 <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
 <tr><td bgcolor="lawngreen"><b>regular_schedule</b></td></tr>
@@ -212,6 +236,22 @@ service_area [label=<
 service:id -> service_area:service_id;
 
 
+required_document [label=<
+<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+<tr><td bgcolor="lawngreen"><b>required_document</b></td></tr>
+</table>
+>]
+
+
+
+payment_accepted [label=<
+<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+<tr><td bgcolor="lawngreen"><b>payment_accepted</b></td></tr>
+</table>
+>]
+
+
+
 language [label=<
 <table border="0" cellborder="1" cellspacing="0" cellpadding="4">
 <tr><td bgcolor="lawngreen"><b>language</b></td></tr>
@@ -243,6 +283,22 @@ taxonomy [label=<
 <tr><td  bgcolor="lawngreen"><b>name</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>parent_id</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>vocabulary</b></td></tr>
+</table>
+>]
+
+
+
+metadata [label=<
+<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+<tr><td bgcolor="lawngreen"><b>metadata</b></td></tr>
+</table>
+>]
+
+
+
+meta_table_description [label=<
+<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+<tr><td bgcolor="lawngreen"><b>meta_table_description</b></td></tr>
 </table>
 >]
 
