@@ -36,8 +36,8 @@ function getVocabulary() {
                     $("#Vocabulary").append("<option>" + value + "</option>");
                 });
 
-                var options = $('#Vocabulary option');
-                var arr = options.map(function (_, o) {
+                const options = $('#Vocabulary option');
+                const arr = options.map(function (_, o) {
                     return {t: $(o).text(), v: o.value};
                 }).get();
                 arr.sort(function (o1, o2) {
@@ -81,7 +81,7 @@ function getTaxonomyTerm() {
                     taxonomyTerm.append("<option value='" + value.id + "'>" + value.name.substring(0, 49) + "</option>");
                 });
 
-                var options = $('#TaxonomyTerm option');
+                const options = $('#TaxonomyTerm option');
                 options.sort(function (a, b) {
                     if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
                     else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
@@ -136,7 +136,7 @@ function getChildTaxonomyTerm() {
                     }
                 });
 
-                var options = $('#ChildTaxonomyTerm option');
+                const options = $('#ChildTaxonomyTerm option');
                 options.sort(function (a, b) {
                     if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
                     else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
@@ -187,7 +187,7 @@ function getChildChildTaxonomyTerm() {
                     }
                 });
 
-                var options = $('#ChildChildTaxonomyTerm option');
+                const options = $('#ChildChildTaxonomyTerm option');
                 options.sort(function (a, b) {
                     if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
                     else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
@@ -220,6 +220,8 @@ function getChildChildTaxonomyTerm() {
 function updateEndpoint() {
     $("#results").empty();
     $("#graphTab").addClass("disabled").removeClass("active");
+    $("#validatePanel").addClass("disabled").removeClass("active");
+    $("#validateTab").addClass("disabled").removeClass("active");
     $("#graphPanel").removeClass("active");
     $("#resultTab").addClass("active");
     $("#resultPanel").addClass("active");
@@ -317,6 +319,7 @@ function updateKeywords() {
     updateParameters("keywords", keywords);
 }
 
+// noinspection SpellCheckingInspection
 function updateParameters(parm, parmVal) {
     window.history.replaceState('', '', updateURLParameter(window.location.href, parm, parmVal));
 }
@@ -481,15 +484,19 @@ function executeForm(pageNumber) {
             $.each(data.content, function (key, value) {
                 results.append("<div id='col" + value.id + "' class='row rowhover'>"
                     + "<div id='text" + value.id + "' class='col-sm-1 text-truncate'>" + value.id + "</div>"
-                    + "<div class='col-sm-9'>" + value.name + "</div>"
-                    + "<div class='col-sm-2'>"
+                    + "<div class='col-sm-8'>" + value.name + "</div>"
+                    + "<div class='col-sm-3'>"
                     + "<div class='container-fluid visualise'><button id='" + value.id + "' class='btn btn-secondary btn-sm mb-1 visualiseButton'>Visualise</button>" + "&nbsp;"
-                    + "<button id='json" + value.id + "' class='btn btn-secondary btn-sm mb-1' onclick='getJSON(" + value.id + ")'>JSON</button> </div></div> ");
+                    + "<button id='json" + value.id + "' class='btn btn-secondary btn-sm mb-1'>JSON</button> "
+                    + "<button id='validate" + value.id + "' class='btn btn-secondary btn-sm mb-1'>Validate</button></div></div>");
                 $("#" + value.id).on("click", function () {
                     getVisualise(value.id);
                 });
                 $("#json" + value.id).on("click", function () {
                     getJSON(value.id);
+                });
+                $("#validate" + value.id).on("click", function () {
+                    getValidate(value.id);
                 });
 
                 if (value.id.length > 8) {
@@ -525,17 +532,17 @@ function executeForm(pageNumber) {
                 "</div>" +
                 "</div>" +
                 "</div>");
-            $("#nextPage").on("click", function(){
+            $("#nextPage").on("click", function () {
                 executeForm(pageNo + 1);
             });
-            $("#previousPage").on("click", function(){
+            $("#previousPage").on("click", function () {
                 executeForm(pageNo - 1);
             });
         },
         error: function (status, error) {
             $("#results").empty().append("<div>An error has occurred</div>");
             $("#results").append('<button class="show-error btn btn-secondary">Show error</button>');
-            $(".show-error").on("click", function(){
+            $(".show-error").on("click", function () {
                 let win = window.open(url, "_blank");
                 win.focus();
             });
@@ -557,11 +564,14 @@ function getRawJSON(id) {
 function getVisualise(id, VisType) {
     VisType = VisType || "image";
     $("#resultTab").removeClass("active");
+    $("#validateTab").removeClass("active");
     $("#graphTab").addClass("active");
     $("#resultPanel").removeClass("active");
+    $("#validatePanel").removeClass("active");
     $("#graphPanel").addClass("active");
     $("#tabs")[0].scrollIntoView();
     $("#graphTab").removeClass("disabled");
+    $("#validateTab").addClass("disabled");
 
     if (VisType === "image") {
         $("#format").val("image");
@@ -586,6 +596,51 @@ function getVisualise(id, VisType) {
 
     objOpenReferralPlus.get();
 
+}
+
+function getValidate(id) {
+    $("#resultTab").removeClass("active");
+    $("#resultPanel").removeClass("active");
+
+    $("#graphTab").removeClass("active");
+    $("#graphPanel").removeClass("active");
+
+    $("#validateTab").addClass("active");
+    $("#validatePanel").addClass("active");
+    $("#tabs")[0].scrollIntoView();
+    $("#validateTab").removeClass("disabled");
+
+    let url = $("#endpoint").val() + "/services/" + id;
+
+    addApiPanel("Get JSON for validate", false);
+    addApiPanel(url);
+    addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
+    updateScroll();
+    $.ajax({
+        async: true,
+        type: 'GET',
+        url: url,
+        dataType: "json",
+        success: function (data) {
+            postValidate(data);
+        }
+    });
+
+}
+
+function postValidate(data) {
+    let url = "https://api.porism.com/ServiceDirectoryServiceTest/services/validate";
+    console.log(data);
+    console.log(typeof data);
+    console.log(JSON.stringify(data));
+
+    $.post({url: url, contentType: "application/json"}, JSON.stringify(data), function (resBody) {
+        console.log(resBody);
+        let res = JSON.stringify(resBody, null, 1);
+        $("#validatePanel").empty().append(
+            "<div class='container-fluid'><p class='mt-1'><pre>" + res + "</pre></p></div>"
+        );
+    }, "json");
 }
 
 function addApiPanel(text, code) {
@@ -617,12 +672,12 @@ const getUrlParameter = function getUrlParameter(sParam) {
 };
 
 function updateURLParameter(url, param, paramVal) {
-    var TheAnchor = null;
-    var newAdditionalURL = "";
-    var tempArray = url.split("?");
-    var baseURL = tempArray[0];
-    var additionalURL = tempArray[1];
-    var temp = "";
+    let TheAnchor = null;
+    let newAdditionalURL = "";
+    let tempArray = url.split("?");
+    let baseURL = tempArray[0];
+    let additionalURL = tempArray[1];
+    let temp = "";
 
     if (additionalURL) {
         let tmpAnchor = additionalURL.split("#");
@@ -633,7 +688,7 @@ function updateURLParameter(url, param, paramVal) {
 
         tempArray = additionalURL.split("&");
 
-        for (var i = 0; i < tempArray.length; i++) {
+        for (let i = 0; i < tempArray.length; i++) {
             if (tempArray[i].split('=')[0] !== param) {
                 newAdditionalURL += temp + tempArray[i];
                 temp = "&";
@@ -651,12 +706,12 @@ function updateURLParameter(url, param, paramVal) {
     if (TheAnchor)
         paramVal += "#" + TheAnchor;
 
-    var rows_txt = temp + "" + param + "=" + paramVal;
+    const rows_txt = temp + "" + param + "=" + paramVal;
     return baseURL + "?" + newAdditionalURL + rows_txt;
 }
 
 function updateScroll() {
-    var element = document.getElementById("api");
+    const element = document.getElementById("api");
     element.scrollTop = element.scrollHeight;
 }
 
