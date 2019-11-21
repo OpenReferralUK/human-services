@@ -60,7 +60,7 @@ We’ll provide a tool to help construct API calls and visualise results.
 Here are some sample API calls:
 
 * Get all services: http://api.porism.com/ServiceDirectoryService/services/
-* Get service 1: http://api.porism.com/ServiceDirectoryService/services/1
+* Get a service: https://api.porism.com/ServiceDirectoryService/services/01ff53d3-69ed-4d58-8453-20d5295bd208
 * Get vocabularies: http://api.porism.com/ServiceDirectoryService/vocabularies/
 * Get taxonomy terms in “BCC Age Group” vocabulary: http://api.porism.com/ServiceDirectoryService/taxonomies/?vocabulary=BCC%20Age%20Group
 * Get services for  “BCC Age Group” vocabulary "bccagegroup:18" taxonomy term (Older People): http://api.porism.com/ServiceDirectoryService/services/?vocabulary=BCC%20Age%20Group&taxonomy_id=bccagegroup:18
