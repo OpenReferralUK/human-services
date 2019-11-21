@@ -27,7 +27,7 @@ function getVocabulary() {
         updateScroll();
 
         $.ajax({
-            async: false,
+            async: true,
             type: 'GET',
             dataType: 'JSON',
             url: url,
@@ -47,19 +47,14 @@ function getVocabulary() {
                     o.value = arr[i].v;
                     $(o).text(arr[i].t);
                 });
+            updateEndpointUpdate();
+            setupPageVocabulary();
             }
         });
 
     }
 }
 
-function getRootTerm(term) {
-    if (term.parent === null) {
-        return term;
-    } else {
-        return getRootTerm(term.parent);
-    }
-}
 
 function getTaxonomyTerm() {
     if ($("#Vocabulary").val() !== null && $("#Vocabulary").val() !== "") {
@@ -72,7 +67,7 @@ function getTaxonomyTerm() {
         updateScroll();
 
         $.ajax({
-            async: false,
+            async: true,
             type: 'GET',
             url: url,
             success: function (data) {
@@ -99,9 +94,12 @@ function getTaxonomyTerm() {
                 if (getUrlParameter("taxonomyTerm") === undefined || getUrlParameter("taxonomyTerm") === "") {
                     $("#TaxonomyTerm").val($("#TaxonomyTerm option:first").val());
                 }
+
+                setupPageTaxonomyTerm()
             },
             error: function (code, error) {
                 taxonomyTerm.empty().append("<option>Error</option>");
+                setupPageTaxonomyTerm()
             }
 
         });
@@ -124,7 +122,7 @@ function getChildTaxonomyTerm() {
         updateScroll();
 
         $.ajax({
-            async: false,
+            async: true,
             type: 'GET',
             url: url,
             success: function (data) {
@@ -150,15 +148,18 @@ function getChildTaxonomyTerm() {
                 if ($("#ChildTaxonomyTerm option").length === 1) {
                     $("#ChildTaxonomyTerm").prop('disabled', true);
                 }
+                setupPageChildTaxonomyTerm();
             },
             error: function (code, error) {
                 childTaxonomyTerm.empty().append("<option>Error</option>");
+                setupPageChildTaxonomyTerm();
             }
 
         });
     } else {
         $("#ChildTaxonomyTerm").find("option").remove().end().append("<option></option>");
         $("#ChildTaxonomyTerm").empty().prop('disabled', true);
+        setupPageChildTaxonomyTerm();
     }
 
 }
@@ -175,7 +176,7 @@ function getChildChildTaxonomyTerm() {
         updateScroll();
 
         $.ajax({
-            async: false,
+            async: true,
             type: 'GET',
             url: url,
             success: function (data) {
@@ -204,15 +205,18 @@ function getChildChildTaxonomyTerm() {
                 } else {
                     $("#ChildChildTaxonomyTermDiv").css('display', 'block');
                 }
+                setupPageChildChildTaxonomyTerm();
             },
             error: function (code, error) {
                 childChildTaxonomyTerm.empty().append("<option>Error</option>");
+                setupPageChildChildTaxonomyTerm();
             }
 
         });
     } else {
         $("#ChildChildTaxonomyTerm").empty().append("<option></option>");
         $("#ChildChildTaxonomyTerm").empty().prop('disabled', true);
+        setupPageChildChildTaxonomyTerm();
     }
 
 }
@@ -233,6 +237,9 @@ function updateEndpoint() {
     $("#TaxonomyTerm").val("");
     $("#Coverage").val("");
     getVocabulary();
+
+}
+function updateEndpointUpdate(){
 
     if (endpoint !== "") {
         $("#TaxonomyType").prop('disabled', false);
@@ -369,6 +376,10 @@ function executeForm(pageNumber) {
     $("#results").empty();
     $("#graphTab").addClass("disabled").removeClass("active");
     $("#graphPanel").removeClass("active");
+    $("#validateTab").removeClass("active").hide();
+    $("#validatePanel").removeClass("active");
+    $("#rateTab").removeClass("active").hide();
+    $("#ratePanel").removeClass("active");
     $("#resultTab").addClass("active");
     $("#resultPanel").addClass("active");
 
@@ -487,8 +498,10 @@ function executeForm(pageNumber) {
                     + "<div class='col-sm-8'>" + value.name + "</div>"
                     + "<div class='col-sm-3'>"
                     + "<div class='container-fluid visualise'><button id='" + value.id + "' class='btn btn-secondary btn-sm mb-1 visualiseButton'>Visualise</button>" + "&nbsp;"
-                    + "<button id='json" + value.id + "' class='btn btn-secondary btn-sm mb-1'>JSON</button> "
-                    + "<button id='validate" + value.id + "' class='btn btn-secondary btn-sm mb-1'>Validate</button></div></div>");
+                    + "<button id='json" + value.id + "' class='btn btn-secondary btn-sm mb-1'>JSON</button>&nbsp;"
+                    + "<button id='validate" + value.id + "' class='btn btn-secondary btn-sm mb-1'>Validate</button>&nbsp;"
+                    + "<button id='rate" + value.id + "' class='btn btn-secondary btn-sm mb-1'>Richness</button>"
+                    + "</div></div>");
                 $("#" + value.id).on("click", function () {
                     getVisualise(value.id);
                 });
@@ -497,6 +510,9 @@ function executeForm(pageNumber) {
                 });
                 $("#validate" + value.id).on("click", function () {
                     getValidate(value.id);
+                });
+                $("#rate" + value.id).on("click", function () {
+                    getRate(value.id);
                 });
 
                 if (value.id.length > 8) {
@@ -572,6 +588,8 @@ function getVisualise(id, VisType) {
     $("#tabs")[0].scrollIntoView();
     $("#graphTab").removeClass("disabled");
     $("#validateTab").addClass("disabled");
+    $("#validateTab").hide();
+    $("#rateTab").hide();
 
     if (VisType === "image") {
         $("#format").val("image");
@@ -610,6 +628,10 @@ function getValidate(id) {
     $("#tabs")[0].scrollIntoView();
     $("#validateTab").removeClass("disabled");
 
+    $("#rateTab").hide();
+
+    $("#validateTab").show();
+
     let url = $("#endpoint").val() + "/services/" + id;
 
     addApiPanel("Get JSON for validate", false);
@@ -630,15 +652,15 @@ function getValidate(id) {
 
 function postValidate(data) {
     let url = "https://api.porism.com/ServiceDirectoryServiceTest/services/validate";
-    console.log(data);
-    console.log(typeof data);
-    console.log(JSON.stringify(data));
+    // console.log(data);
+    // console.log(typeof data);
+    // console.log(JSON.stringify(data));
     addApiPanel("Post JSON for validate", false);
     addApiPanel(url);
     updateScroll();
 
     $.post({url: url, contentType: "application/json"}, JSON.stringify(data), function (resBody) {
-        console.log(resBody);
+        // console.log(resBody);
         // let res = JSON.stringify(resBody, null, 1);
         $("#validatePanel").empty();
         // $("#validatePanel").append(
@@ -648,7 +670,90 @@ function postValidate(data) {
         for (let i = 0; i < resBody.issues.length; i++) {
             $("#validatePanel").append("<p>" + resBody.issues[i].message + "</p>");
         }
-        $("#validatePanel").append("<h3>Richness percentage</h3><p>Score: " + resBody.richnessPercentage + "%</p>");
+    }, "json");
+
+}
+
+function getRate(id) {
+    $("#resultTab").removeClass("active");
+    $("#resultPanel").removeClass("active");
+
+    $("#graphTab").removeClass("active");
+    $("#graphPanel").removeClass("active");
+
+    $("#validateTab").removeClass("active");
+    $("#validatePanel").removeClass("active");
+
+    $("#rateTab").addClass("active");
+    $("#ratePanel").addClass("active");
+
+    $("#tabs")[0].scrollIntoView();
+    $("#rateTab").removeClass("disabled");
+
+    $("#validateTab").hide();
+
+    $("#rateTab").show();
+
+    let url = $("#endpoint").val() + "/services/" + id;
+
+    addApiPanel("Get JSON for rate", false);
+    addApiPanel(url);
+    addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
+    updateScroll();
+    $.ajax({
+        async: true,
+        type: 'GET',
+        url: url,
+        dataType: "json",
+        success: function (data) {
+            postRate(data);
+        }
+    });
+
+}
+
+function postRate(data) {
+    let url = "https://api.porism.com/ServiceDirectoryService/services/rate";
+    // console.log(data);
+    // console.log(typeof data);
+    // console.log(JSON.stringify(data));
+    addApiPanel("Post JSON for rate", false);
+    addApiPanel(url);
+    updateScroll();
+
+    $.post({url: url, contentType: "application/json"}, JSON.stringify(data), function (resBody) {
+        console.log(resBody);
+        $("#rate").empty();
+        if (resBody.populated === undefined && resBody.not_populated === undefined){
+            $("#rate").append("<p>Getting rating for the service failed.</p><p>Currently only working in Porism endpoints</p>");
+            return
+        }
+        let Rate = "";
+        let populated = "";
+        for (let i = 0; i < resBody.populated.length; i++) {
+            populated = populated + "<div class='row rowhover'><div class='col-sm-8'>" +resBody.populated[i].name + "</div><div class='col-sm-4'>" + resBody.populated[i].percentage + "%</div></div>";
+        }
+        Rate = Rate +"<div class='card-group mt-2'>";
+        Rate = Rate +(
+            '<div class="card">' +
+            '<div class="card-header bg-light">Populated</div>' +
+            '<div class="card-body">' + populated + '</div>' +
+            '</div>');
+
+        let not_populated = "";
+        for (let i = 0; i < resBody.not_populated.length; i++) {
+            not_populated = not_populated + "<div class='row rowhover'><div class='col-sm-8'>" +resBody.not_populated[i].name + "</div><div class='col-sm-4'>" + resBody.not_populated[i].percentage + "%</div></div>";
+        }
+        Rate = Rate +
+            '<div class="card">' +
+            '<div class="card-header bg-light">Not populated</div>' +
+            '<div class="card-body">' + not_populated + '</div>' +
+            '</div></div>';
+
+        $("#rate").append(Rate);
+
+        $("#rate").append("<h3>Overall</h3>" +
+            "<p>Score: " + resBody.richness_percentage + "%</p>")
     }, "json");
 
 }
@@ -782,35 +887,51 @@ function setupPage() {
 
     if (getUrlParameter("endpoint") !== undefined) {
         $("#endpoint").val(getUrlParameter("endpoint"));
-        getVocabulary();
         $("#TaxonomyType").attr('disabled', false);
         $("#Vocabulary").attr('disabled', false);
         $("#Coverage").attr('disabled', false);
         $("#Proximity").attr('disabled', false);
         $("#Keywords").attr('disabled', false);
+        getVocabulary();
     } else {
         updateParameters("endpoint", $("#endpoint").val());
         setupPage();
-        return;
     }
+
+}
+function setupPageVocabulary() {
+
     if (getUrlParameter("taxonomyType") !== undefined) {
         $("#TaxonomyType").val(getUrlParameter("taxonomyType"));
 
     }
     if (getUrlParameter("vocabulary") !== undefined) {
         $("#Vocabulary").val(getUrlParameter("vocabulary"));
-        getTaxonomyTerm();
         $("#TaxonomyTerm").attr('disabled', false);
+        getTaxonomyTerm();
+
+    } else {
+        setupPageTaxonomyTerm()
     }
+}
+function setupPageTaxonomyTerm() {
+
     if (getUrlParameter("taxonomyTerm") !== undefined) {
         $("#TaxonomyTerm").val(getUrlParameter("taxonomyTerm"));
         getChildTaxonomyTerm();
+    } else {
+        setupPageChildTaxonomyTerm();
     }
+}
+function setupPageChildTaxonomyTerm() {
     if (getUrlParameter("childTaxonomyTerm") !== undefined) {
         $("#ChildTaxonomyTerm").val(getUrlParameter("childTaxonomyTerm"));
         getChildChildTaxonomyTerm();
+    } else {
+        setupPageChildChildTaxonomyTerm();
     }
-
+}
+function setupPageChildChildTaxonomyTerm(){
     if (getUrlParameter("childChildTaxonomyTerm") !== undefined) {
         $("#ChildChildTaxonomyTerm").val(getUrlParameter("childChildTaxonomyTerm"));
 
@@ -836,6 +957,9 @@ function setupPage() {
     if (getUrlParameter("endTime") !== undefined) {
         $("#EndTime").val(getUrlParameter("endTime"));
     }
+
+    $("#validateTab").hide();
+    $("#rateTab").hide();
 
     endpoint = $("#endpoint").val();
     if (endpoint !== "") {

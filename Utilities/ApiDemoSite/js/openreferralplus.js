@@ -1,6 +1,6 @@
-var clsOpenReferralPlus = function () {
+const clsOpenReferralPlus = function () {
 
-    var objORP = this;
+    const objORP = this;
 
     this.idEndpoint = null;
     this.idResource = null;
@@ -18,11 +18,11 @@ var clsOpenReferralPlus = function () {
 
 clsOpenReferralPlus.prototype.get = function () {
 
-    var objORP = this;
+    const objORP = this;
 
-    var boolOK = true;
+    const boolOK = true;
 
-    var showAll = $("#allTables").val();
+    const showAll = $("#allTables").val();
     if (showAll === "true") {
         this.showAll = true;
     } else if (showAll === "false") {
@@ -32,7 +32,7 @@ clsOpenReferralPlus.prototype.get = function () {
 
     if (this.Endpoint != null) {
         if (this.idEndpoint) {
-            var tagEndpoint = document.getElementById(this.idEndpoint);
+            const tagEndpoint = document.getElementById(this.idEndpoint);
             if (tagEndpoint) {
                 this.Endpoint = getElementValue(tagEndpoint);
             }
@@ -48,7 +48,7 @@ clsOpenReferralPlus.prototype.get = function () {
     }
     if (this.Endpoint != null) {
         if (this.idResource) {
-            var tagResource = document.getElementById(this.idResource);
+            const tagResource = document.getElementById(this.idResource);
             if (tagResource) {
                 this.Resource = getElementValue(tagResource);
             }
@@ -69,7 +69,7 @@ clsOpenReferralPlus.prototype.get = function () {
     }
     if (this.Endpoint != null) {
         if (this.idParameter) {
-            var tagParameter = document.getElementById(this.idParameter);
+            const tagParameter = document.getElementById(this.idParameter);
             if (tagParameter) {
                 this.Parameter = getElementValue(tagParameter);
             }
@@ -77,7 +77,7 @@ clsOpenReferralPlus.prototype.get = function () {
     }
 
     if (this.idFormat) {
-        var tagFormat = document.getElementById(this.idFormat);
+        const tagFormat = document.getElementById(this.idFormat);
         if (tagFormat) {
             this.Format = getElementValue(tagFormat);
         }
@@ -90,7 +90,7 @@ clsOpenReferralPlus.prototype.get = function () {
 
     this.objViz.setLoadingImage(true);
 
-    var url = this.Endpoint + '/' + this.Resource + '/';
+    let url = this.Endpoint + '/' + this.Resource + '/';
 
     if (this.Parameter) {
         url += this.Parameter;
@@ -110,9 +110,9 @@ clsOpenReferralPlus.prototype.get = function () {
         url: url,
         dataType: "text",
         success: function (data) {
-            var strListResponse = data;
-            var jsonContent = JSON.parse(data);
-            var Dot = objORP.makeDot(jsonContent);
+            const strListResponse = data;
+            const jsonContent = JSON.parse(data);
+            const Dot = objORP.makeDot(jsonContent);
 
             objORP.objViz.setLoadingImage(false);
 
@@ -153,7 +153,7 @@ clsOpenReferralPlus.prototype.get = function () {
 
 clsOpenReferralPlus.prototype.makeDot = function (jsonContent) {
 
-    var objORP = this;
+    const objORP = this;
 
     objORP.Dot = '';
     objORP.dotNodes = [];
@@ -165,11 +165,10 @@ clsOpenReferralPlus.prototype.makeDot = function (jsonContent) {
     objORP.Dot += "\tnode [ color=black, fillcolor=lightblue ,fontname=Arial, fontcolor=black, fontsize=7]; \n";
     objORP.Dot += "\tedge [fontname=Arial, fontsize=7, labelfontname=Arial, labelfontsize=7, len=3.0]; \n";
 
-    switch (objORP.Resource) {
-        case 'services':
-            if (objORP.Parameter) {
-                objORP.DotViewService(jsonContent);
-            }
+    if (objORP.Resource === 'services') {
+        if (objORP.Parameter) {
+            objORP.DotViewService(jsonContent);
+        }
     }
 
     objORP.Dot += "}";
@@ -181,13 +180,13 @@ clsOpenReferralPlus.prototype.makeDot = function (jsonContent) {
 
 clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
 
-    var objORP = this;
+    const objORP = this;
 
-    var NodeIdService = objORP.DotNodeService(jsonContent);
+    const NodeIdService = objORP.DotNodeService(jsonContent);
 
     if (jsonContent.hasOwnProperty('organization')) {
         if (jsonContent.organization) {
-            var NodeIdOrganization = objORP.DotNodeOrganization(jsonContent.organization);
+            const NodeIdOrganization = objORP.DotNodeOrganization(jsonContent.organization);
             if (NodeIdOrganization) {
                 var DotEdge = NodeIdOrganization + ' -> ' + NodeIdService + '\n';
                 objORP.Dot += DotEdge;
@@ -204,7 +203,7 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
             jsonLength = jsonContent.service_at_locations.length;
         }
         for (let i = 0; i < jsonLength; i++) {
-            var jsonServiceAtLocation = jsonContent.service_at_locations[i];
+            const jsonServiceAtLocation = jsonContent.service_at_locations[i];
             var NodeIdServiceAtLocation = objORP.DotNodeServiceAtLocation(jsonServiceAtLocation);
             if (NodeIdServiceAtLocation) {
                 var DotEdge = NodeIdService + ' -> ' + NodeIdServiceAtLocation + '\n';
@@ -216,7 +215,7 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
 
     if (jsonContent.hasOwnProperty('service_areas')) {
         if (jsonContent.service_areas || this.showAll) {
-            var NodeIdServiceAreas = objORP.DotListAreas(jsonContent.service_areas);
+            const NodeIdServiceAreas = objORP.DotListAreas(jsonContent.service_areas);
             if (NodeIdServiceAreas) {
                 var DotEdge = NodeIdService + ' -> ' + NodeIdServiceAreas + '\n';
                 objORP.Dot += DotEdge;
@@ -226,7 +225,7 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
 
     if (jsonContent.hasOwnProperty('contacts')) {
         if (jsonContent.contacts || this.showAll) {
-            var NodeIdContacts = objORP.DotNodeContacts(jsonContent.contacts);
+            const NodeIdContacts = objORP.DotNodeContacts(jsonContent.contacts);
             if (NodeIdContacts) {
                 var DotEdge = NodeIdService + " -> " + NodeIdContacts + "\n";
                 objORP.Dot += DotEdge;
@@ -246,7 +245,7 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
     }
 
     if (jsonContent.hasOwnProperty('reviews')) {
-        var NodeIdReviews = objORP.DotNodeReviews(jsonContent.reviews);
+        const NodeIdReviews = objORP.DotNodeReviews(jsonContent.reviews);
         if (NodeIdReviews) {
             var DotEdge = NodeIdService + ' -> ' + NodeIdReviews + '\n';
             objORP.Dot += DotEdge;
@@ -254,7 +253,7 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
     }
     if (jsonContent.hasOwnProperty('fundings')) {
         if (jsonContent.fundings) {
-            var NodeIdFundings = objORP.DotNodeFundings(jsonContent.fundings);
+            const NodeIdFundings = objORP.DotNodeFundings(jsonContent.fundings);
             if (NodeIdFundings) {
                 var DotEdge = NodeIdService + " -> " + NodeIdFundings + "\n";
                 objORP.Dot += DotEdge;
@@ -264,7 +263,7 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
 
     if (jsonContent.hasOwnProperty('eligibilitys')) {
         if (jsonContent.eligibilitys || this.showAll) {
-            var NodeIdEligibilitys = objORP.DotNodeEligibilitys(jsonContent.eligibilitys);
+            const NodeIdEligibilitys = objORP.DotNodeEligibilitys(jsonContent.eligibilitys);
             if (NodeIdEligibilitys) {
                 var DotEdge = NodeIdService + " -> " + NodeIdEligibilitys + "\n";
                 objORP.Dot += DotEdge;
@@ -274,7 +273,7 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
 
     if (jsonContent.hasOwnProperty('regular_schedules') || this.showAll) {
         if (jsonContent.regular_schedules) {
-            var NodeIdRegularSchedules = objORP.DotNodeRegularSchedule(jsonContent.regular_schedules);
+            const NodeIdRegularSchedules = objORP.DotNodeRegularSchedule(jsonContent.regular_schedules);
             if (NodeIdRegularSchedules) {
                 var DotEdge = NodeIdService + ' -> ' + NodeIdRegularSchedules + '\n';
                 objORP.Dot += DotEdge;
@@ -284,7 +283,7 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
 
     if (jsonContent.hasOwnProperty('holiday_schedules') || this.showAll) {
         if (jsonContent.holiday_schedules || this.showAll) {
-            var NodeIdHolidaySchedules = objORP.DotNodeHolidaySchedules(jsonContent.holiday_schedules);
+            const NodeIdHolidaySchedules = objORP.DotNodeHolidaySchedules(jsonContent.holiday_schedules);
             if (NodeIdHolidaySchedules) {
                 var DotEdge = NodeIdServiceAtLocation + ' -> ' + NodeIdHolidaySchedules + '\n';
                 objORP.Dot += DotEdge;
@@ -296,7 +295,7 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
 
     if (jsonContent.hasOwnProperty('languages') || this.showAll) {
         if ((jsonContent.languages && jsonContent.languages.length !== 0) || this.showAll) {
-            var NodeIdLanguages = objORP.DotNodeLanguages(jsonContent.languages);
+            const NodeIdLanguages = objORP.DotNodeLanguages(jsonContent.languages);
             if (NodeIdLanguages) {
                 var DotEdge = NodeIdService + ' -> ' + NodeIdLanguages + '\n';
                 objORP.Dot += DotEdge;
@@ -313,7 +312,7 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
             }
         });
         if (taxonomy || this.showAll) {
-            var NodeIdServiceTaxonomies = objORP.DotListTaxonomies(jsonContent.service_taxonomys);
+            const NodeIdServiceTaxonomies = objORP.DotListTaxonomies(jsonContent.service_taxonomys);
             if (NodeIdServiceTaxonomies) {
                 var DotEdge = NodeIdService + ' -> ' + NodeIdServiceTaxonomies + '\n';
                 objORP.Dot += DotEdge;
@@ -329,9 +328,9 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
  */
 clsOpenReferralPlus.prototype.DotNodeService = function (jsonContent) {
 
-    var objORP = this;
+    const objORP = this;
 
-    var idService = null;
+    let idService = null;
     if (jsonContent.hasOwnProperty('id')) {
         idService = jsonContent.id;
     }
@@ -340,14 +339,14 @@ clsOpenReferralPlus.prototype.DotNodeService = function (jsonContent) {
         return false;
     }
 
-    var NodeId = "\"service_" + idService + "\"";
+    const NodeId = "\"service_" + idService + "\"";
     if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
     objORP.dotNodes.push(NodeId);
 
-    var Dot = '\n';
+    let Dot = '\n';
 
     Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='2' bgcolor='lightgrey'><b>service</b></td></tr>";
     Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td><td align='left' balign='left' valign='top'>" + idService + "</td></tr>";
@@ -449,8 +448,8 @@ clsOpenReferralPlus.prototype.DotNodeService = function (jsonContent) {
  */
 clsOpenReferralPlus.prototype.DotNodeOrganization = function (jsonContent) {
 
-    var objORP = this;
-    var numCols = 0;
+    const objORP = this;
+    let numCols = 0;
     try {
         if (Object.keys(jsonContent).length !== 0) {
             numCols = 2;
@@ -465,12 +464,12 @@ clsOpenReferralPlus.prototype.DotNodeOrganization = function (jsonContent) {
         return false;
     }
 
-    var NodeId = "\"organization_" + objORP.nextNodeId++ + "\"";
+    const NodeId = "\"organization_" + objORP.nextNodeId++ + "\"";
     if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
-    var idOrganization = null;
+    let idOrganization = null;
     if (jsonContent.hasOwnProperty('id')) {
         idOrganization = jsonContent.id;
     } else if (this.showAll) {
@@ -483,9 +482,9 @@ clsOpenReferralPlus.prototype.DotNodeOrganization = function (jsonContent) {
 
     objORP.dotNodes.push(NodeId);
 
-    var Dot = '\n';
+    let Dot = '\n';
 
-    var jsonLength;
+    let jsonLength;
     if (this.showAll) {
         try {
             jsonLength = jsonContent.length;
@@ -609,9 +608,9 @@ clsOpenReferralPlus.prototype.DotNodeOrganization = function (jsonContent) {
  */
 clsOpenReferralPlus.prototype.DotNodeArea = function (jsonContent) {
 
-    var objORP = this;
+    const objORP = this;
 
-    var idArea = null;
+    let idArea = null;
     if (jsonContent.hasOwnProperty('id')) {
         idArea = jsonContent.id;
     }
@@ -620,14 +619,14 @@ clsOpenReferralPlus.prototype.DotNodeArea = function (jsonContent) {
         idArea = objORP.nextNodeId++;
     }
 
-    var NodeId = "\"area_" + idArea + "\"";
+    const NodeId = "\"area_" + idArea + "\"";
     if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
     objORP.dotNodes.push(NodeId);
 
-    var Dot = '\n';
+    let Dot = '\n';
 
     Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='2' bgcolor='lightgrey'><b>service_area</b></td></tr>";
 
@@ -665,9 +664,9 @@ clsOpenReferralPlus.prototype.DotNodeArea = function (jsonContent) {
  */
 clsOpenReferralPlus.prototype.DotNodeServiceAtLocation = function (jsonContent) {
 
-    var objORP = this;
+    const objORP = this;
 
-    var idServiceAtLocation = null;
+    let idServiceAtLocation = null;
     if (jsonContent === undefined) {
         jsonContent = [{}];
     }
@@ -679,14 +678,14 @@ clsOpenReferralPlus.prototype.DotNodeServiceAtLocation = function (jsonContent) 
         objORP.nextNodeId++;
     }
 
-    var NodeId = "\"service_at_location_" + idServiceAtLocation + "\"";
+    const NodeId = "\"service_at_location_" + idServiceAtLocation + "\"";
     if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
     objORP.dotNodes.push(NodeId);
 
-    var Dot = '\n';
+    let Dot = '\n';
 
     Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='2' bgcolor='lightgrey'><b>service_at_location</b>  </td></tr>";
 
@@ -698,7 +697,7 @@ clsOpenReferralPlus.prototype.DotNodeServiceAtLocation = function (jsonContent) 
 
     if (jsonContent.hasOwnProperty('location')) {
         if (jsonContent.location || this.showAll) {
-            var NodeIdLocation = objORP.DotNodeLocation(jsonContent.location);
+            const NodeIdLocation = objORP.DotNodeLocation(jsonContent.location);
             if (NodeIdLocation) {
                 var DotEdge = NodeId + ' -> ' + NodeIdLocation + '\n';
                 objORP.Dot += DotEdge;
@@ -708,7 +707,7 @@ clsOpenReferralPlus.prototype.DotNodeServiceAtLocation = function (jsonContent) 
 
     if (jsonContent.hasOwnProperty('regular_schedule') || this.showAll) {
         if (jsonContent.regular_schedule) {
-            var NodeIdRegularSchedule = objORP.DotNodeRegularSchedule(jsonContent.regular_schedule);
+            const NodeIdRegularSchedule = objORP.DotNodeRegularSchedule(jsonContent.regular_schedule);
             if (NodeIdRegularSchedule) {
                 var DotEdge = NodeId + ' -> ' + NodeIdRegularSchedule + '\n';
                 objORP.Dot += DotEdge;
@@ -732,8 +731,8 @@ clsOpenReferralPlus.prototype.DotNodeServiceAtLocation = function (jsonContent) 
  */
 clsOpenReferralPlus.prototype.DotNodeLocation = function (jsonContent) {
 
-    var objORP = this;
-    var numCols = 0;
+    const objORP = this;
+    let numCols = 0;
     try {
         if (Object.keys(jsonContent).length !== 0) {
             numCols = 2;
@@ -749,16 +748,16 @@ clsOpenReferralPlus.prototype.DotNodeLocation = function (jsonContent) {
     }
 
 
-    var NodeId = "\"location_" + objORP.nextNodeId++ + "\"";
+    const NodeId = "\"location_" + objORP.nextNodeId++ + "\"";
     if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
     objORP.dotNodes.push(NodeId);
 
-    var Dot = '\n';
+    let Dot = '\n';
 
-    var jsonLength;
+    let jsonLength;
     if (this.showAll) {
         try {
             jsonLength = jsonContent.length;
@@ -853,10 +852,10 @@ clsOpenReferralPlus.prototype.DotNodeLocation = function (jsonContent) {
 
     if (jsonContent.hasOwnProperty('physical_addresses')) {
         for (let i = 0; i < jsonContent.physical_addresses.length; i++) {
-            var jsonPhysicalAddress = jsonContent.physical_addresses[i];
-            var NodeIdPhysicalAddress = objORP.DotNodePhysicalAddress(jsonPhysicalAddress);
+            const jsonPhysicalAddress = jsonContent.physical_addresses[i];
+            const NodeIdPhysicalAddress = objORP.DotNodePhysicalAddress(jsonPhysicalAddress);
             if (NodeIdPhysicalAddress) {
-                var DotEdge = NodeId + ' -> ' + NodeIdPhysicalAddress + '\n';
+                const DotEdge = NodeId + ' -> ' + NodeIdPhysicalAddress + '\n';
                 objORP.Dot += DotEdge;
             }
         }
@@ -873,9 +872,9 @@ clsOpenReferralPlus.prototype.DotNodeLocation = function (jsonContent) {
  */
 clsOpenReferralPlus.prototype.DotNodePhysicalAddress = function (jsonContent) {
 
-    var objORP = this;
+    const objORP = this;
 
-    var idAddress = null;
+    let idAddress = null;
     if (jsonContent.hasOwnProperty('id')) {
         idAddress = jsonContent.id;
     }
@@ -884,14 +883,14 @@ clsOpenReferralPlus.prototype.DotNodePhysicalAddress = function (jsonContent) {
         idAddress = objORP.nextNodeId++;
     }
 
-    var NodeId = "\"physical_address_" + idAddress + "\"";
+    const NodeId = "\"physical_address_" + idAddress + "\"";
     if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
     objORP.dotNodes.push(NodeId);
 
-    var Dot = '\n';
+    let Dot = '\n';
 
     Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='2' bgcolor='lightgrey'><b>physical_address</b></td></tr>";
 
@@ -968,8 +967,8 @@ clsOpenReferralPlus.prototype.DotNodePhysicalAddress = function (jsonContent) {
  */
 clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
 
-    var objORP = this;
-    var numCols;
+    const objORP = this;
+    let numCols;
     try {
         numCols = jsonContent.length;
         if (numCols === 0 && this.showAll) {
@@ -982,16 +981,16 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
         return false;
     }
 
-    var NodeId = "\"regular_schedule_" + objORP.nextNodeId++ + "\"";
+    const NodeId = "\"regular_schedule_" + objORP.nextNodeId++ + "\"";
     if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
     objORP.dotNodes.push(NodeId);
 
-    var Dot = '\n';
+    let Dot = '\n';
 
-    var jsonLength;
+    let jsonLength;
     if (this.showAll) {
         try {
             jsonLength = jsonContent.length;
@@ -1240,8 +1239,8 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
  */
 clsOpenReferralPlus.prototype.DotNodeHolidaySchedules = function (jsonContent) {
 
-    var objORP = this;
-    var numCols;
+    const objORP = this;
+    let numCols;
     try {
         numCols = jsonContent.length;
         if (numCols === 0 && this.showAll) {
@@ -1254,16 +1253,16 @@ clsOpenReferralPlus.prototype.DotNodeHolidaySchedules = function (jsonContent) {
         return false;
     }
 
-    var NodeId = "\"holiday_schedules_" + objORP.nextNodeId++ + "\"";
+    const NodeId = "\"holiday_schedules_" + objORP.nextNodeId++ + "\"";
     if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
     objORP.dotNodes.push(NodeId);
 
-    var Dot = '\n';
+    let Dot = '\n';
 
-    var jsonLength;
+    let jsonLength;
     if (this.showAll) {
         try {
             jsonLength = jsonContent.length;
@@ -1390,13 +1389,13 @@ clsOpenReferralPlus.prototype.DotNodeHolidaySchedules = function (jsonContent) {
  */
 clsOpenReferralPlus.prototype.DotNodeLanguages = function (jsonContent) {
 
-    var objORP = this;
+    const objORP = this;
 
     NodeId = 'list_taxonomies_' + String(objORP.nextNodeId++);
 
     objORP.dotNodes.push(NodeId);
 
-    var Dot = '\n';
+    let Dot = '\n';
 
     Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='2' bgcolor='lightgrey'><b>language</b></td></tr>";
     Dot += "<tr>";
@@ -1405,7 +1404,7 @@ clsOpenReferralPlus.prototype.DotNodeLanguages = function (jsonContent) {
 
 
     Dot += "</tr>";
-    var jsonLength;
+    let jsonLength;
     if (this.showAll) {
         try {
             jsonLength = jsonContent.length;
@@ -1418,7 +1417,7 @@ clsOpenReferralPlus.prototype.DotNodeLanguages = function (jsonContent) {
 
     for (let i = 0; i < jsonLength; i++) {
         try {
-            var jsonLanguage = jsonContent[i];
+            const jsonLanguage = jsonContent[i];
 
             Dot += "<tr>";
             Dot += "<td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonLanguage.id)) + "</td>";
@@ -1449,8 +1448,8 @@ clsOpenReferralPlus.prototype.DotNodeLanguages = function (jsonContent) {
  */
 clsOpenReferralPlus.prototype.DotNodeContacts = function (jsonContent) {
 
-    var objORP = this;
-    var numCols;
+    const objORP = this;
+    let numCols;
     try {
         numCols = jsonContent.length;
         if (numCols === 0 && this.showAll) {
@@ -1463,16 +1462,16 @@ clsOpenReferralPlus.prototype.DotNodeContacts = function (jsonContent) {
         return false;
     }
 
-    var NodeId = "\"contact_" + objORP.nextNodeId++ + "\"";
+    const NodeId = "\"contact_" + objORP.nextNodeId++ + "\"";
     if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
     objORP.dotNodes.push(NodeId);
 
-    var Dot = '\n';
+    let Dot = '\n';
 
-    var jsonLength;
+    let jsonLength;
     if (this.showAll) {
         try {
             jsonLength = jsonContent.length;
@@ -1558,9 +1557,9 @@ clsOpenReferralPlus.prototype.DotNodeContacts = function (jsonContent) {
     for (let i = 0; i < jsonContent.length; i++) {
         if (jsonContent[i].hasOwnProperty('phones') || this.showAll) {
             if (jsonContent[i].phones || this.showAll) {
-                var NodeIdPhone = objORP.DotNodePhone(jsonContent[i].phones);
+                const NodeIdPhone = objORP.DotNodePhone(jsonContent[i].phones);
                 if (NodeIdPhone) {
-                    var DotEdge = NodeId + " -> " + NodeIdPhone + "\n";
+                    const DotEdge = NodeId + " -> " + NodeIdPhone + "\n";
                     objORP.Dot += DotEdge;
                 }
             }
@@ -1575,8 +1574,8 @@ clsOpenReferralPlus.prototype.DotNodeContacts = function (jsonContent) {
  */
 clsOpenReferralPlus.prototype.DotNodePhone = function (jsonContent) {
 
-    var objORP = this;
-    var numCols;
+    const objORP = this;
+    let numCols;
     try {
         numCols = jsonContent.length;
     } catch (e) {
@@ -1586,16 +1585,16 @@ clsOpenReferralPlus.prototype.DotNodePhone = function (jsonContent) {
         return false;
     }
 
-    var NodeId = "\"phone_" + objORP.nextNodeId++ + "\"";
+    const NodeId = "\"phone_" + objORP.nextNodeId++ + "\"";
     if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
     objORP.dotNodes.push(NodeId);
 
-    var Dot = '\n';
+    let Dot = '\n';
 
-    var jsonLength;
+    let jsonLength;
     if (this.showAll) {
         try {
             jsonLength = jsonContent.length;
@@ -1666,8 +1665,8 @@ clsOpenReferralPlus.prototype.DotNodePhone = function (jsonContent) {
  */
 clsOpenReferralPlus.prototype.DotNodeCostOptions = function (jsonContent) {
 
-    var objORP = this;
-    var numCols;
+    const objORP = this;
+    let numCols;
     try {
         numCols = jsonContent.length;
         if (numCols === 0 && this.showAll) {
@@ -1680,16 +1679,16 @@ clsOpenReferralPlus.prototype.DotNodeCostOptions = function (jsonContent) {
         return false;
     }
 
-    var NodeId = "\"cost_option_" + objORP.nextNodeId++ + "\"";
+    const NodeId = "\"cost_option_" + objORP.nextNodeId++ + "\"";
     if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
     objORP.dotNodes.push(NodeId);
 
-    var Dot = '\n';
+    let Dot = '\n';
 
-    var jsonLength;
+    let jsonLength;
     if (this.showAll) {
         try {
             jsonLength = jsonContent.length;
@@ -1841,8 +1840,8 @@ clsOpenReferralPlus.prototype.DotNodeCostOptions = function (jsonContent) {
 
 clsOpenReferralPlus.prototype.DotNodeFundings = function (jsonContent) {
 
-    var objORP = this;
-    var numCols;
+    const objORP = this;
+    let numCols;
     try {
         numCols = jsonContent.length;
         if (numCols === 0 && this.showAll) {
@@ -1855,16 +1854,16 @@ clsOpenReferralPlus.prototype.DotNodeFundings = function (jsonContent) {
         return false;
     }
 
-    var NodeId = "\"language_" + objORP.nextNodeId++ + "\"";
+    const NodeId = "\"language_" + objORP.nextNodeId++ + "\"";
     if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
     objORP.dotNodes.push(NodeId);
 
-    var Dot = '\n';
+    let Dot = '\n';
 
-    var jsonLength;
+    let jsonLength;
     if (this.showAll) {
         try {
             jsonLength = jsonContent.length;
@@ -1928,7 +1927,7 @@ clsOpenReferralPlus.prototype.DotNodeFundings = function (jsonContent) {
 clsOpenReferralPlus.prototype.DotNodeEligibilitys = function (jsonContent) {
 
     var objORP = this;
-    var numCols;
+    let numCols;
     try {
         numCols = jsonContent.length;
         if (numCols === 0 && this.showAll) {
@@ -1941,7 +1940,7 @@ clsOpenReferralPlus.prototype.DotNodeEligibilitys = function (jsonContent) {
         return false;
     }
 
-    var NodeId = "\"eligibility_" + objORP.nextNodeId++ + "\"";
+    let NodeId = "\"eligibility_" + objORP.nextNodeId++ + "\"";
     if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
@@ -1950,7 +1949,7 @@ clsOpenReferralPlus.prototype.DotNodeEligibilitys = function (jsonContent) {
 
     var Dot = '\n';
 
-    var jsonLength;
+    let jsonLength;
     if (this.showAll) {
         try {
             jsonLength = jsonContent.length;
@@ -1983,7 +1982,7 @@ clsOpenReferralPlus.prototype.DotNodeEligibilitys = function (jsonContent) {
 
 
     for (let i = 0; i < jsonContent.length; i++) {
-        var jsonEligibility = jsonContent[i];
+        const jsonEligibility = jsonContent[i];
 
         Dot += "<tr>";
         Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.id) ? nl2br(objORP.objViz.prepareString(jsonEligibility.id)) : '') + "</td>";
@@ -2010,8 +2009,8 @@ clsOpenReferralPlus.prototype.DotNodeEligibilitys = function (jsonContent) {
  */
 clsOpenReferralPlus.prototype.DotNodeReviews = function (jsonContent) {
 
-    var objORP = this;
-    var numCols;
+    const objORP = this;
+    let numCols;
     try {
         numCols = jsonContent.length;
         if (numCols === 0 && this.showAll) {
@@ -2024,16 +2023,16 @@ clsOpenReferralPlus.prototype.DotNodeReviews = function (jsonContent) {
         return false;
     }
 
-    var NodeId = "\"review_" + objORP.nextNodeId++ + "\"";
+    const NodeId = "\"review_" + objORP.nextNodeId++ + "\"";
     if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
     objORP.dotNodes.push(NodeId);
 
-    var Dot = '\n';
+    let Dot = '\n';
 
-    var jsonLength;
+    let jsonLength;
     if (this.showAll) {
         try {
             jsonLength = jsonContent.length;
@@ -2230,8 +2229,8 @@ clsOpenReferralPlus.prototype.DotNodeReviews = function (jsonContent) {
  * @return {string}
  */
 clsOpenReferralPlus.prototype.DotListAreas = function (jsonContent) {
-    var objORP = this;
-    var numCols;
+    const objORP = this;
+    let numCols;
     try {
         numCols = jsonContent.length;
         if (numCols === 0 && this.showAll) {
@@ -2244,14 +2243,14 @@ clsOpenReferralPlus.prototype.DotListAreas = function (jsonContent) {
         return false;
     }
 
-    var NodeId = "\"service_area" + objORP.nextNodeId++ + "\"";
+    let NodeId = "\"service_area" + objORP.nextNodeId++ + "\"";
     if (objORP.dotNodes.indexOf(NodeId) > -1) {
         return NodeId;
     }
 
     objORP.dotNodes.push(NodeId);
 
-    var jsonLength;
+    let jsonLength;
     if (this.showAll) {
         try {
             jsonLength = jsonContent.length;
@@ -2271,7 +2270,7 @@ clsOpenReferralPlus.prototype.DotListAreas = function (jsonContent) {
 
     objORP.dotNodes.push(NodeId);
 
-    var Dot = '\n';
+    let Dot = '\n';
 
     Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='3' bgcolor='lightgrey'><b>service_area</b></td></tr>";
     Dot += "<tr>";
@@ -2281,7 +2280,7 @@ clsOpenReferralPlus.prototype.DotListAreas = function (jsonContent) {
     Dot += "</tr>";
 
     for (let i = 0; i < jsonContent.length; i++) {
-        var jsonServiceArea = jsonContent[i];
+        const jsonServiceArea = jsonContent[i];
         Dot += "<tr>";
         Dot += "<td align='left' balign='left' valign='top'>" + ((jsonServiceArea.service_area) ? nl2br(objORP.objViz.prepareString(jsonServiceArea.service_area)) : '') + "</td>";
         Dot += "<td align='left' balign='left' valign='top'>" + ((jsonServiceArea.uri) ? nl2br(objORP.objViz.prepareString(jsonServiceArea.uri)) : '') + "</td>";
@@ -2301,13 +2300,13 @@ clsOpenReferralPlus.prototype.DotListAreas = function (jsonContent) {
 
 clsOpenReferralPlus.prototype.DotListTaxonomies = function (jsonContent) {
 
-    var objORP = this;
+    const objORP = this;
 
     NodeId = 'list_taxonomies_' + String(objORP.nextNodeId++);
 
     objORP.dotNodes.push(NodeId);
 
-    var Dot = '\n';
+    let Dot = '\n';
 
     Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='3' bgcolor='lightgrey'><b>service_taxonomy / taxonomy</b></td></tr>";
     Dot += "<tr>";
@@ -2318,9 +2317,9 @@ clsOpenReferralPlus.prototype.DotListTaxonomies = function (jsonContent) {
     Dot += "</tr>";
 
     for (let i = 0; i < jsonContent.length; i++) {
-        var jsonLinkTaxonomy = jsonContent[i];
+        const jsonLinkTaxonomy = jsonContent[i];
         if (jsonLinkTaxonomy.hasOwnProperty('taxonomy')) {
-            var jsonTaxonomy = jsonLinkTaxonomy.taxonomy;
+            const jsonTaxonomy = jsonLinkTaxonomy.taxonomy;
             Dot += "<tr>";
             Dot += "<td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonTaxonomy.vocabulary)) + "</td>";
             Dot += "<td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonTaxonomy.name)) + "</td>";
@@ -2341,7 +2340,7 @@ clsOpenReferralPlus.prototype.DotListTaxonomies = function (jsonContent) {
 };
 
 
-var clsORP_LoadingImage = function (tagLoading) {
+const clsORP_LoadingImage = function (tagLoading) {
 
     objLoadingImage = this;
 
