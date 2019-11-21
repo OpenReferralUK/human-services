@@ -651,7 +651,7 @@ function getValidate(id) {
 }
 
 function postValidate(data) {
-    let url = "https://api.porism.com/ServiceDirectoryServiceTest/services/validate";
+    let url = "https://api.porism.com/ServiceDirectoryService/services/validate";
     // console.log(data);
     // console.log(typeof data);
     // console.log(JSON.stringify(data));
@@ -660,15 +660,20 @@ function postValidate(data) {
     updateScroll();
 
     $.post({url: url, contentType: "application/json"}, JSON.stringify(data), function (resBody) {
-        // console.log(resBody);
-        // let res = JSON.stringify(resBody, null, 1);
         $("#validatePanel").empty();
-        // $("#validatePanel").append(
-        //     "<div class='container-fluid'><p class='mt-1'><pre>" + res + "</pre></p></div>"
-        // );
-        $("#validatePanel").append("<h3>Issues</h3>");
-        for (let i = 0; i < resBody.issues.length; i++) {
-            $("#validatePanel").append("<p>" + resBody.issues[i].message + "</p>");
+        if (resBody.issues !== undefined) {
+            // console.log(resBody);
+            // let res = JSON.stringify(resBody, null, 1);
+
+            // $("#validatePanel").append(
+            //     "<div class='container-fluid'><p class='mt-1'><pre>" + res + "</pre></p></div>"
+            // );
+            $("#validatePanel").append("<h3>Issues</h3>");
+            for (let i = 0; i < resBody.issues.length; i++) {
+                $("#validatePanel").append("<p>" + resBody.issues[i].message + "</p>");
+            }
+        } else {
+            $("#validatePanel").append("<h3>Error</h3><p>" + resBody[0].message + "</p>")
         }
     }, "json");
 
@@ -725,7 +730,7 @@ function postRate(data) {
         console.log(resBody);
         $("#rate").empty();
         if (resBody.populated === undefined && resBody.not_populated === undefined){
-            $("#rate").append("<p>Getting rating for the service failed.</p><p>Currently only working in Porism endpoints</p>");
+            $("#rate").append("<h3>Error</h3><p>" + resBody[0].message + "</p>");
             return
         }
         let Rate = "";
@@ -736,7 +741,7 @@ function postRate(data) {
         Rate = Rate +"<div class='card-group mt-2'>";
         Rate = Rate +(
             '<div class="card">' +
-            '<div class="card-header bg-light">Populated</div>' +
+            '<div class="card-header bg-light"><h4>Populated</h4></div>' +
             '<div class="card-body">' + populated + '</div>' +
             '</div>');
 
@@ -746,7 +751,7 @@ function postRate(data) {
         }
         Rate = Rate +
             '<div class="card">' +
-            '<div class="card-header bg-light">Not populated</div>' +
+            '<div class="card-header bg-light"><h4>Not populated</h4></div>' +
             '<div class="card-body">' + not_populated + '</div>' +
             '</div></div>';
 
