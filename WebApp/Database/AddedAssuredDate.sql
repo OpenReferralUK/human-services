@@ -1,0 +1,1 @@
+ALTER TABLE service ADD assured_date datetime;

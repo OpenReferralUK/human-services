@@ -5,9 +5,12 @@
  */
 package com.porism.servicedirectoryservice.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.porism.servicedirectoryservice.validation.AllowedValues;
 import com.porism.servicedirectoryservice.views.BasicView;
+import com.porism.servicedirectoryservice.views.SelectedServiceView;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -48,53 +51,60 @@ public class RegularSchedule implements Serializable {
     @NotNull
     @Size(min = 1, max = 1536)
     @Column(name = "id")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String id;
     @Column(name = "opens_at")
     @Temporal(TemporalType.TIME)
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @JsonFormat(pattern = "HH:mm")
+    @JsonProperty("opens_at")
     private Date opensAt;
     @Column(name = "closes_at")
     @Temporal(TemporalType.TIME)
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @JsonFormat(pattern = "HH:mm")
+    @JsonProperty("closes_at")
     private Date closesAt;
     @Column(name = "valid_from")
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @JsonProperty("valid_from")
     private Date validFrom;
     @Column(name = "valid_to")
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @JsonProperty("valid_to")
     private Date validTo;
     @Lob
     @Size(max = 65535)
     @Column(name = "dtstart")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String dtstart;
     @Lob
     @Size(max = 65535)
     @Column(name = "freq")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @AllowedValues(value={"WEEKLY", "MONTHLY"})
     private String freq;
     @Lob
     @Size(max = 65535)
-    @Column(name = "interval")
-    @JsonView(BasicView.class)
+    @Column(name = "`interval`")
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String interval;
     @Lob
     @Size(max = 65535)
     @Column(name = "byday")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String byday;
     @Lob
     @Size(max = 65535)
     @Column(name = "bymonthday")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String bymonthday;
     @Lob
     @Size(max = 65535)
     @Column(name = "description")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String description;
     @JoinColumn(name = "service_id", referencedColumnName = "id")
     @ManyToOne

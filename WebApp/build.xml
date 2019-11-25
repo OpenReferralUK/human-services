@@ -29,8 +29,44 @@
 		<delete file="src/main/resources/application.properties"/>
 		<copy file="src/main/resources/application.bucks.properties" tofile="src/main/resources/application.properties"></copy>
 		<delete file="src/main/webapp/META-INF/context.xml"/>
-		<copy file="src/main/webapp/META-INF/context.bucks.xml" tofile="src/main/webapp/META-INF/context.xml"></copy>			
+		<copy file="src/main/webapp/META-INF/context.bucks.xml" tofile="src/main/webapp/META-INF/context.xml"></copy>
+	</target>
+		
+	<target name="open-active-build" description="Open Active Build" depends="clean, compile">
+		<delete file="src/main/resources/application.properties"/>
+		<copy file="src/main/resources/application.openactive.properties" tofile="src/main/resources/application.properties"></copy>
+		<delete file="src/main/webapp/META-INF/context.xml"/>
+		<copy file="src/main/webapp/META-INF/context.openactive.xml" tofile="src/main/webapp/META-INF/context.xml"></copy>		
 	</target>	
+	
+	<target name="north-yorks-build" description="North Yorkshire Build" depends="clean, compile">
+		<delete file="src/main/resources/application.properties"/>
+		<copy file="src/main/resources/application.nyorks.properties" tofile="src/main/resources/application.properties"></copy>
+		<delete file="src/main/webapp/META-INF/context.xml"/>
+		<copy file="src/main/webapp/META-INF/context.nyorks.xml" tofile="src/main/webapp/META-INF/context.xml"></copy>		
+	</target>	
+	
+	<target name="test-build" description="Build for testing" depends="clean, compile">
+		<delete file="src/main/resources/application.properties"/>
+		<copy file="src/main/resources/application.test.properties" tofile="src/main/resources/application.properties"></copy>
+		<delete file="src/main/webapp/META-INF/context.xml"/>
+		<copy file="src/main/webapp/META-INF/context.test.xml" tofile="src/main/webapp/META-INF/context.xml"></copy>		
+	</target>
+	
+	<target name="elmbridge-build" description="Build for Elmbridge" depends="clean, compile">
+		<delete file="src/main/resources/application.properties"/>
+		<copy file="src/main/resources/application.elmbridge.properties" tofile="src/main/resources/application.properties"></copy>
+		<delete file="src/main/webapp/META-INF/context.xml"/>
+		<copy file="src/main/webapp/META-INF/context.elmbridge.xml" tofile="src/main/webapp/META-INF/context.xml"></copy>		
+	</target>
+	
+	<target name="blackburn-build" description="Build for Blackburn" depends="clean, compile">
+		<delete file="src/main/resources/application.properties"/>
+		<copy file="src/main/resources/application.blackburn.properties" tofile="src/main/resources/application.properties"></copy>
+		<delete file="src/main/webapp/META-INF/context.xml"/>
+		<copy file="src/main/webapp/META-INF/context.blackburn.xml" tofile="src/main/webapp/META-INF/context.xml"></copy>		
+	</target>	
+	
 
     <!--
 

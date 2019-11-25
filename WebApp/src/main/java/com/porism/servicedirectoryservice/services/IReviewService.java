@@ -15,4 +15,6 @@ import java.util.List;
 public interface IReviewService {
     public List<Review> findAll();
     public Review findById(String id);
+    
+    public Review save(Review review);
 }

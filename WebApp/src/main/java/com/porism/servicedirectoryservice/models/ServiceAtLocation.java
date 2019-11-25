@@ -9,10 +9,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.porism.servicedirectoryservice.views.BasicView;
 import com.porism.servicedirectoryservice.views.LocationView;
+import com.porism.servicedirectoryservice.views.SelectedServiceView;
 import com.porism.servicedirectoryservice.views.ServiceView;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -41,13 +43,14 @@ public class ServiceAtLocation implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 1536)
     @Column(name = "id")
     private String id;
     @OneToMany(mappedBy = "serviceAtLocationId")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     @JsonProperty("regular_schedule")
     private Collection<RegularSchedule> regularScheduleCollection;
     @JoinColumn(name = "service_id", referencedColumnName = "id")
@@ -57,7 +60,7 @@ public class ServiceAtLocation implements Serializable {
     private Service serviceId;
     @JoinColumn(name = "location_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    @JsonView(ServiceView.class)
+    @JsonView(value = {ServiceView.class, SelectedServiceView.class})
     @JsonProperty("location")    
     private Location locationId;
     @OneToMany(mappedBy = "serviceAtLocationId")

@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.porism.servicedirectoryservice.views.BasicView;
 import com.porism.servicedirectoryservice.views.LocationView;
+import com.porism.servicedirectoryservice.views.SelectedServiceView;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -46,34 +47,34 @@ public class Location implements Serializable {
     @NotNull
     @Size(min = 1, max = 1536)
     @Column(name = "id")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String id;
     @Lob
     @Size(max = 65535)
     @Column(name = "name")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String name;
     @Lob
     @Size(max = 65535)
     @Column(name = "description")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String description;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "latitude")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private Double latitude;
     @Column(name = "longitude")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private Double longitude;
-    @OneToMany(mappedBy = "locationId")
-    @JsonView(BasicView.class)
+    @OneToMany(mappedBy = "locationId", cascade = CascadeType.ALL)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     @JsonProperty("physical_addresses")
     private Collection<PhysicalAddress> physicalAddressCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "locationId")
     @JsonView(LocationView.class)
     @JsonProperty("service_at_locations")
     private Collection<ServiceAtLocation> serviceAtLocationCollection;
-    @OneToMany(mappedBy = "locationId")
+    @OneToMany(mappedBy = "locationId", cascade = CascadeType.ALL)
     @JsonView(LocationView.class)
     @JsonProperty("accessibility_for_disabilities")
     private Collection<AccessibilityForDisabilities> accessibilityForDisabilitiesCollection;

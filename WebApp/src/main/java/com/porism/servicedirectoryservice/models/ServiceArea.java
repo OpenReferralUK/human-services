@@ -8,6 +8,7 @@ package com.porism.servicedirectoryservice.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.porism.servicedirectoryservice.views.BasicView;
+import com.porism.servicedirectoryservice.views.SelectedServiceView;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -45,7 +46,7 @@ public class ServiceArea implements Serializable, ITaxonomy {
     @Lob
     @Size(max = 65535)
     @Column(name = "service_area")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     @JsonProperty("service_area")      
     private String serviceArea;
     @Lob
@@ -55,7 +56,7 @@ public class ServiceArea implements Serializable, ITaxonomy {
     @Lob
     @Size(max = 65535)
     @Column(name = "uri")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     public String uri;
     @JoinColumn(name = "service_id", referencedColumnName = "id")
     @ManyToOne

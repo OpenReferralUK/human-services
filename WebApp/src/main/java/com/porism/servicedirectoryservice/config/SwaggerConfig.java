@@ -5,6 +5,7 @@
  */
 package com.porism.servicedirectoryservice.config;
 
+import com.google.common.base.Predicates;
 import java.util.Collections;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -32,8 +33,11 @@ public class SwaggerConfig {
     public Docket api() { 
         return new Docket(DocumentationType.SWAGGER_2)  
           .select()                                  
-          .apis(RequestHandlerSelectors.basePackage("com.porism.servicedirectoryservice.controllers"))              
-          .paths(PathSelectors.any())                          
+          .apis(RequestHandlerSelectors.basePackage("com.porism.servicedirectoryservice.controllers"))  
+          .paths(PathSelectors.any())
+          .paths(Predicates.not(PathSelectors.regex("/hservices.*")))                          
+          .paths(Predicates.not(PathSelectors.regex(".*\\.json"))) 
+          .paths(Predicates.not(PathSelectors.regex(".*\\.csv"))) 
           .build()
           .apiInfo(apiInfo())
           .tags(

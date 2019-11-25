@@ -7,6 +7,7 @@ package com.porism.servicedirectoryservice.models;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.porism.servicedirectoryservice.views.BasicView;
+import com.porism.servicedirectoryservice.views.SelectedServiceView;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -40,12 +41,12 @@ public class Language implements Serializable {
     @NotNull
     @Size(min = 1, max = 1536)
     @Column(name = "id")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String id;
     @Lob
     @Size(max = 65535)
     @Column(name = "language")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String language;
     @JoinColumn(name = "service_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

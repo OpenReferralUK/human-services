@@ -7,6 +7,7 @@ package com.porism.servicedirectoryservice.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.porism.servicedirectoryservice.validation.AllowedValues;
 import com.porism.servicedirectoryservice.views.BasicView;
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -47,6 +48,7 @@ public class AccessibilityForDisabilities implements Serializable {
     @Size(max = 65535)
     @Column(name = "accessibility")
     @JsonView(BasicView.class)
+    @AllowedValues(value={"cd", "deaf_interpreter","disabled_parking","elevator","ramp","restroom","tape_braille","tty","wheelchair","wheelchair_van"})
     private String accessibility;
     @JoinColumn(name = "location_id", referencedColumnName = "id")
     @ManyToOne

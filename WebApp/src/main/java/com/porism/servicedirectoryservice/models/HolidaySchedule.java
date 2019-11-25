@@ -5,9 +5,11 @@
  */
 package com.porism.servicedirectoryservice.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.porism.servicedirectoryservice.views.BasicView;
+import com.porism.servicedirectoryservice.views.SelectedServiceView;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -48,32 +50,38 @@ public class HolidaySchedule implements Serializable {
     @NotNull
     @Size(min = 1, max = 1536)
     @Column(name = "id")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String id;
     @Basic(optional = false)
     @NotNull
     @Column(name = "closed")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private boolean closed;
     @Column(name = "opens_at")
     @Temporal(TemporalType.TIME)
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @JsonFormat(pattern = "HH:mm")
+    @JsonProperty("opens_at")
     private Date opensAt;
     @Column(name = "closes_at")
     @Temporal(TemporalType.TIME)
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @JsonFormat(pattern = "HH:mm")
+    @JsonProperty("closes_at")
     private Date closesAt;
     @Basic(optional = false)
     @NotNull
     @Column(name = "start_date")
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @JsonProperty("start_date")
     private Date startDate;
     @Basic(optional = false)
     @NotNull
     @Column(name = "end_date")
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @JsonProperty("end_date")
     private Date endDate;
     @JoinColumn(name = "service_id", referencedColumnName = "id")
     @ManyToOne

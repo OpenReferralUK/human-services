@@ -8,6 +8,7 @@ package com.porism.servicedirectoryservice.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.porism.servicedirectoryservice.views.BasicView;
+import com.porism.servicedirectoryservice.views.SelectedServiceView;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -46,26 +47,31 @@ public class CostOption implements Serializable, ITaxonomy {
     @NotNull
     @Size(min = 1, max = 1536)
     @Column(name = "id")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String id;
     @Column(name = "valid_from")
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @JsonProperty("valid_from")
     private Date validFrom;
     @Column(name = "valid_to")
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @JsonProperty("valid_to")
     private Date validTo;
     @Lob
     @Size(max = 65535)
-    @Column(name = "option")
-    @JsonView(BasicView.class)
+    @Column(name = "`option`")
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String option;
-    @Lob
-    @Size(max = 65535)
     @Column(name = "amount")
-    @JsonView(BasicView.class)
-    private String amount;
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    private Float amount;
+    @Lob
+    @Size(max = 65535)    
+    @Column(name = "amount_description")
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    private String amount_description;    
     @JoinColumn(name = "service_id", referencedColumnName = "id")
     @ManyToOne
     @JsonProperty("service")
@@ -110,11 +116,11 @@ public class CostOption implements Serializable, ITaxonomy {
         this.option = option;
     }
 
-    public String getAmount() {
+    public Float getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(Float amount) {
         this.amount = amount;
     }
 

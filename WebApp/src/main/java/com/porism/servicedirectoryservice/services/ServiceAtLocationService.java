@@ -6,9 +6,8 @@
 package com.porism.servicedirectoryservice.services;
 
 import com.porism.servicedirectoryservice.models.ServiceAtLocation;
-import com.porism.servicedirectoryservice.models.ServiceTaxonomy;
 import com.porism.servicedirectoryservice.repositories.ServiceAtLocationRepository;
-import com.porism.servicedirectoryservice.repositories.ServiceTaxonomyRepository;
+import java.util.Collection;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,12 +21,8 @@ public class ServiceAtLocationService implements IServiceAtLocationService {
     private ServiceAtLocationRepository repository;
 
     @Override
-    public List<ServiceAtLocation> findByLatitudeLongitude(double latitude, double longitude, double distance) {
-        return repository.findByLatitudeLongitude(latitude, longitude, distance);
-    }
-    
-    @Override
-    public List<ServiceAtLocation> findByLatitudeLongitudeAndService(double latitude, double longitude, double distance, List<String> serviceIds) {
-        return repository.findByLatitudeLongitudeAndService(latitude, longitude, distance, serviceIds);
-    }    
+    public Collection<ServiceAtLocation> saveAll(Collection<ServiceAtLocation> serviceAtLocations) {
+        repository.saveAll(serviceAtLocations);
+        return serviceAtLocations;
+    }   
 }

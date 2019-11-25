@@ -31,7 +31,7 @@ public class VocabularyController {
 
     @ApiOperation(value = "Get all vocabularies")
     @JsonView(BasicView.class)
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
     public String[] getVocabularies() {
         List<String> values = taxonomyService.findDistinctVocabulary();
         return values.toArray(new String[values.size()]);

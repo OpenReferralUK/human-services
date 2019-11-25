@@ -6,6 +6,7 @@
 package com.porism.servicedirectoryservice.services;
 
 import com.porism.servicedirectoryservice.models.ServiceTaxonomy;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -13,5 +14,9 @@ import java.util.List;
  * @author Dominic Skinner
  */
 public interface IServiceTaxonomyService {
-    public List<ServiceTaxonomy> findByTaxonomyIdIdAndTaxonomyIdVocabulary(String id, String vocabulary);    
+    public List<ServiceTaxonomy> findByTaxonomyIdIdAndTaxonomyIdVocabulary(String id, String vocabulary);
+    
+    public Collection<ServiceTaxonomy> saveAll(Collection<ServiceTaxonomy> serviceTaxonomies);
+    public List<ServiceTaxonomy> findByNeed(String need);
+    public List<ServiceTaxonomy> findByCircumstance(String circumstance);
 }

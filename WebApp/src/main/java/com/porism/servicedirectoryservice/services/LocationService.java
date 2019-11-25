@@ -7,6 +7,7 @@ package com.porism.servicedirectoryservice.services;
 
 import com.porism.servicedirectoryservice.models.Location;
 import com.porism.servicedirectoryservice.repositories.LocationRepository;
+import java.util.Collection;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,4 +29,15 @@ public class LocationService implements ILocationService {
     public Location findById(String id) {
         return repository.findById(id).orElse(null);
     }    
+
+    @Override
+    public Collection<Location> saveAll(Collection<Location> locations) {
+        repository.saveAll(locations);
+        return locations;
+    }
+
+    @Override
+    public Location save(Location location) {
+        return repository.save(location);
+    }
 }

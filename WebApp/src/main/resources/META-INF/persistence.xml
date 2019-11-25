@@ -6,6 +6,7 @@
     <class>com.porism.servicedirectoryservice.models.Organization_1</class>
     <class>com.porism.servicedirectoryservice.models.Service_1</class>
     <class>com.porism.servicedirectoryservice.models.Language</class>
+    <class>com.porism.servicedirectoryservice.models.EsdExternalId</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://informplus-beta.rds.esd.org.uk:3306/ServiceDirectory?zeroDateTimeBehavior=convertToNull"/>

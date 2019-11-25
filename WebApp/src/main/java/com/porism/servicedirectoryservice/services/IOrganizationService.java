@@ -6,6 +6,7 @@
 package com.porism.servicedirectoryservice.services;
 
 import com.porism.servicedirectoryservice.models.Organization;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -16,4 +17,7 @@ public interface IOrganizationService {
     public List<Organization> findAll();
     public Organization findById(String id);
     public List<Organization> findByIdIn(List<String> ids);
+    
+    public Organization save(Organization organization);
+    public Collection<Organization> saveAll(Collection<Organization> organizations);
 }

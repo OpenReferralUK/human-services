@@ -6,6 +6,7 @@
 package com.porism.servicedirectoryservice.services;
 
 import com.porism.servicedirectoryservice.models.Location;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -15,4 +16,7 @@ import java.util.List;
 public interface ILocationService {
     public List<Location> findAll();
     public Location findById(String id);
+    
+    public Location save(Location location);
+    public Collection<Location> saveAll(Collection<Location> locations);
 }
