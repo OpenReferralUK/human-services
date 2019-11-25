@@ -1,5 +1,6 @@
 import argparse
 import csv
+import os
 import sys
 import textwrap
 import threading
@@ -112,7 +113,7 @@ class DataImport:
             try:
                 c.execute(stmt, flat)
             except mysql.connector.Error as err:
-                print(textwrap.shorten(str(args), width=100))
+                print(textwrap.shorten(str(args), width=200))
                 print(err)
             finally:
                 c.close()
@@ -129,8 +130,6 @@ class DataImport:
                 args = []
                 for row in csv_in_service:
                     if row["organization_id"] not in self.found["organization"]:
-                        # print("Not found")
-                        # print(row)
                         if row["organization_id"] not in self.deleted["organization"]:
                             self.deleted["organization"].append(row["organization_id"])
                     else:
@@ -160,7 +159,7 @@ class DataImport:
                 try:
                     c.execute(stmt, flat)
                 except mysql.connector.Error as err:
-                    print(textwrap.shorten(str(args), width=100))
+                    print(textwrap.shorten(str(args), width=200))
                     print(err)
                 finally:
                     c.close()
@@ -202,6 +201,8 @@ class DataImport:
                     args.append([row["id"],
                                  row["location_id"],
                                  row["accessibility"]])
+                if not args:
+                    return None
                 stmt = "INSERT INTO accessibility_for_disabilities (id, location_id, accessibility) VALUES " + ",".join(
                     "(%s, %s, %s)" for _ in args)
                 stmt += "ON DUPLICATE KEY UPDATE location_id = VALUES(location_id), " \
@@ -212,7 +213,7 @@ class DataImport:
                 try:
                     c.execute(stmt, flat)
                 except mysql.connector.Error as err:
-                    print(textwrap.shorten(str(args), width=100))
+                    print(textwrap.shorten(str(args), width=200))
                     print(err)
                 finally:
                     c.close()
@@ -235,10 +236,9 @@ class DataImport:
                                  row["name"],
                                  row["vocabulary"],
                                  None])
-                    self.found["taxonomy"].append([row["id"],
-                                                   row["name"],
-                                                   row["vocabulary"],
-                                                   None])
+                    self.found["taxonomy"].append([row["id"], row["name"], row["vocabulary"], None])
+                if not args:
+                    return None
                 stmt = "INSERT INTO taxonomy (id, name, vocabulary, parent_id) VALUES " + ",".join(
                     "(%s, %s, %s, %s)" for _ in args)
                 stmt += "ON DUPLICATE KEY UPDATE " \
@@ -250,7 +250,7 @@ class DataImport:
                 try:
                     c.execute(stmt, flat)
                 except mysql.connector.Error as err:
-                    print(textwrap.shorten(str(args), width=100))
+                    print(textwrap.shorten(str(args), width=200))
                     print(err)
                 finally:
                     c.close()
@@ -269,11 +269,13 @@ class DataImport:
                 for row in csv_in_eligibility:
                     args.append([row["id"],
                                  row["service_id"],
-                                 row["eligibility"]])
+                                 row["eligibility"],
+                                 row.get("minimum_age"),
+                                 row.get("maximum_age")])
                 if not args:
                     return
-                stmt = "INSERT INTO eligibility (id, service_id, eligibility) VALUES " + ",".join(
-                    "(%s, %s, %s)" for _ in args)
+                stmt = "INSERT INTO eligibility (id, service_id, eligibility, minimum_age, maximum_age) VALUES " + ",".join(
+                    "(%s, %s, %s, %s, %s)" for _ in args)
                 stmt += " ON DUPLICATE KEY UPDATE " \
                         "eligibility = VALUES(eligibility)"
 
@@ -283,7 +285,7 @@ class DataImport:
                 try:
                     c.execute(stmt, flat)
                 except mysql.connector.Error as err:
-                    print(textwrap.shorten(str(args), width=100))
+                    print(textwrap.shorten(str(args), width=200))
                     print(err)
                 finally:
                     c.close()
@@ -324,7 +326,7 @@ class DataImport:
                     c.execute(stmt, flat)
                 except mysql.connector.Error as err:
                     print("review")
-                    print(textwrap.shorten(str(args), width=100))
+                    print(textwrap.shorten(str(args), width=200))
                     print(err)
                 finally:
                     c.close()
@@ -388,7 +390,7 @@ class DataImport:
                 try:
                     c.execute(stmt, flat)
                 except mysql.connector.Error as err:
-                    print(textwrap.shorten(str(args), width=100))
+                    print(textwrap.shorten(str(args), width=200))
                     print(err)
                 finally:
                     c.close()
@@ -410,7 +412,7 @@ class DataImport:
                                      row["taxonomy_id"]])
 
                 if not args:
-                    return
+                    return None
                 stmt = "INSERT INTO service_taxonomy (id, service_id, taxonomy_id) VALUES " + ",".join(
                     "(%s, %s, %s)" for _ in args)
                 stmt += "ON DUPLICATE KEY UPDATE " \
@@ -421,7 +423,7 @@ class DataImport:
                 try:
                     c.execute(stmt, flat)
                 except mysql.connector.Error as err:
-                    print(textwrap.shorten(str(args), width=100))
+                    print(textwrap.shorten(str(args), width=200))
                     print(err)
                 finally:
                     c.close()
@@ -443,6 +445,8 @@ class DataImport:
                                      row["service_area"],
                                      None,
                                      row["uri"]])
+                if not args:
+                    return None
                 stmt = "INSERT INTO service_area (id, service_id, service_area, extent, uri) VALUES " + ",".join(
                     "(%s, %s, %s, %s, %s)" for _ in args)
                 stmt += "ON DUPLICATE KEY UPDATE " \
@@ -454,7 +458,7 @@ class DataImport:
                 try:
                     c.execute(stmt, flat)
                 except mysql.connector.Error as err:
-                    print(textwrap.shorten(str(args), width=100))
+                    print(textwrap.shorten(str(args), width=200))
                     print(err)
                 finally:
                     c.close()
@@ -485,7 +489,7 @@ class DataImport:
                 try:
                     c.execute(stmt, flat)
                 except mysql.connector.Error as err:
-                    print(textwrap.shorten(str(args), width=100))
+                    print(textwrap.shorten(str(args), width=200))
                     print(err)
                 finally:
                     c.close()
@@ -517,7 +521,7 @@ class DataImport:
                 try:
                     c.execute(stmt, flat)
                 except mysql.connector.Error as err:
-                    print(textwrap.shorten(str(args), width=100))
+                    print(textwrap.shorten(str(args), width=200))
                     print(err)
                 finally:
                     c.close()
@@ -552,7 +556,7 @@ class DataImport:
                 try:
                     c.execute(stmt, flat)
                 except mysql.connector.Error as err:
-                    print(textwrap.shorten(str(args), width=100))
+                    print(textwrap.shorten(str(args), width=200))
                     print(err)
                 finally:
                     c.close()
@@ -584,7 +588,7 @@ class DataImport:
                 try:
                     c.execute(stmt, flat)
                 except mysql.connector.Error as err:
-                    print(textwrap.shorten(str(args), width=100))
+                    print(textwrap.shorten(str(args), width=200))
                     print(err)
                 finally:
                     c.close()
@@ -605,15 +609,17 @@ class DataImport:
                                  row["valid_from"],
                                  row["valid_to"],
                                  row["option"],
-                                 row["amount"]])
+                                 row["amount"],
+                                 row.get("amount_description")])
                 if not args:
                     return
 
-                stmt = "INSERT INTO cost_option (id, service_id, valid_from, valid_to, `option`, amount) " \
-                       "VALUES " + ",".join("(%s, %s, %s, %s, %s, %s)" for _ in args)
+                stmt = "INSERT INTO cost_option (id, service_id, valid_from, valid_to, `option`, amount, amount_description) " \
+                       "VALUES " + ",".join("(%s, %s, %s, %s, %s, %s, %s)" for _ in args)
                 stmt += "ON DUPLICATE KEY UPDATE " \
                         "service_id = VALUES(service_id), valid_from = VALUES(valid_from), " \
-                        "valid_to = VALUES(valid_to), `option` = VALUES(`option`), amount = VALUES(amount)"
+                        "valid_to = VALUES(valid_to), `option` = VALUES(`option`), amount = VALUES(amount)," \
+                        "amount_description = VALUES(amount_description)"
                 flat = [item for sublist in args for item in sublist]
 
                 c = dbService.cursor()
@@ -621,7 +627,7 @@ class DataImport:
                     c.execute(stmt, flat)
                 except mysql.connector.Error as err:
                     print("Cost option")
-                    print(textwrap.shorten(str(args), width=100))
+                    print(textwrap.shorten(str(args), width=200))
                     print(err)
                 finally:
                     c.close()
@@ -652,7 +658,7 @@ class DataImport:
                     c.execute(stmt, flat)
                 except mysql.connector.Error as err:
                     print("phone")
-                    print(textwrap.shorten(str(args), width=100))
+                    print(textwrap.shorten(str(args), width=200))
                     print(err)
                 finally:
                     c.close()
@@ -694,7 +700,7 @@ class DataImport:
                     c.execute(stmt, flat)
                 except mysql.connector.Error as err:
                     print("Holiday schedule")
-                    print(textwrap.shorten(str(args), width=100))
+                    print(textwrap.shorten(str(args), width=200))
                     print(err)
                 finally:
                     c.close()
@@ -754,7 +760,7 @@ class DataImport:
                     c.execute(stmt, flat)
                 except mysql.connector.Error as err:
                     print("Regular schedule")
-                    print(textwrap.shorten(str(args), width=100))
+                    print(textwrap.shorten(str(args), width=200))
                     print(err)
                 finally:
                     c.close()
@@ -807,5 +813,7 @@ if __name__ == "__main__":
         sys.exit(1)
     if arg.path[-1] != "/":
         arg.path += "/"
+    if not os.path.isdir(arg.path):
+        sys.exit(1)
     print(arg.path)
     DataImport(arg.db, arg.path).importTables()

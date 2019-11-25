@@ -1,11 +1,15 @@
 # this script will apply ESD terms to the Bristol Well Aware data.
-# the esd data has been prepared as a one-of excercise with LGA/Porism.
-# this script shoudl only be run when a complete run has be done of the ConvertWellAwareDataToOorWithExtentions script to convert Bristol's Well-Aware data to Open Referral format.
-# the file esdTag contains ESD terms ( See https://standards.esd.org.uk ) that are converted to the taxomonmy table.
+# the esd data has been prepared as a one-of exercise with LGA/Porism.
+# this script should only be run when a complete run has be done of the ConvertWellAwareDataToOorWithExtensions
+# script to convert Bristol's Well-Aware data to Open Referral format.
+# the file esdTag contains ESD terms ( See https://standards.esd.org.uk ) that are converted to the taxonomy table.
 # the file esdServiceType maps the service.csv table to the taxonomy terms.
-# esdServiceType uses service_id whcih is generated during ConvertWellAwareDataToOorWithExtentions, so it assumes that the full conversion has been run, and that the original source files have not been changed.
+# esdServiceType uses service_id which is generated during ConvertWellAwareDataToOorWithExtensions,
+# so it assumes that the full conversion has been run, and that the original source files have not been changed.
 
 import csv
+
+from SetUUID import AddUUID
 
 
 def getUri(idTag):
@@ -20,9 +24,9 @@ def getUri(idTag):
 
     for row_in_esdTag in csv_reader_esdTag:
 
-        id = row_in_esdTag["id"]
+        esd_id = row_in_esdTag["id"]
 
-        if id.strip() == idTag.strip():
+        if esd_id.strip() == idTag.strip():
             uri = row_in_esdTag['uri']
             break
 
@@ -33,13 +37,14 @@ def getUri(idTag):
 
 def main():
     print("Starting Esd Tags")
+    objUuid = AddUUID("")
+
     try:
         csv_in_esdTag = open('../WellAwareData/EsdTags/esdTag.csv')
     except IOError:
         raise FileNotFoundError("Error: esdTag.csv does not exist.")
 
     csv_reader_esdTag = csv.DictReader(csv_in_esdTag)
-    count_in_esdTag = 0
 
     try:
         csv_in_esdServiceType = open('../WellAwareData/EsdTags/esdServiceType.csv')
@@ -47,7 +52,6 @@ def main():
         raise FileNotFoundError("Error: esdServiceType.csv does not exist.")
 
     csv_reader_esdServiceType = csv.DictReader(csv_in_esdServiceType)
-    count_in_esdServiceType = 0
 
     try:
         csv_out_service_taxonomy = open('../OpenReferral/service_taxonomy.csv', mode='a')
@@ -106,7 +110,7 @@ def main():
                 count_out_service_taxonomy += 1
 
                 row_service_taxonomy.update({'id': 'esd:' + str(count_out_service_taxonomy)})
-                row_service_taxonomy.update({'service_id': idService})
+                row_service_taxonomy.update({'service_id': objUuid.get_uuid(idService, "service", "")})
                 row_service_taxonomy.update({'taxonomy_id': uri})
 
                 writer_service_taxonomy.writerow(row_service_taxonomy)
