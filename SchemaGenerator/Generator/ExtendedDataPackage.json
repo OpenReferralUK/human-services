@@ -218,6 +218,7 @@
               }
             ],
             "description": "A persistent identifier to uniquely identify the organization.",
+            "format": "url",
             "constraints": {
               "required": false
             }
@@ -2086,7 +2087,7 @@
           {
             "name": "dtstart",
             "description": "iCal - The date of the first event is the schedule. Necessary when using the 'interval' feature",
-            "type": "string",
+            "type": "date",
             "source": "LGA",
             "applicationProfile": [
               {
@@ -2100,7 +2101,7 @@
           },
           {
             "name": "freq",
-            "description": "iCal frequency use one of WEEKLY or MONTHLY.",
+            "description": "iCal - How often the frequency repeats. E.g. Frequency use one of WEEKLY or MONTHLY.",
             "type": "string",
             "source": "LGA",
             "applicationProfile": [
@@ -2122,7 +2123,7 @@
           {
             "name": "interval",
             "description": "iCal - How often the frequency repeats. E.g. Interval 2 for Frequency WEEKLY gives Fortnightly",
-            "type": "string",
+            "type": "number",
             "source": "LGA",
             "applicationProfile": [
               {
@@ -2136,7 +2137,7 @@
           },
           {
             "name": "byday",
-            "description": "iCal - A day of the week. E.g. SU,MO,TU,WE,TH,FR,SA. Where freq is MONTHLY each part can be preceded by a positive or negative integer to represent which occurrence in a month. E.g. 2MO is the second Monday in a month.  -1FR is the last Friday",
+            "description": "iCal - Comma seperated days of the week. E.g. SU,MO,TU,WE,TH,FR,SA. Where freq is MONTHLY each part can be preceded by a positive or negative integer to represent which occurrence in a month. E.g. 2MO is the second Monday in a month.  -1FR is the last Friday",
             "type": "string",
             "source": "LGA",
             "applicationProfile": [
@@ -2151,8 +2152,8 @@
           },
           {
             "name": "bymonthday",
-            "description": "iCal day number of a month if frequency is MONTHLY  ",
-            "type": "string",
+            "description": "iCal - Day number in a month if frequency is MONTHLY  ",
+            "type": "number",
             "source": "LGA",
             "applicationProfile": [
               {
@@ -2166,7 +2167,7 @@
           },
           {
             "name": "description",
-            "description": "Human readable description of the schedule.",
+            "description": "Human readable description of the availability of the service.",
             "type": "string",
             "source": "openCommunity",
             "applicationProfile": [
@@ -3479,7 +3480,7 @@
           },
           {
             "name": "amount",
-            "description": "The actual cost",
+            "description": "The cost of the option",
             "type": "number",
             "source": "LGA",
             "applicationProfile": [
@@ -3563,7 +3564,7 @@
           },
           {
             "name": "reviewer_organization_id",
-            "description": "The organization that carried out the review",
+            "description": "The id to an entry on the 'organization' table to identify the organization that has provided the review",
             "type": "string",
             "source": "LGA",
             "applicationProfile": [
@@ -3638,7 +3639,7 @@
           },
           {
             "name": "url",
-            "description": "The URL of were the review is located",
+            "description": "A URL were the review can be read",
             "type": "string",
             "source": "LGA",
             "applicationProfile": [
@@ -3706,7 +3707,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "Each entry must have a unique identifier",
+            "description": "A unique identifier for the link taxonomy",
             "type": "string",
             "source": "LGA",
             "applicationProfile": [
@@ -3721,7 +3722,7 @@
           },
           {
             "name": "link_type",
-            "description": "The type of taxonomy this link applies to",
+            "description": "The class that the taxonomy applies to",
             "type": "string",
             "source": "LGA",
             "applicationProfile": [
@@ -3784,7 +3785,7 @@
           },
           {
             "name": "link_id",
-            "description": "The external taxonomy link this applies to",
+            "description": "The identifier of the class",
             "type": "string",
             "source": "LGA",
             "applicationProfile": [
