@@ -8,9 +8,11 @@ package com.porism.servicedirectoryservice.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.porism.servicedirectoryservice.views.BasicView;
+import com.porism.servicedirectoryservice.views.SelectedServiceView;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -44,21 +46,21 @@ public class Contact implements Serializable {
     @NotNull
     @Size(min = 1, max = 1536)
     @Column(name = "id")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String id;
     @Lob
     @Size(max = 65535)
     @Column(name = "name")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String name;
     @Lob
     @Size(max = 65535)
     @Column(name = "title")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String title;
-    @OneToMany(mappedBy = "contactId")
+    @OneToMany(mappedBy = "contactId", cascade = CascadeType.ALL)
     @JsonProperty("phones")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private Collection<Phone> phoneCollection;
     @JoinColumn(name = "service_id", referencedColumnName = "id")
     @ManyToOne

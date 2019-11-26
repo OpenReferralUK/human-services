@@ -65,7 +65,7 @@ Here are some sample API calls:
 * Get taxonomy terms in “BCC Age Group” vocabulary: http://api.porism.com/ServiceDirectoryService/taxonomies/?vocabulary=BCC%20Age%20Group
 * Get services for  “BCC Age Group” vocabulary "bccagegroup:18" taxonomy term (Older People): http://api.porism.com/ServiceDirectoryService/services/?vocabulary=BCC%20Age%20Group&taxonomy_id=bccagegroup:18
 * Get taxonomy terms in “esdServiceTypes” vocabulary: http://api.porism.com/ServiceDirectoryService/taxonomies/?vocabulary=esdServiceTypes  
-* Get services for “esdServiceType” vocabulary "http://id.esd.org.uk/service/833" taxonomy term (leaving Hospital): http://api.porism.com/ServiceDirectoryService/services/?vocabulary=esdServiceType&taxonomy_id=http://id.esd.org.uk/service/833
+* Get services for “esdServiceType” vocabulary "http://id.esd.org.uk/service/833" taxonomy term (leaving Hospital): http://api.porism.com/ServiceDirectoryService/services/?vocabulary=esdServiceTypes&taxonomy_id=http://id.esd.org.uk/service/833
 
 The API is freely available for reasonable use for public and private organisations. It is subject to ongoing development and there are no guarantees on its stability or longevity. It may be modified to require credentials in future.
 

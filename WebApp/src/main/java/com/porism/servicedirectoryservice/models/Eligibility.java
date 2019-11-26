@@ -7,7 +7,9 @@ package com.porism.servicedirectoryservice.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.porism.servicedirectoryservice.validation.AllowedValues;
 import com.porism.servicedirectoryservice.views.BasicView;
+import com.porism.servicedirectoryservice.views.SelectedServiceView;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -41,13 +43,22 @@ public class Eligibility implements Serializable, ITaxonomy {
     @NotNull
     @Size(min = 1, max = 1536)
     @Column(name = "id")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String id;
     @Lob
     @Size(max = 65535)
     @Column(name = "eligibility")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @AllowedValues(value={"adult", "child", "teen", "family", "female", "male", "Transgender", "Transgender - M to F", "Transgender - F to M"})
     private String eligibility;
+    @JsonProperty("minimum_age")
+    @Column(name = "minimum_age")
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    private Float minimumAge;    
+    @JsonProperty("maximum_age")
+    @Column(name = "maximum_age")
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    private Float maximumAge;      
     @JoinColumn(name = "service_id", referencedColumnName = "id")
     @ManyToOne
     @JsonProperty("service")

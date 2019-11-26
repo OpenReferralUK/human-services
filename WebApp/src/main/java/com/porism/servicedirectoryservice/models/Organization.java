@@ -5,11 +5,12 @@
  */
 package com.porism.servicedirectoryservice.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.porism.servicedirectoryservice.validation.RichnessScore;
 import com.porism.servicedirectoryservice.views.BasicView;
 import com.porism.servicedirectoryservice.views.OrganizationView;
+import com.porism.servicedirectoryservice.views.SelectedServiceView;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -44,39 +45,41 @@ public class Organization implements Serializable {
     @NotNull
     @Size(min = 1, max = 1536)
     @Column(name = "id")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String id;
     @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 65535)
     @Column(name = "name")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @RichnessScore(5)
     private String name;
     @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 65535)
     @Column(name = "description")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @RichnessScore(2)
     private String description;
     @Lob
     @Size(max = 65535)
     @Column(name = "url")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String url;
     @Lob
     @Size(max = 65535)
     @Column(name = "logo")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String logo;
     @Lob
     @Size(max = 65535)
     @Column(name = "uri")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String uri;
 
-    @OneToMany(mappedBy = "reviewerOrganizationId")
+    @OneToMany(mappedBy = "reviewerOrganizationId", cascade = CascadeType.ALL)
     @JsonView(OrganizationView.class)
     @JsonProperty("reviews")
     private Collection<Review> reviewCollection;

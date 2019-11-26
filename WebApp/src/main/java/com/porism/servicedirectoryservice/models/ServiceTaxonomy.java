@@ -7,7 +7,9 @@ package com.porism.servicedirectoryservice.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.porism.servicedirectoryservice.validation.RequriedScheme;
 import com.porism.servicedirectoryservice.views.BasicView;
+import com.porism.servicedirectoryservice.views.SelectedServiceView;
 import com.porism.servicedirectoryservice.views.ServiceView;
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -41,7 +43,7 @@ public class ServiceTaxonomy implements Serializable, ITaxonomy {
     @NotNull
     @Size(min = 1, max = 1536)
     @Column(name = "id")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String id;
     @JoinColumn(name = "service_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -49,8 +51,9 @@ public class ServiceTaxonomy implements Serializable, ITaxonomy {
     private Service serviceId;
     @JoinColumn(name = "taxonomy_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    @JsonView(ServiceView.class)
-    @JsonProperty("taxonomy")    
+    @JsonView(value = {ServiceView.class, SelectedServiceView.class})
+    @JsonProperty("taxonomy")   
+    @RequriedScheme("esdServiceTypes")
     private Taxonomy taxonomyId;
 
     public ServiceTaxonomy() {
@@ -106,7 +109,11 @@ public class ServiceTaxonomy implements Serializable, ITaxonomy {
 
     @Override
     public String toString() {
-        return "com.porism.servicedirectoryservice.models.ServiceTaxonomy[ id=" + id + " ]";
+        if (this.taxonomyId == null)
+        {
+            return "";
+        }
+        return this.taxonomyId.getId();
     }
 
     @Override

@@ -6,6 +6,7 @@
 package com.porism.servicedirectoryservice.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.porism.servicedirectoryservice.validation.AllowedValues;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -48,6 +49,8 @@ public class LinkTaxonomy implements Serializable, ITaxonomy {
     @Lob
     @Size(min = 1, max = 65535)
     @Column(name = "link_type")
+    @AllowedValues(value={"organization", "eligibility", "cost_option", "area"})
+    @JsonProperty("link_type")
     private String linkType;
     @Lob
     @Size(max = 65535)

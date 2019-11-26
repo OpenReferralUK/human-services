@@ -23,4 +23,9 @@ public class EligibilityService implements IEligibilityService {
     public List<Eligibility> findByIdIn(List<String> ids) {
         return repository.findByIdIn(ids);
     }
+    
+    @Override
+    public List<String> findByAge(Float min_age, Float max_age) {
+        return repository.findByAge(min_age, max_age);
+    }  
 }

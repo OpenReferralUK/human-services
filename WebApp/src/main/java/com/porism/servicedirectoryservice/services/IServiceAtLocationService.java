@@ -6,13 +6,12 @@
 package com.porism.servicedirectoryservice.services;
 
 import com.porism.servicedirectoryservice.models.ServiceAtLocation;
-import java.util.List;
+import java.util.Collection;
 
 /**
  *
  * @author Dominic Skinner
  */
-public interface IServiceAtLocationService {
-    public List<ServiceAtLocation> findByLatitudeLongitude(double latitude, double longitude, double distance);    
-    public List<ServiceAtLocation> findByLatitudeLongitudeAndService(double latitude, double longitude, double distance, List<String> serviceIds);
+public interface IServiceAtLocationService {   
+    public Collection<ServiceAtLocation> saveAll(Collection<ServiceAtLocation> serviceAtLocations);
 }

@@ -7,11 +7,15 @@ package com.porism.servicedirectoryservice.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.porism.servicedirectoryservice.validation.AllowedValues;
+import com.porism.servicedirectoryservice.validation.RichnessScore;
 import com.porism.servicedirectoryservice.views.ServiceView;
 import com.porism.servicedirectoryservice.views.BasicView;
+import com.porism.servicedirectoryservice.views.SelectedServiceView;
 import com.porism.servicedirectoryservice.views.ServiceBasicView;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -24,6 +28,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -46,80 +52,113 @@ public class Service implements Serializable {
     @NotNull
     @Size(min = 1, max = 1536)
     @Column(name = "id")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String id;    
     @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 65535)
     @Column(name = "name")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @RichnessScore(10)
     private String name;
     @Lob
     @Size(max = 65535)
     @Column(name = "description")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @RichnessScore(5)
     private String description;
     @Lob()
     @Size(max = 65535)
     @Column(name = "url")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @RichnessScore(2)
     private String url;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Lob
     @Size(max = 65535)
     @Column(name = "email")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @RichnessScore(2)
     private String email;
     @Basic(optional = false)
     @NotNull()
     @Lob()
     @Size(min = 1, max = 65535)
     @Column(name = "status")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @AllowedValues(value={"active", "inactive","defunct","temporarily closed"})
     private String status;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Lob
     @Size(max = 65535)
     @Column(name = "fees")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String fees;
     @Lob()
     @Size(max = 65535)
     @Column(name = "accreditations")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String accreditations;
     @Lob
     @Size(max = 65535)
     @Column(name = "deliverable_type")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @JsonProperty("deliverable_type")
+    @AllowedValues(value={"advice", "assessment","counselling","equipment","financial support","information","permission","training"})
     private String deliverableType;
-    @OneToMany(mappedBy = "serviceId")
+    @Lob
+    @Size(max = 65535)
+    @Column(name = "attending_type")
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @JsonProperty("attending_type")
+    @AllowedValues(value={"phone", "online","venue","home visit"})
+    @RichnessScore(2)
+    public String attendingType;
+    @Lob
+    @Size(max = 65535)
+    @Column(name = "attending_access")
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @AllowedValues(value={"referral", "appointment","membership","drop-in"})
+    @JsonProperty("attending_access")
+    @RichnessScore(2)
+    public String attendingAccess;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "assured_date")
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
+    @JsonProperty("assured_date")
+    @RichnessScore(value = 2, minimumAgeDays = 90)
+    public Date assuredDate;        
+    @OneToMany(mappedBy = "serviceId", cascade = CascadeType.ALL)
     @JsonView(ServiceView.class)
     @JsonProperty("service_areas")    
+    @RichnessScore(5)
     private Collection<ServiceArea> serviceAreaCollection;
     private static final long serialVersionUID = 1L;
-    @OneToMany(mappedBy = "serviceId")
+    @OneToMany(mappedBy = "serviceId", cascade = CascadeType.ALL)
     @JsonView(ServiceView.class)
     @JsonProperty("fundings")
     private Collection<Funding> fundingCollection;
-    @OneToMany(mappedBy = "serviceId")
+    @OneToMany(mappedBy = "serviceId", cascade = CascadeType.ALL)
     @JsonView(ServiceView.class)
     @JsonProperty("regular_schedules")
+    @RichnessScore(2)
     private Collection<RegularSchedule> regularScheduleCollection;
-    @OneToMany(mappedBy = "serviceId")
+    @OneToMany(mappedBy = "serviceId", cascade = CascadeType.ALL)
     @JsonView(ServiceView.class)
     @JsonProperty("eligibilitys")
+    @RichnessScore(2)
     private Collection<Eligibility> eligibilityCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "serviceId")
     @JsonView(ServiceView.class)
     @JsonProperty("service_at_locations")
+    @RichnessScore(value = 9, dependentField = "attendingType", dependentValue = "venue")
     private Collection<ServiceAtLocation> serviceAtLocationCollection;
-    @OneToMany(mappedBy = "serviceId")
+    @OneToMany(mappedBy = "serviceId", cascade = CascadeType.ALL)
     @JsonView(ServiceView.class)
     @JsonProperty("cost_options")
     private Collection<CostOption> costOptionCollection;
-    @OneToMany(mappedBy = "serviceId")
+    @OneToMany(mappedBy = "serviceId", cascade = CascadeType.ALL)
     @JsonView(ServiceView.class)
     @JsonProperty("reviews")
     private Collection<Review> reviewCollection;
@@ -128,11 +167,12 @@ public class Service implements Serializable {
     @JsonView(ServiceBasicView.class)
     @JsonProperty("organization")
     private Organization organizationId;
-    @OneToMany(mappedBy = "serviceId")
+    @OneToMany(mappedBy = "serviceId", cascade = CascadeType.ALL)
     @JsonView(ServiceView.class)
     @JsonProperty("contacts")
+    @RichnessScore(2)
     private Collection<Contact> contactCollection;
-    @OneToMany(mappedBy = "serviceId")
+    @OneToMany(mappedBy = "serviceId", cascade = CascadeType.ALL)
     @JsonView(ServiceView.class)
     @JsonProperty("holiday_schedules")
     private Collection<HolidaySchedule> holidayScheduleCollection;
@@ -359,6 +399,34 @@ public class Service implements Serializable {
      */
     public Collection<Language> getLanguageCollection() {
         return languageCollection;
+    }
+
+    /**
+     * @return the attendingType
+     */
+    public String getAttendingType() {
+        return attendingType;
+    }
+
+    /**
+     * @return the attendingAccess
+     */
+    public String getAttendingAccess() {
+        return attendingAccess;
+    }
+
+    /**
+     * @param attendingAccess the attendingAccess to set
+     */
+    public void setAttendingAccess(String attendingAccess) {
+        this.attendingAccess = attendingAccess;
+    }
+
+    /**
+     * @return the assuredDate
+     */
+    public Date getAssuredDate() {
+        return assuredDate;
     }
     
 }

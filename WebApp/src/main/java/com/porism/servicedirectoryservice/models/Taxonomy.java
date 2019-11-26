@@ -5,8 +5,10 @@
  */
 package com.porism.servicedirectoryservice.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.porism.servicedirectoryservice.views.BasicView;
+import com.porism.servicedirectoryservice.views.SelectedServiceView;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -14,7 +16,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -42,21 +46,26 @@ public class Taxonomy implements Serializable {
     @NotNull
     @Size(min = 1, max = 1536)
     @Column(name = "id")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String id;
     @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 65535)
     @Column(name = "name")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String name;
     @Lob
     @Size(max = 65535)
     @Column(name = "vocabulary")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String vocabulary;
-    @OneToMany(mappedBy = "taxonomyId")
+    @JoinColumn(name = "parent_id", referencedColumnName = "id")
+    @ManyToOne
+    @JsonView(BasicView.class)
+    @JsonProperty("parent")  
+    private Taxonomy parentId;    
+    @OneToMany(mappedBy = "taxonomyId", cascade = CascadeType.ALL)
     private Collection<LinkTaxonomy> linkTaxonomyCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "taxonomyId")
     private Collection<ServiceTaxonomy> serviceTaxonomyCollection;
@@ -137,7 +146,7 @@ public class Taxonomy implements Serializable {
 
     @Override
     public String toString() {
-        return "com.porism.servicedirectoryservice.models.Taxonomy[ id=" + id + " ]";
+        return id;
     }
     
 }

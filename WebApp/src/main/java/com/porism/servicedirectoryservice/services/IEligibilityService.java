@@ -14,4 +14,5 @@ import java.util.List;
  */
 public interface IEligibilityService {
     public List<Eligibility> findByIdIn(List<String> ids);
+    public List<String> findByAge(Float min_age, Float max_age);  
 }

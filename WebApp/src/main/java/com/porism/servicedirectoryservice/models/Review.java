@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.porism.servicedirectoryservice.views.BasicView;
 import com.porism.servicedirectoryservice.views.ReviewView;
+import com.porism.servicedirectoryservice.views.SelectedServiceView;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -47,36 +48,36 @@ public class Review implements Serializable {
     @NotNull
     @Size(min = 1, max = 1536)
     @Column(name = "id")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String id;
     @Lob
     @Size(max = 65535)    
     @Column(name = "title")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String title;
     @Lob
     @Size(max = 65535)
     @Column(name = "description")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String description;
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private Date date;
     @Lob
     @Size(max = 65535)
     @Column(name = "score")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String score;
     @Lob
     @Size(max = 65535)
     @Column(name = "url")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String url;
     @Lob
     @Size(max = 65535)
     @Column(name = "widget")
-    @JsonView(BasicView.class)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})
     private String widget;
     @JoinColumn(name = "service_id", referencedColumnName = "id")
     @ManyToOne
@@ -85,7 +86,7 @@ public class Review implements Serializable {
     private Service serviceId;
     @JoinColumn(name = "reviewer_organization_id", referencedColumnName = "id")
     @ManyToOne
-    @JsonView(ReviewView.class)
+    @JsonView(BasicView.class)
     @JsonProperty("organization")
     private Organization reviewerOrganizationId;
 

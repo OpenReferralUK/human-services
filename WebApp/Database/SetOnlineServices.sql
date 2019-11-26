@@ -1,0 +1,1 @@
+UPDATE service SET attending_type = 'online' WHERE id NOT IN (SELECT DISTINCT service_id FROM service_at_location INNER JOIN physical_address ON physical_address.location_id  = service_at_location.location_id)
