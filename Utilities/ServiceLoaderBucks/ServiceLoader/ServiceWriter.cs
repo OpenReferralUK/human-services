@@ -41,6 +41,7 @@ namespace ServiceLoader
                     WriteSchedule(result);
                     WriteCostOption(result);
                     WriteExternalId(result);
+                    WriteAccessibilities(result);
                 }
                 catch (Exception e)
                 {
@@ -311,6 +312,29 @@ ON DUPLICATE KEY UPDATE id = id;
                 command.Parameters.Add("@latitude", MySqlDbType.Double).Value = result.LocationLatitude;
                 command.Parameters.Add("@longitude", MySqlDbType.Double).Value = result.LocationLongitude;
                 command.ExecuteNonQuery();
+            }
+        }
+
+        private void WriteAccessibilities(Result result)
+        {
+            if (string.IsNullOrEmpty(result.LocationId)) return;
+            foreach (var accessibility in result.Accessibilities)
+            {
+                if (string.IsNullOrWhiteSpace(accessibility)) continue;
+
+                using (var command = _connection.CreateCommand())
+                {
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = @"
+INSERT INTO accessibility_for_disabilities(id, location_id, accessibility)
+VALUES (@id, @location_id, @accessibility)
+ON DUPLICATE KEY UPDATE id = id;
+";
+                    command.Parameters.Add("@id", MySqlDbType.VarChar, 1536).Value = Guid.NewGuid().ToString();
+                    command.Parameters.Add("@location_id", MySqlDbType.VarChar, 1536).Value = result.LocationId;
+                    command.Parameters.Add("@accessibility", MySqlDbType.Text).Value = accessibility;
+                    command.ExecuteNonQuery();
+                }
             }
         }
 
