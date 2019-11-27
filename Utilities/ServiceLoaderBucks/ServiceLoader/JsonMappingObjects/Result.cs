@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace ServiceLoader.JsonMappingObjects
@@ -96,7 +97,6 @@ namespace ServiceLoader.JsonMappingObjects
         public double? LocationLongitude => Geo?.Longitude;
         private readonly string _serviceAtLocationId = Guid.NewGuid().ToString();
         public string ServiceAtLocationId => !string.IsNullOrEmpty(LocationId) ? _serviceAtLocationId : null;
-        public IEnumerable<Taxonomy> Taxonomies => TaxonomyBuilder.Build(this);
         public readonly string ContactId = Guid.NewGuid().ToString();
         public string AddressLine1 => Venue;
         public string AddressCity => Area;
@@ -105,5 +105,15 @@ namespace ServiceLoader.JsonMappingObjects
         public string AddressPostCode => PostCode ?? string.Empty;
         public IEnumerable<Schedule> Schedules => ScheduleBuilder.Build(this);
         public decimal? PriceAmount => PriceParser.Parse(PriceDescription);
+
+        private IEnumerable<Taxonomy> _taxonomies = null;
+        public IEnumerable<Taxonomy> Taxonomies
+        {
+            get
+            {
+                if (_taxonomies == null) _taxonomies = TaxonomyBuilder.Build(this).ToList();
+                return _taxonomies;
+            }
+        }
     }
 }

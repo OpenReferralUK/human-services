@@ -257,8 +257,8 @@ ON DUPLICATE KEY UPDATE id = id;
             //Open eligibility data at https://github.com/auntbertha/openeligibility/blob/master/taxonomy
             var openEligibilityTopLevelTaxonomies = new List<Taxonomy>
             {
-                Taxonomy.OpenEligibilityAgeGroup,
-                Taxonomy.OpenEligibilityDisability
+                TaxonomyBuilder.GetOpenEligibilityAgeGroup(),
+                TaxonomyBuilder.GetOpenEligibilityDisability()
             };
             foreach (var taxonomy in openEligibilityTopLevelTaxonomies)
             {
