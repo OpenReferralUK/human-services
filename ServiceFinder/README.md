@@ -1,6 +1,6 @@
 # Service Finder
 
-_Service Finder is targeted at any public or third sector frontline worker looking to find services that might support the needs and circumstances of a citizen. It accesses open data collected to meet the data standard of the [OpenReferral commuinty](https://openreferral.org)_
+_Service Finder is targeted at any public or third sector frontline worker looking to find services that might support the needs and circumstances of a citizen. It accesses open data collected to meet the data standard of the [OpenReferral community](https://openreferral.org)_
 
 ## Getting Started
 
@@ -25,7 +25,7 @@ _For windows users:_
 _For linux and MacOS users:_
 `$ sudo npm install`
 
-_When all the packages has been downloaded, you can now build and test the Service Finder_
+_When all the packages have been downloaded, you can now build and test the Service Finder_
 
 ## Scripts
 
@@ -54,7 +54,22 @@ To go to the build folder just type the following line in the command line:
 
 _These files are the ones that must be on the server._
 
-## Build with
+_When the files are hosted on the server, we will need to create a new file in the directory where the page is located.
+The file will have to be called `.htaccess` and the following lines must be inside this file:_
+
+```
+<IfModule mod_rewrite.c>
+   RewriteEngine On
+   RewriteBase /
+   RewriteRule ^ index \ .html $ - [L]
+   RewriteCond% {REQUEST_FILENAME}! -F
+   RewriteCond% {REQUEST_FILENAME}! -D
+   RewriteCond% {REQUEST_FILENAME}! -L
+   RewriteRule. /index.html [L]
+</IfModule>
+```
+
+## Service Finder key components
 
 _The project was made with:_
 * [React](https://reactjs.org/)
