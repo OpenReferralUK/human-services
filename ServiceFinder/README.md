@@ -1,23 +1,23 @@
 # Service Finder
 
-_Service Finder is targeted at any public or third secot frontline worker looking to find services that might support the needs and circumstances if a citizen. It accesses open data collected to meet the data standard of the [OPenReferral commuinty](https://openreferral.org)_
+_Service Finder is targeted at any public or third sector frontline worker looking to find services that might support the needs and circumstances of a citizen. It accesses open data collected to meet the data standard of the [OpenReferral commuinty](https://openreferral.org)_
 
-## To Start With
+## Getting Started
 
-_To use this project you just have to follow the steps mentioned below. _
+_To use this project you must follow the steps mentioned below._
 
 ### Requirements
 
-_What do you need and how can get these and install it_
+_You will need the following:_
 
 - [Node.js](https://nodejs.org/en/)
 
 ### Install
 
-_Next we will comment step by step how to start with our project:_
+_Next we will comment step by step how to start with the Service Finder project:_
 
-_To start with, we must to open a command line and go to the folder we download before .
-Then we will write the following line on command line_
+_To start with, open a command line and go to the project root folder.
+Then write the following line on command line:_
 
 _For windows users:_
 `$ npm install`
@@ -25,11 +25,11 @@ _For windows users:_
 _For linux and MacOS users:_
 `$ sudo npm install`
 
-_When all the packages has been downloaded, you can now test project copy_
+_When all the packages has been downloaded, you can now build and test the Service Finder_
 
 ## Scripts
 
--_To run the project you just write in command line the following line_
+-_To run the project use the following command line_
 
 >_For windows users:_
 `$ npm start`
@@ -40,8 +40,8 @@ _When all the packages has been downloaded, you can now test project copy_
 _Then you can see the project running at :_
 - [http://localhost:3000](http://localhost:3000)
 
-
--_To build the project you just write in command line the following line_
+## Deploy Project
+-_To build the project use the following command line_
 
 >_For windows users:_
 `$ npm run build`
@@ -49,8 +49,10 @@ _Then you can see the project running at :_
 >_For linux and MacOs users:_
 `$ sudo npm run build`
 >
-To go to the build folder just type the following line in command line:
+To go to the build folder just type the following line in the command line:
 `$cd ./build`
+
+_These files are the ones that must be on the server._
 
 ## Build with
 
