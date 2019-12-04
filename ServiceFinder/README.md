@@ -27,6 +27,14 @@ _For linux and MacOS users:_
 
 _When all the packages have been downloaded, you can now build and test the Service Finder_
 
+## Configuration
+
+_The project has two aspects of configuration: an API endpoint URL and a configuration data file to specify the Personas options._
+
+_To modify the API endpoint URL, modify the API_URL_BASE constant in the settings.js file._
+
+_To modify the Personas configurations, modify the config.js file (note that this refers to ID numbers specific to data held within the particular API)._
+
 ## Scripts
 
 -_To run the project use the following command line_
