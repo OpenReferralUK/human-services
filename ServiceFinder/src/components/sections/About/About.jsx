@@ -32,7 +32,7 @@ class AboutComponent extends React.Component {
                     </div>
                     <hr />
                     <div id="licences" className="p-2">
-                        <small>Images <a href="http://www.freepik.com" target="_blank" rel="noopener noreferrer">designed by Freepik</a></small>
+                        <small>The Service Finder logo was designed by <a href="https://www.vidavia.com/" target="_blank" rel="noopener noreferrer">VidaVia</a>. The header background images have been adapted from images from <a href="http://www.freepik.com" target="_blank" rel="noopener noreferrer">Freepik</a></small>
                     </div>
                 </div>
             </>
