@@ -3051,27 +3051,15 @@
             "source": "openReferral",
             "applicationProfile": [
               {
-                "name": "openReferral"
+                "name": "openReferral",
+                "notes": "A suitable list of enumerated values needs to be agreed on."
               },
               {
                 "name": "openCommunity",
-                "moscow": "must"
+                "moscow": "must",
+                "notes": "A suitable list of enumerated values needs to be agreed on."
               }
-            ],
-            "constraints": {
-              "enum": [
-                "cd",
-                "deaf_interpreter",
-                "disabled_parking",
-                "elevator",
-                "ramp",
-                "restroom",
-                "tape_braille",
-                "tty",
-                "wheelchair",
-                "wheelchair_van"
-              ]
-            }
+            ]
           },
           {
             "name": "details",
