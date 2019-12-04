@@ -1,0 +1,39 @@
+data : {
+    age: {
+        minAgeSelected: 9,
+        maxAgeSelected: 77,
+        wasChanged: true
+    }
+    availability: {
+        data: Array(3),
+        wasChanged: true
+    }
+    circumstances_selected: {
+        data: Array(2),
+        wasChanged: true
+    }
+    collapsed: true
+    gender: {
+        data: {
+            …},
+        wasChanged: true
+    }
+    needs_selected: {
+        data: Array(2),
+        wasChanged: true
+    }
+    parent_state: {
+        data: {
+            …},
+        wasChanged: true
+    }
+    post_code: {
+        value: "46650",
+        wasChanged: true
+    }
+    proximity: {
+        wasChange: true,
+        data: {
+            …}
+    }
+}
