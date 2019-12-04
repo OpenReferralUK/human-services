@@ -56,11 +56,11 @@ class Navbar extends React.Component {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav d-flex w-100">
                         <li className="nav-item d-flex align-items-center">
-                            <Link to="/about" className="nav-item nav-link mt-1" onClick={() => window.$('#navbarSupportedContent').collapse('hide')}>About</Link>
+                            <Link to="/about" className="nav-item nav-link" onClick={() => window.$('#navbarSupportedContent').collapse('hide')}>About</Link>
                         </li>
                     </ul>
                 </div>
-                <div className="d-flex justify-content-center mr-1 pc-only">
+                <div className="d-flex justify-content-center pc-only">
                     <img src={banner} alt="banner" width="65" height="38" />
                 </div>
             </nav >

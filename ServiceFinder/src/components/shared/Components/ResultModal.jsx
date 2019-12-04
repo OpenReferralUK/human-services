@@ -24,6 +24,7 @@ class ResultModal extends React.Component {
 
     async componentDidMount() {
         this.unsubscribeStore = store.subscribe(this.updateStateFromStore);
+        console.log(this.props)
         this.props.interacted && this.getUserPostcode();
     }
 

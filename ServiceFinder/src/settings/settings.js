@@ -61,5 +61,6 @@ export const Query_direction = async (circumstances = '', coverage = '', day = '
     urlFinal += text !== '' ? `text=${text}&` : '';
 
     urlFinal += vocabulary !== '' ? `vocabulary=${vocabulary}&` : '';
+    console.log(urlFinal);
     return encodeURI(urlFinal);
 }

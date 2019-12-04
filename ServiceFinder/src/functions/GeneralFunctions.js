@@ -285,7 +285,9 @@ const getDataFromInteracted = async function (interacted) {
 
     }
     if (Object.keys(objGeneral).length === 0) {
-        objGeneral = [{category: "All Services"}];
+        objGeneral = [{
+            category: "All Services"
+        }];
     }
     return objGeneral;
 }

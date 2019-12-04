@@ -55,7 +55,7 @@ export default class PreviousSearchesContent extends React.Component {
         }
     }
 
-    applySearch = (index) => {
+    applySearch = async (index) => {
         window.$('div#searchingForCollapse').collapse('show');
         window.$('a[href="#searchingFor"]').tab('show');
         this.state.searches[index].data.map(async deepItem => {

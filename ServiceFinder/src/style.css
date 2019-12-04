@@ -293,12 +293,12 @@ iframe.map {
   margin-bottom: 0 !important;
 }
 
-.pc-only {
-  display: flex !important;
-}
-
 .mobile-only {
   display: none;
+}
+
+.pc-only {
+  display: flex !important;
 }
 
 @media (max-width : 1200px) {
@@ -317,7 +317,7 @@ iframe.map {
   }
 }
 
-@media (max-width : 991px) {
+@media (max-width : 992px) {
   .mobile-only {
     display: none !important;
   }

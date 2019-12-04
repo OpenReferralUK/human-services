@@ -50,14 +50,16 @@
       let originalValues = [];
       if (values) {
           let filter = values.filter(item => item.category.includes(type));
-          filter.map(item =>
+          filter.map(item => {
               originalValues.push({
                   day: item.original.day,
                   time: item.original.time,
                   type: "availability",
                   value: item.value
-              }))
+              });
+          });
       }
+      return originalValues;
   }
 
   const getItems = (values, type) => {
