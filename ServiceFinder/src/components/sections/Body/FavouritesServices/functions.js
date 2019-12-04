@@ -12,9 +12,7 @@ export const getHTMLServicesList = (items) => {
     } else {
         let stringHTML = `<div><h3 style="color: black"><b>List of saved searches from Service Finder (on ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}):</b></h3><ul>`;
 
-        console.log(items);
         items.map(item => {
-            console.log(item);
             let html = `<li><a href="${window.location.href}service/${item.id}">${item.name}</a></li>`
             return stringHTML += html;
         });

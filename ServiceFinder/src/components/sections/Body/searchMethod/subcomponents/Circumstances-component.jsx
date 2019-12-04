@@ -105,7 +105,6 @@ export default class CircumstancesComponent extends React.Component {
                     else {
                         if ((this.state.lvl2Selected === 'circumstance:192') || (this.state.lvl2Selected === 'circumstance:193') || (this.state.lvl2Selected === 'circumstance:194')) {
                             cir = await this.state.cData.filter(item => item.id === this.state.lvl2Selected)[0];
-                            console.log(cir);
                         }
                         objToSave = await getCircumstancesObject(this.state.lvl2Selected, this.state.circumstances.data, this.state.cData);
                     }

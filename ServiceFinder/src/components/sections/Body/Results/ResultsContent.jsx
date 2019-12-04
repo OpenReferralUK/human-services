@@ -191,7 +191,7 @@ class ResultsContent extends React.Component {
                                     <div className="col-xl-auto my-2">
                                         <div className="d-flex justify-content-center align-items-center">
                                             <p className='mb-0 mr-2'>Show </p>
-                                            <select id="perPage" className="form-control col-4" value={this.state.perPage} onChange={this.changePagination}>
+                                            <select id="perPage" className="form-control col-6" value={this.state.perPage} onChange={this.changePagination}>
                                                 <option value="5">5</option>
                                                 <option value="10">10</option>
                                                 <option value="25">25</option>

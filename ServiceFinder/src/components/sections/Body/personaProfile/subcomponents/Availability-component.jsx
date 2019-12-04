@@ -46,9 +46,11 @@ export default class AvailabilityComponent extends React.Component {
     }
 
     addDay = async () => {
-        if (this.state.availability.day !== '' && +this.state.availability.time >= 0) {
-            const res = await getDateArray(this.state.availability);
-            this.saveDay(res);
+        if ((this.state.availability.day) && (this.state.availability.time)) {
+            if ((this.state.availability.day !== '') && (+this.state.availability.time >= 0)) {
+                const res = await getDateArray(this.state.availability);
+                this.saveDay(res);
+            }
         }
     }
 
@@ -75,9 +77,6 @@ export default class AvailabilityComponent extends React.Component {
                     <legend className="col-form-label d-flex">My availability:</legend>
                     <DropdownElement id="day" onChange={this.handleChangeDay} default={this.state.availability.day} class="col-xl-auto" placeholder="Choose Day" data={initial_data.persona_profile.days.day} />
                     <DropdownElement id="time" onChange={this.handleChangeDay} default={this.state.availability.time} class="col-xl-auto" placeholder="Choose Time" data={initial_data.persona_profile.days.time} />
-                    {/* <div className="col-xl-auto w-100 d-flex justify-content-end align-items-center mb-3">
-                        <button type="button" className="btn btn-secondary text-nowrap" onClick={this.addDay}>Add day</button>
-                    </div> */}
                     <button type="button" className="col-xl-auto mx-3 mb-3 btn btn-secondary text-nowrap" onClick={this.addDay}>Add day</button>
                 </div>
                 <div className="row mx-3">

@@ -293,6 +293,10 @@ iframe.map {
   margin-bottom: 0 !important;
 }
 
+.pc-only {
+  display: flex !important;
+}
+
 .mobile-only {
   display: none;
 }
@@ -313,13 +317,17 @@ iframe.map {
   }
 }
 
-@media (max-width : 992px) {
+@media (max-width : 991px) {
   .mobile-only {
     display: none !important;
   }
 
   .tablet-only {
     display: flex !important;
+  }
+
+  .pc-only {
+    display: none !important;
   }
 
   .dropdown-menu {

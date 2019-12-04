@@ -49,23 +49,6 @@ export default class SearchingForContent extends React.Component {
             }
             await this.setState({ interacted: currentState, originaData: originaData, focus: true });
         }
-        // if (originaData.searchesReducers.length > 0) {
-        //     if (this.state.data !== originaData.searchesReducers[originaData.searchesReducers.length - 1]) {
-        //         alert('Diferent');
-        //         // const action = {
-        //         //     type: SAVE_ELEMENT,
-        //         //     payload: originaData.searchesReducers[originaData.searchesReducers.length - 1]
-        //         // }
-        //         // await store.dispatch(action);
-        //         // await this.setState({
-        //         //     isFetching: false,
-        //         //     query: originaData.searchesReducers[originaData.searchesReducers.length - 1].query,
-        //         //     results: await getResults(originaData.searchesReducers[originaData.searchesReducers.length - 1].query),
-        //         //     data: originaData.searchesReducers[originaData.searchesReducers.length - 1]
-        //         // });
-        //         // if (this.state.results) setTimeout(window.location.href = `#results`, 100);
-        //     }
-        // }
     }
 
     openBox = async (category) => {

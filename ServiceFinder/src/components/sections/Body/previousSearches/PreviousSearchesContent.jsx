@@ -55,39 +55,30 @@ export default class PreviousSearchesContent extends React.Component {
         }
     }
 
-    applySearch = async (index) => {
+    applySearch = (index) => {
         window.$('div#searchingForCollapse').collapse('show');
         window.$('a[href="#searchingFor"]').tab('show');
-        for (let obj in this.state.searches[index].data) {
-            let varBase = this.state.searches[index].data[obj];
-            switch (obj) {
+        this.state.searches[index].data.map(async deepItem => {
+            switch (deepItem.category) {
                 case 'age':
-                    await store.dispatch(getAgeAction(varBase.value));
-                    break;
+                    return await store.dispatch(getAgeAction(deepItem.value));
                 case 'postcode':
-                    await store.dispatch(getPostcodeAction(varBase.value));
-                    break;
+                    return await store.dispatch(getPostcodeAction(deepItem.value));
                 case 'proximity':
-                    await store.dispatch(getProximityAction(varBase));
-                    break;
+                    return await store.dispatch(getProximityAction(deepItem));
                 case 'gender':
-                    await store.dispatch(getGenderAction(varBase));
-                    break;
+                    return await store.dispatch(getGenderAction(deepItem));
                 case 'availability':
-                    await store.dispatch(getAvailabilityAction(varBase.data));
-                    break;
+                    return await store.dispatch(getAvailabilityAction(deepItem.data));
                 case 'needs':
-                    await store.dispatch(getNeedsAction(varBase.data));
-                    break;
+                    return await store.dispatch(getNeedsAction(deepItem.data));
                 case 'circumstances':
-                    await store.dispatch(getCircumstancesAction(varBase.data));
-                    break;
+                    return await store.dispatch(getCircumstancesAction(deepItem.data));
                 case 'serviceTypes':
-                    await store.dispatch(getServiceTypesAction(varBase));
-                    break;
+                    return await store.dispatch(getServiceTypesAction(deepItem));
                 default: return true;
             }
-        }
+        })
     }
 
 
@@ -102,21 +93,8 @@ export default class PreviousSearchesContent extends React.Component {
                     }
                     {this.state.searches &&
                         this.state.searches.length > 0 ?
-                        this.state.searches.map((item, i) => {
-                            let itemsArr = [];
-                            for (let obj in item.data) {
-                                const date = new Date();
-                                let newString = obj.replace(obj.charAt(0), obj.charAt(0).toUpperCase());
-                                newString = newString.replace('_', ' ');
-                                if (newString !== 'All Services') {
-                                    itemsArr.push(<li key={`${(i + 1) * date.getTime()}`}>{newString}: {item.data[obj].label}</li>);
-                                    break;
-                                } else {
-                                    itemsArr.push(<li key={`${(i + 1) * date.getTime()}`}>{newString}</li>);
-                                    break;
-                                }
-                            }
-                            return (
+                        this.state.searches.map((item, i) =>
+                            (
                                 <div className="card-header itemSelected my-2 rounded" key={i}>
                                     <div className="w-100 d-flex justify-content-between">
                                         <h4 className="card-title mb-2">Searching for:</h4>
@@ -136,7 +114,16 @@ export default class PreviousSearchesContent extends React.Component {
                                         </div>
                                     </div>
                                     <ul className="mb-1">
-                                        {itemsArr}
+                                        {this.state.searches[i].data.map((deepItem, j) => {
+                                            let category = deepItem.category.replace(deepItem.category.charAt(0), deepItem.category.charAt(0).toUpperCase())
+                                            category = category.replace('_', " ");
+                                            const date = new Date();
+                                            if (category !== 'All Services') {
+                                                return (<li key={`${(j + 1) * date.getTime()}`}>{category}: {deepItem.label}</li>)
+                                            } else {
+                                                return (<li key={`${(j + 1) * date.getTime()}`}>{category}</li>);
+                                            }
+                                        })}
                                     </ul>
                                     <div className="w-100 d-flex justify-content-between align-items-center">
                                         <div className="d-flex align-items-center">
@@ -148,8 +135,7 @@ export default class PreviousSearchesContent extends React.Component {
                                         <p className="btn btn-secondary card-link mb-0 cursor-pointer" onClick={() => this.applySearch(i)}>Search</p>
                                     </div>
                                 </div>
-                            )
-                        })
+                            ))
                         :
                         <div className="w-100 d-flex justify-content-center my-3">
                             <h5 className="text-black-50">No previous searches</h5>

@@ -85,6 +85,7 @@ export default class NeedsComponent extends React.Component {
                 objToSave = await getNeedsObject(this.state.detailSelected, this.state.needs.data.slice(), this.state.nData);
             }
         } else {
+            await this.setState({ error: 'You must to choose a need' })
             return window.$('#sneeds').appendTo('body').modal('show');
         }
 

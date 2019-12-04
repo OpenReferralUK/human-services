@@ -10,6 +10,7 @@ export const getDateArray = (data) => {
     const time = initial_data.persona_profile.days.time.filter(timeItem => timeItem.value === data.time)[0];
 
     const newObj = {
+        type: 'availability',
         value: ((`${day.id}${time.value}`)),
         day,
         time

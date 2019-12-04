@@ -48,14 +48,15 @@ export default class CircumstancesComponent extends React.Component {
     }
 
     addCircumstance = async (value, action) => {
-        console.log(action);
         try {
             if ((value === null) || (value.length === 0)) {
                 if (action.action !== 'clear') {
-                    if ((action.removedValue.value === 'circumstance:192') || (action.removedValue.value === 'circumstance:193') || (action.removedValue.value === 'circumstance:194')) {
-                        await store.dispatch(getGenderAction({
-                            value: '', label: ''
-                        }));
+                    if (action.removedValue !== undefined) {
+                        if ((action.removedValue.value === 'circumstance:192') || (action.removedValue.value === 'circumstance:193') || (action.removedValue.value === 'circumstance:194')) {
+                            await store.dispatch(getGenderAction({
+                                value: '', label: ''
+                            }));
+                        }
                     }
                 } else {
                     await store.dispatch(getGenderAction({

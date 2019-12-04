@@ -5,7 +5,6 @@ import store from '../../../Store/store';
 class AboutComponent extends React.Component {
 
     back = () => {
-        console.log(this.props);
         this.props.history.push('/')
     }
 

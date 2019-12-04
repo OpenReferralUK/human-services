@@ -28,7 +28,6 @@ class InfoService extends React.Component {
 
     async componentDidMount() {
         const params = this.props.match.params;
-        console.log('Params:', params.id);
         await Axios.get(`${API_directions.get.serviceId}${params.id}`)
             .then(res => {
                 this.setState({

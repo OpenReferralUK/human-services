@@ -39,7 +39,7 @@ export default class PersonaPorfileContent extends React.Component {
         for (const key in btnDisabled) {
             if (btnDisabled.hasOwnProperty(key)) {
                 const element = btnDisabled[key];
-                if (element.interacted) {
+                if ((element.interacted) && (element.category !== "servicetypes")) {
                     interacted.push(element);
                 }
             }

@@ -156,9 +156,6 @@ const getElements = (interacted) => {
                 })
                 objGeneral[0] = data;
                 break;
-            // case 'coverage':
-            //Position 1
-            //     break;
             case 'availability':
                 interacted[item].data.map(item => {
                     return day.push(item.day.value);
@@ -222,42 +219,46 @@ const getElements = (interacted) => {
 }
 
 const getDataFromInteracted = async function (interacted) {
-    let objGeneral = {};
+    let objGeneral = [];
     for (var item in interacted) {
         if (interacted[item].interacted) {
             switch (interacted[item].category) {
                 case 'age':
                     if (typeof interacted[item].label === 'string') {
-                        objGeneral[item] = {
+                        objGeneral.push({
+                            category: item,
                             value: interacted[item].value,
                             label: interacted[item].label,
                             interacted: true
-                        }
+                        })
                     } else {
-                        objGeneral[item] = {
+                        objGeneral.push({
+                            category: item,
                             value: [interacted[item].value[0], interacted[item].value[1]],
                             label: interacted[item].value[0] + ', ' + interacted[item].value[1],
                             interacted: true
-                        }
+                        })
                     }
                     break;
                 case 'postcode':
-                    objGeneral[item] = {
+                    objGeneral.push({
+                        category: item,
                         value: interacted[item].value,
                         label: interacted[item].value,
                         interacted: true
-                    }
+                    })
                     break;
                 case 'coverage':
                 case 'proximity':
                 case 'gender':
                 case 'servicetypes':
                 case 'text':
-                    objGeneral[item] = {
+                    objGeneral.push({
+                        category: item,
                         value: interacted[item].value,
                         label: interacted[item].label,
                         interacted: true
-                    }
+                    })
                     break;
                 case 'needs':
                 case 'circumstances':
@@ -267,16 +268,16 @@ const getDataFromInteracted = async function (interacted) {
                         dataList.push(<li key={i} > {item.label} </li>);
                         return dataItems.push(item);
                     })
-                    objGeneral[item] = { value: item, label: (<ul> {dataList} </ul>), data: dataItems }
+                    objGeneral.push({ category: item, value: item, label: (<ul> {dataList} </ul>), data: dataItems })
                     break;
                 case 'availability':
                     let availabilityList = [];
                     let availabilityItems = [];
                     interacted[item].data.map((item, i) => {
-                        availabilityList.push(<li key={i} > {item.day.label}at {item.time.label} </li>)
+                        availabilityList.push(<li key={i} > {item.day.label} at {item.time.label} </li>)
                         return availabilityItems.push(item);
                     })
-                    objGeneral[item] = { value: item, label: (<ul> {availabilityList} </ul>), data: availabilityItems }
+                    objGeneral.push({ category: item, value: item, label: (<ul> {availabilityList} </ul>), data: availabilityItems })
                     break;
                 default: return false;
             }
@@ -284,7 +285,7 @@ const getDataFromInteracted = async function (interacted) {
 
     }
     if (Object.keys(objGeneral).length === 0) {
-        objGeneral = { All_Services: '' };
+        objGeneral = [{category: "All Services"}];
     }
     return objGeneral;
 }

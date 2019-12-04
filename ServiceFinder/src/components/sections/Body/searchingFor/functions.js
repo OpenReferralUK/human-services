@@ -28,7 +28,7 @@
                           label: ''
                       });
                   case 'availability':
-                      return getAvailabilityAction([]);
+                      return getAvailabilityAction(getAvailabilityItems(values, 'availability'));
                   case 'needs':
                       return getNeedsAction(getItems(values, 'need'));
                   case 'circumstances':
@@ -43,6 +43,20 @@
               }
               default:
                   return false;
+      }
+  }
+
+  const getAvailabilityItems = (values, type) => {
+      let originalValues = [];
+      if (values) {
+          let filter = values.filter(item => item.category.includes(type));
+          filter.map(item =>
+              originalValues.push({
+                  day: item.original.day,
+                  time: item.original.time,
+                  type: "availability",
+                  value: item.value
+              }))
       }
   }
 
@@ -88,7 +102,7 @@
                               category: data[obj].category,
                               value: item.value,
                               label: `${data[obj].name}: ${item.day.label} at ${item.time.label}`,
-                              original: item.original
+                              original: item
                           });
                       });
                   }
