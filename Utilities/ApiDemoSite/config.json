@@ -1,0 +1,150 @@
+{
+  "endpoints": [
+    {
+      "name": "Bristol data",
+      "url": "https://api.porism.com/ServiceDirectoryService",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity"
+      ]
+    },
+    {
+      "name": "Bucks data",
+      "url": "https://api.porism.com/ServiceDirectoryServiceBucks",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity"
+      ]
+    },
+    {
+      "name": "Open Active data",
+      "url": "https://api.porism.com/ServiceDirectoryServiceOpenActive",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity"
+      ]
+    },
+    {
+      "name": "NYorks data",
+      "url": "https://api.porism.com/ServiceDirectoryServiceNYorks",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity"
+      ]
+    },
+    {
+      "name": "Elmbridge data",
+      "url": "https://api.porism.com/ServiceDirectoryServiceElmbridge",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity"
+      ]
+    },
+    {
+      "name": "Blackburn data",
+      "url": "https://api.porism.com/ServiceDirectoryServiceBlackburn",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity"
+      ]
+    },
+    {
+      "name": "Placecube data",
+      "url": "http://ec2-52-212-176-170.eu-west-1.compute.amazonaws.com:8080/o/ServiceDirectoryService/v2",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Coverage",
+        "Proximity"
+      ]
+    },
+    {
+      "name": "Demo data",
+      "url": "https://api.porism.com/ServiceDirectoryServiceDemo",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity"
+      ]
+    },
+    {
+      "name": "Test data",
+      "url": "https://api.porism.com/ServiceDirectoryServiceTest",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity"
+      ]
+    }
+  ]
+}

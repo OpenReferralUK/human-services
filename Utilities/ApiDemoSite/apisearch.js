@@ -31,6 +31,7 @@ function getVocabulary() {
             type: 'GET',
             dataType: 'JSON',
             url: url,
+            timeout: 1000,
             success: function (data) {
                 $.each(data, function (key, value) {
                     $("#Vocabulary").append("<option>" + value + "</option>");
@@ -47,9 +48,28 @@ function getVocabulary() {
                     o.value = arr[i].v;
                     $(o).text(arr[i].t);
                 });
-            updateEndpointUpdate();
-            setupPageVocabulary();
+                if ($('#Vocabulary option').length === 1) {
+                    $("#Vocabulary").prop("disabled", true);
+                }
+                updateEndpointUpdate();
+                setupPageVocabulary();
+            },
+            error: function () {
+                // $("#tabs").show();
+                // $("#graphTab").hide();
+                // $("#validateTab").hide();
+                // $("#richnessTab").hide();
+                // $("#results").empty().append("<div>An error has occurred</div>");
+                // $("#results").append('<button class="show-error btn btn-secondary">Show error</button>');
+                // $(".show-error").on("click", function () {
+                //     let win = window.open(url, "_blank");
+                //     win.focus();
+                // });
+                $("#Vocabulary").prop("disabled", true);
+                updateEndpointUpdate();
+                setupPageVocabulary();
             }
+
         });
 
     }
@@ -95,11 +115,11 @@ function getTaxonomyTerm() {
                     $("#TaxonomyTerm").val($("#TaxonomyTerm option:first").val());
                 }
 
-                setupPageTaxonomyTerm()
+                setupPageTaxonomyTerm();
             },
             error: function (code, error) {
                 taxonomyTerm.empty().append("<option>Error</option>");
-                setupPageTaxonomyTerm()
+                setupPageTaxonomyTerm();
             }
 
         });
@@ -239,25 +259,22 @@ function updateEndpoint() {
     getVocabulary();
 
 }
-function updateEndpointUpdate(){
+
+function updateEndpointUpdate() {
 
     if (endpoint !== "") {
         $("#TaxonomyType").prop('disabled', false);
         $("#Vocabulary").prop('disabled', false);
-        $("#Coverage").prop('disabled', false);
-        $("#Proximity").prop('disabled', false);
         $("#execute").prop('disabled', false);
     }
     if (endpoint === "") {
         $("#TaxonomyType").prop('disabled', true);
         $("#Vocabulary").prop('disabled', true);
-        $("#Coverage").prop('disabled', true);
-        $("#Proximity").prop('disabled', true);
         $("#TaxonomyTerm").prop('disabled', true);
         $("#execute").prop('disabled', false);
     }
 
-    updateParameters("execute", true);
+    // updateParameters("execute", true);
 }
 
 function updateTaxonomyType() {
@@ -378,8 +395,8 @@ function executeForm(pageNumber) {
     $("#graphPanel").removeClass("active");
     $("#validateTab").removeClass("active").hide();
     $("#validatePanel").removeClass("active");
-    $("#rateTab").removeClass("active").hide();
-    $("#ratePanel").removeClass("active");
+    $("#richnessTab").removeClass("active").hide();
+    $("#richnessPanel").removeClass("active");
     $("#resultTab").addClass("active");
     $("#resultPanel").addClass("active");
 
@@ -493,15 +510,38 @@ function executeForm(pageNumber) {
                 results.append("<div><p>No results found</p></div>");
             }
             $.each(data.content, function (key, value) {
-                results.append("<div id='col" + value.id + "' class='row rowhover'>"
-                    + "<div id='text" + value.id + "' class='col-sm-1 text-truncate'>" + value.id + "</div>"
-                    + "<div class='col-sm-8'>" + value.name + "</div>"
-                    + "<div class='col-sm-3'>"
-                    + "<div class='container-fluid visualise'><button id='" + value.id + "' class='btn btn-secondary btn-sm mb-1 visualiseButton'>Visualise</button>" + "&nbsp;"
-                    + "<button id='json" + value.id + "' class='btn btn-secondary btn-sm mb-1'>JSON</button>&nbsp;"
-                    + "<button id='validate" + value.id + "' class='btn btn-secondary btn-sm mb-1'>Validate</button>&nbsp;"
-                    + "<button id='rate" + value.id + "' class='btn btn-secondary btn-sm mb-1'>Richness</button>"
-                    + "</div></div>");
+                // results.append("<div id='col" + value.id + "' class='row rowhover'>"
+                //     + "<div id='text" + value.id + "' class='col-1 text-truncate'>" + value.id + "</div>"
+                //     + "<div class='col-6'>" + value.name + "</div>"
+                //     + "<div class='col d-flex justify-content-end'>"
+                //     + "<div class='visualise'><button id='" + value.id + "' class='btn btn-secondary btn-sm mb-1 visualiseButton'>Visualise</button>" + "&nbsp;"
+                //     + "<button id='json" + value.id + "' class='btn btn-secondary btn-sm mb-1'>JSON</button>&nbsp;"
+                //     + "<button id='validate" + value.id + "' class='btn btn-secondary btn-sm mb-1'>Validate</button>&nbsp;"
+                //     + "<button id='richness" + value.id + "' class='btn btn-secondary btn-sm mb-1'>Richness</button>"
+                //     + "</div></div>");
+
+                results.append(
+                    "<div id='col" + value.id + "' class='row rowhover'>" +
+                    "<div id='text" + value.id + "' class='col-md-1 col-sm-2 text-truncate'> " + value.id + "</div>" +
+                    "<div class='col-md-6 col-sm-5'>" + value.name + "</div>" +
+                    "<div class='col d-flex justify-content-end no-gutters'>" +
+                    "<div class='visualise'>" +
+                    "<div class='row d-flex no-gutters ml-1 justify-content-end'>" +
+                    "<div class='col-sm-12 col-md-6 d-flex no-gutters d-flex justify-content-end'>" +
+                    "<button id='" + value.id + "' class='btn btn-secondary btn-sm mb-1 visualiseButton'>Visualise</button>&nbsp;" +
+                    "<button id='json" + value.id + "' class='btn btn-secondary btn-sm mb-1 mr-1'> JSON </button>&nbsp;" +
+                    "</div>" +
+                    "<div class='col-sm-12 col-md-6 d-flex no-gutters d-flex justify-content-end'>" +
+                    "<button id='validate" + value.id + "' class='btn btn-secondary btn-sm mb-1 ml-1'>Validate</button> &nbsp;" +
+                    "<button id='richness" + value.id + "' class='btn btn-secondary btn-sm mb-1'>Richness</button>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>"
+                );
+
+
                 $("#" + value.id).on("click", function () {
                     getVisualise(value.id);
                 });
@@ -511,8 +551,8 @@ function executeForm(pageNumber) {
                 $("#validate" + value.id).on("click", function () {
                     getValidate(value.id);
                 });
-                $("#rate" + value.id).on("click", function () {
-                    getRate(value.id);
+                $("#richness" + value.id).on("click", function () {
+                    getRichness(value.id);
                 });
 
                 if (value.id.length > 8) {
@@ -527,7 +567,7 @@ function executeForm(pageNumber) {
 
             });
 
-            pageNo = data.number;
+            let pageNo = data.number;
             let firstPage = "";
             if (data.first === true) {
                 firstPage = "disabled='disabled'";
@@ -567,6 +607,42 @@ function executeForm(pageNumber) {
     });
 }
 
+function populateEndpointsFromJson() {
+    $.getJSON("config.json", function (data) {
+        $("#endpoint").empty();
+        $.each(data.endpoints, function (index, item) {
+            $("#endpoint").append("<option value='" + item.url + "'>" + item.name + "</option>");
+        });
+    }).done(function () {
+        setupEndpointFilter();
+        setupPageEndpoints();
+    });
+}
+
+function setupEndpointFilter() {
+    $.getJSON("config.json", function (data) {
+        $("#RegularScheduleRow").show();
+        $("#api").css("height", "450px");
+        updateScroll();
+        $.each(data.endpoints, function (index, item) {
+            if (item.url === $("#endpoint option:selected").val()) {
+                $.each(item.filters, function (index2, item2) {
+                    $("#" + item2).attr('disabled', false);
+                });
+                if (!((item.filters.indexOf("Day") > -1) || (item.filters.indexOf("StartTime") > -1) || (item.filters.indexOf("EndTime") > -1))) {
+                    $("#RegularScheduleRow").hide();
+                    $("#api").css("height", "400px");
+                    updateScroll();
+                }
+            }
+        });
+    }).done(function () {
+        $("#TaxonomyTerm").prop("disabled", true);
+        $("#ChildTaxonomyTerm").prop("disabled", true);
+        $("#ChildChildTaxonomyTerm").prop("disabled", true);
+    });
+}
+
 function getJSON(id) {
     getVisualise(id, "json");
 }
@@ -589,7 +665,7 @@ function getVisualise(id, VisType) {
     $("#graphTab").removeClass("disabled");
     $("#validateTab").addClass("disabled");
     $("#validateTab").hide();
-    $("#rateTab").hide();
+    $("#richnessTab").hide();
 
     if (VisType === "image") {
         $("#format").val("image");
@@ -628,7 +704,7 @@ function getValidate(id) {
     $("#tabs")[0].scrollIntoView();
     $("#validateTab").removeClass("disabled");
 
-    $("#rateTab").hide();
+    $("#richnessTab").hide();
 
     $("#validateTab").show();
 
@@ -658,28 +734,29 @@ function postValidate(data) {
     addApiPanel("Post JSON for validate", false);
     addApiPanel(url);
     updateScroll();
+    $("#validatePanel").empty();
+    $("#validatePanel").append('<img alt="loading" src="images/ajax-loader.gif">');
 
     $.post({url: url, contentType: "application/json"}, JSON.stringify(data), function (resBody) {
         $("#validatePanel").empty();
-        if (resBody.issues !== undefined) {
-            // console.log(resBody);
-            // let res = JSON.stringify(resBody, null, 1);
 
-            // $("#validatePanel").append(
-            //     "<div class='container-fluid'><p class='mt-1'><pre>" + res + "</pre></p></div>"
-            // );
-            $("#validatePanel").append("<h3>Issues</h3>");
-            for (let i = 0; i < resBody.issues.length; i++) {
-                $("#validatePanel").append("<p>" + resBody.issues[i].message + "</p>");
-            }
-        } else {
-            $("#validatePanel").append("<h3>Error</h3><p>" + resBody[0].message + "</p>")
+        // console.log(resBody);
+        // let res = JSON.stringify(resBody, null, 1);
+
+        // $("#validatePanel").append(
+        //     "<div class='container-fluid'><p class='mt-1'><pre>" + res + "</pre></p></div>"
+        // );
+        $("#validatePanel").append('<h5>' + data.name + '</h5><h6>' + data.id + '</h6>');
+        $("#validatePanel").append("<h5>Issues</h5>");
+        for (let i = 0; i < resBody.length; i++) {
+            $("#validatePanel").append("<p>" + resBody[i].message + "</p>");
         }
+
     }, "json");
 
 }
 
-function getRate(id) {
+function getRichness(id) {
     $("#resultTab").removeClass("active");
     $("#resultPanel").removeClass("active");
 
@@ -689,19 +766,19 @@ function getRate(id) {
     $("#validateTab").removeClass("active");
     $("#validatePanel").removeClass("active");
 
-    $("#rateTab").addClass("active");
-    $("#ratePanel").addClass("active");
+    $("#richnessTab").addClass("active");
+    $("#richnessPanel").addClass("active");
 
     $("#tabs")[0].scrollIntoView();
-    $("#rateTab").removeClass("disabled");
+    $("#richnessTab").removeClass("disabled");
 
     $("#validateTab").hide();
 
-    $("#rateTab").show();
+    $("#richnessTab").show();
 
     let url = $("#endpoint").val() + "/services/" + id;
 
-    addApiPanel("Get JSON for rate", false);
+    addApiPanel("Get JSON for richness", false);
     addApiPanel(url);
     addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
     updateScroll();
@@ -711,35 +788,38 @@ function getRate(id) {
         url: url,
         dataType: "json",
         success: function (data) {
-            postRate(data);
+            postRichness(data);
         }
     });
 
 }
 
-function postRate(data) {
-    let url = "https://api.porism.com/ServiceDirectoryService/services/rate";
+function postRichness(data) {
+    let url = "https://api.porism.com/ServiceDirectoryService/services/richness";
     // console.log(data);
     // console.log(typeof data);
     // console.log(JSON.stringify(data));
-    addApiPanel("Post JSON for rate", false);
+    addApiPanel("Post JSON for richness", false);
     addApiPanel(url);
     updateScroll();
 
+    $("#richness").empty();
+    $("#richness").append('<img alt="loading" src="images/ajax-loader.gif">');
+
     $.post({url: url, contentType: "application/json"}, JSON.stringify(data), function (resBody) {
-        console.log(resBody);
-        $("#rate").empty();
-        if (resBody.populated === undefined && resBody.not_populated === undefined){
-            $("#rate").append("<h3>Error</h3><p>" + resBody[0].message + "</p>");
-            return
+        $("#richness").empty();
+        if (resBody.populated === undefined && resBody.not_populated === undefined) {
+            $("#richness").append("<h3>Error</h3><p>" + resBody[0].message + "</p>");
+            return;
         }
-        let Rate = "";
+        $("#richness").append('<h5>' + data.name + '</h5><h6>' + data.id + '</h6>');
+        let Richness = "";
         let populated = "";
         for (let i = 0; i < resBody.populated.length; i++) {
-            populated = populated + "<div class='row rowhover'><div class='col-sm-8'>" +resBody.populated[i].name + "</div><div class='col-sm-4'>" + resBody.populated[i].percentage + "%</div></div>";
+            populated = populated + "<div class='row rowhover'><div class='col-sm-8'>" + resBody.populated[i].name + "</div><div class='col-sm-4'>" + resBody.populated[i].percentage + "%</div></div>";
         }
-        Rate = Rate +"<div class='card-group mt-2'>";
-        Rate = Rate +(
+        Richness = Richness + "<div class='card-group mt-2'>";
+        Richness = Richness + (
             '<div class="card">' +
             '<div class="card-header bg-light"><h4>Populated</h4></div>' +
             '<div class="card-body">' + populated + '</div>' +
@@ -747,18 +827,18 @@ function postRate(data) {
 
         let not_populated = "";
         for (let i = 0; i < resBody.not_populated.length; i++) {
-            not_populated = not_populated + "<div class='row rowhover'><div class='col-sm-8'>" +resBody.not_populated[i].name + "</div><div class='col-sm-4'>" + resBody.not_populated[i].percentage + "%</div></div>";
+            not_populated = not_populated + "<div class='row rowhover'><div class='col-sm-8'>" + resBody.not_populated[i].name + "</div><div class='col-sm-4'>" + resBody.not_populated[i].percentage + "%</div></div>";
         }
-        Rate = Rate +
+        Richness = Richness +
             '<div class="card">' +
             '<div class="card-header bg-light"><h4>Not populated</h4></div>' +
             '<div class="card-body">' + not_populated + '</div>' +
             '</div></div>';
 
-        $("#rate").append(Rate);
+        $("#richness").append(Richness);
 
-        $("#rate").append("<h3>Overall</h3>" +
-            "<p>Score: " + resBody.richness_percentage + "%</p>")
+        $("#richness").append("<h3>Overall</h3>" +
+            "<p>Score: " + resBody.richness_percentage + "%</p>");
     }, "json");
 
 }
@@ -837,6 +917,11 @@ function updateScroll() {
 
 function setupPage() {
 
+    populateEndpointsFromJson();
+}
+
+function setupPageEndpoints() {
+
     $("#endpoint").on("change", function () {
         updateEndpoint();
     });
@@ -892,11 +977,6 @@ function setupPage() {
 
     if (getUrlParameter("endpoint") !== undefined) {
         $("#endpoint").val(getUrlParameter("endpoint"));
-        $("#TaxonomyType").attr('disabled', false);
-        $("#Vocabulary").attr('disabled', false);
-        $("#Coverage").attr('disabled', false);
-        $("#Proximity").attr('disabled', false);
-        $("#Keywords").attr('disabled', false);
         getVocabulary();
     } else {
         updateParameters("endpoint", $("#endpoint").val());
@@ -904,6 +984,7 @@ function setupPage() {
     }
 
 }
+
 function setupPageVocabulary() {
 
     if (getUrlParameter("taxonomyType") !== undefined) {
@@ -916,27 +997,33 @@ function setupPageVocabulary() {
         getTaxonomyTerm();
 
     } else {
-        setupPageTaxonomyTerm()
+        setupPageTaxonomyTerm();
     }
 }
+
 function setupPageTaxonomyTerm() {
 
     if (getUrlParameter("taxonomyTerm") !== undefined) {
         $("#TaxonomyTerm").val(getUrlParameter("taxonomyTerm"));
         getChildTaxonomyTerm();
     } else {
+        $("#ChildTaxonomyTerm").prop("disabled", true);
+        $("#ChildChildTaxonomyTerm").prop("disabled", true);
         setupPageChildTaxonomyTerm();
     }
 }
+
 function setupPageChildTaxonomyTerm() {
     if (getUrlParameter("childTaxonomyTerm") !== undefined) {
         $("#ChildTaxonomyTerm").val(getUrlParameter("childTaxonomyTerm"));
         getChildChildTaxonomyTerm();
     } else {
+        $("#ChildChildTaxonomyTerm").prop("disabled", true);
         setupPageChildChildTaxonomyTerm();
     }
 }
-function setupPageChildChildTaxonomyTerm(){
+
+function setupPageChildChildTaxonomyTerm() {
     if (getUrlParameter("childChildTaxonomyTerm") !== undefined) {
         $("#ChildChildTaxonomyTerm").val(getUrlParameter("childChildTaxonomyTerm"));
 
@@ -964,19 +1051,11 @@ function setupPageChildChildTaxonomyTerm(){
     }
 
     $("#validateTab").hide();
-    $("#rateTab").hide();
+    $("#richnessTab").hide();
 
     endpoint = $("#endpoint").val();
     if (endpoint !== "") {
-        $("#TaxonomyType").attr('disabled', false);
-        $("#Vocabulary").attr('disabled', false);
-        $("#Coverage").attr('disabled', false);
-        $("#Proximity").attr('disabled', false);
-        $("#execute").attr('disabled', false);
-        $("#Keywords").attr('disabled', false);
-        $("#Day").attr('disabled', false);
-        $("#StartTime").attr('disabled', false);
-        $("#EndTime").attr('disabled', false);
+
     }
     if (endpoint === "") {
         $("#TaxonomyType").attr('disabled', true);

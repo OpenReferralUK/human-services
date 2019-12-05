@@ -1707,7 +1707,7 @@ clsOpenReferralPlus.prototype.DotNodeCostOptions = function (jsonContent) {
     Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='" + (numCols + 1) + "' bgcolor='lightgrey'><b>cost_option</b>  </td></tr>";
 
 
-    if (jsonContent.id !== null || this.showAll) {
+    if (jsonContent[0].id !== null || this.showAll) {
         Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
@@ -1717,6 +1717,8 @@ clsOpenReferralPlus.prototype.DotNodeCostOptions = function (jsonContent) {
                 }
                 if (jsonCostOption.id || ((jsonCostOption.id === "" || jsonCostOption.id === null) && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonCostOption.id) ? nl2br(objORP.objViz.prepareString(jsonCostOption.id)) : '') + "</td>";
+                } else {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "" + "</td>";
                 }
             } catch (e) {
                 if (this.showAll) {
