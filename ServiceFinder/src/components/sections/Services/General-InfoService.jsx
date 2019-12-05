@@ -8,6 +8,7 @@ import { API_directions } from '../../../settings/settings';
 import DescriptionInfoServiceComponent from './Description-infoService';
 import MapInfoServiceComponent from './Maps-infoService';
 import store from '../../../Store/store';
+import ContactInfoService from './Contact-infoService';
 
 class InfoService extends React.Component {
 
@@ -82,8 +83,9 @@ class InfoService extends React.Component {
                                 </div>
                                 <hr className="mt-1" />
                                 <div>
-                                    <DescriptionInfoServiceComponent description={this.state.item.description} error={this.getError} />
-                                    <MapInfoServiceComponent item={this.state.item} error={this.getError} />
+                                    <ContactInfoService data={this.state.item} />
+                                    <DescriptionInfoServiceComponent description={this.state.item.description} />
+                                    <MapInfoServiceComponent item={this.state.item} />
                                 </div>
                             </>
                         :
