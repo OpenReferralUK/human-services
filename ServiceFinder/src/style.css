@@ -365,4 +365,9 @@ iframe.map {
   .no-print {
     display: none !important;
   }
+
+  html,
+  body {
+    height: auto;
+  }
 }
