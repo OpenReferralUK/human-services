@@ -145,6 +145,12 @@
         "Coverage",
         "Proximity"
       ]
+    },
+    {
+      "name": "Miami 211",
+      "url": "https://api.miami211.openreferral.org/index.php",
+      "filters": [],
+      "schemaType": "OpenReferral"
     }
   ]
 }

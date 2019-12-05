@@ -13,6 +13,7 @@ let keywords;
 let objOpenReferralPlus;
 objOpenReferralPlus = new clsOpenReferralPlus();
 let viz1;
+let config;
 
 
 function getVocabulary() {
@@ -263,8 +264,8 @@ function updateEndpoint() {
 function updateEndpointUpdate() {
 
     if (endpoint !== "") {
-        $("#TaxonomyType").prop('disabled', false);
-        $("#Vocabulary").prop('disabled', false);
+        // $("#TaxonomyType").prop('disabled', false);
+        // $("#Vocabulary").prop('disabled', false);
         $("#execute").prop('disabled', false);
     }
     if (endpoint === "") {
@@ -453,7 +454,10 @@ function executeForm(pageNumber) {
 
     if (taxonomyType === "Any") {
         taxonomyType = "";
-    } else {
+    } else if (config.schemaType === "OpenReferral"){
+        taxonomyType = "";
+    }
+    else {
         taxonomyType = "&taxonomy_type=" + $("#TaxonomyType").val();
     }
 
@@ -484,6 +488,8 @@ function executeForm(pageNumber) {
     if ($("#endpoint").val() !== "http://ec2-52-212-176-170.eu-west-1.compute.amazonaws.com:8080/o/ServiceDirectoryService/v2") {
         url = $("#endpoint").val() + "/services/?" + coverage + taxonomyTerm + taxonomyType
             + vocabulary + proximity + postcode + day + startTime + endTime + keywords + pageNumber;
+    } else if (config.schemaType === "OpenReferral"){
+      // ?searchBy=TaxonomyName&strict=true&family=true&TaxonomyName=Basic+Needs
     } else {
         if (pageNumber === undefined || pageNumber === "") {
             pageNumber = "&page=1";
@@ -506,20 +512,10 @@ function executeForm(pageNumber) {
         timeout: 30000,
         success: function (data) {
             results.empty();
-            if (data.totalElements === 0) {
+            if (data.totalElements === 0 || data.total_items === 0) {
                 results.append("<div><p>No results found</p></div>");
             }
-            $.each(data.content, function (key, value) {
-                // results.append("<div id='col" + value.id + "' class='row rowhover'>"
-                //     + "<div id='text" + value.id + "' class='col-1 text-truncate'>" + value.id + "</div>"
-                //     + "<div class='col-6'>" + value.name + "</div>"
-                //     + "<div class='col d-flex justify-content-end'>"
-                //     + "<div class='visualise'><button id='" + value.id + "' class='btn btn-secondary btn-sm mb-1 visualiseButton'>Visualise</button>" + "&nbsp;"
-                //     + "<button id='json" + value.id + "' class='btn btn-secondary btn-sm mb-1'>JSON</button>&nbsp;"
-                //     + "<button id='validate" + value.id + "' class='btn btn-secondary btn-sm mb-1'>Validate</button>&nbsp;"
-                //     + "<button id='richness" + value.id + "' class='btn btn-secondary btn-sm mb-1'>Richness</button>"
-                //     + "</div></div>");
-
+            $.each(data.content ? data.content : data.items, function (_, value) {
                 results.append(
                     "<div id='col" + value.id + "' class='row rowhover'>" +
                     "<div id='text" + value.id + "' class='col-md-1 col-sm-2 text-truncate'> " + value.id + "</div>" +
@@ -540,8 +536,6 @@ function executeForm(pageNumber) {
                     "</div>" +
                     "</div>"
                 );
-
-
                 $("#" + value.id).on("click", function () {
                     getVisualise(value.id);
                 });
@@ -567,7 +561,7 @@ function executeForm(pageNumber) {
 
             });
 
-            let pageNo = data.number;
+            let pageNo = data.number ? data.number : data.page;
             let firstPage = "";
             if (data.first === true) {
                 firstPage = "disabled='disabled'";
@@ -589,13 +583,13 @@ function executeForm(pageNumber) {
                 "</div>" +
                 "</div>");
             $("#nextPage").on("click", function () {
-                executeForm(pageNo + 1);
+                executeForm(parseInt(pageNo) + 1);
             });
             $("#previousPage").on("click", function () {
-                executeForm(pageNo - 1);
+                executeForm(parseInt(pageNo) - 1);
             });
         },
-        error: function (status, error) {
+        error: function () {
             $("#results").empty().append("<div>An error has occurred</div>");
             $("#results").append('<button class="show-error btn btn-secondary">Show error</button>');
             $(".show-error").on("click", function () {
@@ -626,6 +620,7 @@ function setupEndpointFilter() {
         updateScroll();
         $.each(data.endpoints, function (index, item) {
             if (item.url === $("#endpoint option:selected").val()) {
+                config = item;
                 $.each(item.filters, function (index2, item2) {
                     $("#" + item2).attr('disabled', false);
                 });
@@ -648,7 +643,8 @@ function getJSON(id) {
 }
 
 function getRawJSON(id) {
-    let url = $("#endpoint").val() + "/" + "services" + "/" + id;
+    let url;
+    url = config.schemaType === "OpenReferral" ? $("#endpoint").val() + "/" + "services" + "/complete/" + id : $("#endpoint").val() + "/" + "services" + "/" + id;
     let win = window.open(url, "_blank");
     win.focus();
 }
@@ -775,9 +771,12 @@ function getRichness(id) {
     $("#validateTab").hide();
 
     $("#richnessTab").show();
-
-    let url = $("#endpoint").val() + "/services/" + id;
-
+    let url;
+    if (config.schemaType === "OpenReferral") {
+        url = $("#endpoint").val() + "/services/complete/" + id;
+    } else {
+        url = $("#endpoint").val() + "/services/" + id;
+    }
     addApiPanel("Get JSON for richness", false);
     addApiPanel(url);
     addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
@@ -806,7 +805,7 @@ function postRichness(data) {
     $("#richness").empty();
     $("#richness").append('<img alt="loading" src="images/ajax-loader.gif">');
 
-    $.post({url: url, contentType: "application/json"}, JSON.stringify(data), function (resBody) {
+    $.post({url: url, contentType: "application/json"}, JSON.stringify(data), "json").done(function (resBody) {
         $("#richness").empty();
         if (resBody.populated === undefined && resBody.not_populated === undefined) {
             $("#richness").append("<h3>Error</h3><p>" + resBody[0].message + "</p>");
@@ -839,7 +838,10 @@ function postRichness(data) {
 
         $("#richness").append("<h3>Overall</h3>" +
             "<p>Score: " + resBody.richness_percentage + "%</p>");
-    }, "json");
+    }).fail(function (error) {
+        $("#richness").empty().append("<div>An error has occurred</div>");
+        $("#richness").append('<div>' + error.responseJSON.message + '</div>');
+    });
 
 }
 
