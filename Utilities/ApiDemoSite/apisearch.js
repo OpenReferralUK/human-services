@@ -19,6 +19,51 @@ let config;
 function getVocabulary() {
     if ($("#endpoint").val() === null || $("#endpoint").val() === "") {
         clearForm();
+    } else if (config.schemaType === "OpenReferral") {
+        let url = $("#endpoint").val() + "/taxonomy/";
+        $("#Vocabulary").empty().append("<option></option>");
+        addApiPanel("Get vocabulary list", false);
+        addApiPanel(url);
+        addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
+        updateScroll();
+
+        $.ajax({
+            async: true,
+            type: 'GET',
+            dataType: 'JSON',
+            url: url,
+            success: function (data) {
+                $.each(data.items, function (key, value) {
+                    if (value.parent_id === "") {
+                        $("#Vocabulary").append("<option value='" + value.id + "'>" + value.name + "</option>");
+                    }
+
+                });
+
+                const options = $('#Vocabulary option');
+                const arr = options.map(function (_, o) {
+                    return {t: $(o).text(), v: o.value};
+                }).get();
+                arr.sort(function (o1, o2) {
+                    return o1.t > o2.t ? 1 : o1.t < o2.t ? -1 : 0;
+                });
+                options.each(function (i, o) {
+                    o.value = arr[i].v;
+                    $(o).text(arr[i].t);
+                });
+                if ($('#Vocabulary option').length === 1) {
+                    $("#Vocabulary").prop("disabled", true);
+                }
+                updateEndpointUpdate();
+                setupPageVocabulary();
+            },
+            error: function (e1, e2) {
+                $("#Vocabulary").prop("disabled", true);
+                updateEndpointUpdate();
+                setupPageVocabulary();
+            }
+
+        });
     } else {
         let url = $("#endpoint").val() + "/vocabularies/";
         $("#Vocabulary").empty().append("<option></option>");
@@ -79,51 +124,101 @@ function getVocabulary() {
 
 function getTaxonomyTerm() {
     if ($("#Vocabulary").val() !== null && $("#Vocabulary").val() !== "") {
-        let taxonomyTerm = $("#TaxonomyTerm");
-        let url = $("#endpoint").val() + "/taxonomies/?vocabulary=" + $("#Vocabulary").val() + "&per_page=500&root_only=true";
-        taxonomyTerm.find("option").remove().end().append("<option></option>");
-        addApiPanel("Get Taxonomy terms for the vocabulary", false);
-        addApiPanel(url);
-        addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
-        updateScroll();
+        if (config.schemaType === "OpenReferral") {
+            let taxonomyTerm = $("#TaxonomyTerm");
+            let url = $("#endpoint").val() + "/taxonomy/";
+            taxonomyTerm.find("option").remove().end().append("<option></option>");
+            addApiPanel("Get Taxonomy terms for the vocabulary", false);
+            addApiPanel(url);
+            addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
+            updateScroll();
 
-        $.ajax({
-            async: true,
-            type: 'GET',
-            url: url,
-            success: function (data) {
+            $.ajax({
+                async: true,
+                type: 'GET',
+                url: url,
+                success: function (data) {
 
-                $.each(data.content, function (key, value) {
-                    taxonomyTerm.append("<option value='" + value.id + "'>" + value.name.substring(0, 49) + "</option>");
-                });
+                    $.each(data.items, function (key, value) {
+                        if (value.parent_id === $("#Vocabulary").val()) {
+                            taxonomyTerm.append("<option value='" + value.id + "'>" + value.name.substring(0, 49) + "</option>");
+                        }
+                    });
 
-                const options = $('#TaxonomyTerm option');
-                options.sort(function (a, b) {
-                    if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
-                    else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
-                    else return 0;
-                });
-                $("#TaxonomyTerm").empty().append(options);
-                $("#TaxonomyTerm").val("");
+                    const options = $('#TaxonomyTerm option');
+                    options.sort(function (a, b) {
+                        if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
+                        else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
+                        else return 0;
+                    });
+                    $("#TaxonomyTerm").empty().append(options);
+                    $("#TaxonomyTerm").val("");
 
-                $("#TaxonomyTerm").prop('disabled', false);
+                    $("#TaxonomyTerm").prop('disabled', false);
 
-                if ($("#TaxonomyTerm option").length === 1) {
-                    $("#TaxonomyTerm").attr('disabled', true);
+                    if ($("#TaxonomyTerm option").length === 1) {
+                        $("#TaxonomyTerm").attr('disabled', true);
+                    }
+
+                    if (getUrlParameter("taxonomyTerm") === undefined || getUrlParameter("taxonomyTerm") === "") {
+                        $("#TaxonomyTerm").val($("#TaxonomyTerm option:first").val());
+                    }
+
+                    setupPageTaxonomyTerm();
+                },
+                error: function (code, error) {
+                    taxonomyTerm.empty().append("<option>Error</option>");
+                    setupPageTaxonomyTerm();
                 }
 
-                if (getUrlParameter("taxonomyTerm") === undefined || getUrlParameter("taxonomyTerm") === "") {
-                    $("#TaxonomyTerm").val($("#TaxonomyTerm option:first").val());
+            });
+        } else {
+            let taxonomyTerm = $("#TaxonomyTerm");
+            let url = $("#endpoint").val() + "/taxonomies/?vocabulary=" + $("#Vocabulary").val() + "&per_page=500&root_only=true";
+            taxonomyTerm.find("option").remove().end().append("<option></option>");
+            addApiPanel("Get Taxonomy terms for the vocabulary", false);
+            addApiPanel(url);
+            addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
+            updateScroll();
+
+            $.ajax({
+                async: true,
+                type: 'GET',
+                url: url,
+                success: function (data) {
+
+                    $.each(data.content, function (key, value) {
+                        taxonomyTerm.append("<option value='" + value.id + "'>" + value.name.substring(0, 49) + "</option>");
+                    });
+
+                    const options = $('#TaxonomyTerm option');
+                    options.sort(function (a, b) {
+                        if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
+                        else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
+                        else return 0;
+                    });
+                    $("#TaxonomyTerm").empty().append(options);
+                    $("#TaxonomyTerm").val("");
+
+                    $("#TaxonomyTerm").prop('disabled', false);
+
+                    if ($("#TaxonomyTerm option").length === 1) {
+                        $("#TaxonomyTerm").attr('disabled', true);
+                    }
+
+                    if (getUrlParameter("taxonomyTerm") === undefined || getUrlParameter("taxonomyTerm") === "") {
+                        $("#TaxonomyTerm").val($("#TaxonomyTerm option:first").val());
+                    }
+
+                    setupPageTaxonomyTerm();
+                },
+                error: function (code, error) {
+                    taxonomyTerm.empty().append("<option>Error</option>");
+                    setupPageTaxonomyTerm();
                 }
 
-                setupPageTaxonomyTerm();
-            },
-            error: function (code, error) {
-                taxonomyTerm.empty().append("<option>Error</option>");
-                setupPageTaxonomyTerm();
-            }
-
-        });
+            });
+        }
     } else {
         $("#TaxonomyTerm").find("option").remove().end().append("<option></option>");
         $("#TaxonomyTerm").empty().attr('disabled', true);
@@ -133,107 +228,197 @@ function getTaxonomyTerm() {
 
 function getChildTaxonomyTerm() {
     if ($("#TaxonomyTerm").val() !== null && $("#TaxonomyTerm").val() !== "") {
-        let childTaxonomyTerm = $("#ChildTaxonomyTerm");
-        let url = $("#endpoint").val() + "/taxonomies/?vocabulary=" + $("#Vocabulary").val() + "&per_page=500" +
-            "&parent_id=" + $("#TaxonomyTerm").val();
-        childTaxonomyTerm.find("option").remove().end().append("<option></option>");
-        addApiPanel("Get Taxonomy terms for the parent term", false);
-        addApiPanel(url);
-        addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
-        updateScroll();
+        if (config.schemaType === "OpenReferral") {
+            let childTaxonomyTerm = $("#ChildTaxonomyTerm");
+            let url = $("#endpoint").val() + "/taxonomy/";
+            childTaxonomyTerm.find("option").remove().end().append("<option></option>");
+            addApiPanel("Get Taxonomy terms for the parent term", false);
+            addApiPanel(url);
+            addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
+            updateScroll();
 
-        $.ajax({
-            async: true,
-            type: 'GET',
-            url: url,
-            success: function (data) {
-                let found = [];
-                $.each(data.content, function (key, value) {
-                    if (!(found.indexOf(value.name) > -1)) {
-                        found.push(value.name);
-                        childTaxonomyTerm.append("<option value='" + value.id + "'>" + value.name + "</option>");
+            $.ajax({
+                async: true,
+                type: 'GET',
+                url: url,
+                success: function (data) {
+                    let found = [];
+                    $.each(data.items, function (key, value) {
+                        if (value.parent_id === $("#TaxonomyTerm").val()) {
+                            $("#ChildTaxonomyTerm").append("<option value='" + value.id + "'>" + value.name.substring(0, 49) + "</option>");
+                        }
+                    });
+
+                    const options = $('#ChildTaxonomyTerm option');
+                    options.sort(function (a, b) {
+                        if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
+                        else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
+                        else return 0;
+                    });
+                    $("#ChildTaxonomyTerm").empty().append(options);
+                    $("#ChildTaxonomyTerm").val("");
+
+                    $("#ChildTaxonomyTerm").prop('disabled', false);
+
+                    if ($("#ChildTaxonomyTerm option").length === 1) {
+                        $("#ChildTaxonomyTerm").prop('disabled', true);
                     }
-                });
-
-                const options = $('#ChildTaxonomyTerm option');
-                options.sort(function (a, b) {
-                    if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
-                    else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
-                    else return 0;
-                });
-                $("#ChildTaxonomyTerm").empty().append(options);
-                $("#ChildTaxonomyTerm").val("");
-
-                $("#ChildTaxonomyTerm").prop('disabled', false);
-
-                if ($("#ChildTaxonomyTerm option").length === 1) {
-                    $("#ChildTaxonomyTerm").prop('disabled', true);
+                    setupPageChildTaxonomyTerm();
+                },
+                error: function (code, error) {
+                    childTaxonomyTerm.empty().append("<option>Error</option>");
+                    setupPageChildTaxonomyTerm();
                 }
-                setupPageChildTaxonomyTerm();
-            },
-            error: function (code, error) {
-                childTaxonomyTerm.empty().append("<option>Error</option>");
-                setupPageChildTaxonomyTerm();
-            }
+            });
+        } else {
+            let childTaxonomyTerm = $("#ChildTaxonomyTerm");
+            let url = $("#endpoint").val() + "/taxonomies/?vocabulary=" + $("#Vocabulary").val() + "&per_page=500" +
+                "&parent_id=" + $("#TaxonomyTerm").val();
+            childTaxonomyTerm.find("option").remove().end().append("<option></option>");
+            addApiPanel("Get Taxonomy terms for the parent term", false);
+            addApiPanel(url);
+            addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
+            updateScroll();
 
-        });
+            $.ajax({
+                async: true,
+                type: 'GET',
+                url: url,
+                success: function (data) {
+                    let found = [];
+                    $.each(data.content, function (key, value) {
+                        if (!(found.indexOf(value.name) > -1)) {
+                            found.push(value.name);
+                            childTaxonomyTerm.append("<option value='" + value.id + "'>" + value.name + "</option>");
+                        }
+                    });
+
+                    const options = $('#ChildTaxonomyTerm option');
+                    options.sort(function (a, b) {
+                        if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
+                        else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
+                        else return 0;
+                    });
+                    $("#ChildTaxonomyTerm").empty().append(options);
+                    $("#ChildTaxonomyTerm").val("");
+
+                    $("#ChildTaxonomyTerm").prop('disabled', false);
+
+                    if ($("#ChildTaxonomyTerm option").length === 1) {
+                        $("#ChildTaxonomyTerm").prop('disabled', true);
+                    }
+                    setupPageChildTaxonomyTerm();
+                },
+                error: function (code, error) {
+                    childTaxonomyTerm.empty().append("<option>Error</option>");
+                    setupPageChildTaxonomyTerm();
+                }
+            });
+        }
     } else {
         $("#ChildTaxonomyTerm").find("option").remove().end().append("<option></option>");
         $("#ChildTaxonomyTerm").empty().prop('disabled', true);
         setupPageChildTaxonomyTerm();
     }
-
 }
 
 function getChildChildTaxonomyTerm() {
     if ($("#ChildTaxonomyTerm").val() !== null && $("#ChildTaxonomyTerm").val() !== "") {
-        let childChildTaxonomyTerm = $("#ChildChildTaxonomyTerm");
-        let url = $("#endpoint").val() + "/taxonomies/?vocabulary=" + $("#Vocabulary").val() + "&per_page=200" +
-            "&parent_id=" + $("#ChildTaxonomyTerm").val();
-        childChildTaxonomyTerm.find("option").remove().end().append("<option></option>");
-        addApiPanel("Get Taxonomy terms for the parent term", false);
-        addApiPanel(url);
-        addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
-        updateScroll();
+        if (config.schemaType === "OpenReferral"){
+            let childChildTaxonomyTerm = $("#ChildChildTaxonomyTerm");
+            let url = $("#endpoint").val() + "/taxonomy/";
+            childChildTaxonomyTerm.find("option").remove().end().append("<option></option>");
+            addApiPanel("Get Taxonomy terms for the parent term", false);
+            addApiPanel(url);
+            addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
+            updateScroll();
 
-        $.ajax({
-            async: true,
-            type: 'GET',
-            url: url,
-            success: function (data) {
-                let found = [];
-                $.each(data.content, function (key, value) {
-                    if (!(found.indexOf(value.name) > -1)) {
-                        found.push(value.name);
-                        childChildTaxonomyTerm.append("<option value='" + value.id + "'>" + value.name + "</option>");
+            $.ajax({
+                async: true,
+                type: 'GET',
+                url: url,
+                success: function (data) {
+                    let found = [];
+                    $.each(data.items, function (key, value) {
+                        if (value.parent_id === $("#ChildTaxonomyTerm").val()) {
+                            $("#ChildChildTaxonomyTerm").append("<option value='" + value.id + "'>" + value.name.substring(0, 49) + "</option>");
+                        }
+                    });
+
+                    const options = $('#ChildChildTaxonomyTerm option');
+                    options.sort(function (a, b) {
+                        if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
+                        else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
+                        else return 0;
+                    });
+                    $("#ChildChildTaxonomyTerm").empty().append(options);
+                    $("#ChildChildTaxonomyTerm").val("");
+
+                    $("#ChildChildTaxonomyTerm").prop('disabled', false);
+
+                    if ($("#ChildChildTaxonomyTerm option").length === 1) {
+                        $("#ChildChildTaxonomyTerm").prop('disabled', true);
+                        $("#ChildChildTaxonomyTermDiv").css('display', 'none');
+                    } else {
+                        $("#ChildChildTaxonomyTermDiv").css('display', 'block');
                     }
-                });
-
-                const options = $('#ChildChildTaxonomyTerm option');
-                options.sort(function (a, b) {
-                    if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
-                    else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
-                    else return 0;
-                });
-                $("#ChildChildTaxonomyTerm").empty().append(options);
-                $("#ChildChildTaxonomyTerm").val("");
-
-                $("#ChildChildTaxonomyTerm").prop('disabled', false);
-
-                if ($("#ChildChildTaxonomyTerm option").length === 1) {
-                    $("#ChildChildTaxonomyTerm").prop('disabled', true);
-                    $("#ChildChildTaxonomyTermDiv").css('display', 'none');
-                } else {
-                    $("#ChildChildTaxonomyTermDiv").css('display', 'block');
+                    setupPageChildChildTaxonomyTerm();
+                },
+                error: function (code, error) {
+                    childChildTaxonomyTerm.empty().append("<option>Error</option>");
+                    setupPageChildChildTaxonomyTerm();
                 }
-                setupPageChildChildTaxonomyTerm();
-            },
-            error: function (code, error) {
-                childChildTaxonomyTerm.empty().append("<option>Error</option>");
-                setupPageChildChildTaxonomyTerm();
-            }
 
-        });
+            });
+        } else {
+            let childChildTaxonomyTerm = $("#ChildChildTaxonomyTerm");
+            let url = $("#endpoint").val() + "/taxonomies/?vocabulary=" + $("#Vocabulary").val() + "&per_page=200" +
+                "&parent_id=" + $("#ChildTaxonomyTerm").val();
+            childChildTaxonomyTerm.find("option").remove().end().append("<option></option>");
+            addApiPanel("Get Taxonomy terms for the parent term", false);
+            addApiPanel(url);
+            addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
+            updateScroll();
+
+            $.ajax({
+                async: true,
+                type: 'GET',
+                url: url,
+                success: function (data) {
+                    let found = [];
+                    $.each(data.content, function (key, value) {
+                        if (!(found.indexOf(value.name) > -1)) {
+                            found.push(value.name);
+                            childChildTaxonomyTerm.append("<option value='" + value.id + "'>" + value.name + "</option>");
+                        }
+                    });
+
+                    const options = $('#ChildChildTaxonomyTerm option');
+                    options.sort(function (a, b) {
+                        if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
+                        else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
+                        else return 0;
+                    });
+                    $("#ChildChildTaxonomyTerm").empty().append(options);
+                    $("#ChildChildTaxonomyTerm").val("");
+
+                    $("#ChildChildTaxonomyTerm").prop('disabled', false);
+
+                    if ($("#ChildChildTaxonomyTerm option").length === 1) {
+                        $("#ChildChildTaxonomyTerm").prop('disabled', true);
+                        $("#ChildChildTaxonomyTermDiv").css('display', 'none');
+                    } else {
+                        $("#ChildChildTaxonomyTermDiv").css('display', 'block');
+                    }
+                    setupPageChildChildTaxonomyTerm();
+                },
+                error: function (code, error) {
+                    childChildTaxonomyTerm.empty().append("<option>Error</option>");
+                    setupPageChildChildTaxonomyTerm();
+                }
+
+            });
+        }
     } else {
         $("#ChildChildTaxonomyTerm").empty().append("<option></option>");
         $("#ChildChildTaxonomyTerm").empty().prop('disabled', true);
@@ -454,10 +639,9 @@ function executeForm(pageNumber) {
 
     if (taxonomyType === "Any") {
         taxonomyType = "";
-    } else if (config.schemaType === "OpenReferral"){
+    } else if (config.schemaType === "OpenReferral") {
         taxonomyType = "";
-    }
-    else {
+    } else {
         taxonomyType = "&taxonomy_type=" + $("#TaxonomyType").val();
     }
 
@@ -485,11 +669,12 @@ function executeForm(pageNumber) {
         pageNumber = "&page=" + pageNumber;
     }
     let url = "";
-    if ($("#endpoint").val() !== "http://ec2-52-212-176-170.eu-west-1.compute.amazonaws.com:8080/o/ServiceDirectoryService/v2") {
+    if (config.schemaType === "Placecube") {
         url = $("#endpoint").val() + "/services/?" + coverage + taxonomyTerm + taxonomyType
             + vocabulary + proximity + postcode + day + startTime + endTime + keywords + pageNumber;
-    } else if (config.schemaType === "OpenReferral"){
-      // ?searchBy=TaxonomyName&strict=true&family=true&TaxonomyName=Basic+Needs
+    } else if (config.schemaType === "OpenReferral") {
+        // ?searchBy=TaxonomyName&strict=true&family=true&TaxonomyName=Basic+Needs
+        url = $("#endpoint").val() + "/services/complete/?" + pageNumber;
     } else {
         if (pageNumber === undefined || pageNumber === "") {
             pageNumber = "&page=1";
@@ -918,7 +1103,6 @@ function updateScroll() {
 }
 
 function setupPage() {
-
     populateEndpointsFromJson();
 }
 
@@ -979,7 +1163,15 @@ function setupPageEndpoints() {
 
     if (getUrlParameter("endpoint") !== undefined) {
         $("#endpoint").val(getUrlParameter("endpoint"));
-        getVocabulary();
+        $.getJSON("config.json", function (data) {
+            $.each(config.endpoints, function (index, item) {
+                if (item.url === $("#endpoint option:selected").val()) {
+                    config = item;
+                }
+            });
+        }).done(function () {
+            getVocabulary();
+        });
     } else {
         updateParameters("endpoint", $("#endpoint").val());
         setupPage();
@@ -1078,12 +1270,12 @@ function setupPageChildChildTaxonomyTerm() {
     viz1 = new clsPdViz(null, 'graph', 'graphLoading');
     objOpenReferralPlus.objViz = viz1;
 
-    if (getUrlParameter("execute") === "true") {
-        if (getUrlParameter("page") !== undefined) {
-            executeForm(getUrlParameter("page"));
-        } else
-            executeForm();
-    }
+    // if (getUrlParameter("execute") === "true") {
+    //     if (getUrlParameter("page") !== undefined) {
+    //         executeForm(getUrlParameter("page"));
+    //     } else
+    //         executeForm();
+    // }
 
 }
 
