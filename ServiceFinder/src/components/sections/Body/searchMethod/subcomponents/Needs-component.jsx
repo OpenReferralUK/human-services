@@ -33,6 +33,7 @@ export default class NeedsComponent extends React.Component {
         } else {
             const dataLevel1 = data.content.filter(item => item.parent === null);
             const dataLevel2 = data.content.filter(item => item.parent !== null);
+            dataLevel1.sort((a, b) => a.name > b.name ? 1 : -1);
             this.setState({
                 nData: data.content,
                 dataLevel1: dataLevel1,

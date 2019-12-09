@@ -23,6 +23,7 @@ export default class CircumstancesComponent extends React.Component {
             return window.$('#circumstances').appendTo('body').modal('show');
         } else {
             const finalData = data.content.filter(item => item.parent === null);
+            finalData.sort((a, b) => a.name > b.name ? 1 : -1);
             this.setState({
                 cData: finalData,
                 isLoaded: true

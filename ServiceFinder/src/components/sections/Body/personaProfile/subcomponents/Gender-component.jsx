@@ -17,6 +17,7 @@ export default class GenderComponent extends React.Component {
             await this.setState({ error: JSON.stringify(data.error) });
             return window.$('#gender').appendTo('body').modal('show');
         } else {
+            data.content.sort((a, b) => a.name > b.name ? 1 : -1);
             await this.setState({
                 gData: data.content,
                 isLoaded: true
