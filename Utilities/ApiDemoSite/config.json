@@ -151,6 +151,7 @@
       "name": "Miami 211",
       "url": "https://api.miami211.openreferral.org/index.php",
       "filters": [
+        "Keywords",
         "Vocabulary",
         "TaxonomyTerm",
         "ChildTaxonomyTerm",

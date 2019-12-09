@@ -324,7 +324,7 @@ function getChildTaxonomyTerm() {
 
 function getChildChildTaxonomyTerm() {
     if ($("#ChildTaxonomyTerm").val() !== null && $("#ChildTaxonomyTerm").val() !== "") {
-        if (config.schemaType === "OpenReferral"){
+        if (config.schemaType === "OpenReferral") {
             let childChildTaxonomyTerm = $("#ChildChildTaxonomyTerm");
             let url = $("#endpoint").val() + "/taxonomy/";
             childChildTaxonomyTerm.find("option").remove().end().append("<option></option>");
@@ -634,6 +634,8 @@ function executeForm(pageNumber) {
 
     if (keywords === null || keywords === "" || keywords === undefined) {
         keywords = "";
+    } else if (config.schemaType === "OpenReferral") {
+        keywords = "&query=description:" + keywords;
     } else {
         keywords = "&text=" + $("#Keywords").val();
     }
@@ -688,7 +690,7 @@ function executeForm(pageNumber) {
             }
 
         }
-        url = $("#endpoint").val() + "/services/complete/"+ taxonomyTerm + "?" + pageNumber;
+        url = $("#endpoint").val() + "/services/complete/" + taxonomyTerm + "?" + pageNumber + keywords;
     } else {
         if (pageNumber === undefined || pageNumber === "") {
             pageNumber = "&page=1";
@@ -790,7 +792,7 @@ function executeForm(pageNumber) {
         },
         error: function () {
             $("#results").empty().append("<div>An error has occurred</div>");
-            if (config.schemaType === "OpenReferral"){
+            if (config.schemaType === "OpenReferral") {
                 $("#results").append("<div></div>");
             }
             $("#results").append('<button class="show-error btn btn-secondary">Show error</button>');
