@@ -10,6 +10,7 @@ import { getNeedsObject } from '../functions';
 import { getNeedsAction } from '../../../../../Store/Actions/actions';
 import AlertModal from '../../../../shared/Elements/AlertModal';
 import { getDataFromLocalStorage } from '../../personaProfile/functions';
+import { sortList } from '../../../../../functions/GeneralFunctions';
 
 
 export default class NeedsComponent extends React.Component {
@@ -33,11 +34,10 @@ export default class NeedsComponent extends React.Component {
         } else {
             const dataLevel1 = data.content.filter(item => item.parent === null);
             const dataLevel2 = data.content.filter(item => item.parent !== null);
-            dataLevel1.sort((a, b) => a.name > b.name ? 1 : -1);
             this.setState({
                 nData: data.content,
-                dataLevel1: dataLevel1,
-                dataLevel2: dataLevel2,
+                dataLevel1: sortList(dataLevel1),
+                dataLevel2: sortList(dataLevel2),
                 isLoaded: true
             });
         }

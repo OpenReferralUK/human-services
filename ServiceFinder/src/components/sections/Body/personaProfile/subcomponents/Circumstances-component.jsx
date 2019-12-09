@@ -6,6 +6,7 @@ import AlertModal from '../../../../shared/Elements/AlertModal';
 import store from '../../../../../Store/store';
 import { getCircumstancesAction, getGenderAction } from '../../../../../Store/Actions/actions';
 import { getDataFromLocalStorage } from '../functions';
+import { sortList } from '../../../../../functions/GeneralFunctions';
 
 export default class CircumstancesComponent extends React.Component {
 
@@ -23,9 +24,8 @@ export default class CircumstancesComponent extends React.Component {
             return window.$('#circumstances').appendTo('body').modal('show');
         } else {
             const finalData = data.content.filter(item => item.parent === null);
-            finalData.sort((a, b) => a.name > b.name ? 1 : -1);
             this.setState({
-                cData: finalData,
+                cData: sortList(finalData),
                 isLoaded: true
             })
         }

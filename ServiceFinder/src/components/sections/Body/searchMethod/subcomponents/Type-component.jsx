@@ -8,6 +8,7 @@ import TagSelector from './../../../../shared/Elements/TagSelector';
 import { getServiceTypesAction } from '../../../../../Store/Actions/actions';
 import AlertModal from '../../../../shared/Elements/AlertModal';
 import { getDataFromLocalStorage } from '../../personaProfile/functions';
+import { sortList } from '../../../../../functions/GeneralFunctions';
 
 export default class TypeComponent extends React.Component {
 
@@ -25,9 +26,8 @@ export default class TypeComponent extends React.Component {
             return window.$('#serviceTypes').appendTo('body').modal('show');
         } else {
             const finalData = data.content.filter(item => item.parent === null);
-            finalData.sort((a, b) => a.name > b.name ? 1 : -1);
             this.setState({
-                sData: finalData,
+                sData: sortList(finalData),
                 isLoaded: true
             })
         }

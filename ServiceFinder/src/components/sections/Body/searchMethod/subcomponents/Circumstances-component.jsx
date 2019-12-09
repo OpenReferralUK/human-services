@@ -9,6 +9,7 @@ import TagSelector from '../../../../shared/Elements/TagSelector';
 import { getCircumstancesData, getCircumstancesObject } from '../functions';
 import { getCircumstancesAction, getGenderAction } from '../../../../../Store/Actions/actions';
 import { getDataFromLocalStorage } from '../../personaProfile/functions';
+import { sortList } from '../../../../../functions/GeneralFunctions';
 
 export default class CircumstancesComponent extends React.Component {
 
@@ -30,10 +31,7 @@ export default class CircumstancesComponent extends React.Component {
             await this.setState({ error: JSON.stringify(data.error) });
             return window.$('#circumstances').appendTo('body').modal('show');
         } else {
-            const newData = getCircumstancesData(data.content);
-            newData[0].sort((a, b) => a.name > b.name ? 1 : -1);
-            newData[1].sort((a, b) => a.name > b.name ? 1 : -1);
-            newData[2].sort((a, b) => a.name > b.name ? 1 : -1);
+            let newData = getCircumstancesData(data.content);
             await this.setState({
                 cData: data.content,
                 cData1: newData[0],
@@ -76,7 +74,7 @@ export default class CircumstancesComponent extends React.Component {
             lvl1Selected: value,
             lvl2Selected: '',
             lvl3Selected: '',
-            filterlvl2: data
+            filterlvl2: sortList(data)
         });
     }
 
@@ -85,7 +83,7 @@ export default class CircumstancesComponent extends React.Component {
         await this.setState({
             lvl2Selected: value,
             lvl3Selected: '',
-            filterlvl3: data
+            filterlvl3: sortList(data)
         });
     }
 

@@ -7,6 +7,7 @@ import { getNeedsAction } from '../../../../../Store/Actions/actions';
 import TagSelector from '../../../../shared/Elements/TagSelector';
 import AlertModal from '../../../../shared/Elements/AlertModal';
 import { getDataFromLocalStorage } from '../functions';
+import { sortList } from '../../../../../functions/GeneralFunctions';
 
 export default class NeedsComponent extends React.Component {
 
@@ -24,9 +25,8 @@ export default class NeedsComponent extends React.Component {
             return window.$('#needs').appendTo('body').modal('show');
         } else {
             const finalData = data.content.filter(item => item.parent === null);
-            finalData.sort((a, b) => a.name > b.name ? 1 : -1);
             this.setState({
-                nData: finalData,
+                nData: sortList(finalData),
                 isLoaded: true
             })
         }

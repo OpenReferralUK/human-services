@@ -5,6 +5,7 @@ import store from '../../../../../Store/store';
 import AlertModal from '../../../../shared/Elements/AlertModal';
 import { getCircumstancesAction, getGenderAction } from '../../../../../Store/Actions/actions';
 import { getDataFromLocalStorage } from '../functions';
+import { sortList } from '../../../../../functions/GeneralFunctions';
 
 export default class GenderComponent extends React.Component {
 
@@ -19,7 +20,7 @@ export default class GenderComponent extends React.Component {
         } else {
             data.content.sort((a, b) => a.name > b.name ? 1 : -1);
             await this.setState({
-                gData: data.content,
+                gData: sortList(data.content),
                 isLoaded: true
             })
         }

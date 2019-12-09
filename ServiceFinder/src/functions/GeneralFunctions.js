@@ -291,3 +291,17 @@ const getDataFromInteracted = async function (interacted) {
     }
     return objGeneral;
 }
+
+export const sortList = (list) => {
+    let newList = [];
+    list.map(item => {
+        if (!isNaN(parseInt(item.name))) {
+            newList.push(item);
+        }
+    });
+    if (newList.length > 0) {
+        return newList.sort((a, b) => parseInt(a.name) < parseInt(b.name) ? -1 : 1);
+    } else {
+        return list.sort((a, b) => a.name < b.name ? -1 : 1);
+    }
+}
