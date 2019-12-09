@@ -589,6 +589,7 @@ function executeForm(pageNumber) {
     coverage = $("#Coverage").val();
     proximity = $("#Proximity").val();
     let postcode = $("#Coverage");
+    vocabulary = $("#Vocabulary").val();
     taxonomyType = $("#TaxonomyType").val();
     taxonomyTerm = $("#TaxonomyTerm").val();
     childTaxonomyTerm = $("#ChildTaxonomyTerm").val();
@@ -673,8 +674,21 @@ function executeForm(pageNumber) {
         url = $("#endpoint").val() + "/services/?" + coverage + taxonomyTerm + taxonomyType
             + vocabulary + proximity + postcode + day + startTime + endTime + keywords + pageNumber;
     } else if (config.schemaType === "OpenReferral") {
-        // ?searchBy=TaxonomyName&strict=true&family=true&TaxonomyName=Basic+Needs
-        url = $("#endpoint").val() + "/services/complete/?" + pageNumber;
+        if (vocabulary === null || vocabulary === "" || vocabulary === undefined) {
+            taxonomyTerm = "";
+        } else {
+            if (!(childChildTaxonomyTerm === null || childChildTaxonomyTerm === "" || childChildTaxonomyTerm === undefined)) {
+                taxonomyTerm = $("#ChildChildTaxonomyTerm").find('option:selected').text();
+            } else if (!(childTaxonomyTerm === null || childTaxonomyTerm === "" || childTaxonomyTerm === undefined)) {
+                taxonomyTerm = $("#ChildTaxonomyTerm").find('option:selected').text();
+            } else if (!(taxonomyTerm === null || taxonomyTerm === "" || taxonomyTerm === undefined)) {
+                taxonomyTerm = $("#TaxonomyTerm").find('option:selected').text();
+            } else {
+                taxonomyTerm = $("#Vocabulary").find('option:selected').text();
+            }
+
+        }
+        url = $("#endpoint").val() + "/services/complete/"+ taxonomyTerm + "?" + pageNumber;
     } else {
         if (pageNumber === undefined || pageNumber === "") {
             pageNumber = "&page=1";
@@ -776,6 +790,9 @@ function executeForm(pageNumber) {
         },
         error: function () {
             $("#results").empty().append("<div>An error has occurred</div>");
+            if (config.schemaType === "OpenReferral"){
+                $("#results").append("<div></div>");
+            }
             $("#results").append('<button class="show-error btn btn-secondary">Show error</button>');
             $(".show-error").on("click", function () {
                 let win = window.open(url, "_blank");
@@ -1270,12 +1287,12 @@ function setupPageChildChildTaxonomyTerm() {
     viz1 = new clsPdViz(null, 'graph', 'graphLoading');
     objOpenReferralPlus.objViz = viz1;
 
-    // if (getUrlParameter("execute") === "true") {
-    //     if (getUrlParameter("page") !== undefined) {
-    //         executeForm(getUrlParameter("page"));
-    //     } else
-    //         executeForm();
-    // }
+    if (getUrlParameter("execute") === "true") {
+        if (getUrlParameter("page") !== undefined) {
+            executeForm(getUrlParameter("page"));
+        } else
+            executeForm();
+    }
 
 }
 
