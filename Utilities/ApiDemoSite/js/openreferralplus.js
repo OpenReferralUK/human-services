@@ -239,6 +239,12 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
                 objORP.Dot += DotEdge;
             }
         }
+    } else if (this.showAll) {
+        const NodeIdServiceAreas = objORP.DotListAreas([{}]);
+        if (NodeIdServiceAreas) {
+            var DotEdge = NodeIdService + ' -> ' + NodeIdServiceAreas + '\n';
+            objORP.Dot += DotEdge;
+        }
     }
 
     if (jsonContent.hasOwnProperty('contacts')) {
@@ -260,6 +266,12 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
                 objORP.Dot += DotEdge;
             }
         }
+    } else if (this.showAll) {
+        let NodeIdCostOptions = objORP.DotNodeCostOptions([{}]);
+        if (NodeIdCostOptions) {
+            var DotEdge = NodeIdService + " -> " + NodeIdCostOptions + "\n";
+            objORP.Dot += DotEdge;
+        }
     }
 
     if (jsonContent.hasOwnProperty('reviews')) {
@@ -268,7 +280,14 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
             var DotEdge = NodeIdService + ' -> ' + NodeIdReviews + '\n';
             objORP.Dot += DotEdge;
         }
+    } else if (this.showAll) {
+        const NodeIdReviews = objORP.DotNodeReviews([{}]);
+        if (NodeIdReviews) {
+            var DotEdge = NodeIdService + ' -> ' + NodeIdReviews + '\n';
+            objORP.Dot += DotEdge;
+        }
     }
+
     if (jsonContent.hasOwnProperty('fundings')) {
         if (jsonContent.fundings) {
             const NodeIdFundings = objORP.DotNodeFundings(jsonContent.fundings);
@@ -276,6 +295,12 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
                 var DotEdge = NodeIdService + " -> " + NodeIdFundings + "\n";
                 objORP.Dot += DotEdge;
             }
+        }
+    } else if (this.showAll) {
+        const NodeIdFundings = objORP.DotNodeFundings([{}]);
+        if (NodeIdFundings) {
+            var DotEdge = NodeIdService + " -> " + NodeIdFundings + "\n";
+            objORP.Dot += DotEdge;
         }
     }
 
@@ -286,6 +311,12 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
                 var DotEdge = NodeIdService + " -> " + NodeIdEligibilitys + "\n";
                 objORP.Dot += DotEdge;
             }
+        }
+    } else if (this.showAll) {
+        const NodeIdEligibilitys = objORP.DotNodeEligibilitys([{}]);
+        if (NodeIdEligibilitys) {
+            var DotEdge = NodeIdService + " -> " + NodeIdEligibilitys + "\n";
+            objORP.Dot += DotEdge;
         }
     }
 
@@ -759,7 +790,7 @@ clsOpenReferralPlus.prototype.DotNodeServiceAtLocation = function (jsonContent) 
         }
     }
 
-    if (jsonContent.hasOwnProperty('regular_schedule') || this.showAll) {
+    if (jsonContent.hasOwnProperty('regular_schedule')) {
         if (jsonContent.regular_schedule) {
             const NodeIdRegularSchedule = objORP.DotNodeRegularSchedule(jsonContent.regular_schedule);
             if (NodeIdRegularSchedule) {
@@ -767,7 +798,7 @@ clsOpenReferralPlus.prototype.DotNodeServiceAtLocation = function (jsonContent) 
                 objORP.Dot += DotEdge;
             }
         }
-    } else if (rootJson.hasOwnProperty('regular_schedule') || this.showAll) {
+    } else if (rootJson.hasOwnProperty('regular_schedule')) {
         jsonContent.regular_schedule = rootJson.regular_schedule;
         if (jsonContent.regular_schedule) {
             const NodeIdRegularSchedule = objORP.DotNodeRegularSchedule(jsonContent.regular_schedule);
@@ -775,6 +806,12 @@ clsOpenReferralPlus.prototype.DotNodeServiceAtLocation = function (jsonContent) 
                 var DotEdge = NodeId + ' -> ' + NodeIdRegularSchedule + '\n';
                 objORP.Dot += DotEdge;
             }
+        }
+    } else if (this.showAll) {
+        const NodeIdRegularSchedule = objORP.DotNodeRegularSchedule([{}]);
+        if (NodeIdRegularSchedule) {
+            var DotEdge = NodeId + ' -> ' + NodeIdRegularSchedule + '\n';
+            objORP.Dot += DotEdge;
         }
     }
 
@@ -922,6 +959,12 @@ clsOpenReferralPlus.prototype.DotNodeLocation = function (jsonContent) {
                 objORP.Dot += DotEdge;
             }
         }
+    } else if (this.showAll) {
+        const NodeIdPhysicalAddress = objORP.DotNodePhysicalAddress([{}]);
+        if (NodeIdPhysicalAddress) {
+            const DotEdge = NodeId + ' -> ' + NodeIdPhysicalAddress + '\n';
+            objORP.Dot += DotEdge;
+        }
     }
 
 
@@ -957,59 +1000,94 @@ clsOpenReferralPlus.prototype.DotNodePhysicalAddress = function (jsonContent) {
 
     Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='2' bgcolor='lightgrey'><b>physical_address</b></td></tr>";
 
-    if (jsonContent.hasOwnProperty('id')) {
-        if (jsonContent.id) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td><td align='left' balign='left' valign='top'>" + ((jsonContent.id) ? nl2br(objORP.objViz.prepareString(jsonContent.id)) : '') + "</td></tr>";
-        } else if (this.showAll) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
+    try {
+        let jsonPhysicalAddress = jsonContent;
+        if (jsonPhysicalAddress.id === undefined && this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>id  </b></td><td align='left' balign='left' valign='top'>" + "    " + "</td></tr>";
+        } else if (jsonPhysicalAddress.id || (jsonPhysicalAddress.id === "") && this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>id  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonPhysicalAddress.id) ? nl2br(objORP.objViz.prepareString(jsonPhysicalAddress.id)) : '') + "</td></tr>";
+        }
+    } catch (e) {
+        if (this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>id  </b></td><td align='left' balign='left' valign='top'>" + "" + "</td></tr>";
         }
     }
 
-    if (jsonContent.hasOwnProperty('attention')) {
-        if (jsonContent.attention) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>attention  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.attention)) + "</td></tr>";
-        } else if (this.showAll) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>attention  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
+    try {
+        let jsonPhysicalAddress = jsonContent;
+        if (jsonPhysicalAddress.attention === undefined && this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>attention  </b></td><td align='left' balign='left' valign='top'>" + "    " + "</td></tr>";
+        } else if (jsonPhysicalAddress.attention || (jsonPhysicalAddress.attention === "") && this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>attention  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonPhysicalAddress.attention) ? nl2br(objORP.objViz.prepareString(jsonPhysicalAddress.attention)) : '') + "</td></tr>";
+        }
+    } catch (e) {
+        if (this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>attention  </b></td><td align='left' balign='left' valign='top'>" + "" + "</td></tr>";
         }
     }
 
-    if (jsonContent.hasOwnProperty('address_1')) {
-        if (jsonContent.address_1) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>address_1  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.address_1)) + "</td></tr>";
-        } else if (this.showAll) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>address_1  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
+    try {
+        let jsonPhysicalAddress = jsonContent;
+        if (jsonPhysicalAddress.address_1 === undefined && this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>address_1  </b></td><td align='left' balign='left' valign='top'>" + "    " + "</td></tr>";
+        } else if (jsonPhysicalAddress.address_1 || (jsonPhysicalAddress.address_1 === "") && this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>address_1  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonPhysicalAddress.address_1) ? nl2br(objORP.objViz.prepareString(jsonPhysicalAddress.address_1)) : '') + "</td></tr>";
+        }
+    } catch (e) {
+        if (this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>address_1  </b></td><td align='left' balign='left' valign='top'>" + "" + "</td></tr>";
         }
     }
 
-    if (jsonContent.hasOwnProperty('city')) {
-        if (jsonContent.city) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>city  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.city)) + "</td></tr>";
-        } else if (this.showAll) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>city  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
+    try {
+        let jsonPhysicalAddress = jsonContent;
+        if (jsonPhysicalAddress.city === undefined && this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>city  </b></td><td align='left' balign='left' valign='top'>" + "    " + "</td></tr>";
+        } else if (jsonPhysicalAddress.city || (jsonPhysicalAddress.city === "") && this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>city  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonPhysicalAddress.city) ? nl2br(objORP.objViz.prepareString(jsonPhysicalAddress.city)) : '') + "</td></tr>";
+        }
+    } catch (e) {
+        if (this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>city  </b></td><td align='left' balign='left' valign='top'>" + "" + "</td></tr>";
         }
     }
 
-    if (jsonContent.hasOwnProperty('state_province')) {
-        if (jsonContent.state_province) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>state_province  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.state_province)) + "</td></tr>";
-        } else if (this.showAll) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>state_province  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
+    try {
+        let jsonPhysicalAddress = jsonContent;
+        if (jsonPhysicalAddress.state_province === undefined && this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>state_province  </b></td><td align='left' balign='left' valign='top'>" + "    " + "</td></tr>";
+        } else if (jsonPhysicalAddress.state_province || (jsonPhysicalAddress.state_province === "") && this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>state_province  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonPhysicalAddress.state_province) ? nl2br(objORP.objViz.prepareString(jsonPhysicalAddress.state_province)) : '') + "</td></tr>";
+        }
+    } catch (e) {
+        if (this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>state_province  </b></td><td align='left' balign='left' valign='top'>" + "" + "</td></tr>";
         }
     }
 
-    if (jsonContent.hasOwnProperty('postal_code')) {
-        if (jsonContent.postal_code) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>postal_code  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.postal_code)) + "</td></tr>";
-        } else if (this.showAll) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>postal_code  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
+    try {
+        let jsonPhysicalAddress = jsonContent;
+        if (jsonPhysicalAddress.postal_code === undefined && this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>postal_code  </b></td><td align='left' balign='left' valign='top'>" + "    " + "</td></tr>";
+        } else if (jsonPhysicalAddress.postal_code || (jsonPhysicalAddress.postal_code === "") && this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>postal_code  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonPhysicalAddress.postal_code) ? nl2br(objORP.objViz.prepareString(jsonPhysicalAddress.postal_code)) : '') + "</td></tr>";
+        }
+    } catch (e) {
+        if (this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>postal_code  </b></td><td align='left' balign='left' valign='top'>" + "" + "</td></tr>";
         }
     }
 
-    if (jsonContent.hasOwnProperty('country')) {
-        if (jsonContent.country) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>country  </b></td><td align='left' balign='left' valign='top'>" + nl2br(objORP.objViz.prepareString(jsonContent.country)) + "</td></tr>";
-        } else if (this.showAll) {
-            Dot += "<tr><td align='left' balign='left' valign='top'><b>country  </b></td><td align='left' balign='left' valign='top'>" + " " + "</td></tr>";
+    try {
+        let jsonPhysicalAddress = jsonContent;
+        if (jsonPhysicalAddress.country === undefined && this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>country  </b></td><td align='left' balign='left' valign='top'>" + "    " + "</td></tr>";
+        } else if (jsonPhysicalAddress.country || (jsonPhysicalAddress.country === "") && this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>country  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonPhysicalAddress.country) ? nl2br(objORP.objViz.prepareString(jsonPhysicalAddress.country)) : '') + "</td></tr>";
+        }
+    } catch (e) {
+        if (this.showAll) {
+            Dot += "<tr><td  align='left' balign='left' valign='top'><b>country  </b></td><td align='left' balign='left' valign='top'>" + "" + "</td></tr>";
         }
     }
 
@@ -1806,8 +1884,7 @@ clsOpenReferralPlus.prototype.DotNodeCostOptions = function (jsonContent) {
                 let jsonCostOption = jsonContent[i];
                 if ((jsonCostOption.id === undefined || jsonCostOption.id === null) && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonCostOption.id || ((jsonCostOption.id === "" || jsonCostOption.id === null) && this.showAll)) {
+                } else if (jsonCostOption.id || ((jsonCostOption.id === "" || jsonCostOption.id === null) && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonCostOption.id) ? nl2br(objORP.objViz.prepareString(jsonCostOption.id)) : '') + "</td>";
                 } else {
                     Dot += "<td align='left' balign='left' valign='top'>" + "" + "</td>";
@@ -2148,8 +2225,7 @@ clsOpenReferralPlus.prototype.DotNodeReviews = function (jsonContent) {
             let jsonReview = jsonContent[i];
             if (jsonReview.id === undefined && this.showAll) {
                 Dot += "<td  align='left' balign='left' valign='top'>" + "    " + "</td>";
-            }
-            if (jsonReview.id || (jsonReview.id === "") && this.showAll) {
+            } else if (jsonReview.id || (jsonReview.id === "") && this.showAll) {
                 Dot += "<td  align='left' balign='left' valign='top'>" + ((jsonReview.id) ? nl2br(objORP.objViz.prepareString(jsonReview.id)) : '') + "</td>";
             }
         } catch (e) {
@@ -2280,10 +2356,17 @@ clsOpenReferralPlus.prototype.DotNodeReviews = function (jsonContent) {
     for (let i = 0; i < jsonLength; i++) {
 
         try {
-            jsonContent[i].hasOwnProperty('organization');
+            if (jsonContent[i].hasOwnProperty('organization') === false) {
+                var NodeIdReviewOrg = objORP.DotNodeOrganization([{}]);
+                if (NodeIdReviewOrg) {
+                    var DotEdge = NodeId + ":" + i + ' -> ' + NodeIdReviewOrg + '\n';
+                    objORP.Dot += DotEdge;
+                }
+                continue;
+            }
         } catch (e) {
             if (this.showAll) {
-                var NodeIdReviewOrg = objORP.DotNodeOrganization([]);
+                var NodeIdReviewOrg = objORP.DotNodeOrganization([{}]);
                 if (NodeIdReviewOrg) {
                     var DotEdge = NodeId + ":" + i + ' -> ' + NodeIdReviewOrg + '\n';
                     objORP.Dot += DotEdge;
@@ -2292,30 +2375,36 @@ clsOpenReferralPlus.prototype.DotNodeReviews = function (jsonContent) {
             continue;
         }
 
-        if (jsonContent[i].organization.id in organizationReviewer) {
-            var DotEdge = NodeId + ":" + i + ' -> ' + organizationReviewer[jsonContent[i].organization.id] + '\n';
-            objORP.Dot += DotEdge;
-            continue;
+        try {
+            if (jsonContent[i].organization.id in organizationReviewer) {
+                var DotEdge = NodeId + ":" + i + ' -> ' + organizationReviewer[jsonContent[i].organization.id] + '\n';
+                objORP.Dot += DotEdge;
+                continue;
+            }
+        } catch (e) {
         }
 
         if (jsonContent[i].hasOwnProperty('organization') || this.showAll) {
             try {
                 var NodeIdReviewOrg = objORP.DotNodeOrganization(jsonContent[i].organization);
             } catch (e) {
-                var NodeIdReviewOrg = objORP.DotNodeOrganization([]);
+                var NodeIdReviewOrg = objORP.DotNodeOrganization([{}]);
             }
             if (NodeIdReviewOrg) {
-                if (!(jsonContent[i].organization.id in organizationReviewer)) {
-                    organizationReviewer[jsonContent[i].organization.id] = NodeIdReviewOrg;
+                try {
+                    if (!(jsonContent[i].organization.id in organizationReviewer)) {
+                        organizationReviewer[jsonContent[i].organization.id] = NodeIdReviewOrg;
+                    }
+                    var DotEdge = NodeId + ":" + i + ' -> ' + organizationReviewer[jsonContent[i].organization.id] + '\n';
+                    objORP.Dot += DotEdge;
+                } catch (e) {
+                    var DotEdge = NodeId + ":" + i + ' -> ' + NodeIdReviewOrg + '\n';
+                    objORP.Dot += DotEdge;
                 }
-                var DotEdge = NodeId + ":" + i + ' -> ' + organizationReviewer[jsonContent[i].organization.id] + '\n';
-                objORP.Dot += DotEdge;
             }
         }
     }
-
     return NodeId;
-
 };
 
 
