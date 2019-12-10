@@ -647,7 +647,7 @@ function executeForm(pageNumber) {
     }
     let url = "";
     if (config.schemaType === "Placecube") {
-        url = $("#endpoint").val() + "/services/?" + coverage + taxonomyTerm + taxonomyType
+        url = $("#endpoint").val() + "/hservices/?" + coverage + taxonomyTerm + taxonomyType
             + vocabulary + proximity + postcode + day + startTime + endTime + keywords + pageNumber;
     } else if (config.schemaType === "OpenReferral") {
         if (vocabulary === null || vocabulary === "" || vocabulary === undefined) {
@@ -668,7 +668,7 @@ function executeForm(pageNumber) {
         if (pageNumber === undefined || pageNumber === "") {
             pageNumber = "&page=1";
         }
-        url = $("#endpoint").val() + "/hservices/?" + coverage + taxonomyTerm + taxonomyType
+        url = $("#endpoint").val() + "/services/?" + coverage + taxonomyTerm + taxonomyType
             + vocabulary + proximity + postcode + day + startTime + endTime + keywords + pageNumber;
     }
 
