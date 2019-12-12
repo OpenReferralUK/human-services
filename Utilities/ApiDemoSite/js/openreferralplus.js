@@ -81,8 +81,7 @@ clsOpenReferralPlus.prototype.get = function () {
     }
 
     if (!this.objViz) {
-        alert('Viz object not set');
-        return false;
+        viz1 = new clsPdViz(null, 'graph', 'graphLoading');
     }
 
     this.objViz.setLoadingImage(true);
@@ -146,8 +145,6 @@ clsOpenReferralPlus.prototype.get = function () {
             });
         }
     });
-
-
     return true;
 };
 

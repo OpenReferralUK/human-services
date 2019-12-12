@@ -15,7 +15,8 @@
         "EndTime",
         "Coverage",
         "Proximity"
-      ]
+      ],
+      "schemaType": "LGA"
     },
     {
       "name": "Bucks data",

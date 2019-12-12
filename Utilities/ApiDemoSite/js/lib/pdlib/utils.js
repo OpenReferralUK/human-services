@@ -7,19 +7,18 @@ if (!String.prototype.startsWith) {
 }
 
 function removeTagsFromString(inString) {
-    var div = document.createElement("div");
+    const div = document.createElement("div");
     div.innerHTML = inString;
-    var text = div.textContent || div.innerText || "";
-    return text;
+    return div.textContent || div.innerText || "";
 }
 
 
 function validateDate(inDate) {
 
-    var date = inDate.value;
-    var pattern = /^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4})$/;
+    const date = inDate.value;
+    const pattern = /^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4})$/;
 
-    if (date == null || date == "") {
+    if (date == null || date === "") {
         return true;
     }
     if (!pattern.test(date)) {
@@ -31,11 +30,11 @@ function validateDate(inDate) {
 
 function validateTime(inTime) {
 
-    var time = inTime.value;
+    const time = inTime.value;
 
-    var pattern = /^([0-2][0-9]):([0-5][0-9])(:[0-5][0-9])?$/;
+    const pattern = /^([0-2][0-9]):([0-5][0-9])(:[0-5][0-9])?$/;
 
-    if (time == null || time == "") {
+    if (time == null || time === "") {
         return true;
     }
     if (!pattern.test(time)) {
@@ -51,15 +50,17 @@ function clearFilters(DivId) {
     DivId = (DivId === undefined) ? '' : DivId;
 
 
-    var all = document.getElementsByTagName("*");
-    for (var i = 0, max = all.length; i < max; i++) {
-        var boolFilter = false;
-        var FilterName = '';
-        if (all[i].id.substring(0, 7) == "filter_") {
+    const all = document.getElementsByTagName("*");
+    let i = 0;
+    const max = all.length;
+    for (; i < max; i++) {
+        let boolFilter = false;
+        let FilterName = '';
+        if (all[i].id.substring(0, 7) === "filter_") {
             boolFilter = true;
             FilterName = all[i].id;
         }
-        var DivFilter = DivId + '_filter_';
+        const DivFilter = DivId + '_filter_';
         if (all[i].id.substring(0, DivFilter.length) === DivFilter) {
             boolFilter = true;
             FilterName = all[i].id.replace(DivFilter + '_', '');
@@ -77,10 +78,8 @@ function getElementValue(Element) {
     switch (Element.tagName.toLowerCase()) {
         case "select":
             return Element.options[Element.selectedIndex].value;
-            break;
         case "input":
             return Element.value;
-            break;
     }
 
     return null;
@@ -88,7 +87,7 @@ function getElementValue(Element) {
 }
 
 function nl2br(str, is_xhtml) {
-    var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+    const breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
 }
 
@@ -102,12 +101,12 @@ function addRowInnerHtml(rowParent, innerHtml) {
         rowParent.innerHTML += innerHtml;
     } catch (err) {
 
-        var divTemp = rowParent.ownerDocument.createElement('div');
+        const divTemp = rowParent.ownerDocument.createElement('div');
         divTemp.innerHTML = '<table>' + innerHtml + '</table>';
 
-        var tbodyTemp = divTemp.firstChild.tBodies[0];
-        for (var i = 0; i < tbodyTemp.rows.length; i++) {
-            var newRow = tbodyTemp.rows[i].cloneNode(true);
+        const tbodyTemp = divTemp.firstChild.tBodies[0];
+        for (let i = 0; i < tbodyTemp.rows.length; i++) {
+            const newRow = tbodyTemp.rows[i].cloneNode(true);
             rowParent.appendChild(newRow);
         }
 
@@ -116,15 +115,15 @@ function addRowInnerHtml(rowParent, innerHtml) {
 }
 
 function htmlDecode(input) {
-    var e = document.createElement('div');
+    const e = document.createElement('div');
     e.innerHTML = input;
     return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
 }
 
 
-var clsPdViz = function (Dot, ElementId, LoadingId, DeveloperId) {
+const clsPdViz = function (Dot, ElementId, LoadingId, DeveloperId) {
 
-    var objViz = this;
+
 
     this.Generated = false;
 
@@ -150,7 +149,7 @@ var clsPdViz = function (Dot, ElementId, LoadingId, DeveloperId) {
 
     this.ElementId = ElementId;
     this.tagElement = document.getElementById(ElementId);
-    var tagElement = this.tagElement;
+
 
     this.tagLoading = document.getElementById(LoadingId);
 
@@ -163,7 +162,7 @@ clsPdViz.prototype.prepareString = function (inString, MaxLength, BreakLength) {
     MaxLength = (MaxLength === undefined) ? 100 : MaxLength;
     BreakLength = (BreakLength === undefined) ? 30 : BreakLength;
 
-    var outString = removeTagsFromString(inString);
+    let outString = removeTagsFromString(inString);
 
     if (MaxLength) {
         if (outString.length > MaxLength) {
@@ -187,11 +186,11 @@ clsPdViz.prototype.splitStringIntoLines = function (inString, BreakLength, Delim
 
     Delimiter = (Delimiter === undefined) ? '<br/>' : Delimiter;
 
-    var arrLines = [];
+    const arrLines = [];
 
-    var arrWords = inString.split(' ');
-    var Line = '';
-    for (var WordCount = 0; WordCount < arrWords.length; WordCount++) {
+    const arrWords = inString.split(' ');
+    let Line = '';
+    for (let WordCount = 0; WordCount < arrWords.length; WordCount++) {
         if ((Line.length + arrWords[WordCount].length) > BreakLength) {
             if (Line) {
                 arrLines.push(Line);
@@ -217,7 +216,7 @@ clsPdViz.prototype.splitStringIntoLines = function (inString, BreakLength, Delim
 
 clsPdViz.prototype.show = function (Format, Layout) {
 
-    var objViz = this;
+    const objViz = this;
 
     objViz.setLoadingImage(true);
 
@@ -231,7 +230,7 @@ clsPdViz.prototype.show = function (Format, Layout) {
                 objViz.tagElement.innerHTML = '';
 //			var vizImage = Viz(objViz.Dot,'svg');
 
-                var vizImage = Viz(objViz.Dot, {format: "svg", engine: Layout});
+                const vizImage = Viz(objViz.Dot, {format: "svg", engine: Layout});
 
 
                 objViz.butZoomIn = document.createElement("input");
@@ -266,7 +265,7 @@ clsPdViz.prototype.show = function (Format, Layout) {
 
                 objViz.svg = null;
                 numSvgChildNodes = objViz.divSvg.childNodes.length;
-                for (var i = 0; i < numSvgChildNodes; i++) {
+                for (let i = 0; i < numSvgChildNodes; i++) {
                     if (objViz.divSvg.childNodes[i].nodeName === 'svg') {
                         objViz.svg = objViz.divSvg.childNodes[i];
                     }
@@ -291,45 +290,43 @@ clsPdViz.prototype.show = function (Format, Layout) {
 
     objViz.setLoadingImage(false);
 
-    return;
-
 
 };
 
 
 clsPdViz.prototype.makeIframe = function () {
 
-    var objViz = this;
+    const objViz = this;
 
     objViz.tagElement.innerHTML = "";
-    var iframe = document.createElement("iframe");
+    const iframe = document.createElement("iframe");
     iframe.height = "1200px";
     iframe.width = "95%";
 
-    var dot = objViz.Dot;
+    let dot = objViz.Dot;
     dot = dot.replace(/<b>/g, "");
     dot = dot.replace(/<\/b>/g, "");
 
     iframe.onload = function () {
 
-        var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
 
         iframe.onload = function () {
         };
 
-        var frm = iframeDoc.createElement('form');
+        const frm = iframeDoc.createElement('form');
         frm.method = 'POST';
         frm.action = 'https://chart.googleapis.com/chart';
         iframeDoc.body.appendChild(frm);
 
 
-        var cht = iframeDoc.createElement('input');
+        const cht = iframeDoc.createElement('input');
         cht.type = 'hidden';
         cht.name = 'cht';
         cht.value = 'gv';
         frm.appendChild(cht);
 
-        var chl = iframeDoc.createElement('input');
+        const chl = iframeDoc.createElement('input');
         chl.type = 'hidden';
         chl.name = 'chl';
         chl.value = dot;
@@ -343,7 +340,7 @@ clsPdViz.prototype.makeIframe = function () {
 
     };
     objViz.tagElement.appendChild(iframe);
-    return;
+
 
 };
 
@@ -352,7 +349,7 @@ clsPdViz.prototype.setLoadingImage = function (boolOn) {
 
     boolOn = (boolOn === undefined) ? true : boolOn;
 
-    var objThis = this;
+    const objThis = this;
 
 
     if (boolOn) {
@@ -360,7 +357,7 @@ clsPdViz.prototype.setLoadingImage = function (boolOn) {
             objThis.spanLoading = document.createElement('span');
             objThis.tagLoading.appendChild(objThis.spanLoading);
         }
-        objThis.spanLoading.innerHTML = '<img src="images/ajax-loader.gif"/>';
+        objThis.spanLoading.innerHTML = '<img src="images/ajax-loader.gif" alt="loading"/>';
     } else {
         if (objThis.spanLoading !== null) {
             if (objThis.spanLoading.parentElement) {
@@ -370,7 +367,7 @@ clsPdViz.prototype.setLoadingImage = function (boolOn) {
         }
 
     }
-    return;
+
 
 };
 
@@ -380,7 +377,7 @@ clsPdViz.prototype.setLoadingImage = function (boolOn) {
 
     function CustomEvent(event, params) {
         params = params || {bubbles: false, cancelable: false, detail: undefined};
-        var evt = document.createEvent('CustomEvent');
+        const evt = document.createEvent('CustomEvent');
         evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
         return evt;
     }

@@ -136,6 +136,7 @@ function getTaxonomyTerm() {
             updateScroll();
 
             if (taxonomys) {
+                taxonomyTerm.find("option").remove().end().append("<option></option>");
                 $.each(taxonomys.items, function (key, value) {
                     if (value.parent_id === $("#Vocabulary").val()) {
                         taxonomyTerm.append("<option value='" + value.id + "'>" + value.name.substring(0, 49) + "</option>");
@@ -183,7 +184,7 @@ function getTaxonomyTerm() {
                 type: 'GET',
                 url: url,
                 success: function (data) {
-
+                    taxonomyTerm.find("option").remove().end().append("<option></option>");
                     $.each(data.content, function (key, value) {
                         taxonomyTerm.append("<option value='" + value.id + "'>" + value.name.substring(0, 49) + "</option>");
                     });
@@ -219,6 +220,7 @@ function getTaxonomyTerm() {
     } else {
         $("#TaxonomyTerm").find("option").remove().end().append("<option></option>");
         $("#TaxonomyTerm").empty().attr('disabled', true);
+        setupPageTaxonomyTerm()
     }
 
 }
@@ -624,11 +626,29 @@ function executeForm(pageNumber) {
 
     if (vocabulary === null || vocabulary === "") {
         vocabulary = "";
+    } else if (config.schemaType === "LGA" && (vocabulary === "esdCircumstances" || vocabulary === "esdNeeds")) {
     } else {
         vocabulary = "&vocabulary=" + $("#Vocabulary").val();
     }
+
     if (taxonomyTerm === null || taxonomyTerm === "" || taxonomyTerm === undefined) {
         taxonomyTerm = "";
+        vocabulary = "";
+    } else if (config.schemaType === "LGA" && (vocabulary === "esdCircumstances" || vocabulary === "esdNeeds")) {
+        if (vocabulary === "esdCircumstances") {
+            taxonomyTerm = "&circumstance=";
+            vocabulary = "";
+        } else if (vocabulary === "esdNeeds") {
+            taxonomyTerm = "&need=";
+            vocabulary = "";
+        }
+        if (!(childChildTaxonomyTerm === null || childChildTaxonomyTerm === "" || childChildTaxonomyTerm === undefined)) {
+            taxonomyTerm += $("#ChildChildTaxonomyTerm").val();
+        } else if (!(childTaxonomyTerm === null || childTaxonomyTerm === "" || childTaxonomyTerm === undefined)) {
+            taxonomyTerm += $("#ChildTaxonomyTerm").val();
+        } else {
+            taxonomyTerm += $("#TaxonomyTerm").val();
+        }
     } else {
         if (!(childChildTaxonomyTerm === null || childChildTaxonomyTerm === "" || childChildTaxonomyTerm === undefined)) {
             taxonomyTerm = "&taxonomy_id=" + $("#ChildChildTaxonomyTerm").val();
