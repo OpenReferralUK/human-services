@@ -4,8 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!--    <meta http-equiv="x-ua-compatible" content="IE=edge">-->
-    <script src="https://code.jquery.com/jquery-3.4.1.js"
-            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 
     <script src="js/openreferralplus.js"></script>
     <script src="js/lib/pdlib/ajax.js"></script>
@@ -14,8 +12,8 @@
 
 
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>API on Open Referral database - extended</title>
 </head>
 <body>
@@ -159,32 +157,40 @@
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <div class="row"><label>&nbsp;</label></div>
                     <div class="row">
-                        <button id="clear" class="form-control btn btn-secondary ml-1">Clear
-                        </button>
+                        <label class="ml-1">Min/Max age</label>
+                        <label class="sr-only" for="minAge">Min age</label>
+                        <label class="sr-only" for="maxAge">Max age</label>
+                    </div>
+                    <div class="row">
+                        <div class="input-group">
+                            <input id="minAge" type="number" class="form-control ml-1" disabled="disabled">
+                            <input id="maxAge" type="number" class="form-control mr-1" disabled="disabled">
+                        </div>
                     </div>
                 </div>
             </div>
 
-
             <div class="row" style="padding-top: 3%">
-                <button id="execute" class="form-control btn btn-success" disabled="disabled">
-                    Execute query
-                </button>
+                <div class="col-sm-8 pl-0 pr-0">
+                    <button id="execute" class="btn btn-success form-control" disabled="disabled">
+                        Execute query
+                    </button>
+                </div>
+                <div class="col-sm-4 pr-2 pl-1">
+                    <button id="clear" class="btn btn-secondary form-control ml-1">
+                        Clear
+                    </button>
+                </div>
             </div>
-
         </div>
         <div class="col-md-6 col-sm-4" id="api">
             <h5>API calls made:</h5>
         </div>
     </div>
 </div>
-<div class="row">
 
-
-</div>
-<div id='tabs' style="padding: 2%">
+<div id='tabs' style="padding: 3%">
     <ul class="nav nav-tabs">
         <li class="nav-item"><a id="resultTab" class="nav-link active" href="#resultPanel" data-toggle="tab">
             Results </a></li>
@@ -198,7 +204,7 @@
 
     <div class="tab-content">
         <div class="tab-pane active" id="resultPanel">
-            <div id="results" class="col-sm-12" style="padding-left: 3%">
+            <div id="results" class="col-sm-12" >
 
             </div>
         </div>
@@ -243,12 +249,13 @@
     </div>
 </div>
 
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
         crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
 <script src="apisearch.js"></script>
 </body>

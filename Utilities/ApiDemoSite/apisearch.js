@@ -10,6 +10,8 @@ let day;
 let startTime;
 let endTime;
 let keywords;
+let minAge;
+let maxAge;
 let objOpenReferralPlus;
 objOpenReferralPlus = new clsOpenReferralPlus();
 let viz1;
@@ -103,16 +105,6 @@ function getVocabulary() {
                 setupPageVocabulary();
             },
             error: function () {
-                // $("#tabs").show();
-                // $("#graphTab").hide();
-                // $("#validateTab").hide();
-                // $("#richnessTab").hide();
-                // $("#results").empty().append("<div>An error has occurred</div>");
-                // $("#results").append('<button class="show-error btn btn-secondary">Show error</button>');
-                // $(".show-error").on("click", function () {
-                //     let win = window.open(url, "_blank");
-                //     win.focus();
-                // });
                 $("#Vocabulary").prop("disabled", true);
                 updateEndpointUpdate();
                 setupPageVocabulary();
@@ -500,6 +492,16 @@ function updateEndTime() {
     updateParameters("endTime", endTime);
 }
 
+function updateMinAge() {
+    minAge = $("#minAge").val();
+    updateParameters("minAge", minAge);
+}
+
+function updateMaxAge() {
+    maxAge = $("#maxAge").val();
+    updateParameters("maxAge", maxAge);
+}
+
 function updateKeywords() {
     keywords = $("#Keywords").val();
     updateParameters("keywords", keywords);
@@ -564,7 +566,6 @@ function executeForm(pageNumber) {
 
     coverage = $("#Coverage").val();
     proximity = $("#Proximity").val();
-    let postcode = $("#Coverage");
     vocabulary = $("#Vocabulary").val();
     taxonomyType = $("#TaxonomyType").val();
     taxonomyTerm = $("#TaxonomyTerm").val();
@@ -573,9 +574,12 @@ function executeForm(pageNumber) {
     day = $("#Day").val();
     startTime = $("#StartTime").val();
     endTime = $("#EndTime").val();
+    minAge = $("#minAge").val();
+    maxAge = $("#maxAge").val();
     vocabulary = $("#Vocabulary").val();
     keywords = $("#Keywords").val();
 
+    let postcode;
     if (proximity === null || proximity === "" || proximity === undefined) {
         proximity = "";
         postcode = "";
@@ -606,6 +610,18 @@ function executeForm(pageNumber) {
         endTime = "";
     } else {
         endTime = "&end_time=" + $("#EndTime").val();
+    }
+
+    if (minAge === null || minAge === "" || minAge === undefined) {
+        minAge = "";
+    } else {
+        minAge = "&minimum_age=" + $("#minAge").val();
+    }
+
+    if (maxAge === null || maxAge === "" || maxAge === undefined) {
+        maxAge = "";
+    } else {
+        maxAge = "&maximum_age=" + $("#maxAge").val();
     }
 
     if (keywords === null || keywords === "" || keywords === undefined) {
@@ -668,7 +684,7 @@ function executeForm(pageNumber) {
     let url = "";
     if (config.schemaType === "Placecube") {
         url = $("#endpoint").val() + "/hservices/?" + coverage + taxonomyTerm + taxonomyType
-            + vocabulary + proximity + postcode + day + startTime + endTime + keywords + pageNumber;
+            + vocabulary + proximity + postcode + day + startTime + endTime + keywords + minAge + maxAge + pageNumber;
     } else if (config.schemaType === "OpenReferral") {
         if (vocabulary === null || vocabulary === "" || vocabulary === undefined) {
             taxonomyTerm = "";
@@ -682,14 +698,14 @@ function executeForm(pageNumber) {
 
             }
         }
-        url = $("#endpoint").val() + "/services/complete/" + taxonomyTerm + "?" + pageNumber + keywords;
+        url = $("#endpoint").val() + "/services/complete/" + taxonomyTerm + "?" + pageNumber + keywords + minAge + maxAge;
 
     } else {
         if (pageNumber === undefined || pageNumber === "") {
             pageNumber = "&page=1";
         }
         url = $("#endpoint").val() + "/services/?" + coverage + taxonomyTerm + taxonomyType
-            + vocabulary + proximity + postcode + day + startTime + endTime + keywords + pageNumber;
+            + vocabulary + proximity + postcode + day + startTime + endTime + keywords + minAge + maxAge + pageNumber;
     }
 
     addApiPanel("Get service(s)", false);
@@ -1169,6 +1185,12 @@ function setupPageEndpoints() {
     $("#EndTime").on("change", function () {
         updateEndTime();
     });
+    $("#minAge").on("change", function () {
+        updateMinAge();
+    });
+    $("#maxAge").on("change", function () {
+        updateMaxAge();
+    });
 
 
     $("#tabs").hide();
@@ -1255,14 +1277,17 @@ function setupPageChildChildTaxonomyTerm() {
     if (getUrlParameter("endTime") !== undefined) {
         $("#EndTime").val(getUrlParameter("endTime"));
     }
+    if (getUrlParameter("minAge") !== undefined) {
+        $("#minAge").val(getUrlParameter("minAge"));
+    }
+    if (getUrlParameter("maxAge") !== undefined) {
+        $("#maxAge").val(getUrlParameter("maxAge"));
+    }
 
     $("#validateTab").hide();
     $("#richnessTab").hide();
 
     endpoint = $("#endpoint").val();
-    if (endpoint !== "") {
-
-    }
     if (endpoint === "") {
         $("#TaxonomyType").attr('disabled', true);
         $("#Vocabulary").attr('disabled', true);

@@ -317,13 +317,19 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
         }
     }
 
-    if (jsonContent.hasOwnProperty('regular_schedules') || this.showAll) {
+    if (jsonContent.hasOwnProperty('regular_schedules')) {
         if (jsonContent.regular_schedules) {
             const NodeIdRegularSchedules = objORP.DotNodeRegularSchedule(jsonContent.regular_schedules);
             if (NodeIdRegularSchedules) {
                 var DotEdge = NodeIdService + ' -> ' + NodeIdRegularSchedules + '\n';
                 objORP.Dot += DotEdge;
             }
+        }
+    } else if (this.showAll){
+        const NodeIdRegularSchedules = objORP.DotNodeRegularSchedule([{}]);
+        if (NodeIdRegularSchedules) {
+            var DotEdge = NodeIdService + ' -> ' + NodeIdRegularSchedules + '\n';
+            objORP.Dot += DotEdge;
         }
     }
 
@@ -1304,7 +1310,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
         Dot += "</tr>";
     }
 
-    if ((jsonContent[0].byday !== null && jsonContent[0].byday !== undefined && jsonContent[0].byday !== "") || this.showAll) {
+    if (jsonContent[0].byday !== null && jsonContent[0].byday !== undefined && jsonContent[0].byday !== "") {
         Dot += "<tr><td align='left' balign='left' valign='top'><b>byday  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
