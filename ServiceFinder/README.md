@@ -70,9 +70,9 @@ The file will have to be called `.htaccess` and the following lines must be insi
    RewriteEngine On
    RewriteBase /
    RewriteRule ^ index \ .html $ - [L]
-   RewriteCond% {REQUEST_FILENAME}! -F
-   RewriteCond% {REQUEST_FILENAME}! -D
-   RewriteCond% {REQUEST_FILENAME}! -L
+   RewriteCond% {REQUEST_FILENAME}! -f
+   RewriteCond% {REQUEST_FILENAME}! -d
+   RewriteCond% {REQUEST_FILENAME}! -l
    RewriteRule. /index.html [L]
 </IfModule>
 ```
