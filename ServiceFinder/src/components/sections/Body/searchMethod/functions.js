@@ -102,7 +102,7 @@ export const getItemsFromData = (value) => {
     const needsData = getDataFromLocalStorage('needsData');
     const circumstancesData = getDataFromLocalStorage('circumstancesData');
 
-    if (needsData) {
+    if (needsData.content !== undefined) {
         for (let i = 0; i < needsData.content.length; i++) {
             for (let j = 0; j < needArray.length; j++) {
                 if (needsData.content[i].id === `need:${needArray[j]}`) {
@@ -116,7 +116,7 @@ export const getItemsFromData = (value) => {
         }
     }
 
-    if (circumstancesData) {
+    if (circumstancesData.content !== undefined) {
         for (let i = 0; i < circumstancesData.content.length; i++) {
             for (let j = 0; j < cirArray.length; j++) {
                 if (circumstancesData.content[i].id === `circumstance:${cirArray[j]}`) {
@@ -142,7 +142,7 @@ export const getItemsFromQA = () => {
 
     const needsData = getDataFromLocalStorage('needsData');
 
-    if (needsData) {
+    if (needsData.content !== undefined) {
         for (let i = 0; i < needsData.content.length; i++) {
             for (let j = 0; j < items.length; j++) {
                 if (needsData.content[i].id === `need:${items[j]}`) {

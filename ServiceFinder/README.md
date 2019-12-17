@@ -77,6 +77,14 @@ The file will have to be called `.htaccess` and the following lines must be insi
 </IfModule>
 ```
 
+_In the public folder, there is a file called `settingsConfig.json`. This file must be changed to include the endpoint URL of the API you wish to use.
+By default, the API endpoint is:_
+
+```
+https://api.porism.com/ServiceDirectoryService
+```
+
+
 ## Service Finder key components
 
 _The project was made with:_

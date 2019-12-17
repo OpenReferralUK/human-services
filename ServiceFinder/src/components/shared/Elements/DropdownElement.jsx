@@ -17,7 +17,7 @@ export default class DropdownElement extends Component {
                     disabled={this.props.disabled === undefined ? false : this.props.disabled}
                 >
                     <option key="0" selected={this.props.default === undefined ? true : null} disabled value="-1">{(this.props.placeholder === undefined) ? "Select option" : this.props.placeholder}</option>
-                    {this.props.data.map((item, i) => (<option key={i} value={item.value}>{item.label}</option>))}
+                    {this.props.data && this.props.data.map((item, i) => (<option key={i} value={item.value}>{item.label}</option>))}
                 </select>
             </div>
         )

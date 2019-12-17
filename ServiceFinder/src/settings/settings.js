@@ -4,23 +4,34 @@ export const JWT = {
     key: 'secret_key',
     expirationTime: initial_data.general.dataExpirationTime
 }
-const API_URL_BASE = "https://api.porism.com/ServiceDirectoryService";
-// const API_URL_BASE = "http://ec2-52-212-176-170.eu-west-1.compute.amazonaws.com:8080/o/ServiceDirectoryService/v2/hservices";
-// const API_URL_BASE_BY_ID = "http://ec2-52-212-176-170.eu-west-1.compute.amazonaws.com:8080/o/ServiceDirectoryService/v2";
+var data = localStorage.getItem('config');
+var config;
+if (data !== null) {
+    config = JSON.parse(data).config;
+}
+
+let API_URL_BASE;
+let API_URL_BASE_BY_ID;
+
+if (config.OPERATIONAL_MODE === undefined || config.API_URL_BASE === undefined || config.API_URL_BASE_BY_ID === undefined) {
+    config.OPERATIONAL_MODE = '';
+} else if (config.OPERATIONAL_MODE === 'FETCH_SERVICE_TYPE_SEPARATELY') {
+    API_URL_BASE_BY_ID = config.API_URL_BASE_BY_ID;
+}
+API_URL_BASE = config.OPERATIONAL_MODE !== 'FETCH_SERVICE_TYPE_SEPARATELY' ? config.API_URL_BASE_DEFAULT : config.API_URL_BASE;
+console.log(config);
 export const API_directions = {
     get: {
         needs: API_URL_BASE + "/taxonomies/?per_page=500&vocabulary=esdNeeds",
         circumstances: API_URL_BASE + "/taxonomies/?per_page=500&vocabulary=esdCircumstances",
         serviceTypes: API_URL_BASE + "/taxonomies/?per_page=500&vocabulary=esdServiceTypes",
         gender: API_URL_BASE + "/taxonomies/?vocabulary=esdCircumstances&per_page=500&parent_id=circumstance:191 ",
-        serviceId: API_URL_BASE + '/services/'
-        // serviceId: API_URL_BASE_BY_ID + '/services/'
+        serviceId: config.OPERATIONAL_MODE !== 'FETCH_SERVICE_TYPE_SEPARATELY' ? API_URL_BASE + '/services/' : API_URL_BASE_BY_ID + '/services/',
     }
 }
 
 export const Query_direction = async (circumstances = '', coverage = '', day = '', maximum_age = '', minimum_age = '', endTime = '', need = '', page = '', per_page = '', postcode = '', proximity = '', startTime = '', taxonomy_id = '', text = '', vocabulary = '') => {
-    let baseURL = API_URL_BASE + '/services/?';
-    // let baseURL = API_URL_BASE + '/?';
+    let baseURL = config.OPERATIONAL_MODE !== 'FETCH_SERVICE_TYPE_SEPARATELY' ? API_URL_BASE + '/services/?' : API_URL_BASE + '/?';
     let urlFinal = baseURL;
     circumstances !== '' && await circumstances.map(cir => {
         return urlFinal += cir ? `circumstance=${cir}&` : '';

@@ -20,8 +20,11 @@ export default class CircumstancesComponent extends React.Component {
         this.unsubscribeStore = store.subscribe(this.updateStateFromStore);
         const data = getDataFromLocalStorage('circumstancesData');
         if (data.error) {
-            await this.setState({ error: JSON.stringify(data.error) });
-            return window.$('#circumstances').appendTo('body').modal('show');
+            // await this.setState({ error: JSON.stringify(data.error) });
+            // return window.$('#circumstances').appendTo('body').modal('show');
+            this.setState({
+                isLoaded: true
+            })
         } else {
             const finalData = data.content.filter(item => item.parent === null);
             this.setState({
@@ -79,7 +82,7 @@ export default class CircumstancesComponent extends React.Component {
                 {this.state.isLoaded &&
                     <TagSelector
                         title="Circumstances:"
-                        id="circumstances"
+                        id="circumstancesSelector"
                         isMulti={true}
                         name="circumstances"
                         data_selected={this.state.circumstances.data}

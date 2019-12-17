@@ -17,6 +17,18 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
   <title>Service Finder</title>
+  <script>
+    fetch('settingsConfig.json')
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        localStorage.setItem('config', JSON.stringify(data));
+      })
+      .catch(function (err) {
+        console.log('error: ' + err);
+      });
+  </script>
 </head>
 
 <body>

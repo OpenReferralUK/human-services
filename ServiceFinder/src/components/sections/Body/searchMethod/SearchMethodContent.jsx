@@ -36,7 +36,7 @@ export default class SearchMethodContent extends React.Component {
                         {/* Method 2 */}
                         < ul className="d-flex mt-2" id="menuList">
                             {this.options.map((item, i) => (
-                                <li className="btn btn-link btn-sm d-flex justify-content-center" id={`${item.value}Tab`} onClick={() => this.handleSelect(item)}>
+                                <li key={i} className="btn btn-link btn-sm d-flex justify-content-center" id={`${item.value}Tab`} onClick={() => this.handleSelect(item)}>
                                     <p className="mb-0 text-nowrap">{item.label}</p>
                                 </li>)
                             )}

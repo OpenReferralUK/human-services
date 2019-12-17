@@ -1,0 +1,5 @@
+{
+    "config": {
+        "API_URL_BASE_DEFAULT": "https://api.porism.com/ServiceDirectoryService"
+    }
+}

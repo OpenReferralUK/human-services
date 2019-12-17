@@ -28,8 +28,11 @@ export default class CircumstancesComponent extends React.Component {
         this.unsubscribeStore = store.subscribe(this.updateStateFromStore);
         const data = getDataFromLocalStorage('circumstancesData');
         if (data.error) {
-            await this.setState({ error: JSON.stringify(data.error) });
-            return window.$('#circumstances').appendTo('body').modal('show');
+            // await this.setState({ error: JSON.stringify(data.error) });
+            // return window.$('#circumstances').appendTo('body').modal('show');
+            this.setState({
+                isLoaded: true
+            })
         } else {
             let newData = getCircumstancesData(data.content);
             await this.setState({
@@ -143,7 +146,7 @@ export default class CircumstancesComponent extends React.Component {
                             <DropdownElement
                                 placeholder="Select group"
                                 horizontal={false}
-                                id='circumstances-group'
+                                id='circumstances-group-lvl1'
                                 title="Circumstances LVL 1"
                                 default={this.state.groupSelected}
                                 data={this.state.cData1 && this.state.cData1.map(item => ({ value: item.id, label: item.name, original: item }))}
@@ -155,7 +158,7 @@ export default class CircumstancesComponent extends React.Component {
                                 <DropdownElement
                                     placeholder="Select group"
                                     horizontal={false}
-                                    id='circumstances-group'
+                                    id='circumstances-group-lvl2'
                                     title="Circumstances LVL 2"
                                     default={this.state.groupSelected}
                                     data={this.state.filterlvl2 && this.state.filterlvl2.map(item => ({ value: item.id, label: item.name, original: item }))}
@@ -167,7 +170,7 @@ export default class CircumstancesComponent extends React.Component {
                                 <DropdownElement
                                     placeholder="Select group"
                                     horizontal={false}
-                                    id='circumstances-group'
+                                    id='circumstances-group-lvl3'
                                     title="Circumstances LVL 3"
                                     default={this.state.groupSelected}
                                     data={this.state.filterlvl3 && this.state.filterlvl3.map(item => ({ value: item.id, label: item.name, original: item }))}
@@ -186,7 +189,6 @@ export default class CircumstancesComponent extends React.Component {
                                 isSearchable={false}
                                 title="Chosen circumstance(s):"
                                 components={{ DropdownIndicator: () => null, IndicatorSeparator: () => null, Menu: () => null, }}
-                                // data={this.state.cData1 && this.state.cData1.map(item => ({ value: item.id, label: item.name, original: item }))}
                                 placeholder="Your selection"
                                 onChange={this.addCircumstance}
                                 data_selected={this.state.circumstances.data}

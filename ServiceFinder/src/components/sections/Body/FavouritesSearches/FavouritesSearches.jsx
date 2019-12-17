@@ -9,7 +9,7 @@ export default class FavouritesSearches extends React.Component {
                 <div className="card favouritesSearches" id="FavouritesSearches">
                     <div className="card-header  panel-title cursor-pointer" id="FavouritesSearchesHeading" data-toggle="collapse" data-target="#FavouritesSearchesCollapse" aria-expanded="false" aria-controls="FavouritesSearchesCollapse">
                         <div className="d-flex flex-column">
-                            <h5 className="mb-0">Favourites searches</h5>
+                            <h5 className="mb-0">Favourite searches</h5>
                             <p className="mb-0">Click to retrieve a favourite search</p>
                         </div>
                     </div>

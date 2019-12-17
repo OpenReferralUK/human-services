@@ -22,8 +22,11 @@ export default class TypeComponent extends React.Component {
         this.unsubscribeStore = store.subscribe(this.updateStateFromStore);
         const data = getDataFromLocalStorage('serviceTypesData');
         if (data.error) {
-            this.setState({ error: JSON.stringify(data.error) });
-            return window.$('#serviceTypes').appendTo('body').modal('show');
+            // this.setState({ error: JSON.stringify(data.error) });
+            // return window.$('#serviceTypes').appendTo('body').modal('show');
+            this.setState({
+                isLoaded: true
+            })
         } else {
             const finalData = data.content.filter(item => item.parent === null);
             this.setState({

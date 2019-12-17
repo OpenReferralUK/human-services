@@ -5,6 +5,7 @@ import Axios from 'axios';
 import { API_directions } from '../../../../settings/settings';
 import store from '../../../../Store/store';
 import ResultModal from '../../../shared/Components/ResultModal';
+import { getAddFavouriteServiceAction, getUpdateFavouriteServiceAction } from '../../../../Store/Actions/actions';
 
 class ResultsContent extends React.Component {
 
@@ -161,6 +162,25 @@ class ResultsContent extends React.Component {
         await window.$("#modalInfo").appendTo('#modal-div').modal('hide');
     }
 
+    updateFavourite = async (item) => {
+        this.state.favourites.map(favItem => {
+            if (favItem.id === item.id) {
+                item.favourite = favItem.favourite
+            }
+        });
+        item.favourite = !item.favourite;
+        await this.setState({
+            item
+        })
+        try {
+            if (item.favourite) await store.dispatch(getAddFavouriteServiceAction(item));
+            else await store.dispatch(getUpdateFavouriteServiceAction(item));
+            this.forceUpdate();
+        } catch (e) {
+            console.log('Error(addFavouriteServices): ', e)
+        }
+    }
+
     render() {
         if (this.props.isFetching) {
             return (
@@ -209,14 +229,21 @@ class ResultsContent extends React.Component {
                                 {this.props.results.content.map((item, i) => {
                                     return (
                                         <div className="card" key={i}>
-                                            <div className="card-header collapsed d-flex w-100 justify-content-between" id={item.id}>
-                                                <div className="d-flex results-title w-100 align-items-center cursor-pointer" data-toggle="collapse" data-target={`#Tab${i}`} aria-expanded="false" aria-controls={`Tab${i}`}>
+                                            <div className="card-header collapsed d-flex ml-0 row w-100 justify-content-between" id={item.id}>
+                                                <div className="d-flex results-title col-xl p-2 w-100 align-items-center cursor-pointer" data-toggle="collapse" data-target={`#Tab${i}`} aria-expanded="false" aria-controls={`Tab${i}`}>
                                                     <p className="mb-0 ml-4">
                                                         {item.name}
                                                     </p>
                                                 </div>
-                                                <div>
-                                                    <button className="btn btn-info btn-sm d-flex justify-content-center" type="button" onClick={() => this.showModal(item)}>
+                                                <div className="d-flex justify-content-end col p-2 w-100 align-items-center">
+                                                    <button className="btn btn-secondary btn-sm mr-1 d-flex justify-content-center" type="button" onClick={() => this.updateFavourite(item)}>
+                                                        <i className="mb-0 material-icons" style={{
+                                                            color: (this.state.favourites.filter(favItem => favItem.id === item.id)[0] &&
+                                                                this.state.favourites.filter(favItem => favItem.id === item.id)[0].favourite === true &&
+                                                                '#FFC900')
+                                                        }}>star</i>
+                                                    </button>
+                                                    <button className="btn btn-info btn-sm d-flex ml-1 justify-content-center" type="button" onClick={() => this.showModal(item)}>
                                                         <p className="mb-0 text-nowrap">View Details</p>
                                                     </button>
                                                 </div>

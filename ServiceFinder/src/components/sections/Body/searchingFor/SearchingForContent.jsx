@@ -19,8 +19,9 @@ export default class SearchingForContent extends React.Component {
         data: {}
     };
 
-    async componentDidMount() {
+    componentDidMount() {
         this.unsubscribeStore = store.subscribe(this.updateStateFromStore);
+        this.updateStateFromStore();
     }
 
     componentWillUnmount() {
@@ -38,7 +39,7 @@ export default class SearchingForContent extends React.Component {
         return interactedFinal
     }
 
-    updateStateFromStore = async () => {
+    updateStateFromStore = () => {
         const originaData = this.getCurrentStateFromStore();
         const currentState = getDataWithText(originaData);
         if (this.state !== currentState) {
@@ -47,7 +48,7 @@ export default class SearchingForContent extends React.Component {
                     this.clearResults();
                 }
             }
-            await this.setState({ interacted: currentState, originaData: originaData, focus: true });
+            this.setState({ interacted: currentState, originaData: originaData, focus: true });
         }
     }
 
@@ -179,7 +180,7 @@ export default class SearchingForContent extends React.Component {
                                 type="text"
                                 className="form-control"
                                 placeholder="Insert text"
-                                value={this.state.byText}
+                                value={this.state.byText || ''}
                                 onChange={(e) => this.setState({ byText: e.target.value })} />
 
                         </div>

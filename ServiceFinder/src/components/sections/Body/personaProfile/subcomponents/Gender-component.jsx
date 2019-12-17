@@ -15,8 +15,11 @@ export default class GenderComponent extends React.Component {
         this.unsubscribeStore = store.subscribe(this.updateStateFromStore);
         const data = getDataFromLocalStorage('genderData');
         if (data.error) {
-            await this.setState({ error: JSON.stringify(data.error) });
-            return window.$('#gender').appendTo('body').modal('show');
+            // await this.setState({ error: JSON.stringify(data.error) });
+            // return window.$('#gender').appendTo('body').modal('show');
+            this.setState({
+                isLoaded: true
+            })
         } else {
             data.content.sort((a, b) => a.name > b.name ? 1 : -1);
             await this.setState({

@@ -6,6 +6,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { getUpdateFavouriteServiceAction, getAddFavouriteServiceAction } from '../../../Store/Actions/actions';
 import store from '../../../Store/store';
 import initial_data from '../../../config';
+import { getDataWithText } from '../../sections/Body/searchingFor/functions';
 
 class ResultModal extends React.Component {
     state = {
@@ -22,9 +23,8 @@ class ResultModal extends React.Component {
     margin: 50px auto;
 `;
 
-    async componentDidMount() {
+    componentDidMount() {
         this.unsubscribeStore = store.subscribe(this.updateStateFromStore);
-        console.log(this.props)
         this.props.interacted && this.getUserPostcode();
     }
 
@@ -33,22 +33,37 @@ class ResultModal extends React.Component {
     }
 
     getCurrentStateFromStore() {
+        const interacted = store.getState().Interacted;
+        let interactedFinal = {}
+        for (const obj in interacted) {
+            if (interacted[obj].interacted) {
+                interactedFinal[obj] = interacted[obj];
+            }
+        }
+
         return {
+            interacted: getDataWithText(interactedFinal),
             favourites: store.getState().FavouritesServiceReducer
         }
+
+        // return {
+        //     favourites: store.getState().FavouritesServiceReducer
+        // }
     }
 
     updateStateFromStore = async () => {
         const currentState = this.getCurrentStateFromStore();
         if (this.state !== currentState) {
             await this.setState(currentState);
+            this.getUserPostcode();
         }
     }
 
     getUserPostcode = () => {
-        const interactedPostCode = this.props.interacted.filter(item => item.category === 'postcode');
+        const interactedPostCode = this.state.interacted.filter(item => item.category === 'postcode');
         const user_postcode = interactedPostCode[0] !== undefined ? interactedPostCode[0].value : undefined;
         this.user_postcode = user_postcode;
+        this.forceUpdate();
     }
 
     printButton = async () => {
@@ -155,7 +170,7 @@ class ResultModal extends React.Component {
                                                     }
                                                     <div id="feedbackButtons" className="buttons w-100 d-flex justify-content-around ">
                                                         <button type="button" className="btn btn-secondary btn-sm mx-5" onClick={() => window.$('#feedbackModal').appendTo('body').modal('show')}>Give feedback</button>
-                                                        <div className="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true" >
+                                                        <div className="modal fade" id="feedbackModal" tabIndex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true" >
                                                             <div className="modal-dialog" role="document">
                                                                 <div className="modal-content">
                                                                     <div className="modal-header">
@@ -175,7 +190,7 @@ class ResultModal extends React.Component {
                                                         </div>
 
                                                         <button type="button" className="btn btn-secondary btn-sm mx-5" onClick={() => window.$('#reportErrorModal').appendTo('body').modal('show')}>Report Error</button>
-                                                        <div className="modal fade" id="reportErrorModal" tabindex="-1" role="dialog" aria-labelledby="reportErrorModalLabel" aria-hidden="true" >
+                                                        <div className="modal fade" id="reportErrorModal" tabIndex="-1" role="dialog" aria-labelledby="reportErrorModalLabel" aria-hidden="true" >
                                                             <div className="modal-dialog" role="document">
                                                                 <div className="modal-content">
                                                                     <div className="modal-header">

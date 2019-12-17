@@ -21,8 +21,11 @@ export default class NeedsComponent extends React.Component {
         this.unsubscribeStore = store.subscribe(this.updateStateFromStore);
         const data = getDataFromLocalStorage('needsData');
         if (data.error) {
-            this.setState({ error: JSON.stringify(data.error) });
-            return window.$('#needs').appendTo('body').modal('show');
+            // this.setState({ error: JSON.stringify(data.error) });
+            // return window.$('#needs').appendTo('body').modal('show');
+            this.setState({
+                isLoaded: true
+            })
         } else {
             const finalData = data.content.filter(item => item.parent === null);
             this.setState({
@@ -65,7 +68,7 @@ export default class NeedsComponent extends React.Component {
                 {this.state.isLoaded &&
                     <TagSelector
                         title="Needs:"
-                        id="needs"
+                        id="needsSelector"
                         isMulti={true}
                         name="needs"
                         data={this.state.nData && this.state.nData.map(item => ({ value: item.id, label: item.name, original: item }))}

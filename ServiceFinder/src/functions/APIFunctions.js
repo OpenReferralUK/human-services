@@ -17,6 +17,7 @@ export const getAllCircumstancesFromAPI = async function (name) {
         await localStorage.setItem(name, data);
         return true;
     } catch (e) {
+        localStorage.removeItem(name);
         console.log(e);
         return false;
     }
@@ -31,6 +32,7 @@ export const getAllNeedsFromAPI = async function (name) {
         await localStorage.setItem(name, data);
         return true;
     } catch (e) {
+        localStorage.removeItem(name);
         console.log(e);
         return false;
     }
@@ -45,6 +47,7 @@ export const getAllServiceTypesFromAPI = async function (name) {
         await localStorage.setItem(name, data);
         return true;
     } catch (e) {
+        localStorage.removeItem(name);
         console.log(e);
         return false;
     }
@@ -59,6 +62,7 @@ export const getAllGenderFromAPI = async function (name) {
         await localStorage.setItem(name, data);
         return true;
     } catch (e) {
+        localStorage.removeItem(name);
         console.log(e);
         return false;
     }

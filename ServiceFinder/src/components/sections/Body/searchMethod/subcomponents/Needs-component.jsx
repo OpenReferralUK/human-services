@@ -29,8 +29,11 @@ export default class NeedsComponent extends React.Component {
         this.unsubscribeStore = store.subscribe(this.updateStateFromStore);
         const data = getDataFromLocalStorage('needsData');
         if (data.error) {
-            await this.setState({ error: JSON.stringify(data.error) });
-            return window.$('#needs').appendTo('body').modal('show');
+            // await this.setState({ error: JSON.stringify(data.error) });
+            // return window.$('#needs').appendTo('body').modal('show');
+            this.setState({
+                isLoaded: true
+            })
         } else {
             const dataLevel1 = data.content.filter(item => item.parent === null);
             const dataLevel2 = data.content.filter(item => item.parent !== null);
@@ -111,8 +114,8 @@ export default class NeedsComponent extends React.Component {
                                 id='needs-group'
                                 title="Needs Group"
                                 default={this.state.groupSelected}
-                                data={this.state.dataLevel1.map(item => ({ value: item.id, label: item.name, original: item }))}
-                                class="col-xl-auto pl-0"
+                                data={this.state.dataLevel1 && this.state.dataLevel1.map(item => ({ value: item.id, label: item.name, original: item }))}
+                                class="col-xl pl-0"
                                 onChange={(e) => this.setState({ groupSelected: e })}
                             />
 
@@ -123,8 +126,8 @@ export default class NeedsComponent extends React.Component {
                                     id='needs-detail'
                                     title="Needs Detail"
                                     default={this.state.detailSelected}
-                                    data={this.state.dataLevel2.map(item => ({ value: item.id, label: item.name, original: item }))}
-                                    class="col-xl-auto pr-0"
+                                    data={this.state.dataLevel2 && this.state.dataLevel2.map(item => ({ value: item.id, label: item.name, original: item }))}
+                                    class="col-xl pr-0"
                                     onChange={(e) => this.setState({ detailSelected: e })}
                                 />
                             }
@@ -137,7 +140,6 @@ export default class NeedsComponent extends React.Component {
                                 isSearchable={false}
                                 title="Chosen need(s):"
                                 components={{ DropdownIndicator: () => null, IndicatorSeparator: () => null, Menu: () => null, }}
-                                // data={this.state.nData.map(item => ({ value: item.id, label: item.name, original: item }))}
                                 placeholder="Your selection"
                                 onChange={this.addNeed}
                                 data_selected={this.state.needs.data}

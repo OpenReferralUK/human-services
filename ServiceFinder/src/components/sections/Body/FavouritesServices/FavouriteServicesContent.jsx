@@ -22,7 +22,7 @@ class FavouriteServicesContent extends React.Component {
     }
 
     getCurrentStateFromStore() {
-        return {
+        return{
             favourites: store.getState().FavouritesServiceReducer
         }
     }
@@ -45,6 +45,19 @@ class FavouriteServicesContent extends React.Component {
             window.$(document).click((e) => {
                 if (e.target.id === 'modalFavouriteInfo' && window.$('#modalFavouriteInfo').hasClass('show')) {
                     this.closeModal();
+                }
+            })
+        })
+
+        window.$('#textCopied').on('shown.bs.modal', () => {
+            window.$(document).keyup((e) => {
+                if (e.key === 'Escape') {
+                    this.closeTextCopiedModal();
+                }
+            })
+            window.$(document).click((e) => {
+                if (e.target.id === 'textCopied' && window.$('#textCopied').hasClass('show')) {
+                    this.closeTextCopiedModal();
                 }
             })
         })
@@ -88,6 +101,7 @@ class FavouriteServicesContent extends React.Component {
     }
 
     sendServiceList = () => {
+        window.$('#textCopied').appendTo('#divButtonsFavList').modal('hide');
         let items = store.getState().FavouritesServiceReducer;
         let finalList = '';
         items.map((item, i) => {
@@ -169,23 +183,19 @@ class FavouriteServicesContent extends React.Component {
                                 if (item.favourite) {
                                     return (
                                         <div className="card rounded" key={i}>
-                                            <div className="card-header collapsed" id={item.id}>
-                                                <div className="d-flex justify-content-between w-100">
-                                                    <div className="d-flex align-items-center results-title cursor-pointer" data-toggle="collapse" data-target={`#TabFavourites${i}`} aria-expanded="false" aria-controls={`TabFavourites${i}`}>
-                                                        <p className="mb-0 ml-4">
-                                                            {item.name}
-                                                        </p>
-                                                    </div>
-                                                    <div>
-                                                        <div className="w-100 d-flex justify-content-end">
-                                                            <button type="button" className="mr-1 btn btn-info btn-sm d-flex justify-content-center" onClick={() => this.showModal(item)}>
-                                                                <p className="mb-0 text-nowrap">View Details</p>
-                                                            </button>
-                                                            <button type="button" className="btn btn-secondary btn-sm ml-1 d-flex justify-content-center" onClick={() => this.deleteFavourite(item)}>
-                                                                <i className="material-icons" style={{ color: '#FFC900' }}>star</i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
+                                            <div className="card-header collapsed d-flex ml-0 row w-100 justify-content-between" id={item.id}>
+                                                <div className="d-flex results-title col-xl p-2 w-100 align-items-center cursor-pointer" data-toggle="collapse" data-target={`#TabFavourites${i}`} aria-expanded="false" aria-controls={`TabFavourites${i}`}>
+                                                    <p className="mb-0 ml-4">
+                                                        {item.name}
+                                                    </p>
+                                                </div>
+                                                <div className="d-flex justify-content-end col p-2 w-100 align-items-center">
+                                                    <button className="btn btn-secondary btn-sm mr-1 d-flex justify-content-center" type="button" onClick={() => this.deleteFavourite(item)}>
+                                                        <i className="mb-0 material-icons" style={{ color: '#FFC900' }}>star</i>
+                                                    </button>
+                                                    <button className="btn btn-info btn-sm d-flex ml-1 justify-content-center" type="button" onClick={() => this.showModal(item)}>
+                                                        <p className="mb-0 text-nowrap">View Details</p>
+                                                    </button>
                                                 </div>
                                             </div>
 
