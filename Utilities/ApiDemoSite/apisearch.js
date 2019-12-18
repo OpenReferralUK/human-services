@@ -34,8 +34,9 @@ function getVocabulary() {
             async: true,
             type: 'GET',
             dataType: 'JSON',
-            url: url,
-            success: function (data) {
+            url: url
+        })
+            .done(function (data) {
                 taxonomys = data;
                 $.each(taxonomys.items, function (key, value) {
                     if (value.parent_id === "") {
@@ -60,14 +61,14 @@ function getVocabulary() {
                 }
                 updateEndpointUpdate();
                 setupPageVocabulary();
-            },
-            error: function (e1, e2) {
+            })
+            .fail(function () {
                 $("#Vocabulary").prop("disabled", true);
                 updateEndpointUpdate();
                 setupPageVocabulary();
-            }
+            });
 
-        });
+
     } else {
         let url = $("#endpoint").val() + "/vocabularies/";
         $("#Vocabulary").empty().append("<option></option>");
@@ -81,8 +82,9 @@ function getVocabulary() {
             type: 'GET',
             dataType: 'JSON',
             url: url,
-            timeout: 1000,
-            success: function (data) {
+            timeout: 5000
+        })
+            .done(function (data) {
                 $.each(data, function (key, value) {
                     $("#Vocabulary").append("<option>" + value + "</option>");
                 });
@@ -103,14 +105,12 @@ function getVocabulary() {
                 }
                 updateEndpointUpdate();
                 setupPageVocabulary();
-            },
-            error: function () {
-                $("#Vocabulary").prop("disabled", true);
-                updateEndpointUpdate();
-                setupPageVocabulary();
-            }
-
+            }).fail(function () {
+            $("#Vocabulary").prop("disabled", true);
+            updateEndpointUpdate();
+            setupPageVocabulary();
         });
+
 
     }
 }
@@ -174,8 +174,9 @@ function getTaxonomyTerm() {
             $.ajax({
                 async: true,
                 type: 'GET',
-                url: url,
-                success: function (data) {
+                url: url
+            })
+                .done(function (data) {
                     taxonomyTerm.find("option").remove().end().append("<option></option>");
                     $.each(data.content, function (key, value) {
                         taxonomyTerm.append("<option value='" + value.id + "'>" + value.name.substring(0, 49) + "</option>");
@@ -201,13 +202,13 @@ function getTaxonomyTerm() {
                     }
 
                     setupPageTaxonomyTerm();
-                },
-                error: function (code, error) {
+                })
+                .fail(function (code, error) {
                     taxonomyTerm.empty().append("<option>Error</option>");
                     setupPageTaxonomyTerm();
-                }
+                });
 
-            });
+
         }
     } else {
         $("#TaxonomyTerm").find("option").remove().end().append("<option></option>");
@@ -263,8 +264,9 @@ function getChildTaxonomyTerm() {
             $.ajax({
                 async: true,
                 type: 'GET',
-                url: url,
-                success: function (data) {
+                url: url
+            })
+                .done(function (data) {
                     let found = [];
                     $.each(data.content, function (key, value) {
                         if (!(found.indexOf(value.name) > -1)) {
@@ -288,12 +290,12 @@ function getChildTaxonomyTerm() {
                         $("#ChildTaxonomyTerm").prop('disabled', true);
                     }
                     setupPageChildTaxonomyTerm();
-                },
-                error: function (code, error) {
+                })
+                .fail(function (code, error) {
                     childTaxonomyTerm.empty().append("<option>Error</option>");
                     setupPageChildTaxonomyTerm();
-                }
-            });
+                });
+
         }
     } else {
         $("#ChildTaxonomyTerm").find("option").remove().end().append("<option></option>");
@@ -353,8 +355,9 @@ function getChildChildTaxonomyTerm() {
             $.ajax({
                 async: true,
                 type: 'GET',
-                url: url,
-                success: function (data) {
+                url: url
+            })
+                .done(function (data) {
                     let found = [];
                     $.each(data.content, function (key, value) {
                         if (!(found.indexOf(value.name) > -1)) {
@@ -381,13 +384,11 @@ function getChildChildTaxonomyTerm() {
                         $("#ChildChildTaxonomyTermDiv").css('display', 'block');
                     }
                     setupPageChildChildTaxonomyTerm();
-                },
-                error: function () {
+                })
+                .fail(function () {
                     childChildTaxonomyTerm.empty().append("<option>Error</option>");
                     setupPageChildChildTaxonomyTerm();
-                }
-
-            });
+                });
         }
     } else {
         $("#ChildChildTaxonomyTerm").empty().append("<option></option>");
@@ -642,7 +643,7 @@ function executeForm(pageNumber) {
 
     if (vocabulary === null || vocabulary === "") {
         vocabulary = "";
-    } else if (config.schemaType === "LGA" && (vocabulary === "esdCircumstances" || vocabulary === "esdNeeds")) {
+    } else if ((config.filters.indexOf("Circumstance") > -1 || config.filters.indexOf("Need") > -1) && (vocabulary === "esdCircumstances" || vocabulary === "esdNeeds")) {
     } else {
         vocabulary = "&vocabulary=" + $("#Vocabulary").val();
     }
@@ -650,7 +651,7 @@ function executeForm(pageNumber) {
     if (taxonomyTerm === null || taxonomyTerm === "" || taxonomyTerm === undefined) {
         taxonomyTerm = "";
         vocabulary = "";
-    } else if (config.schemaType === "LGA" && (vocabulary === "esdCircumstances" || vocabulary === "esdNeeds")) {
+    } else if ((config.filters.indexOf("Circumstance") > -1 || config.filters.indexOf("Need") > -1) && (vocabulary === "esdCircumstances" || vocabulary === "esdNeeds")) {
         if (vocabulary === "esdCircumstances") {
             taxonomyTerm = "&circumstance=";
             vocabulary = "";
@@ -719,8 +720,9 @@ function executeForm(pageNumber) {
         async: true,
         type: 'GET',
         url: url,
-        timeout: 30000,
-        success: function (data) {
+        timeout: 30000
+    })
+        .done(function (data) {
             results.empty();
             if (data.totalElements === 0 || data.total_items === 0) {
                 results.append("<div><p>No results found</p></div>");
@@ -798,8 +800,8 @@ function executeForm(pageNumber) {
             $("#previousPage").on("click", function () {
                 executeForm(parseInt(pageNo) - 1);
             });
-        },
-        error: function () {
+        })
+        .fail(function () {
             $("#results").empty().append("An error has occurred");
             if (config.schemaType === "OpenReferral") {
                 $("#results").append(" or no results were found");
@@ -810,8 +812,7 @@ function executeForm(pageNumber) {
                 win.focus();
             });
 
-        }
-    });
+        });
 }
 
 function populateEndpointsFromJson() {
@@ -829,17 +830,26 @@ function populateEndpointsFromJson() {
 function setupEndpointFilter() {
     $.getJSON("config.json", function (data) {
         $("#RegularScheduleRow").show();
+        $("#CoverageRow").show();
         $("#api").css("height", "450px");
         updateScroll();
+        let filters = ["TaxonomyType", "Keywords", "Vocabulary", "TaxonomyTerm", "ChildTaxonomyTerm", "ChildChildTaxonomyTerm", "Day", "StartTime", "EndTime", "Coverage", "Proximity", "minAge", "maxAge"]
         $.each(data.endpoints, function (index, item) {
             if (item.url === $("#endpoint option:selected").val()) {
                 config = item;
                 $.each(item.filters, function (index2, item2) {
-                    $("#" + item2).attr('disabled', false);
+                    if (filters.indexOf(item2) > -1) {
+                        $("#" + item2).attr('disabled', false);
+                    }
                 });
                 if (!((item.filters.indexOf("Day") > -1) || (item.filters.indexOf("StartTime") > -1) || (item.filters.indexOf("EndTime") > -1))) {
                     $("#RegularScheduleRow").hide();
-                    $("#api").css("height", "400px");
+                    $("#api").height("-=60");
+                    updateScroll();
+                }
+                if (!((item.filters.indexOf("Coverage") > -1) || (item.filters.indexOf("Proximity") > -1) || (item.filters.indexOf("minAge") > -1) || (item.filters.indexOf("maxAge") > -1))) {
+                    $("#CoverageRow").hide();
+                    $("#api").height("-=60");
                     updateScroll();
                 }
             }
@@ -927,12 +937,11 @@ function getValidate(id) {
         async: true,
         type: 'GET',
         url: url,
-        dataType: "json",
-        success: function (data) {
+        dataType: "json"
+    })
+        .done(function (data) {
             postValidate(data);
-        }
-    });
-
+        });
 }
 
 function postValidate(data) {
@@ -946,22 +955,21 @@ function postValidate(data) {
     $("#validatePanel").empty();
     $("#validatePanel").append('<img alt="loading" src="images/ajax-loader.gif">');
 
-    $.post({url: url, contentType: "application/json"}, JSON.stringify(data), function (resBody) {
-        $("#validatePanel").empty();
+    $.post(
+        {
+            url: url,
+            contentType: "application/json"
+        },
+        JSON.stringify(data), function (resBody) {
+            $("#validatePanel").empty();
 
-        // console.log(resBody);
-        // let res = JSON.stringify(resBody, null, 1);
+            $("#validatePanel").append('<h5>' + data.name + '</h5><h6>' + data.id + '</h6>');
+            $("#validatePanel").append("<h5>Issues</h5>");
+            for (let i = 0; i < resBody.length; i++) {
+                $("#validatePanel").append("<p>" + resBody[i].message + "</p>");
+            }
 
-        // $("#validatePanel").append(
-        //     "<div class='container-fluid'><p class='mt-1'><pre>" + res + "</pre></p></div>"
-        // );
-        $("#validatePanel").append('<h5>' + data.name + '</h5><h6>' + data.id + '</h6>');
-        $("#validatePanel").append("<h5>Issues</h5>");
-        for (let i = 0; i < resBody.length; i++) {
-            $("#validatePanel").append("<p>" + resBody[i].message + "</p>");
-        }
-
-    }, "json");
+        }, "json");
 
 }
 
@@ -998,11 +1006,11 @@ function getRichness(id) {
         async: true,
         type: 'GET',
         url: url,
-        dataType: "json",
-        success: function (data) {
+        dataType: "json"
+    })
+        .done(function (data) {
             postRichness(data);
-        }
-    });
+        });
 
 }
 
@@ -1018,43 +1026,50 @@ function postRichness(data) {
     $("#richness").empty();
     $("#richness").append('<img alt="loading" src="images/ajax-loader.gif">');
 
-    $.post({url: url, contentType: "application/json"}, JSON.stringify(data), "json").done(function (resBody) {
-        $("#richness").empty();
-        if (resBody.populated === undefined && resBody.not_populated === undefined) {
-            $("#richness").append("<h3>Error</h3><p>" + resBody[0].message + "</p>");
-            return;
-        }
-        $("#richness").append('<h5>' + data.name + '</h5><h6>' + data.id + '</h6>');
-        let Richness = "";
-        let populated = "";
-        for (let i = 0; i < resBody.populated.length; i++) {
-            populated = populated + "<div class='row rowhover'><div class='col-sm-8'>" + resBody.populated[i].name + "</div><div class='col-sm-4'>" + resBody.populated[i].percentage + "%</div></div>";
-        }
-        Richness = Richness + "<div class='card-group mt-2'>";
-        Richness = Richness + (
-            '<div class="card">' +
-            '<div class="card-header bg-light"><h4>Populated</h4></div>' +
-            '<div class="card-body">' + populated + '</div>' +
-            '</div>');
+    $.post(
+        {
+            url: url,
+            contentType: "application/json"
+        },
+        JSON.stringify(data), "json")
+        .done(function (resBody) {
+            $("#richness").empty();
+            if (resBody.populated === undefined && resBody.not_populated === undefined) {
+                $("#richness").append("<h3>Error</h3><p>" + resBody[0].message + "</p>");
+                return;
+            }
+            $("#richness").append('<h5>' + data.name + '</h5><h6>' + data.id + '</h6>');
+            let Richness = "";
+            let populated = "";
+            for (let i = 0; i < resBody.populated.length; i++) {
+                populated = populated + "<div class='row rowhover'><div class='col-sm-8'>" + resBody.populated[i].name + "</div><div class='col-sm-4'>" + resBody.populated[i].percentage + "%</div></div>";
+            }
+            Richness = Richness + "<div class='card-group mt-2'>";
+            Richness = Richness + (
+                '<div class="card">' +
+                '<div class="card-header bg-light"><h4>Populated</h4></div>' +
+                '<div class="card-body">' + populated + '</div>' +
+                '</div>');
 
-        let not_populated = "";
-        for (let i = 0; i < resBody.not_populated.length; i++) {
-            not_populated = not_populated + "<div class='row rowhover'><div class='col-sm-8'>" + resBody.not_populated[i].name + "</div><div class='col-sm-4'>" + resBody.not_populated[i].percentage + "%</div></div>";
-        }
-        Richness = Richness +
-            '<div class="card">' +
-            '<div class="card-header bg-light"><h4>Not populated</h4></div>' +
-            '<div class="card-body">' + not_populated + '</div>' +
-            '</div></div>';
+            let not_populated = "";
+            for (let i = 0; i < resBody.not_populated.length; i++) {
+                not_populated = not_populated + "<div class='row rowhover'><div class='col-sm-8'>" + resBody.not_populated[i].name + "</div><div class='col-sm-4'>" + resBody.not_populated[i].percentage + "%</div></div>";
+            }
+            Richness +=
+                '<div class="card">' +
+                '<div class="card-header bg-light"><h4>Not populated</h4></div>' +
+                '<div class="card-body">' + not_populated + '</div>' +
+                '</div></div>';
 
-        $("#richness").append(Richness);
+            $("#richness").append(Richness);
 
-        $("#richness").append("<h3>Overall</h3>" +
-            "<p>Score: " + resBody.richness_percentage + "%</p>");
-    }).fail(function (error) {
-        $("#richness").empty().append("<div>An error has occurred</div>");
-        $("#richness").append('<div>' + error.responseJSON.message + '</div>');
-    });
+            $("#richness").append("<h3>Overall</h3>" +
+                "<p>Score: " + resBody.richness_percentage + "%</p>");
+        })
+        .fail(function (error) {
+            $("#richness").empty().append("<div>An error has occurred</div>");
+            $("#richness").append('<div>' + error.responseJSON.message + '</div>');
+        });
 
 }
 

@@ -16,9 +16,10 @@
         "Coverage",
         "Proximity",
         "minAge",
-        "maxAge"
-      ],
-      "schemaType": "LGA"
+        "maxAge",
+        "Need",
+        "Circumstance"
+      ]
     },
     {
       "name": "Bucks data",
@@ -117,7 +118,7 @@
     },
     {
       "name": "Placecube data",
-      "url": "http://ec2-52-212-176-170.eu-west-1.compute.amazonaws.com:8080/o/ServiceDirectoryService/v2",
+      "url": "https://bristol.uat.nonlive.servicedirectory.placecube.com/o/ServiceDirectoryService/v2",
       "filters": [
         "TaxonomyType",
         "Keywords",

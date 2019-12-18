@@ -108,8 +108,10 @@ clsOpenReferralPlus.prototype.get = function () {
         async: true,
         type: 'GET',
         url: url,
-        dataType: "text",
-        success: function (data) {
+        dataType: "text"})
+        .done(function (data) {
+
+
             const jsonContent = JSON.parse(data);
             rootJson = jsonContent;
             const Dot = objORP.makeDot(jsonContent);
@@ -134,8 +136,8 @@ clsOpenReferralPlus.prototype.get = function () {
                     });
                     break;
             }
-        },
-        error: function () {
+        })
+        .fail(function () {
             $("#graphLoading").empty();
             $("#graphLoading").append("<div>An error has occurred while fetching the service</div>");
             $("#graphLoading").append('<button class="show-error-vis btn btn-secondary">Show error</button>');
@@ -143,8 +145,7 @@ clsOpenReferralPlus.prototype.get = function () {
                 let win = window.open(url, "_blank");
                 win.focus();
             });
-        }
-    });
+        });
     return true;
 };
 
@@ -306,6 +307,14 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
             const NodeIdEligibilitys = objORP.DotNodeEligibilitys(jsonContent.eligibilitys);
             if (NodeIdEligibilitys) {
                 var DotEdge = NodeIdService + " -> " + NodeIdEligibilitys + "\n";
+                objORP.Dot += DotEdge;
+            }
+        }
+    } else if (jsonContent.hasOwnProperty('eligibility')) {
+        if (jsonContent.eligibility || this.showAll) {
+            const NodeIdEligibility = objORP.DotNodeEligibilitys(jsonContent.eligibility);
+            if (NodeIdEligibility) {
+                var DotEdge = NodeIdService + " -> " + NodeIdEligibility + "\n";
                 objORP.Dot += DotEdge;
             }
         }
