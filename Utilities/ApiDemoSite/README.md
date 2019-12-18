@@ -1,6 +1,6 @@
 ## Api Demo Site 
 
-[Link to demo](http://service-directory-beta.s3-website-eu-west-1.amazonaws.com/)
+[Link to demo](http://opencommunity.porism.com/ApiQuery/)
 
 Demo using GraphVis (Vis-Js).
 
