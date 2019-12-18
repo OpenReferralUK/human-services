@@ -39,7 +39,7 @@ class Navbar extends React.Component {
                 <a id="homeButton" className="mb-0 d-flex align-items-center" style={{ textDecoration: 'none', color: '#212529' }}
                     onClick={this.moveToHome}
                     data-toggle="tab" href="#homeWords" role="tab" aria-controls="homeWords" aria-selected="false">
-                    <img src={logo} className="d-inline-block mobile" alt="logo" />
+                    <img src={logo} className="d-inline-block mobile" alt="logo" width="50"/>
                     <h5 className="mb-0">Service Finder</h5>
                 </a>
                 <div className="navbar-toggler border-0 p-0">
