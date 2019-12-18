@@ -19,7 +19,6 @@ if (config.OPERATIONAL_MODE === undefined || config.API_URL_BASE === undefined |
     API_URL_BASE_BY_ID = config.API_URL_BASE_BY_ID;
 }
 API_URL_BASE = config.OPERATIONAL_MODE !== 'FETCH_SERVICE_TYPE_SEPARATELY' ? config.API_URL_BASE_DEFAULT : config.API_URL_BASE;
-console.log(config);
 export const API_directions = {
     get: {
         needs: API_URL_BASE + "/taxonomies/?per_page=500&vocabulary=esdNeeds",

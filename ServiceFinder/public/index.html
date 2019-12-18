@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <!-- <base href="https://%PUBLIC_URL%/"> -->
+  <base>
   <meta charset="utf-8" />
 
   <link rel="icon" href="%PUBLIC_URL%/favicon/favicon_500.ico">
@@ -17,24 +17,28 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
   <title>Service Finder</title>
-  <script>
-    fetch('settingsConfig.json')
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        localStorage.setItem('config', JSON.stringify(data));
-      })
-      .catch(function (err) {
-        console.log('error: ' + err);
-      });
-  </script>
 </head>
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
   <div id="modalDiv"></div>
+  <script>
+    var base = document.getElementsByTagName('base')[0];
+    var baseurl = window.location.origin;
+    base.setAttribute('href', baseurl);
+  </script>
+  <script>
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        var res = JSON.stringify(JSON.parse(this.response));
+        localStorage.setItem('config', res);
+      }
+    };
+    xhttp.open("GET", "settingsConfig.json", true);
+    xhttp.send();
+  </script>
   <script src="https://code.jquery.com/jquery-3.4.1.slim.js"
     integrity="sha256-BTlTdQO9/fascB1drekrDVkaKd9PkwBymMlHOiG+qLI=" crossorigin="anonymous">
   </script>
