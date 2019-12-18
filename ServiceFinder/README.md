@@ -65,15 +65,15 @@ _These files are the ones that must be on the server._
 _When the files are hosted on the server, we will need to create a new file in the directory where the page is located.
 The file will have to be called `.htaccess` and the following lines must be inside this file:_
 
-```
+``` 
 <IfModule mod_rewrite.c>
-   RewriteEngine On
-   RewriteBase /
-   RewriteRule ^ index \ .html $ - [L]
-   RewriteCond% {REQUEST_FILENAME}! -f
-   RewriteCond% {REQUEST_FILENAME}! -d
-   RewriteCond% {REQUEST_FILENAME}! -l
-   RewriteRule. /index.html [L]
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-l
+  RewriteRule . /index.html [L]
 </IfModule>
 ```
 
