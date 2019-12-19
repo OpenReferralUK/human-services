@@ -724,30 +724,51 @@ function executeForm(pageNumber) {
     })
         .done(function (data) {
             results.empty();
+            results.append("<div id='resultsDiv' class='container-fluid'></div>");
+            results = $("#resultsDiv");
             if (data.totalElements === 0 || data.total_items === 0) {
                 results.append("<div><p>No results found</p></div>");
             }
             $.each(data.content ? data.content : data.items, function (_, value) {
+
                 results.append(
                     "<div id='col" + value.id + "' class='row rowhover'>" +
-                    "<div id='text" + value.id + "' class='col-md-1 col-sm-2 text-truncate'> " + value.id + "</div>" +
-                    "<div class='col-md-6 col-sm-5'>" + value.name + "</div>" +
-                    "<div class='col d-flex justify-content-end no-gutters'>" +
-                    "<div class='visualise'>" +
-                    "<div class='row d-flex no-gutters ml-1 justify-content-end'>" +
-                    "<div class='col-sm-12 col-md-6 d-flex no-gutters d-flex justify-content-end'>" +
-                    "<button id='" + value.id + "' class='btn btn-secondary btn-sm mb-1 visualiseButton'>Visualise</button>&nbsp;" +
-                    "<button id='json" + value.id + "' class='btn btn-secondary btn-sm mb-1 mr-1'> JSON </button>&nbsp;" +
-                    "</div>" +
-                    "<div class='col-sm-12 col-md-6 d-flex no-gutters d-flex justify-content-end'>" +
-                    "<button id='validate" + value.id + "' class='btn btn-secondary btn-sm mb-1 ml-1'>Validate</button> &nbsp;" +
-                    "<button id='richness" + value.id + "' class='btn btn-secondary btn-sm mb-1'>Richness</button>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>" +
+                    "    <div id='text" + value.id + "' class='col-md-1 col-sm-2 text-truncate'> " + value.id + "</div>" +
+                    "    <div class='col'>" + value.name + "</div>" +
+                    "    <div class='col'>" +
+                    "        <div class='visualise'>" +
+                    "            <div class='row'>" +
+                    "                <div class='col' style=\"text-align: right\">" +
+                    "                    <button id='" + value.id + "' class='btn btn-secondary btn-sm mb-1 visualiseButton'>Visualise</button>" +
+                    "                    <button id='json" + value.id + "' class='btn btn-secondary btn-sm mb-1 '> JSON</button>" +
+                    "                    <button id='validate" + value.id + "' class='btn btn-secondary btn-sm mb-1'>Validate</button>" +
+                    "                    <button id='richness" + value.id + "' class='btn btn-secondary btn-sm mb-1'>Richness</button>" +
+                    "                </div>" +
+                    "            </div>" +
+                    "        </div>" +
+                    "    </div>" +
                     "</div>"
                 );
+                // results.append(
+                //     "<div id='col" + value.id + "' class='row rowhover'>" +
+                //     "<div id='text" + value.id + "' class='col-md-1 col-sm-2 text-truncate'> " + value.id + "</div>" +
+                //     "<div class='col-md-6 col-sm-5'>" + value.name + "</div>" +
+                //     "<div class='col d-flex justify-content-end no-gutters'>" +
+                //     "<div class='visualise'>" +
+                //     "<div class='row d-flex no-gutters ml-1 justify-content-end'>" +
+                //     "<div class='col-sm-12 col-md-6 d-flex no-gutters d-flex justify-content-end'>" +
+                //     "<button id='" + value.id + "' class='btn btn-secondary btn-sm mb-1 visualiseButton'>Visualise</button>&nbsp;" +
+                //     "<button id='json" + value.id + "' class='btn btn-secondary btn-sm mb-1 mr-1'> JSON </button>&nbsp;" +
+                //     "</div>" +
+                //     "<div class='col-sm-12 col-md-6 d-flex no-gutters d-flex justify-content-end'>" +
+                //     "<button id='validate" + value.id + "' class='btn btn-secondary btn-sm mb-1 ml-1'>Validate</button> &nbsp;" +
+                //     "<button id='richness" + value.id + "' class='btn btn-secondary btn-sm mb-1'>Richness</button>" +
+                //     "</div>" +
+                //     "</div>" +
+                //     "</div>" +
+                //     "</div>" +
+                //     "</div>"
+                // );
                 $("#" + value.id).on("click", function () {
                     getVisualise(value.id);
                 });
