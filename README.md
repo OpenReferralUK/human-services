@@ -62,7 +62,7 @@ Here are some sample API calls:
 * Get all services: http://api.porism.com/ServiceDirectoryService/services/
 * Get a service: https://api.porism.com/ServiceDirectoryService/services/01ff53d3-69ed-4d58-8453-20d5295bd208
 * Get vocabularies: http://api.porism.com/ServiceDirectoryService/vocabularies/
-* Get taxonomy terms in “BCC Age Group” vocabulary: http://api.porism.com/ServiceDirectoryService/taxonomies/?vocabulary=BCC%20Age%20Group
+* Get taxonomy terms in “BCC Age Groups” vocabulary: http://api.porism.com/ServiceDirectoryService/taxonomies/?vocabulary=BCC%20Age%20Groups
 * Get services for  “BCC Age Group” vocabulary "bccagegroup:18" taxonomy term (Older People): http://api.porism.com/ServiceDirectoryService/services/?vocabulary=BCC%20Age%20Group&taxonomy_id=bccagegroup:18
 * Get taxonomy terms in “esdServiceTypes” vocabulary: http://api.porism.com/ServiceDirectoryService/taxonomies/?vocabulary=esdServiceTypes  
 * Get services for “esdServiceType” vocabulary "http://id.esd.org.uk/service/833" taxonomy term (leaving Hospital): http://api.porism.com/ServiceDirectoryService/services/?vocabulary=esdServiceTypes&taxonomy_id=http://id.esd.org.uk/service/833
