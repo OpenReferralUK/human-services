@@ -2,10 +2,12 @@ export const getHTMLServicesList = (items) => {
     const date = new Date();
     var isIE = false || !!document.documentMode;
     var userAgent = window.navigator.userAgent;
+    const URLparams = window.location;
+    const host = `${URLparams.protocol}//${URLparams.hostname}${URLparams.port ? `:${URLparams.port}/` : '/'}`;
     if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i) || isIE) {
         let stringHTML = `List of saved searches from Service Finder (on ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}):\n\n`;
         items.map(item => {
-            let html = `${item.name}:\n${window.location.href}service/${item.id}\n`
+            let html = `${item.name}:\n${host}service/${item.id}\n`
             return stringHTML += html + '\n';
         });
         textToClipboard(stringHTML);
@@ -13,7 +15,7 @@ export const getHTMLServicesList = (items) => {
         let stringHTML = `<div><h3 style="color: black"><b>List of saved searches from Service Finder (on ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}):</b></h3><ul>`;
 
         items.map(item => {
-            let html = `<li><a href="${window.location.href}service/${item.id}">${item.name}</a></li>`
+            let html = `<li><a href="${host}service/${item.id}">${item.name}</a></li>`
             return stringHTML += html;
         });
         stringHTML += "</ul></div>"
