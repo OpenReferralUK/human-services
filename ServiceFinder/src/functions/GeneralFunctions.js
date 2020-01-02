@@ -128,7 +128,7 @@ export const getInteractedElements = async (interacted, page, perPage) => {
 
     const date = new Date();
     const hour = `${date.getHours() < 10 ? `0${date.getHours()}` : date.getHours()}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`;
-    const dateTime = `${date.getDay() < 10 ? `0${date.getDay()}` : date.getDay()}/${(date.getMonth() + 1) < 10 ? `0${date.getMonth()}` : date.getMonth()}/${date.getFullYear()}`;
+    const dateTime = `${date.getDay() < 10 ? `0${date.getDay()}` : date.getDay()}/${(date.getMonth() + 1) < 10 ? `0${date.getMonth()+1}` : date.getMonth()+1}/${date.getFullYear()}`;
 
     return {
         favourite: false,

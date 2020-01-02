@@ -54,6 +54,7 @@ class InfoService extends React.Component {
 
     render() {
         let date = new Date();
+        let dateText = `${date.getDate() > 10 ? date.getDate() : "0" + date.getDate()}/${(date.getMonth() + 1) > 10 ? date.getMonth() + 1 : "0" + (date.getMonth() + 1)}/${date.getFullYear()}`
         return (
             <>
                 <div className="container my-2 mt-3">
@@ -79,7 +80,7 @@ class InfoService extends React.Component {
                                         }
                                         <h3 className="mb-0">{this.state.item.name}</h3>
                                     </div>
-                                    <p className="mb-0 text-muted">{`${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`}</p>
+                                    <p className="mb-0 text-muted">{dateText}</p>
                                 </div>
                                 <hr className="mt-1" />
                                 <div>
