@@ -791,7 +791,6 @@ function executeForm(pageNumber) {
                         $("#text" + value.id).prop("style", "font-size: 100%");
                     });
                 }
-
             });
 
             let pageNo = data.number ? data.number : data.page;
@@ -832,7 +831,6 @@ function executeForm(pageNumber) {
                 let win = window.open(url, "_blank");
                 win.focus();
             });
-
         });
 }
 
@@ -967,31 +965,20 @@ function getValidate(id) {
 
 function postValidate(data) {
     let url = "https://api.porism.com/ServiceDirectoryService/services/validate";
-    // console.log(data);
-    // console.log(typeof data);
-    // console.log(JSON.stringify(data));
     addApiPanel("Post JSON for validate", false);
     addApiPanel(url);
     updateScroll();
     $("#validatePanel").empty();
     $("#validatePanel").append('<img alt="loading" src="images/ajax-loader.gif">');
 
-    $.post(
-        {
-            url: url,
-            contentType: "application/json"
-        },
-        JSON.stringify(data), function (resBody) {
-            $("#validatePanel").empty();
-
-            $("#validatePanel").append('<h5>' + data.name + '</h5><h6>' + data.id + '</h6>');
-            $("#validatePanel").append("<h5>Issues</h5>");
-            for (let i = 0; i < resBody.length; i++) {
-                $("#validatePanel").append("<p>" + resBody[i].message + "</p>");
-            }
-
-        }, "json");
-
+    $.post({url: url, contentType: "application/json"}, JSON.stringify(data), function (resBody) {
+        $("#validatePanel").empty();
+        $("#validatePanel").append('<h5>' + data.name + '</h5><h6>' + data.id + '</h6>');
+        $("#validatePanel").append("<h5>Issues</h5>");
+        for (let i = 0; i < resBody.length; i++) {
+            $("#validatePanel").append("<p>" + resBody[i].message + "</p>");
+        }
+    }, "json");
 }
 
 function getRichness(id) {
@@ -1112,10 +1099,8 @@ const getUrlParameter = function getUrlParameter(sParam) {
         sURLVariables = sPageURL.split('&'),
         sParameterName,
         i;
-
     for (i = 0; i < sURLVariables.length; i++) {
         sParameterName = sURLVariables[i].split('=');
-
         if (sParameterName[0] === sParam) {
             return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
         }
@@ -1129,16 +1114,13 @@ function updateURLParameter(url, param, paramVal) {
     let baseURL = tempArray[0];
     let additionalURL = tempArray[1];
     let temp = "";
-
     if (additionalURL) {
         let tmpAnchor = additionalURL.split("#");
         let TheParams = tmpAnchor[0];
         TheAnchor = tmpAnchor[1];
         if (TheAnchor)
             additionalURL = TheParams;
-
         tempArray = additionalURL.split("&");
-
         for (let i = 0; i < tempArray.length; i++) {
             if (tempArray[i].split('=')[0] !== param) {
                 newAdditionalURL += temp + tempArray[i];
@@ -1149,14 +1131,11 @@ function updateURLParameter(url, param, paramVal) {
         let tmpAnchor = baseURL.split("#");
         let TheParams = tmpAnchor[0];
         TheAnchor = tmpAnchor[1];
-
         if (TheParams)
             baseURL = TheParams;
     }
-
     if (TheAnchor)
         paramVal += "#" + TheAnchor;
-
     const rows_txt = temp + "" + param + "=" + paramVal;
     return baseURL + "?" + newAdditionalURL + rows_txt;
 }
@@ -1246,27 +1225,23 @@ function setupPageEndpoints() {
         updateParameters("endpoint", $("#endpoint").val());
         setupPage();
     }
-
 }
 
 function setupPageVocabulary() {
 
     if (getUrlParameter("taxonomyType") !== undefined) {
         $("#TaxonomyType").val(getUrlParameter("taxonomyType"));
-
     }
     if (getUrlParameter("vocabulary") !== undefined) {
         $("#Vocabulary").val(getUrlParameter("vocabulary"));
         $("#TaxonomyTerm").attr('disabled', false);
         getTaxonomyTerm();
-
     } else {
         setupPageTaxonomyTerm();
     }
 }
 
 function setupPageTaxonomyTerm() {
-
     if (getUrlParameter("taxonomyTerm") !== undefined) {
         $("#TaxonomyTerm").val(getUrlParameter("taxonomyTerm"));
         getChildTaxonomyTerm();
@@ -1290,20 +1265,16 @@ function setupPageChildTaxonomyTerm() {
 function setupPageChildChildTaxonomyTerm() {
     if (getUrlParameter("childChildTaxonomyTerm") !== undefined) {
         $("#ChildChildTaxonomyTerm").val(getUrlParameter("childChildTaxonomyTerm"));
-
     }
-
     if (getUrlParameter("coverage") !== undefined) {
         $("#Coverage").val(getUrlParameter("coverage"));
     }
     if (getUrlParameter("proximity") !== undefined) {
         $("#Proximity").val(getUrlParameter("proximity"));
     }
-
     if (getUrlParameter("keywords") !== undefined) {
         $("#Keywords").val(getUrlParameter("keywords"));
     }
-
     if (getUrlParameter("day") !== undefined) {
         $("#Day").val(getUrlParameter("day"));
     }
@@ -1319,7 +1290,6 @@ function setupPageChildChildTaxonomyTerm() {
     if (getUrlParameter("maxAge") !== undefined) {
         $("#maxAge").val(getUrlParameter("maxAge"));
     }
-
     $("#validateTab").hide();
     $("#richnessTab").hide();
 
@@ -1349,7 +1319,6 @@ function setupPageChildChildTaxonomyTerm() {
         } else
             executeForm();
     }
-
 }
 
 
