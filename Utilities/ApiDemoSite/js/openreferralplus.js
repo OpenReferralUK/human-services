@@ -108,7 +108,8 @@ clsOpenReferralPlus.prototype.get = function () {
         async: true,
         type: 'GET',
         url: url,
-        dataType: "text"})
+        dataType: "text"
+    })
         .done(function (data) {
 
 
@@ -334,7 +335,7 @@ clsOpenReferralPlus.prototype.DotViewService = function (jsonContent) {
                 objORP.Dot += DotEdge;
             }
         }
-    } else if (this.showAll){
+    } else if (this.showAll) {
         const NodeIdRegularSchedules = objORP.DotNodeRegularSchedule([{}]);
         if (NodeIdRegularSchedules) {
             var DotEdge = NodeIdService + ' -> ' + NodeIdRegularSchedules + '\n';
@@ -1917,9 +1918,10 @@ clsOpenReferralPlus.prototype.DotNodeCostOptions = function (jsonContent) {
                 let jsonCostOption = jsonContent[i];
                 if ((jsonCostOption.valid_from === undefined || jsonCostOption.valid_from === null) && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonCostOption.valid_from || ((jsonCostOption.valid_from === "") && this.showAll)) {
+                } else if (jsonCostOption.valid_from || ((jsonCostOption.valid_from === "") && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonCostOption.valid_from) ? nl2br(objORP.objViz.prepareString(jsonCostOption.valid_from)) : '') + "</td>";
+                } else {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "" + "</td>";
                 }
             } catch (e) {
                 if (this.showAll) {
@@ -1937,9 +1939,10 @@ clsOpenReferralPlus.prototype.DotNodeCostOptions = function (jsonContent) {
                 let jsonCostOption = jsonContent[i];
                 if ((jsonCostOption.valid_to === undefined || jsonCostOption.valid_to === null) && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonCostOption.valid_to || ((jsonCostOption.valid_to === "") && this.showAll)) {
+                } else if (jsonCostOption.valid_to || ((jsonCostOption.valid_to === "") && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonCostOption.valid_to) ? nl2br(objORP.objViz.prepareString(jsonCostOption.valid_to)) : '') + "</td>";
+                } else {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "" + "</td>";
                 }
             } catch (e) {
                 if (this.showAll) {
