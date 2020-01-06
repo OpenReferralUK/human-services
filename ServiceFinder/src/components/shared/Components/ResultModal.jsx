@@ -122,17 +122,20 @@ class ResultModal extends React.Component {
                                         <div className="contact sticky-top">
                                             <h4>Contact</h4>
                                             <hr />
-                                            {this.props.data.contacts.length > 0 ?
+                                            {this.props.data.contacts.length > 0 || this.props.data.service_at_locations.length > 0 || this.props.data.email !== '' ?
                                                 <div>
-                                                    <h5>Contact tel: </h5>
-                                                    <ul>
-                                                        {this.props.data.contacts.map((item, i) => (
-                                                            item.phones.map(itemPhone => (
-                                                                <li className="mb-0" key={i}>{itemPhone.number}</li>
-                                                            ))
-
-                                                        ))}
-                                                    </ul>
+                                                    {this.props.data.contacts.length > 0 &&
+                                                    <>
+                                                        <h5>Contact tel: </h5>
+                                                        <ul>
+                                                            {this.props.data.contacts.map((item, i) => (
+                                                                item.phones.map(itemPhone => (
+                                                                    <li className="mb-0" key={i}>{itemPhone.number}</li>
+                                                                ))
+                                                            ))}
+                                                        </ul>
+                                                    </>
+                                                    }
                                                     {this.props.data.email !== '' &&
                                                         <>
                                                             <h5>Contact email:</h5>
