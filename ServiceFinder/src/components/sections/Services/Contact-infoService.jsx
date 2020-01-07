@@ -6,17 +6,21 @@ export default class ContactInfoComponent extends React.Component {
         return (
             <>
                 <InfoServiceSection title="Contact">
-                    {this.props.data.contacts.length > 0 ?
-                        <div>
-                            <h5>Contact tel: </h5>
-                            <ul>
-                                {this.props.data.contacts.map((item, i) => (
-                                    item.phones.map(itemPhone => (
-                                        <li className="mb-0" key={i}>{itemPhone.number}</li>
-                                    ))
+                    {this.props.data.contacts.length > 0 || this.props.data.service_at_locations.length > 0 || this.props.data.email !== '' ?
 
-                                ))}
-                            </ul>
+                        <div>
+                            {this.props.data.contacts.length > 0 &&
+                                <>
+                                    <h5>Contact tel: </h5>
+                                    <ul>
+                                        {this.props.data.contacts.map((item, i) => (
+                                            item.phones.map(itemPhone => (
+                                            <li className="mb-0" key={i}>{itemPhone.number}</li>
+                                            ))
+                                        ))}
+                                    </ul>
+                                </>
+                            }
                             {this.props.data.email !== '' &&
                                 <>
                                     <h5>Contact email:</h5>
