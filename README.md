@@ -19,7 +19,7 @@ By comparing the two application profiles we can test the viability of moving fa
 
 The Local Digital Declaration insists on “modular building blocks for the IT we rely on, and open standards to give a common structure to the data we create”. The human service standard is intended to support the modular approach illustrated below.
 
-![Consolidated data feeds queried by service finder applications](https://github.com/esd-org-uk/human-services/blob/master/Resources/ConsolidatedDataFeedsQueriedByServiceFinders.png)
+![Consolidated data feeds queried by service finder applications](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Resources/ConsolidatedDataFeedsQueriedByServiceFinders.png)
 
 Data consumers query service data via an API (see below) from directories that output in a format compliant with the standard. Aggregators take data from compliant directories and merge it to provide more comprehensive data for consuming applications.
 
@@ -31,7 +31,7 @@ Open Community work is testing data capture software, de-duplication of merged d
 
 The OpenReferral schema defines a structure for human services data. We *extend* the schema to support richer data where prior work indicates it is needed. We *constrain* the resultant schema by means of an *application profile* which says what fields are recommended for English use and what external vocabularies to reference.
 
-![Schema extension and constraint](https://github.com/esd-org-uk/human-services/blob/master/Resources/SchemaExtensionAndConstraint.png)
+![Schema extension and constraint](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Resources/SchemaExtensionAndConstraint.png)
 
 For the LGA/DCMS Loneliness project application profile, these resources describe the schema:
 
