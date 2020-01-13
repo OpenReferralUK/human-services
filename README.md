@@ -69,4 +69,4 @@ Here are some sample API calls:
 
 The API is freely available for reasonable use for public and private organisations. It is subject to ongoing development and there are no guarantees on its stability or longevity. It may be modified to require credentials in future.
 
-See the [API query tool](http://service-directory-beta.s3-website-eu-west-1.amazonaws.com/) that illistrates some API calls and shows the structure of data found. The page source can be found [here](https://github.com/esd-org-uk/human-services/tree/master/Utilities/ApiDemoSite) and run from anywhere.
+See the [API query tool](https://opencommunity.porism.com/ApiQuery/) that illistrates some API calls and shows the structure of data found. The page source can be found [here](https://github.com/esd-org-uk/human-services/tree/master/Utilities/ApiDemoSite) and run from anywhere.
