@@ -23,16 +23,6 @@
 
 <tr><td>id</td><td>string (uuid)</td><td>Open Referral field used in application profile</td><td>Each organization must have a unique identifier.</td><td>-</td><td>True</td><td>True</td></tr><tr><td>name</td><td>string</td><td>Open Referral field used in application profile</td><td>The official or public name of the organization.</td><td>-</td><td>True</td><td>False</td></tr><tr><td>description</td><td>string</td><td>Open Referral field used in application profile</td><td>A brief summary about the organization. It can contain markup such as HTML or Markdown.</td><td>-</td><td>True</td><td>False</td></tr><tr><td>email</td><td>string (email)</td><td>Open Referral field used in application profile</td><td>The contact e-mail address for the organization.</td><td>-</td><td>False</td><td>False</td></tr><tr><td>url</td><td>string (url)</td><td>Open Referral field used in application profile</td><td>The URL (website address) of the organization.</td><td>-</td><td>False</td><td>False</td></tr><tr><td>logo</td><td>string</td><td>Extension for LGA</td><td>A URL to an image associated with the organization which can be presented alongside its name.</td><td>-</td><td>False</td><td>False</td></tr><tr><td>uri</td><td>string (url)</td><td>Extension for LGA</td><td>A persistent identifier to uniquely identify the organization.</td><td>-</td><td>False</td><td>False</td></tr></table>
 
-<h2>identifier</h2><p>A list of commonly used registers could be provided for the user to select from to cut down number of steps in this process.</p><p><i>This is an extension table.</i></p><table cellpadding="2">
-<tr><th style="width:10em">Field Name</th><th style="width:5em">Type (Format)</th><th style="width:15em">Source</th><th>Description</th><th style="width:10em">Allowed Values</th><th style="width:5em">Required?</th><th style="width:5em">Unique?</th></tr>
-
-</table>
-
-<h2>program</h2><p>Some organizations organise their services into programs. A program brings together a number of related services.</p><p><i>This is an extension table.</i></p><table cellpadding="2">
-<tr><th style="width:10em">Field Name</th><th style="width:5em">Type (Format)</th><th style="width:15em">Source</th><th>Description</th><th style="width:10em">Allowed Values</th><th style="width:5em">Required?</th><th style="width:5em">Unique?</th></tr>
-
-</table>
-
 <h2>service</h2><p>Services are provided by organizations to a range of different groups. Details on where each service is delivered are contained in the services_at_location table.</p><table cellpadding="2">
 <tr><th style="width:10em">Field Name</th><th style="width:5em">Type (Format)</th><th style="width:15em">Source</th><th>Description</th><th style="width:10em">Allowed Values</th><th style="width:5em">Required?</th><th style="width:5em">Unique?</th></tr>
 
@@ -68,11 +58,6 @@
 
 <tr><td>id</td><td>string</td><td>Open Referral field used in application profile</td><td>Each physical address must have a unique identifier.</td><td>-</td><td>True</td><td>True</td></tr><tr><td>location_id</td><td>string</td><td>Open Referral field used in application profile</td><td>The identifier of the location for which this is the address.</td><td>-</td><td>True</td><td>False</td></tr><tr><td>address_1</td><td>string</td><td>Open Referral field used in application profile</td><td>The first line(s) of the address, including office, building number and street.</td><td>-</td><td>False</td><td>False</td></tr><tr><td>city</td><td>string</td><td>Open Referral field used in application profile</td><td>The city in which the address is located.</td><td>-</td><td>True</td><td>False</td></tr><tr><td>state_province</td><td>string</td><td>Open Referral field used in application profile</td><td>The state or province in which the address is located.</td><td>-</td><td>True</td><td>False</td></tr><tr><td>postal_code</td><td>string</td><td>Open Referral field used in application profile</td><td>The postal code for the address.</td><td>-</td><td>True</td><td>False</td></tr><tr><td>country</td><td>string</td><td>Open Referral field used in application profile</td><td>The country in which the address is located. This should be given as an ISO 3361-1 country code (two letter abbreviation).</td><td>-</td><td>True</td><td>False</td></tr></table>
 
-<h2>postal_address</h2><p>The postal_address table contains the postal addresses for mail to a certain location. This may differ from the physical location.</p><p><i>This is an extension table.</i></p><table cellpadding="2">
-<tr><th style="width:10em">Field Name</th><th style="width:5em">Type (Format)</th><th style="width:15em">Source</th><th>Description</th><th style="width:10em">Allowed Values</th><th style="width:5em">Required?</th><th style="width:5em">Unique?</th></tr>
-
-</table>
-
 <h2>regular_schedule</h2><p>The regular_schedule table contains details of when a service or location is open under normal circumstances. Each entry in the table can relate to one and only one day of the week.</p><table cellpadding="2">
 <tr><th style="width:10em">Field Name</th><th style="width:5em">Type (Format)</th><th style="width:15em">Source</th><th>Description</th><th style="width:10em">Allowed Values</th><th style="width:5em">Required?</th><th style="width:5em">Unique?</th></tr>
 
@@ -98,16 +83,6 @@
 
 <tr><td>id</td><td>string</td><td>Open Referral field used in application profile</td><td>Each service area must have a unique identifier</td><td>-</td><td>True</td><td>True</td></tr><tr><td>service_id</td><td>string</td><td>Open Referral field used in application profile</td><td>The identifier of the service for which this entry describes the service area</td><td>-</td><td>True</td><td>False</td></tr><tr><td>service_area</td><td>string</td><td>Open Referral field used in application profile</td><td>The geographic area where a service is available. This is a free-text description, and so may be precise or indefinite as necessary.</td><td>-</td><td>False</td><td>False</td></tr><tr><td>name</td><td>string</td><td>Extension for LGA</td><td>A name for a geographic area.</td><td>-</td><td>False</td><td>False</td></tr><tr><td>type</td><td>string</td><td>Extension for LGA</td><td>A categorisation of the type of geographic area.</td><td>-</td><td>False</td><td>False</td></tr><tr><td>extent</td><td>string</td><td>Extension for LGA</td><td>A definition of the polygon defining the area, in geojson.</td><td>-</td><td>False</td><td>False</td></tr><tr><td>uri</td><td>string</td><td>Extension for LGA</td><td>A persistent identifier to uniquely identify the organization.</td><td>-</td><td>False</td><td>False</td></tr></table>
 
-<h2>required_document</h2><p>The required_document table contains details of any documents that are required in order to access or use services.</p><p><i>This is an extension table.</i></p><table cellpadding="2">
-<tr><th style="width:10em">Field Name</th><th style="width:5em">Type (Format)</th><th style="width:15em">Source</th><th>Description</th><th style="width:10em">Allowed Values</th><th style="width:5em">Required?</th><th style="width:5em">Unique?</th></tr>
-
-</table>
-
-<h2>payment_accepted</h2><p>The payment_accepted table contains details of the methods of payment that can be used in order to pay for services</p><p><i>This is an extension table.</i></p><table cellpadding="2">
-<tr><th style="width:10em">Field Name</th><th style="width:5em">Type (Format)</th><th style="width:15em">Source</th><th>Description</th><th style="width:10em">Allowed Values</th><th style="width:5em">Required?</th><th style="width:5em">Unique?</th></tr>
-
-</table>
-
 <h2>language</h2><p>The language table contains details of the languages that are spoken at locations or services. This does not include languages which can only be used with intepretation.</p><table cellpadding="2">
 <tr><th style="width:10em">Field Name</th><th style="width:5em">Type (Format)</th><th style="width:15em">Source</th><th>Description</th><th style="width:10em">Allowed Values</th><th style="width:5em">Required?</th><th style="width:5em">Unique?</th></tr>
 
@@ -122,16 +97,6 @@
 <tr><th style="width:10em">Field Name</th><th style="width:5em">Type (Format)</th><th style="width:15em">Source</th><th>Description</th><th style="width:10em">Allowed Values</th><th style="width:5em">Required?</th><th style="width:5em">Unique?</th></tr>
 
 <tr><td>id</td><td>string</td><td>Open Referral field used in application profile</td><td>Each taxonomy entry must have a unique identifier. If combining multiple taxonomies with overlapping identifiers, use a prefix to distinguish them.</td><td>-</td><td>True</td><td>True</td></tr><tr><td>name</td><td>string</td><td>Open Referral field used in application profile</td><td>The name of this taxonomy term or category.</td><td>-</td><td>True</td><td>False</td></tr><tr><td>parent_id</td><td>string</td><td>Extension for LGA</td><td>If this is a child category in a hierarchical taxonomy, give the identifier of the parent category. For top-level categories, this should be left blank.</td><td>-</td><td>False</td><td>False</td></tr><tr><td>vocabulary</td><td>string</td><td>Open Referral field used in application profile</td><td>If this is an established taxonomy, detail which taxonomy is in use. For example, AIRS or Open Eligibility.</td><td>-</td><td>False</td><td>False</td></tr></table>
-
-<h2>metadata</h2><p>The metadata table contains a record of the changes that have been made to the data in order to maintain provenance information.</p><p><i>This is an extension table.</i></p><table cellpadding="2">
-<tr><th style="width:10em">Field Name</th><th style="width:5em">Type (Format)</th><th style="width:15em">Source</th><th>Description</th><th style="width:10em">Allowed Values</th><th style="width:5em">Required?</th><th style="width:5em">Unique?</th></tr>
-
-</table>
-
-<h2>meta_table_description</h2><p>The meta_table_description table contains metadata about individual tables.</p><p><i>This is an extension table.</i></p><table cellpadding="2">
-<tr><th style="width:10em">Field Name</th><th style="width:5em">Type (Format)</th><th style="width:15em">Source</th><th>Description</th><th style="width:10em">Allowed Values</th><th style="width:5em">Required?</th><th style="width:5em">Unique?</th></tr>
-
-</table>
 
 <h2>cost_option</h2><p>The cost option table contains the costs of a service at certain points in time</p><p><i>This is an extension table.</i></p><table cellpadding="2">
 <tr><th style="width:10em">Field Name</th><th style="width:5em">Type (Format)</th><th style="width:15em">Source</th><th>Description</th><th style="width:10em">Allowed Values</th><th style="width:5em">Required?</th><th style="width:5em">Unique?</th></tr>
