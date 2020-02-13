@@ -24,3 +24,10 @@
         </ul>
     </nav>
 </div>
+<script>
+    $.each($(".navbar-nav").children(), function (index, item) {
+        if ($(item).children("a").prop("href") === window.location.href){
+            $(item).addClass("active");
+        }
+    });
+</script>
