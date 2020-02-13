@@ -6,15 +6,15 @@ permalink: /install/
 
 # To serve site locally
 
-## Using Ruby installer
+## Using Ruby installer - Windows
 
 [Follow instructions here](https://jekyllrb.com/docs/installation/windows/#installation-via-rubyinstaller)
 
 After install:  
-_`sudo gem update`_
+_`gem update`_
 
-_`sudo gem install jekyll -v 3.8.5`_ Use current version on [Github Pages](https://pages.github.com/versions/)  
-_`sudo gem install bundler`_
+_`gem install jekyll -v 3.8.5`_ Use current version on [Github Pages](https://pages.github.com/versions/)  
+_`gem install bundler`_
 
 ### To serve to localhost
 
