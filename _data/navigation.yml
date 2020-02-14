@@ -7,10 +7,17 @@
 - title: About
   url: /about/
 
+
 #- title: Page4/5
 #  child:
 #    - title: Page4
 #      url: /page4/
 #    - title: Page5
 #      url: /page5/
+#- title: Page6/7
+#  child:
+#    - title: Page6
+#      url: /page6/
+#    - title: Page7
+#      url: /page7/
 
