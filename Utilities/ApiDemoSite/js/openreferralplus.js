@@ -131,7 +131,7 @@ clsOpenReferralPlus.prototype.get = function () {
                 case 'json':
                     $(objORP.objViz.tagElement).empty();
                     $(objORP.objViz.tagElement).append("<button id='Raw" + jsonContent.id + "' class='btn btn-secondary'>Raw JSON</button>");
-                    $(objORP.objViz.tagElement).append('<pre>' + nl2br(htmlEntities(JSON.stringify(jsonContent, null, 1))) + '</pre>');
+                    $(objORP.objViz.tagElement).append("<pre>" + JSON.stringify(jsonContent, undefined, " ").replace("<br>", "") + "</pre>");
                     $("#Raw" + jsonContent.id).on("click", function () {
                         getRawJSON(jsonContent.id);
                     });
@@ -1911,7 +1911,7 @@ clsOpenReferralPlus.prototype.DotNodeCostOptions = function (jsonContent) {
         Dot += "</tr>";
     }
 
-    if ((jsonContent[0].valid_from !== null && jsonContent[0].valid_from !== undefined) || this.showAll) {
+    if ((jsonContent[0].valid_from !== null && jsonContent[0].valid_from !== undefined && jsonContent[0].valid_from !== "") || this.showAll) {
         Dot += "<tr><td align='left' balign='left' valign='top'><b>valid_from  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
@@ -1932,7 +1932,7 @@ clsOpenReferralPlus.prototype.DotNodeCostOptions = function (jsonContent) {
         Dot += "</tr>";
     }
 
-    if ((jsonContent[0].valid_to !== null && jsonContent[0].valid_to !== undefined) || this.showAll) {
+    if ((jsonContent[0].valid_to !== null && jsonContent[0].valid_to !== undefined && jsonContent[0].valid_to !== "") || this.showAll) {
         Dot += "<tr><td align='left' balign='left' valign='top'><b>valid_to  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
