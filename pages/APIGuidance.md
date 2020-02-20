@@ -34,7 +34,7 @@ Directories of services should deliver service data via this web method. Service
 
 The /vocabularies and /taxonomies methods are also needed if a Service Finder needs to explore what vocabularies/taxonomies and taxonomy terms are used to categorise service data.
 
-Most tools will consume data in the JSON format, but a directory should also support the CSV format if data is needed for analysis in spreadsheets.
+Most tools will consume data in the JSON format, but a directory should also support the [CSV format](#json-and-csv) if data is needed for analysis in spreadsheets.
 
 ## Validating your data 
 
@@ -66,7 +66,7 @@ Pluralised versions of the JSON schemas define arrays of simple or verbose objec
 
 Append "verbose" to the above two calls to get full details of every service/organization returned.
 
-<https://api.porism.com/ServiceDirectoryService/services/000d18bd-f12b-4152-a2fd-9d29f80c90d9>  eturns verbose details of a single 
+<https://api.porism.com/ServiceDirectoryService/services/000d18bd-f12b-4152-a2fd-9d29f80c90d9>  returns verbose details of a single 
 
 <https://api.porism.com/ServiceDirectoryService/organizations/00329d8f-5d0f-4dec-9040-33587f758a87> returns verbose details of a single organization
 
