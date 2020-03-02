@@ -66,7 +66,7 @@ Each table and field is described below.
 <div id="docs"></div>
 <script>
     $(function () {
-        $.get("https://raw.githack.com/esd-org-uk/human-services/master/Schemas/documentation.html", function (data) {
+        $.get("https://raw.githubusercontent.com/esd-org-uk/human-services/master/Schemas/documentation.html", function (data) {
             $("#docs").html(data);
             $("#docs table").wrap('<div class="table-responsive"></div>');
         });
