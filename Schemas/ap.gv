@@ -226,8 +226,6 @@ service_area [label=<
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
 <tr><td port='service_id'  bgcolor="lawngreen"><b>service_id</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>service_area</b></td></tr>
-<tr><td  bgcolor="lightblue"><b>name</b></td></tr>
-<tr><td  bgcolor="lightblue"><b>type</b></td></tr>
 <tr><td  bgcolor="lightblue"><b>extent</b></td></tr>
 <tr><td  bgcolor="lightblue"><b>uri</b></td></tr>
 </table>
