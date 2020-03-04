@@ -1,0 +1,3 @@
+[submodule "ServiceFinder"]
+	path = ServiceFinder
+	url = https://github.com/OpenReferralUK/ServiceFinder.git
