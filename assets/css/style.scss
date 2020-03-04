@@ -6,8 +6,15 @@
   max-width: 90vw;
 }
 
-#main_content_wrap { background: #ffffff; border-top: 1px solid #111; border-bottom: 1px solid #111;}
-#main_content {padding-top: 10px;}
+#main_content_wrap {
+  background: #ffffff;
+  border-top: 1px solid #111;
+  border-bottom: 1px solid #111;
+}
+
+#main_content {
+  padding-top: 10px;
+}
 
 $bgDefault: #373737;
 $bgHighlight: #6e6e6e;
@@ -186,6 +193,7 @@ $dropDown: true;
     background-color: $bgHighlight;
   }
 }
+
 .navwidth {
   max-width: 92vw;
   margin: 0 auto;

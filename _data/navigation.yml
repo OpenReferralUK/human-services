@@ -1,11 +1,42 @@
 - title: Home
   url: /
-- title: Data Standard Guidance
-  url: /Guidance/
-- title: API Guidance
+- title: Data standard
+  child:
+      - title: Reference
+        url: /Refrence
+      - title: Guidance
+        url: /Guidance/
+      - title: Use of taxonomies
+        url: /Taxonomys/
+      - title: Trust, deduplication and validation
+        url: /Validation/
+- title: API
   url: /API-Guidance/
+  child:
+    - title: Reference
+      url: /ApiRefernce/
+    - title: Guidance
+      url: /API-Guidance/
+- title: Tools
+  url: /
+  child:
+    - title: Reference
+      url: /ToolsReference/
+    - title: API connector
+      url: https://opencommunity.porism.com/LandingBeta/
+    - title: API Query tool
+      url: https://opencommunity.porism.com/ApiQuery/
+    - title: Service Finder
+      url: https://opencommunity.porism.com/ServiceFinder/
 - title: About
   url: /about/
+  child:
+    - title: Contact us
+      url: /ContactUs/
+    - title: Governance
+      url: /Governance
+    - title: Technical Group Terms of reference
+      url: /TechGroup/
 
 
 #- title: Page4/5
