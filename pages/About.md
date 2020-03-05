@@ -12,4 +12,4 @@ Open Referral UK extends the international [Open Referral](https://openreferral.
 
 Implementation of the standard is discussed in the LGA's [Local Services Open Data Project group](https://khub.net/group/local-services-open-data-project) and via [OpenCommunity](https://opencommunity.org.uk/).
 
-You can submit changes to these pages via Github at [https://github.com/esd-org-uk/human-services/tree/gh-pages](https://github.com/esd-org-uk/human-services/tree/gh-pages).
+You can submit changes to these pages via Github at [https://github.com/OpenReferralUK/human-services/tree/gh-pages](https://github.com/OpenReferralUK/human-services/tree/gh-pages).
