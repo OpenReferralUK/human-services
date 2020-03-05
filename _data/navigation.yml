@@ -2,14 +2,14 @@
   url: /
 - title: Data standard
   child:
-      - title: Reference
-        url: /Reference/
-      - title: Guidance
-        url: /Guidance/
-      - title: Use of taxonomies
-        url: /Taxonomys/
-      - title: Trust, deduplication and validation
-        url: /Validation/
+    - title: Reference
+      url: /Reference/
+    - title: Guidance
+      url: /Guidance/
+    - title: Use of taxonomies
+      url: /Taxonomys/
+    - title: Trust, deduplication and validation
+      url: /Validation/
 - title: API
   child:
     - title: Reference
@@ -22,10 +22,13 @@
       url: /ToolsReference/
     - title: API Connector
       url: https://opencommunity.porism.com/LandingBeta/
+      target: _blank
     - title: API Query Tool
       url: https://opencommunity.porism.com/ApiQuery/
+      target: _blank
     - title: Service Finder
       url: https://opencommunity.porism.com/ServiceFinder/
+      target: _blank
 - title: About
   child:
     - title: Contact us
