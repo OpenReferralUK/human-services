@@ -22,13 +22,16 @@
       url: /ToolsReference/
     - title: API Connector
       url: https://opencommunity.porism.com/LandingBeta/
+      external: 1
       target: _blank
     - title: API Query Tool
       url: https://opencommunity.porism.com/ApiQuery/
       target: _blank
+      external: 1
     - title: Service Finder
       url: https://opencommunity.porism.com/ServiceFinder/
       target: _blank
+      external: 1
 - title: About
   child:
     - title: Contact us

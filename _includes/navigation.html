@@ -11,7 +11,11 @@
 
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             {% for child in entry.child %}
-                                <a class="dropdown-item" href="{{ site.baseurl }}{{ child.url }}" {% if child.target %} target="{{child.target}}"{% endif %}>{{ child.title }}</a>
+                                {% if child.external %}
+                                    <a class="dropdown-item" href="{{ child.url }}" {% if child.target %} target="{{child.target}}"{% endif %}>{{ child.title }}</a>
+                                {% else %}
+                                    <a class="dropdown-item" href="{{ site.baseurl }}{{ child.url }}" {% if child.target %} target="{{child.target}}"{% endif %}>{{ child.title }}</a>
+                                {% endif %}
                             {% endfor %}
                         </div>
                     </li>
