@@ -3,7 +3,7 @@
 - title: Data standard
   child:
       - title: Reference
-        url: /Refrence
+        url: /Reference/
       - title: Guidance
         url: /Guidance/
       - title: Use of taxonomies
@@ -14,7 +14,7 @@
   url: /API-Guidance/
   child:
     - title: Reference
-      url: /ApiRefernce/
+      url: /ApiReference/
     - title: Guidance
       url: /API-Guidance/
 - title: Tools
@@ -22,9 +22,9 @@
   child:
     - title: Reference
       url: /ToolsReference/
-    - title: API connector
+    - title: API Connector
       url: https://opencommunity.porism.com/LandingBeta/
-    - title: API Query tool
+    - title: API Query Tool
       url: https://opencommunity.porism.com/ApiQuery/
     - title: Service Finder
       url: https://opencommunity.porism.com/ServiceFinder/
@@ -35,20 +35,5 @@
       url: /ContactUs/
     - title: Governance
       url: /Governance
-    - title: Technical Group Terms of reference
+    - title: Technical group terms of reference
       url: /TechGroup/
-
-
-#- title: Page4/5
-#  child:
-#    - title: Page4
-#      url: /page4/
-#    - title: Page5
-#      url: /page5/
-#- title: Page6/7
-#  child:
-#    - title: Page6
-#      url: /page6/
-#    - title: Page7
-#      url: /page7/
-
