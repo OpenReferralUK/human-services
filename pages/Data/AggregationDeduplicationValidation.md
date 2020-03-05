@@ -20,7 +20,7 @@ The same is true for directories from other sectors relating to other geographic
 
 The flow chart below illustrates a simplified scenario in which a single AgeUK service is described centrally by AgeUK which may be seen as a trusted service provider. These service details are imported by two directories but duplicated by local entries in two other directories.
 
-![](https://lh3.googleusercontent.com/TZPIGYDCgN2abdGwntUWlt8ydG1r2dr_kW7xoFw984w6auYA3Ft-2-HpLBpcZJn3Kd8ltJ9VAZn_rkwCzhUTSs6d2dHwD566qUIRopWVi3AvPB8mRhFMBbIX7IAHTOHEoZ10UfI)
+![](https://github.com/OpenReferralUK/human-services/blob/gh-pages/assets/images/TrustFlowChart.png?raw=true)
 
 All records are read by an aggregator for the place. The aggregator needs to avoid importing the same record twice, to show preferred service records and allow access to duplicates if needed for reference (eg to copy volunteered service information to an assured record).
 
@@ -79,7 +79,7 @@ Hence the Trust Register will hold for every service, organization and location 
 
 -   The UUID of the service | organization | location it replaces (if any)
 
-![](https://lh4.googleusercontent.com/QOnp2iQCrczFJ-G_ONvR3G55Pd9vXNJPTYpLUHoDALiCxwn8l_lK2HgDSALCdztEEzQkXTeswP2m69_bqLocmdKxx25cbBEau18ZcWrKV3j_20cXLFFw30UjNiQ1YpMmPyv4a3U)
+![](https://github.com/OpenReferralUK/human-services/blob/gh-pages/assets/images/TrustRegister.png?raw=true)
 
 ### Sharing trust register entries
 
@@ -105,7 +105,7 @@ Web methods for validating a service and assigning it a richness score are descr
 
 The diagram below shows which data items fall under the control of an assurer for a service, an organization and a location.
 
-![](https://lh6.googleusercontent.com/ARnsDZdmKf4TfREwiy_J9fxXSeIPRKF5Va4KVV0UdVwOTd6xBDn4LWEOrPAtdRIBJSQLQNXt1O7WFPpXt5CigLr0vcmaO7Uo7MhBwao8ExDl9Ve57la3JEOt1ZAkp1odGjtdvTY)
+![](https://github.com/OpenReferralUK/human-services/blob/gh-pages/assets/images/ScopeOfAssurance.png?raw=true)
 
 Some custodians assign responsibility for data assurance according to service type.
 
