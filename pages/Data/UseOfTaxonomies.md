@@ -9,19 +9,19 @@ permalink: /UseOfTaxonomies/
 {:.no_toc}
 * TOC 
 {:toc}  
-## 1. Purpose
+## Purpose
 
 This guidance describes how the Open Referral UK data schema for services (the Schema) and the associated API standard supports use of taxonomies. It indicates how taxonomies can be used to tag services and help target searches.
 
-## 2. What is a taxonomy?
+## What is a taxonomy?
 
 A taxonomy (also known as a vocabulary, a concept scheme or just a list of terms) defines terms used to describe a subject area. Each term (also known as a concept or list item) has an identifier, a label and other properties, which may include alternative labels.
 
 Inherited from the Open Referral standard, the Schema uses the the word "taxonomy" to describe a taxonomy term and "vocabulary" to describe the whole taxonomy.
 
-## 3. Candidate taxonomies for services data
+## Candidate taxonomies for services data
 
-### 3.1 Service types
+### Service types
 
 The schema (and the base Open Referral standard on which it is built) allows for any number of taxonomy terms to be associated with each service entry. Typically such terms will be drawn from vocabularies that describe types of service.
 
@@ -35,7 +35,7 @@ These vocabularies are suitable for describing service types:
 
 -   [OpenEligibility list](https://github.com/auntbertha/openeligibility/blob/master/taxonomy) - described as a "way to categorize human services and human situations", the human services part of this list provides broad categorisations of service types
 
-### 3.2 Eligibility
+### Eligibility
 
 The Schema extends the international Open Referral standard to allow definition of the types of individual eligible for a service.
 
@@ -45,7 +45,7 @@ These vocabularies are suitable for describing eligibility types:
 
 -   [OpenEligibility list](https://github.com/auntbertha/openeligibility/blob/master/taxonomy) - described as a "way to categorize human services and human situations", the human situations part of this list provides broad categorisations of types of individual
 
-### 3.3 Accessibility for disabilities
+### Accessibility for disabilities
 
 The Schema currently only provides for a limited set of accessibility entries. Proposals have been made ([see here](https://docs.google.com/document/d/15Z-gVDXG9_mOQc2_cjZuzWiKLncpJku03qkbxcDNsos/edit?usp=sharing)) for switching to use of taxonomies for accessibility terms.
 
@@ -55,7 +55,7 @@ This vocabulary may be considered describing service types:
 
 We are currently trying to identify a fuller vocabulary.
 
-### 3.4 Circumstances
+### Circumstances
 
 The Schema does not make explicit provision for recording the circumstances of users for whom a service is suitable. However user circumstances are relevant in two ways:
 
@@ -71,7 +71,7 @@ These vocabularies are suitable for describing circumstance types:
 
 The LGA's Personal Circumstance List is mapped against its Service Types List to show which types of service might be suitable for someone with specific circumstances.
 
-### 3.5 Needs
+### Needs
 
 The Schema does not make explicit provision for recording the needs of users for whom a service is suitable. However needs can be mapped against service types so services of types relevant to a user's needs can be found.
 
@@ -79,9 +79,9 @@ This vocabulary is suitable for describing needs:
 
 -   The LGA's [Needs List](http://id.esd.org.uk/list/needs) - this is mapped against the LGA's Service Types List to show which types of service might be suitable for someone with specific needs.
 
-## 4. Tagging service directory records
+## Tagging service directory records
 
-### 4.1 What to tag with terms from taxonomies
+### What to tag with terms from taxonomies
 
 So that searches for services can be well targeted, it is useful to tag each service with one or more service types and with any relevant eligibility terms.
 
@@ -89,7 +89,7 @@ Personal circumstances can sometimes be assigned to services to denote "intended
 
 It should not be necessary to tag individual services with the needs and circumstances of potential users. These can be derived from mappings to service types built into service finder and/or service directory software, as described below.
 
-### 4.2 Syntax for use of taxonomy terms
+### Syntax for use of taxonomy terms
 
 Use a [CURIE](https://www.w3.org/TR/2010/NOTE-curie-20101216/) (or Compact URI) as a kind of namespace to identify from which vocabulary a term comes.
 
@@ -109,7 +109,7 @@ The LGA's electronic service delivery list of service types has
 
 OpenCommunity will establish a register of CURIEs that have a common meaning across community members. Where a CURIE references a taxonomy with a formal URI, the register will give the taxonomy's URI and the URI prefix for individual taxonomy terms.
 
-### 4.2.1 CURIEs to use
+### CURIEs to use
 
 All directories should use these CURIEs for national/international vocabularies:
 
@@ -129,7 +129,7 @@ Publishers are free to devise their own CURIEs for local lists. They may use the
 
 We normally expect CURIEs to be in the singular, so  "esdServiceType", not "esdServiceTypes".
 
-## 5. Targeting services at specific user groups
+## Targeting services at specific user groups
 
 The Schema and, in particular, its extensions to Open Referral is designed to target quite accurately the services relevant to someone who is searching a directory.
 
@@ -145,7 +145,7 @@ You can store information and search according to:
 
 The Schema supports use of any given taxonomy, including taxonomies local to an installation as well as national and international ones, such as those given above.
 
-### 5.1 Using taxonomies with the API
+### Using taxonomies with the API
 
 The standard API's web method for getting services is defined [here](https://api.porism.com/ServiceDirectoryService/swagger-ui.html#/Services/getServicesUsingGET).
 
@@ -171,7 +171,7 @@ Hence this call is used to find all services of service type 298 in the LGA Serv
 
 Note that all the above filter parameters are applied with a Boolean AND operator. Hence the above syntax cannot be used to find services with one of a number of given service types via a single API call.
 
-### 5.2 Selecting services for particular service types, circumstances and needs
+### Selecting services for particular service types, circumstances and needs
 
 The service_type, circumstance and need parameters are special calls implemented by some instances of the services API to allow selection using a Boolean AND of taxonomy terms.
 
@@ -185,7 +185,7 @@ Hence:
 
 /services/?need=esdNeed:69&esdNeeds=need:71 finds services of types associated with needs [69 - Social inclusion](http://id.esd.org.uk/need/69) and/or [71 - Community facilities](http://id.esd.org.uk/need/71)
 
-### 5.3 Personas
+### Personas
 
 Service Finder utilities can be configured to filter services according to their target groups.
 
@@ -195,7 +195,7 @@ The sample [service finder here](https://opencommunity.porism.com/ServiceFinder)
 
 A Service Finder tool can either be with a set of service types applicable to the personas it supports or configured directly with the needs as circumstances associated with those personas, as described below.
 
-### 5.3.1 Configuring personas with service types
+### Configuring personas with service types
 
 Owners of service finder tools are usually best placed to understand the service types that are applicable to the personas of their audience. These may come from one or more service type vocabularies. The service types chosen may be informed by external mappings, such as those maintained by the LGA from lists of needs and circumstances.
 
@@ -213,7 +213,7 @@ A JSON configuration of a persona by service types might look like this:
 },
 ```
 
-### 5.3.2 Configuring personas with needs and service types
+### Configuring personas with needs and service types
 
 Some service directories may implement means of making API queries for a specified list of needs and/or circumstances. In such cases, the directory itself needs to host and maintain mappings from needs and circumstances to service types.
 
@@ -236,7 +236,7 @@ The service finder's [config.js](https://github.com/OpenReferralUK/ServiceFinder
 },
 ```
 
-## 6. Referencing Local Government Association taxonomies and mappings
+## Referencing Local Government Association taxonomies and mappings
 
 The LGA supports these relevant taxonomies:
 
@@ -260,7 +260,7 @@ The content of lists and their mappings can be also be obtained in JSON format v
 
 -   [/lists/{listId}/{identifier}](https://developertools.esd.org.uk/methods#docs-listslistIdidentifier) - full properties of a single taxonomy (list) item
 
-## 7.  Taxonomies to describe service coverage
+## Taxonomies to describe service coverage
 "Service areas" define the geographical polygons for coverage of services. They are particularly useful for denoting where a service is limited to residents of a particular area (eg a local authority boundary) irrespective as to how close the service is to a potential user.
 
 UK geographies can be referenced by URIs from UK geographies can be referenced in [ONS statistical geographies](http://statistics.data.gov.uk/home). Geographies anywhere in the world that are not represented by ONS geographies can be referenced in [Natural Neighbourhoods](https://neighbourhoods.esd.org.uk/) where you can add your own areas if necessary. Each area has a polygon, represented in GeoJSON, which should be recorded the the service_area.extent field.
@@ -269,7 +269,7 @@ Searches on coverage take a postcode as a parameter and return services where th
 
 Eg, /services?coverage=BS3 4AQ
 
-## 8. Querying APIs by taxonomy terms
+## Querying APIs by taxonomy terms
 
 
 The standard API's [web method for getting services](https://api.porism.com/ServiceDirectoryService/swagger-ui.html#/Services/getServicesUsingGET) provides a syntax for retrieving services that correspond with a given taxonomy term.
@@ -286,7 +286,7 @@ Where:
 
 -   VocabularyIdentifier is the vocabulary from which the term comes
 
-### 8.1 Querying multiple taxonomy terms
+### Querying multiple taxonomy terms
 
 The current API syntax doesn't explicitly support Boolean OR operators alone or mixed with AND operators.
 
