@@ -7,8 +7,8 @@
     - title: Guidance
       url: /Guidance/
     - title: Use of taxonomies
-      url: /Taxonomys/
-    - title: Trust, deduplication and validation
+      url: /UseOfTaxonomies/
+    - title: Aggregation, deduplication and validation
       url: /Validation/
 - title: API
   child:
