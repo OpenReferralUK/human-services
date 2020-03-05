@@ -34,6 +34,8 @@
       external: 1
 - title: About
   child:
+    - title: About
+      url: /About/
     - title: Contact us
       url: /ContactUs/
     - title: Governance

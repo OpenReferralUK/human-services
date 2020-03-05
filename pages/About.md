@@ -1,7 +1,7 @@
 ---
 layout: default
 title: About
-permalink: /about/
+permalink: /About/
 ---
 # About Open Referral UK
 These pages are maintained by [Porism](https://porism.com/) on behalf of the [Local Government Association](https://www.local.gov.uk/) (LGA) and the [Local Digital](https://localdigital.gov.uk/) [OpenCommunity](https://opencommunity.org.uk/).
