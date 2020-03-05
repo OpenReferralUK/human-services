@@ -3,7 +3,7 @@ layout: default
 title: Data standard reference
 permalink: /Reference/
 ---
-## Data standard reference
+# Data standard reference
 
 Data standard documents provide [a guide to the standard itself]({{ site.baseurl }}/Guidance/) and to how it can be applied for describing services and interchanging service information in the UK.
 

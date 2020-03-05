@@ -3,7 +3,7 @@ layout: default
 title: Contact Us
 permalink: /ContactUs/
 ---
-
+# Contact us 
 You can communicate with other people designing and using the standard via our:
 
 -   [Google group](https://groups.google.com/d/forum/openreferraluk)
