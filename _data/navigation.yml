@@ -11,14 +11,12 @@
       - title: Trust, deduplication and validation
         url: /Validation/
 - title: API
-  url: /API-Guidance/
   child:
     - title: Reference
       url: /ApiReference/
     - title: Guidance
       url: /API-Guidance/
 - title: Tools
-  url: /
   child:
     - title: Reference
       url: /ToolsReference/
@@ -29,11 +27,10 @@
     - title: Service Finder
       url: https://opencommunity.porism.com/ServiceFinder/
 - title: About
-  url: /about/
   child:
     - title: Contact us
       url: /ContactUs/
     - title: Governance
-      url: /Governance
+      url: /Governance/
     - title: Technical group terms of reference
       url: /TechGroup/
