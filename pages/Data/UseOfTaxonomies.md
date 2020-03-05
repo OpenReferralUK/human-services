@@ -3,13 +3,12 @@ layout: default
 title: Use of Taxonomies
 permalink: /UseOfTaxonomies/
 ---
-# Use of Taxonomies with OpenCommunity services data DRAFT
+# Use of Taxonomies with OpenCommunity services data
 {:.no_toc}
 #### Contents
 {:.no_toc}
 * TOC 
 {:toc}  
-<br>
 ## 1. Purpose
 
 This guidance describes how the Open Referral UK data schema for services (the Schema) and the associated API standard supports use of taxonomies. It indicates how taxonomies can be used to tag services and help target searches.
