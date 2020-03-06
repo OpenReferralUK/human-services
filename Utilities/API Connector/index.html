@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Tools using the Open Referral UK Standard</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <link href="style.css" rel="stylesheet">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+</head>
+<body>
+
+<div class="container-fluid pl-sm-1 pl-md-3 pl-lg-5 pr-sm-1 pr-md-3 pr-lg-5">
+    <p class="mt-1 mb-1 display-4">
+        Tools using the Open Referral UK Standard
+    </p>
+    <div class="row">
+        <div class="col-md-12 col-lg pt-sm-1 pt-md-0">
+
+            <div class="card h-100 border-dark" id="endpointCard">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-5 col-lg-6">
+                            <label for="endpoint">Endpoint</label><br>
+                            <select class="form-control" id="endpoint" name="Endpoint"></select>
+                        </div>
+                        <div class="col-sm-12 col-md-5 col-lg-6 d-flex flex-column">
+                            <a class="btn btn-secondary float-sm-none float-md-right float-lg-right mt-sm-1 mt-md-auto"
+                               hidden="hidden" href="" id="apiQueryEndpoint" role="button" target="_blank">
+                                View endpoint in the API Query Tool
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="h-100" id="endpoint-description"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-auto col-md-12 d-flex align-items-center mt-sm-1 mt-md-1 mb-lg-0 mt-md-1 mb-lg-0 mb-sm-1"
+             id="arrow">
+            <img alt="Arrow" class="img-fluid align-self-center" src="images/Arrow_east.svg"
+                 style="max-height: 20px; margin-right: auto; margin-left: auto">
+        </div>
+        <div class="col-md-12 col-lg pt-md-1 pt-lg-0" id="toolCard">
+            <div class="card h-100 border-dark">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <label for="tool">Tools</label><br>
+                            <select class="form-control" id="tool" name="Tool"></select>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-6 d-flex flex-column">
+                            <a class="btn btn-secondary mt-sm-1 mt-md-auto float-sm-none float-md-right float-lg-right align-bottom"
+                               href="" id="goToTool" role="button" target="_blank">Go to the tool</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="h-100" id="tool-description"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt-1">
+        <div class="row">
+            <div class="card border-dark">
+                <div class="card-header">
+                    About
+                </div>
+                <div class="card-body">
+                    <p>Use this page to see Application Programming Interface (API) endpoints for directories outputting
+                        service data and which tools consume that data in a format compliant with the
+                        <a href="https://esd-org-uk.github.io/human-services/">Open Referral UK</a> standard. Tools
+                        call the <a href="https://api.porism.com/ServiceDirectoryService/swagger-ui.html#/Services">
+                            API /services web method</a>. Different endpoints support different filters, sent as
+                        parameters
+                        to the /services web method. All endpoints output JSON data describing services in the
+                        structure. Some provide extra fields of information. Some also support output in Comma Separated
+                        Values (CSV) format.</p>
+
+                    <p>Contact <a href="mailto:support@porism.com">support@porism.com</a> for help or to get your
+                        software added to this page.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+
+<script crossorigin="anonymous" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script crossorigin="anonymous" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="landing.js"></script>
+</body>
+</html>

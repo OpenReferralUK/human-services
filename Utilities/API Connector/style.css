@@ -1,0 +1,23 @@
+.dont-break-out {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+.endpointSupplier {
+    width: auto;
+}
+
+#endpoint option:disabled {
+    color: #7d7d7d5c;
+}
+
+.table-responsive {
+    overflow-x: initial !important;
+}

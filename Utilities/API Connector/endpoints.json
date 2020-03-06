@@ -1,0 +1,249 @@
+{
+  "endpoints": [
+    {
+      "id": "bristol",
+      "name": "Bristol data",
+      "title": "Historic Bristol services data",
+      "description": "Services data collected in mid 2019 and transformed to the Open Referral UK structure. Services are referenced against <a href='http://id.esd.org.uk/list/services'>service types</a> defined by the Local Government Association and Bristol City Council (BCC) internal taxonomies.",
+      "url": "https://api.porism.com/ServiceDirectoryService",
+      "supplier": "<p>Porism<br></p>",
+      "logo": "<img src=\"images/PorismV01LightBg_1.svg\" class=\"rounded-top\" id=\"endpointSupplier\" alt=\"Porism Logo\"'>",
+      "infoLink": "<a href='https://api.porism.com/ServiceDirectoryService/swagger-ui.html'>https://api.porism.com/ServiceDirectoryService/swagger-ui.html</a>",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity",
+        "minAge",
+        "maxAge",
+        "Need",
+        "Circumstance"
+      ],
+      "output": [
+        "JSON",
+        "CSV"
+      ],
+      "sheet": "https://docs.google.com/spreadsheets/d/1v1bWdraVPT47j1h6c7644f9kWxRnWUB7JDKyDpkgmWk/edit#gid=0",
+      "email": "<a href='mailto:support@esd.org.uk' target='_blank'>support@esd.org.uk</a>"
+    },
+    {
+      "id": "bucks",
+      "name": "Buckinghamshire Adult Services",
+      "title": "Buckinghamshire County Council Adult Services Directory",
+      "url": "https://api.porism.com/ServiceDirectoryServiceBucks",
+      "description": "Data converted In October 2019 from the Buckinghamshire County Council Adult Services Directory. Services are referenced against Buckinghamshire (Bucks) service internal taxonomies and service eligibility is given by <a href='https://github.com/auntbertha/openeligibility/blob/master/taxonomy'>OpenEligibility</a> taxonomy terms.",
+      "supplier": "Porism",
+      "logo": "<img src=\"images/PorismV01LightBg_1.svg\" class=\"rounded-top\" id=\"endpointSupplier\" alt=\"Porism Logo\"'>",
+      "infoLink": "<a href='https://api.porism.com/ServiceDirectoryServiceBucks/swagger-ui.html'>https://api.porism.com/ServiceDirectoryServiceBucks/swagger-ui.html</a>",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity",
+        "minAge",
+        "maxAge"
+      ],
+      "output": [
+        "JSON",
+        "CSV"
+      ],
+      "sheet": "https://docs.google.com/spreadsheets/d/1v1bWdraVPT47j1h6c7644f9kWxRnWUB7JDKyDpkgmWk/edit#gid=685518039",
+      "email": "<a href='mailto:support@esd.org.uk' target='_blank'>support@esd.org.uk</a>"
+    },
+    {
+      "id": "openactive",
+      "name": "Open Active data",
+      "title": "OpenActive data",
+      "url": "https://api.porism.com/ServiceDirectoryServiceOpenActive",
+      "description": "Sample data taken in late 2019 from a selection of <a href='http://status.openactive.io/'>OpenActive compliant endpoints</a> and transformed to comply with the Open Referral UK data standard. Link to the transformation source code if easy. Service taxonomy terms come from OpenActive’s <a href='https://openactive.io/activity-list/activity-list.jsonld'>activity list</a>.",
+      "supplier": "Porism",
+      "logo": "<img src=\"images/PorismV01LightBg_1.svg\" class=\"rounded-top\" id=\"endpointSupplier\" alt=\"Porism Logo\" style=\"{fill:black; float:right}\"'>",
+      "infoLink": "<a href='https://api.porism.com/ServiceDirectoryServiceOpenActive/swagger-ui.html'>https://api.porism.com/ServiceDirectoryServiceOpenActive/swagger-ui.html</a>",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity",
+        "minAge",
+        "maxAge"
+      ],
+      "output": [
+        "JSON",
+        "CSV"
+      ],
+      "sheet": "https://docs.google.com/spreadsheets/d/1v1bWdraVPT47j1h6c7644f9kWxRnWUB7JDKyDpkgmWk/edit#gid=1685050163",
+      "email": "<a href='mailto:support@esd.org.uk' target='_blank'>support@esd.org.uk</a>"
+    },
+    {
+      "name": "NYorks data",
+      "title": "Sample North Yorkshire County Council services data",
+      "url": "https://api.porism.com/ServiceDirectoryServiceNYorks",
+      "description": "Services data transformed in October 2019 into the Open Referral UK structure. Services are referenced against North Yorkshire County Council internal taxonomies.",
+      "supplier": "Porism",
+      "logo": "<img src=\"images/PorismV01LightBg_1.svg\" class=\"rounded-top\" id=\"endpointSupplier\" alt=\"Porism Logo\"'>",
+      "infoLink": "<a href=\"https://api.porism.com/ServiceDirectoryServiceNYorks/swagger-ui.html\">https://api.porism.com/ServiceDirectoryServiceNYorks/swagger-ui.html</a>",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity",
+        "minAge",
+        "maxAge"
+      ],
+      "output": [
+        "JSON",
+        "CSV"
+      ],
+      "sheet": "https://docs.google.com/spreadsheets/d/1v1bWdraVPT47j1h6c7644f9kWxRnWUB7JDKyDpkgmWk/edit#gid=25686608",
+      "email": "<a href='mailto:support@esd.org.uk' target='_blank'>support@esd.org.uk</a>"
+    },
+    {
+      "name": "Elmbridge data",
+      "title": "Elmbridge Borough Council services data",
+      "url": "https://api.porism.com/ServiceDirectoryServiceElmbridge",
+      "description": "Services data collected by Elmbridge Borough Council and transformed into the Open Referral UK structure. Services are referenced against <a href='http://id.esd.org.uk/list/services'>service types</a> defined by the Local Government Association and service eligibility is referenced against the <a href='http://id.esd.org.uk/list/circumstancesEligibility'>circumstance list</a> defined by the Local Government Association.<br>This endpoint will be replaced by one from the live Elmbridge Place Based Directory of Services supplied by Placecube.",
+      "supplier": "Porism",
+      "logo": "<img src=\"images/PorismV01LightBg_1.svg\" class=\"rounded-top\" id=\"endpointSupplier\" alt=\"Porism Logo\"'>",
+      "infoLink": "<a href='https://api.porism.com/ServiceDirectoryServiceElmbridge/swagger-ui.html'>https://api.porism.com/ServiceDirectoryServiceElmbridge/swagger-ui.html</a>",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity",
+        "minAge",
+        "maxAge"
+      ],
+      "output": [
+        "JSON",
+        "CSV"
+      ],
+      "sheet": "https://docs.google.com/spreadsheets/d/1v1bWdraVPT47j1h6c7644f9kWxRnWUB7JDKyDpkgmWk/edit#gid=211704403",
+      "email": "<a href='mailto:support@esd.org.uk' target='_blank'>support@esd.org.uk</a>"
+    },
+    {
+      "name": "Blackburn data",
+      "title": "Blackburn with Darwen Borough Council services data",
+      "url": "https://api.porism.com/ServiceDirectoryServiceBlackburn",
+      "description": "Services data collected by Blackburn with Darwen Borough Council and transformed from spreadsheets to the Open Referral UK structure. Services are referenced against <a href='http://id.esd.org.uk/list/services'>service types</a> defined by the Local Government Association and service eligibility is referenced against the <a href='http://id.esd.org.uk/list/circumstancesEligibility'>circumstance list</a> defined by the Local Government Association.<br>This endpoint will be replaced by one from the live Blackburn with Darwen Digital Place For Local Public Services supplied by Placecube.<br>",
+      "supplier": "Porism",
+      "logo": "<img src=\"images/PorismV01LightBg_1.svg\" class=\"rounded-top\" id=\"endpointSupplier\" alt=\"Porism Logo\"'>",
+      "infoLink": "<a href='https://api.porism.com/ServiceDirectoryServiceBlackburn/swagger-ui.html'>https://api.porism.com/ServiceDirectoryServiceBlackburn/swagger-ui.html</a>",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity",
+        "minAge",
+        "maxAge"
+      ],
+      "output": [
+        "JSON",
+        "CSV"
+      ],
+      "sheet": "https://docs.google.com/spreadsheets/d/1v1bWdraVPT47j1h6c7644f9kWxRnWUB7JDKyDpkgmWk/edit#gid=1454993447",
+      "email": "<a href='mailto:support@esd.org.uk' target='_blank'>support@esd.org.uk</a>"
+    },
+    {
+      "name": "Placecube Bristol data",
+      "title": "Bristol City Council services data from Placecube’s Digital Place",
+      "url": "https://bristol.uat.nonlive.servicedirectory.placecube.com/o/ServiceDirectoryService/v2",
+      "description": "Services data for collected for Bristol City Council and made available via an early version of Placecube’s Digital Place For Local Public Services. <br>This endpoint will be replaced by the live Bristol Digital Place For Local Public Services supplied by Placecube. The current endpoint has limited functionality.",
+      "supplier": "Placecube",
+      "logo": "<img src=\"https://www.placecube.com/wp-content/uploads/2018/12/Placecube-Horizontal-BLK_4x.png\" class=\"rounded-top\" id=\"endpointSupplier\" alt=\"Place cube Logo\"'>",
+      "infoLink": "<a href='https://app.swaggerhub.com/apis-docs/placecube/OPD/V2'>https://app.swaggerhub.com/apis-docs/placecube/OPD/V2</a>",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Coverage",
+        "Proximity"
+      ],
+      "output": [
+        "JSON"
+      ],
+      "email": "<a href='mailto:support@esd.org.uk' target='_blank'>support@esd.org.uk</a>",
+      "schemaType": "Placecube"
+    },
+    {
+      "name": "Placecube Elmbridge data",
+      "title": "Elmbridge Council services data from Placecube’s Digital Place",
+      "url": "https://uat.elmbridge.openplace.directory/o/ServiceDirectoryService/v2/",
+      "description": "Services data for collected for Elmbridge Council and made available via an early version of Placecube’s Digital Place For Local Public Services. <br>This endpoint will be replaced by the live Elmbridge Digital Place For Local Public Services supplied by Placecube. The current endpoint has limited functionality.<br>",
+      "supplier": "Placecube",
+      "logo": "<img src=\"https://www.placecube.com/wp-content/uploads/2018/12/Placecube-Horizontal-BLK_4x.png\" class=\"rounded-top\" id=\"endpointSupplier\" alt=\"Place cube Logo\"'>",
+      "infoLink": "<a href='https://app.swaggerhub.com/apis-docs/placecube/OPD/V2'>https://app.swaggerhub.com/apis-docs/placecube/OPD/V2</a>",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Coverage",
+        "Proximity"
+      ],
+      "output": [
+        "JSON"
+      ],
+      "email": "<a href='mailto:support@esd.org.uk' target='_blank'>support@esd.org.uk</a>",
+      "schemaType": "Placecube"
+    },
+    {
+      "name": "Miami 211",
+      "Title": "Miami Open 211 services data",
+      "url": "https://api.miami211.openreferral.org/index.php",
+      "description": "Services data compliant with the Open Referral standard from the <a href='https://openreferral.org/welcome-to-miami-open211/'>Miami Open 211 Project</a>. The API is designed to conform to the base Open Referral standard, with the UK extensions and application profile.",
+      "supplier": "Code for Miami",
+      "infoLink": "<a href='https://api.miami211.openreferral.org/swagger-ui/'>https://api.miami211.openreferral.org/swagger-ui/</a>",
+      "filters": [
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm"
+      ],
+      "output": [
+        "JSON"
+      ],
+      "email": "https://sarapis.org/contact/",
+      "schemaType": "OpenReferral"
+    }
+  ]
+}

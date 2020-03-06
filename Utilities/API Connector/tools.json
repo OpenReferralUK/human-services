@@ -1,0 +1,82 @@
+{
+  "tools": [
+    {
+      "name": "Service Finder",
+      "title": "Open source service finder",
+      "url": "https://opencommunity.porism.com/ServiceFinder/",
+      "supplier": "VidaVia",
+      "description": "Generic open source tool for finding services based on the profile of a service user. The Service Finder is designed to illustrate the range of service query options for front line workers supported by the API. The source code can be found <a href='https://github.com/esd-org-uk/human-services/tree/master/ServiceFinder'>here</a>.",
+      "logo": "<img style='height: 48px' src=\"images/vidavia-dark-turqoise-url-h140_0.png\" class=\"rounded-top\" id=\"toolSupplier\" alt=\"VidaVia Logo\" style=\"{float: right}\"'>",
+      "infoLink": "<a href='https://github.com/esd-org-uk/human-services/tree/master/ServiceFinder'>https://github.com/esd-org-uk/human-services/tree/master/ServiceFinder</a>",
+      "email": "martin@vidavia.com",
+      "compatible": [
+        "https://api.porism.com/ServiceDirectoryService",
+        "https://api.porism.com/ServiceDirectoryServiceBucks",
+        "https://api.porism.com/ServiceDirectoryServiceOpenActive",
+        "https://api.porism.com/ServiceDirectoryServiceNYorks",
+        "https://api.porism.com/ServiceDirectoryServiceElmbridge",
+        "https://api.porism.com/ServiceDirectoryServiceBlackburn",
+        "https://bristol.uat.nonlive.servicedirectory.placecube.com/o/ServiceDirectoryService/v2",
+        "https://uat.elmbridge.openplace.directory/o/ServiceDirectoryService/v2/"
+      ]
+    },
+    {
+      "name": "PB DoS",
+      "title": "Place Based Directory of Services",
+      "url": "https://pbdos.docandtee.com/",
+      "supplier": "Doc&Tee",
+      "description": "White label version of Service Finder tool used in the Bristol area.",
+      "logo": "<img style='height: 48px' src=\"images/doc-tee-logo.png\" class=\"rounded-top\" id=\"toolSupplier\" alt=\"Doc&Tee Logo\"'>",
+      "infoLink": "<a href='http://www.docandtee.com/'>Doc&Tee</a> can provide a customised service finder using data from any Open Referral UK API endpoint. Just make contact to say what you’re looking for.\n",
+      "email": "damien@docandtee.com",
+      "compatible": [
+        "https://api.porism.com/ServiceDirectoryService",
+        "https://api.porism.com/ServiceDirectoryServiceBucks",
+        "https://api.porism.com/ServiceDirectoryServiceOpenActive",
+        "https://api.porism.com/ServiceDirectoryServiceNYorks",
+        "https://api.porism.com/ServiceDirectoryServiceElmbridge",
+        "https://api.porism.com/ServiceDirectoryServiceBlackburn",
+        "https://bristol.uat.nonlive.servicedirectory.placecube.com/o/ServiceDirectoryService/v2",
+        "https://uat.elmbridge.openplace.directory/o/ServiceDirectoryService/v2/"
+      ]
+    },
+    {
+      "name": "Google Sheet",
+      "title": "CSV data in a Google spreadsheet",
+      "url": "https://docs.google.com/spreadsheets/",
+      "supplier": "Google",
+      "description": "Illustration of a call to the API to return comma separated values (CSV) data that populates a Google spreadsheet. The sheet uses the “=IMPORTDATA” function to read data from the API’s /services.csv web method. Add the “?include” parameter to specify extra columns.",
+      "logo": "<img style='height: 48px' src=\"https://www.gstatic.com/images/branding/product/1x/sheets_48dp.png\" class=\"rounded-top\" id=\"toolSupplier\" alt=\"Doc&Tee Logo\"'>",
+      "infoLink": "The Google Sheets application supplied by Google. Similar functionality is available in Microsoft Excel, OpenOffice Calc and other spreadsheet applications.",
+      "compatible": [
+        "https://api.porism.com/ServiceDirectoryService",
+        "https://api.porism.com/ServiceDirectoryServiceBucks",
+        "https://api.porism.com/ServiceDirectoryServiceOpenActive",
+        "https://api.porism.com/ServiceDirectoryServiceNYorks",
+        "https://api.porism.com/ServiceDirectoryServiceElmbridge",
+        "https://api.porism.com/ServiceDirectoryServiceBlackburn"
+      ]
+    },
+    {
+      "name": "API Query Tool",
+      "title": "Tool to help test and learn the API",
+      "url": "https://opencommunity.porism.com/ApiQuery/",
+      "supplier": "Porism",
+      "description": "Open source tool which illustrates how API calls can be made to filter queries for services and inspect the data returned.",
+      "infoLink": "<a href='https://github.com/esd-org-uk/human-services/tree/master/Utilities/ApiDemoSite'>https://github.com/esd-org-uk/human-services/tree/master/Utilities/ApiDemoSite</a>",
+      "email": "support@esd.org.uk",
+      "logo": "<img src=\"images/PorismV01LightBg_1.svg\" class=\"rounded-top\" id=\"toolSupplier\" alt=\"Porism Logo\"'>",
+      "compatible": [
+        "https://api.porism.com/ServiceDirectoryService",
+        "https://api.porism.com/ServiceDirectoryServiceBucks",
+        "https://api.porism.com/ServiceDirectoryServiceOpenActive",
+        "https://api.porism.com/ServiceDirectoryServiceNYorks",
+        "https://api.porism.com/ServiceDirectoryServiceElmbridge",
+        "https://api.porism.com/ServiceDirectoryServiceBlackburn",
+        "https://bristol.uat.nonlive.servicedirectory.placecube.com/o/ServiceDirectoryService/v2",
+        "https://uat.elmbridge.openplace.directory/o/ServiceDirectoryService/v2/",
+        "https://api.miami211.openreferral.org/index.php"
+      ]
+    }
+  ]
+}
