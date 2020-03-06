@@ -285,7 +285,7 @@ Where:
 -   TaxonomyType is one of Area, Cost, Eligibility, Organization, Service or "Any" representing any of these
 
 -   VocabularyIdentifier is the vocabulary from which the term comes
-
+{% comment %}
 ### Querying multiple taxonomy terms
 
 The current API syntax doesn't explicitly support Boolean OR operators alone or mixed with AND operators.
@@ -307,4 +307,4 @@ Eg /services/?taxonomy_query_type=service&taxonomy_query_operator=OR&taxonomy_qu
 1.  Provide a syntax for defining parameters to be submitted via an HTTP POST - this is strictly not a RESTful approach
 
 2.  Provide a string of query parameters that can be submitted via an HTTP GET
-
+{% endcomment %}
