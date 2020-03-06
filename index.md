@@ -1,14 +1,18 @@
 ---
 layout: default
+title: Home
 ---
 
 # Open Referral UK Data Standard
-These pages provide guidance on using the Open Referral UK standard - a UK extension to the international [Open Referral](https://openreferral.org/) standard for interchange of data on human services.
+<div class="row"><div class="col">
+These pages provide guidance on using the Open Referral UK standard - a UK extension to the international <a href="https://openreferral.org/">Open Referral</a> standard for interchange of data on human services.
+</div><div class="col-auto d-flex align-content-end flex-wrap">  
 
+<img src="https://github.com/OpenReferralUK/human-services/blob/gh-pages/assets/images/OpenReferral_Logo_Green.png?raw=true">
+  
+</div></div>  
+<br>
 They describe the standard data structure and Application Programmer Interface (API). They also link to provide open source tools to help adopt the standard and see what others are doing with it.
 
 Check the [Contact us](/ContactUs/) page if you need help applying the standard or want to publicise how you use it.
 
-* [Open Referral UK Data Standard Guidance]({{ site.baseurl }}/Guidance/)
-* [Use of Taxonomies with OpenCommunity services data]() Coming soon
-* [Deduplication and validation of service data]() Coming soon
