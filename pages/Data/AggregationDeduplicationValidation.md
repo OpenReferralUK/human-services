@@ -20,7 +20,7 @@ The same is true for directories from other sectors relating to other geographic
 
 The flow chart below illustrates a simplified scenario in which a single AgeUK service is described centrally by AgeUK which may be seen as a trusted service provider. These service details are imported by two directories but duplicated by local entries in two other directories.
 
-![](https://github.com/OpenReferralUK/human-services/blob/gh-pages/assets/images/TrustFlowChart.png?raw=true)
+![](https://raw.githubusercontent.com/OpenReferralUK/human-services/gh-pages/assets/images/TrustFlowChart.png)
 
 All records are read by an aggregator for the place. The aggregator needs to avoid importing the same record twice, to show preferred service records and allow access to duplicates if needed for reference (eg to copy volunteered service information to an assured record).
 
@@ -79,7 +79,7 @@ Hence the Trust Register will hold for every service, organization and location 
 
 -   The UUID of the service | organization | location it replaces (if any)
 
-![](https://github.com/OpenReferralUK/human-services/blob/gh-pages/assets/images/TrustRegister.png?raw=true)
+![](https://raw.githubusercontent.com/OpenReferralUK/human-services/gh-pages/assets/images/TrustRegister.png)
 
 ### Sharing trust register entries
 
@@ -105,7 +105,7 @@ Web methods for validating a service and assigning it a richness score are descr
 
 The diagram below shows which data items fall under the control of an assurer for a service, an organization and a location.
 
-![](https://github.com/OpenReferralUK/human-services/blob/gh-pages/assets/images/ScopeOfAssurance.png?raw=true)
+![](https://raw.githubusercontent.com/OpenReferralUK/human-services/gh-pages/assets/images/ScopeOfAssurance.png)
 
 Some custodians assign responsibility for data assurance according to service type.
 
