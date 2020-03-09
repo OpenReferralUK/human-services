@@ -71,9 +71,4 @@ Each table and field is described below.
             $("#docs table").wrap('<div class="table-responsive"></div>');
         });
     });
-    addBackToTop({
-        diameter: 42,
-        backgroundColor: 'rgb(159,159,158)',
-        textColor: '#ffffff'
-    });
 </script>

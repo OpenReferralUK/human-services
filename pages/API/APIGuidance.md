@@ -102,10 +102,3 @@ The Boolean OR operator is used for identifiers within these parameters which ta
 -   "need" - to implement this parameter, a directory needs to use mappings between needs and service types (such as those given by the LGA [here](https://standards.esd.org.uk/?uri=list%2Fneeds&tab=downloads) and in its API) before returning all services of the mapped service types
 -   "circumstance" - to implement this parameter, a directory needs to use mappings between circumstances and service types (such as those given by the LGA [here](https://standards.esd.org.uk/?uri=list%2Fcircumstances&tab=downloads) and in its API) before returning all services of the mapped service types
 
-<script>
-  addBackToTop({
-    diameter: 42,
-    backgroundColor: 'rgb(159,159,158)',
-    textColor: '#ffffff'
-  });
-</script>

@@ -5,6 +5,7 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="icon" href="https://openreferraluk.github.io/human-services/assets/images/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -39,7 +40,7 @@
                 <h2 id="project_tagline">Setting the open standard for community data</h2>
                 <!--        <h2 id="project_tagline">{{ site.description | default: site.github.project_tagline }}</h2>-->
             </div>
-            <div class="col-2 align-content-end" style="{min-width: 20%; max-width: 25%}">
+            <div class="col-sm-4 col-md-2 align-content-end" style="{min-width: 20%; max-width: 25%}">
                 <img class="img-fluid" src="https://raw.githubusercontent.com/OpenReferralUK/human-services/gh-pages/assets/images/OpenReferralUK.png" alt="OpenreferralUk Logo" style="background-color: white">
             </div>
         </div>
@@ -82,5 +83,12 @@
     ga('send', 'pageview');
 </script>
 {% endif %}
+<script>
+    addBackToTop({
+        diameter: 42,
+        backgroundColor: 'rgb(159,159,158)',
+        textColor: '#ffffff'
+    });
+</script>
 </body>
 </html>
