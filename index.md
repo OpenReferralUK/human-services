@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Home
+pageTitle: Open Referral UK
 ---
 
 # Open Referral UK Data Standard

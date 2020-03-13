@@ -2,6 +2,7 @@
 <html lang="{{ site.lang | default: "en-GB" }}">
 
 <head>
+    <title>{% if page.pageTitle %} {{ page.pageTitle }} {% else %} {{ page.title }} | Open Referral UK {% endif %}</title>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,maximum-scale=2">
@@ -21,7 +22,7 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
-    {% seo %}
+    {% seo title=false %}
 </head>
 
 <body>
