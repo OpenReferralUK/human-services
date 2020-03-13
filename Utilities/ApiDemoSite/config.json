@@ -117,13 +117,46 @@
       ]
     },
     {
-      "name": "Placecube data",
-      "url": "https://bristol.uat.nonlive.servicedirectory.placecube.com/o/ServiceDirectoryService/v2",
+      "name": "PCG data",
+      "url": "https://lgaapi.connecttosupport.org",
       "filters": [
         "TaxonomyType",
         "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "Day",
         "Coverage",
         "Proximity"
+      ]
+    },
+    {
+      "name": "Placecube Bristol data",
+      "url": "https://bristol.uat.nonlive.servicedirectory.placecube.com/o/ServiceDirectoryService/v2",
+      "filters": [
+        "TaxonomyType",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "Keywords",
+        "Coverage",
+        "Proximity",
+        "minAge",
+        "maxAge"
+      ],
+      "schemaType": "Placecube"
+    },
+    {
+      "name": "Placecube Elmbridge data",
+      "url": "https://uat.elmbridge.openplace.directory/o/ServiceDirectoryService/v2",
+      "filters": [
+        "TaxonomyType",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "Keywords",
+        "Coverage",
+        "Proximity",
+        "minAge",
+        "maxAge"
       ],
       "schemaType": "Placecube"
     },
@@ -158,7 +191,9 @@
         "StartTime",
         "EndTime",
         "Coverage",
-        "Proximity"
+        "Proximity",
+        "Need",
+        "Circumstance"
       ]
     },
     {

@@ -115,7 +115,6 @@ function getVocabulary() {
     }
 }
 
-
 function getTaxonomyTerm() {
     if ($("#Vocabulary").val() !== null && $("#Vocabulary").val() !== "") {
         if (config.schemaType === "OpenReferral") {
@@ -207,8 +206,6 @@ function getTaxonomyTerm() {
                     taxonomyTerm.empty().append("<option>Error</option>");
                     setupPageTaxonomyTerm();
                 });
-
-
         }
     } else {
         $("#TaxonomyTerm").find("option").remove().end().append("<option></option>");
@@ -1108,7 +1105,7 @@ const getUrlParameter = function getUrlParameter(sParam) {
 };
 
 function updateURLParameter(url, param, paramVal) {
-    let TheAnchor = null;
+    let TheAnchor;
     let newAdditionalURL = "";
     let tempArray = url.split("?");
     let baseURL = tempArray[0];
