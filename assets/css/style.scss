@@ -16,10 +16,10 @@
   padding-top: 10px;
 }
 
-$bgDefault: #373737;
-$bgHighlight: #6e6e6e;
-$colDefault: #FFFFFF;
-$colHighlight: #f5f5f5;
+$bgDefault: #373737 !important;
+$bgHighlight: #6e6e6e !important;
+$colDefault: #FFFFFF !important;
+$colHighlight: #f5f5f5 !important;
 $dropDown: true;
 .navbar {
   background-color: $bgDefault;

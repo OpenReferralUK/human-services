@@ -1,5 +1,3 @@
-- title: Home
-  url: /
 - title: Data standard
   child:
     - title: Reference
