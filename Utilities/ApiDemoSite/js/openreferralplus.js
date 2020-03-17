@@ -2168,14 +2168,106 @@ clsOpenReferralPlus.prototype.DotNodeEligibilitys = function (jsonContent) {
 
 
     for (let i = 0; i < jsonContent.length; i++) {
-        const jsonEligibility = jsonContent[i];
+        const jsonLinkTaxonomy = jsonContent[i];
 
         Dot += "<tr>";
-        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.id) ? nl2br(objORP.objViz.prepareString(jsonEligibility.id)) : '') + "</td>";
-        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.eligibility) ? nl2br(objORP.objViz.prepareString(jsonEligibility.eligibility)) : '') + "</td>";
-        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.minimum_age) ? nl2br(objORP.objViz.prepareString(jsonEligibility.minimum_age)) : '') + "</td>";
-        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonEligibility.maximum_age) ? nl2br(objORP.objViz.prepareString(jsonEligibility.maximum_age)) : '') + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonLinkTaxonomy.id) ? nl2br(objORP.objViz.prepareString(jsonLinkTaxonomy.id)) : '') + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonLinkTaxonomy.eligibility) ? nl2br(objORP.objViz.prepareString(jsonLinkTaxonomy.eligibility)) : '') + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonLinkTaxonomy.minimum_age) ? nl2br(objORP.objViz.prepareString(jsonLinkTaxonomy.minimum_age)) : '') + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonLinkTaxonomy.maximum_age) ? nl2br(objORP.objViz.prepareString(jsonLinkTaxonomy.maximum_age)) : '') + "</td>";
 
+        Dot += "</tr>";
+
+    }
+
+    Dot += "</table>>";
+//	Dot += ", URL='' ";
+    Dot += "]; \n";
+
+    objORP.Dot += Dot;
+    $.each(jsonContent, function (key, item) {
+
+        if (item.hasOwnProperty('taxonomys')) {
+            if (item.taxonomys.length !== 0 || this.showAll) {
+                const NodeIdLinkId = objORP.DotNodeLinkTaxonomy(item.taxonomys);
+                if (NodeIdLinkId) {
+                    var DotEdge = NodeId + " -> " + NodeIdLinkId + "\n";
+                    objORP.Dot += DotEdge;
+                }
+            }
+        }
+    });
+
+    return NodeId;
+};
+
+
+/**
+ * @return {string}
+ */
+clsOpenReferralPlus.prototype.DotNodeLinkTaxonomy = function (jsonContent) {
+
+    var objORP = this;
+    let numCols;
+    try {
+        numCols = jsonContent.length;
+        if (numCols === 0 && this.showAll) {
+            numCols = 2;
+        }
+    } catch (e) {
+        numCols = 2;
+    }
+    if (!numCols) {
+        return false;
+    }
+
+    let NodeId = "\"link_taxonomy" + objORP.nextNodeId++ + "\"";
+    if (objORP.dotNodes.indexOf(NodeId) > -1) {
+        return NodeId;
+    }
+
+    objORP.dotNodes.push(NodeId);
+
+    var Dot = '\n';
+
+    let jsonLength;
+    if (this.showAll) {
+        try {
+            jsonLength = jsonContent.length;
+            if (jsonLength === 0 && this.showAll) {
+                jsonLength = 1;
+                jsonContent = [{}];
+            }
+        } catch (e) {
+            jsonLength = 1;
+        }
+    } else if (!this.showAll) {
+        jsonLength = jsonContent.length;
+    }
+    var objORP = this;
+
+    NodeId = 'list_link_taxonomies_' + String(objORP.nextNodeId++);
+
+    objORP.dotNodes.push(NodeId);
+
+    var Dot = '\n';
+
+    Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='4' bgcolor='lightgrey'><b>link_taxonomy</b></td></tr>";
+    Dot += "<tr>";
+    Dot += "<td align='left' balign='left' valign='top'><b>id</b></td>";
+    Dot += "<td align='left' balign='left' valign='top'><b>name</b></td>";
+    Dot += "<td align='left' balign='left' valign='top'><b>vocabulary</b></td>";
+
+    Dot += "</tr>";
+
+
+    for (let i = 0; i < jsonContent.length; i++) {
+        const jsonLinkTaxonomy = jsonContent[i];
+
+        Dot += "<tr>";
+        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonLinkTaxonomy.id) ? nl2br(objORP.objViz.prepareString(jsonLinkTaxonomy.id)) : '') + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonLinkTaxonomy.name) ? nl2br(objORP.objViz.prepareString(jsonLinkTaxonomy.name)) : '') + "</td>";
+        Dot += "<td align='left' balign='left' valign='top'>" + ((jsonLinkTaxonomy.vocabulary) ? nl2br(objORP.objViz.prepareString(jsonLinkTaxonomy.vocabulary)) : '') + "</td>";
         Dot += "</tr>";
 
     }
