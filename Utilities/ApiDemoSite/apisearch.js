@@ -641,7 +641,7 @@ function executeForm(pageNumber) {
     if (vocabulary === null || vocabulary === "") {
         vocabulary = "";
     } else if (((config.filters.indexOf("Circumstance") > -1 || config.filters.indexOf("Need") > -1)
-                && (vocabulary === "esdCircumstances" || vocabulary === "esdNeeds")) && taxonomyType !== "&taxonomy_type=eligibility") {
+        && (vocabulary === "esdCircumstances" || vocabulary === "esdNeeds")) && taxonomyType !== "&taxonomy_type=eligibility") {
     } else {
         vocabulary = "&vocabulary=" + $("#Vocabulary").val();
     }
@@ -650,7 +650,7 @@ function executeForm(pageNumber) {
         taxonomyTerm = "";
         vocabulary = "";
     } else if (((config.filters.indexOf("Circumstance") > -1 || config.filters.indexOf("Need") > -1)
-                && (vocabulary === "esdCircumstances" || vocabulary === "esdNeeds")) && taxonomyType !== "&taxonomy_type=eligibility") {
+        && (vocabulary === "esdCircumstances" || vocabulary === "esdNeeds")) && taxonomyType !== "&taxonomy_type=eligibility") {
         if (vocabulary === "esdCircumstances") {
             taxonomyTerm = "&circumstance=";
             vocabulary = "";
@@ -1313,9 +1313,11 @@ function setupPageChildChildTaxonomyTerm() {
     objOpenReferralPlus.objViz = viz1;
 
     if (getUrlParameter("execute") === "true") {
-            executeForm();
+        executeForm();
     }
 }
 
 
-$(document).ready(setupPage());
+$(function () {
+    setupPage()
+});

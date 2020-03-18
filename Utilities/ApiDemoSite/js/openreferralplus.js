@@ -2326,131 +2326,144 @@ clsOpenReferralPlus.prototype.DotNodeReviews = function (jsonContent) {
 
     Dot += NodeId + " [  shape=plaintext,  label=<<table border='0' cellborder='1' cellspacing='0'><tr><td colspan='" + (numCols + 1) + "' bgcolor='lightgrey'><b>review</b>  </td></tr>";
 
-    Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td>";
-    for (let i = 0; i < jsonLength; i++) {
-        try {
-            let jsonReview = jsonContent[i];
-            if (jsonReview.id === undefined && this.showAll) {
-                Dot += "<td  align='left' balign='left' valign='top'>" + "    " + "</td>";
-            } else if (jsonReview.id || (jsonReview.id === "") && this.showAll) {
-                Dot += "<td  align='left' balign='left' valign='top'>" + ((jsonReview.id) ? nl2br(objORP.objViz.prepareString(jsonReview.id)) : '') + "</td>";
-            }
-        } catch (e) {
-            if (this.showAll) {
-                Dot += "<td  align='left' balign='left' valign='top'>" + "" + "</td>";
-            }
-        }
-    }
-    Dot += "</tr>";
-
-    Dot += "<tr><td align='left' balign='left' valign='top'><b>title  </b></td>";
-    for (let i = 0; i < jsonLength; i++) {
-        try {
-            let jsonReview = jsonContent[i];
-            if (jsonReview.title === undefined && this.showAll) {
-                Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-            }
-            if (jsonReview.title || (jsonReview.title === "") && this.showAll) {
-                Dot += "<td align='left' balign='left' valign='top'>" + ((jsonReview.title) ? nl2br(objORP.objViz.prepareString(jsonReview.title)) : '') + "</td>";
-            }
-        } catch (e) {
-            if (this.showAll) {
-                Dot += "<td align='left' balign='left' valign='top'>" + "" + "</td>";
+    if ((jsonContent[0].id !== null && jsonContent[0].id !== undefined && jsonContent[0].id !== "") || this.showAll) {
+        Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td>";
+        for (let i = 0; i < jsonLength; i++) {
+            try {
+                let jsonRegularSchedule = jsonContent[i];
+                if (jsonRegularSchedule.id === undefined && this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
+                }
+                if (jsonRegularSchedule.id || ((jsonRegularSchedule.id === "" || jsonRegularSchedule.id === null) && this.showAll)) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.id) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.id)) : '') + "</td>";
+                }
+            } catch (e) {
+                if (this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "&nbsp;&nbsp;&nbsp;" + "</td>";
+                }
             }
         }
+        Dot += "</tr>";
     }
-    Dot += "</tr>";
-
-    Dot += "<tr><td align='left' balign='left' valign='top'><b>description  </b></td>";
-    for (let i = 0; i < jsonLength; i++) {
-        try {
-            let jsonReview = jsonContent[i];
-            if (jsonReview.description === undefined && this.showAll) {
-                Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-            }
-            if (jsonReview.description || (jsonReview.description === "") && this.showAll) {
-                Dot += "<td align='left' balign='left' valign='top'>" + ((jsonReview.description) ? nl2br(objORP.objViz.prepareString(jsonReview.description)) : '') + "</td>";
-            }
-        } catch (e) {
-            if (this.showAll) {
-                Dot += "<td align='left' balign='left' valign='top'>" + "" + "</td>";
+    if ((jsonContent[0].title !== null && jsonContent[0].title !== undefined && jsonContent[0].title !== "") || this.showAll) {
+        Dot += "<tr><td align='left' balign='left' valign='top'><b>title  </b></td>";
+        for (let i = 0; i < jsonLength; i++) {
+            try {
+                let jsonRegularSchedule = jsonContent[i];
+                if (jsonRegularSchedule.title === undefined && this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
+                }
+                if (jsonRegularSchedule.title || ((jsonRegularSchedule.title === "" || jsonRegularSchedule.title === null) && this.showAll)) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.title) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.title)) : '') + "</td>";
+                }
+            } catch (e) {
+                if (this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "&nbsp;&nbsp;&nbsp;" + "</td>";
+                }
             }
         }
+        Dot += "</tr>";
     }
-    Dot += "</tr>";
 
-    Dot += "<tr><td align='left' balign='left' valign='top'><b>date  </b></td>";
-    for (let i = 0; i < jsonLength; i++) {
-        try {
-            let jsonReview = jsonContent[i];
-            if (jsonReview.date === undefined && this.showAll) {
-                Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-            }
-            if (jsonReview.date || (jsonReview.date === "") && this.showAll) {
-                Dot += "<td align='left' balign='left' valign='top'>" + ((jsonReview.date) ? nl2br(objORP.objViz.prepareString(jsonReview.date)) : '') + "</td>";
-            }
-        } catch (e) {
-            if (this.showAll) {
-                Dot += "<td align='left' balign='left' valign='top'>" + "" + "</td>";
+    if ((jsonContent[0].description !== null && jsonContent[0].description !== undefined && jsonContent[0].description !== "") || this.showAll) {
+        Dot += "<tr><td align='left' balign='left' valign='top'><b>description  </b></td>";
+        for (let i = 0; i < jsonLength; i++) {
+            try {
+                let jsonRegularSchedule = jsonContent[i];
+                if (jsonRegularSchedule.description === undefined && this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
+                }
+                if (jsonRegularSchedule.description || ((jsonRegularSchedule.description === "" || jsonRegularSchedule.description === null) && this.showAll)) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.description) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.description)) : '') + "</td>";
+                }
+            } catch (e) {
+                if (this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "&nbsp;&nbsp;&nbsp;" + "</td>";
+                }
             }
         }
+        Dot += "</tr>";
     }
-    Dot += "</tr>";
 
-    Dot += "<tr><td align='left' balign='left' valign='top'><b>score  </b></td>";
-    for (let i = 0; i < jsonLength; i++) {
-        try {
-            let jsonReview = jsonContent[i];
-            if (jsonReview.score === undefined && this.showAll) {
-                Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-            }
-            if (jsonReview.score || (jsonReview.score === "") && this.showAll) {
-                Dot += " <td align='left' balign='left' valign='top'>" + ((jsonReview.score) ? nl2br(objORP.objViz.prepareString(jsonReview.score)) : '') + "</td>";
-            }
-        } catch (e) {
-            if (this.showAll) {
-                Dot += "<td align='left' balign='left' valign='top'>" + "" + "</td>";
+    if ((jsonContent[0].date !== null && jsonContent[0].date !== undefined && jsonContent[0].date !== "") || this.showAll) {
+        Dot += "<tr><td align='left' balign='left' valign='top'><b>date  </b></td>";
+        for (let i = 0; i < jsonLength; i++) {
+            try {
+                let jsonRegularSchedule = jsonContent[i];
+                if (jsonRegularSchedule.date === undefined && this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
+                }
+                if (jsonRegularSchedule.date || ((jsonRegularSchedule.date === "" || jsonRegularSchedule.date === null) && this.showAll)) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.date) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.date)) : '') + "</td>";
+                }
+            } catch (e) {
+                if (this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "&nbsp;&nbsp;&nbsp;" + "</td>";
+                }
             }
         }
+        Dot += "</tr>";
     }
-    Dot += "</tr>";
 
-    Dot += "<tr><td align='left' balign='left' valign='top'><b>url  </b></td>";
-    for (let i = 0; i < jsonLength; i++) {
-        try {
-            let jsonReview = jsonContent[i];
-            if (jsonReview.url === undefined && this.showAll) {
-                Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-            }
-            if (jsonReview.url || (jsonReview.url === "")) {
-                Dot += " <td align='left' balign='left' valign='top'>" + ((jsonReview.url) ? nl2br(objORP.objViz.prepareString(jsonReview.url)) : '') + "</td>";
-            }
-        } catch (e) {
-            if (this.showAll) {
-                Dot += "<td align='left' balign='left' valign='top'>" + "" + "</td>";
+    if ((jsonContent[0].score !== null && jsonContent[0].score !== undefined && jsonContent[0].score !== "") || this.showAll) {
+        Dot += "<tr><td align='left' balign='left' valign='top'><b>score  </b></td>";
+        for (let i = 0; i < jsonLength; i++) {
+            try {
+                let jsonRegularSchedule = jsonContent[i];
+                if (jsonRegularSchedule.score === undefined && this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
+                }
+                if (jsonRegularSchedule.score || ((jsonRegularSchedule.score === "" || jsonRegularSchedule.score === null) && this.showAll)) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.score) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.score)) : '') + "</td>";
+                }
+            } catch (e) {
+                if (this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "&nbsp;&nbsp;&nbsp;" + "</td>";
+                }
             }
         }
+        Dot += "</tr>";
     }
-    Dot += "</tr>";
 
-    Dot += "<tr><td align='left' balign='left' valign='top'><b>widget  </b></td>";
-    for (let i = 0; i < jsonLength; i++) {
-
-        try {
-            let jsonReview = jsonContent[i];
-            if (jsonReview.widget === undefined && this.showAll) {
-                Dot += "<td PORT='" + i + "' align='left' balign='left' valign='top'>" + "    " + "</td>";
-            }
-            if (jsonReview.widget || (jsonReview.widget === "")) {
-                Dot += " <td PORT='" + i + "' align='left' balign='left' valign='top'>" + ((jsonReview.widget) ? nl2br(objORP.objViz.prepareString(jsonReview.widget)) : '') + "</td>";
-            }
-        } catch (e) {
-            if (this.showAll) {
-                Dot += "<td PORT='" + i + "' align='left' balign='left' valign='top'>" + "" + "</td>";
+     if ((jsonContent[0].url !== null && jsonContent[0].url !== undefined && jsonContent[0].url !== "") || this.showAll) {
+        Dot += "<tr><td align='left' balign='left' valign='top'><b>url  </b></td>";
+        for (let i = 0; i < jsonLength; i++) {
+            try {
+                let jsonRegularSchedule = jsonContent[i];
+                if (jsonRegularSchedule.url === undefined && this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
+                }
+                if (jsonRegularSchedule.url || ((jsonRegularSchedule.url === "" || jsonRegularSchedule.url === null) && this.showAll)) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.url) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.url)) : '') + "</td>";
+                }
+            } catch (e) {
+                if (this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "&nbsp;&nbsp;&nbsp;" + "</td>";
+                }
             }
         }
+        Dot += "</tr>";
     }
-    Dot += "</tr>";
+
+     if ((jsonContent[0].url !== null && jsonContent[0].url !== undefined && jsonContent[0].url !== "") || this.showAll) {
+        Dot += "<tr><td align='left' balign='left' valign='top'><b>url  </b></td>";
+        for (let i = 0; i < jsonLength; i++) {
+            try {
+                let jsonRegularSchedule = jsonContent[i];
+                if (jsonRegularSchedule.url === undefined && this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
+                }
+                if (jsonRegularSchedule.url || ((jsonRegularSchedule.url === "" || jsonRegularSchedule.url === null) && this.showAll)) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.url) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.url)) : '') + "</td>";
+                }
+            } catch (e) {
+                if (this.showAll) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + "&nbsp;&nbsp;&nbsp;" + "</td>";
+                }
+            }
+        }
+        Dot += "</tr>";
+    }
 
     Dot += "</table>>";
 //	Dot += ", URL='' ";
