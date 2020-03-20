@@ -1168,8 +1168,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
                 let jsonRegularSchedule = jsonContent[i];
                 if (jsonRegularSchedule.id === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonRegularSchedule.id || ((jsonRegularSchedule.id === "" || jsonRegularSchedule.id === null) && this.showAll)) {
+                } else if (jsonRegularSchedule.id || ((jsonRegularSchedule.id === "" || jsonRegularSchedule.id === null) && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.id) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.id)) : '') + "</td>";
                 }
             } catch (e) {
@@ -1187,8 +1186,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
                 let jsonRegularSchedule = jsonContent[i];
                 if (jsonRegularSchedule.opens_at === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonRegularSchedule.opens_at || ((jsonRegularSchedule.opens_at === "" || jsonRegularSchedule.opens_at === null) && this.showAll)) {
+                } else if (jsonRegularSchedule.opens_at || ((jsonRegularSchedule.opens_at === "" || jsonRegularSchedule.opens_at === null) && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.opens_at) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.opens_at)) : '') + "</td>";
                 }
             } catch (e) {
@@ -1207,8 +1205,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
                 let jsonRegularSchedule = jsonContent[i];
                 if (jsonRegularSchedule.closes_at === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonRegularSchedule.closes_at || ((jsonRegularSchedule.closes_at === "" || jsonRegularSchedule.closes_at === null) && this.showAll)) {
+                } else if (jsonRegularSchedule.closes_at || ((jsonRegularSchedule.closes_at === "" || jsonRegularSchedule.closes_at === null) && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.closes_at) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.closes_at)) : '') + "</td>";
                 }
             } catch (e) {
@@ -1227,8 +1224,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
                 let jsonRegularSchedule = jsonContent[i];
                 if (jsonRegularSchedule.valid_from === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonRegularSchedule.valid_from || ((jsonRegularSchedule.valid_from === "" || jsonRegularSchedule.valid_from === null) && this.showAll)) {
+                } else if (jsonRegularSchedule.valid_from || ((jsonRegularSchedule.valid_from === "" || jsonRegularSchedule.valid_from === null) && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.valid_from) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.valid_from)) : '') + "</td>";
                 }
             } catch (e) {
@@ -1247,8 +1243,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
                 let jsonRegularSchedule = jsonContent[i];
                 if (jsonRegularSchedule.valid_to === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonRegularSchedule.valid_to || ((jsonRegularSchedule.valid_to === "" || jsonRegularSchedule.valid_to === null) && this.showAll)) {
+                } else if (jsonRegularSchedule.valid_to || ((jsonRegularSchedule.valid_to === "" || jsonRegularSchedule.valid_to === null) && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.valid_to) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.valid_to)) : '') + "</td>";
                 }
             } catch (e) {
@@ -1267,8 +1262,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
                 let jsonRegularSchedule = jsonContent[i];
                 if (jsonRegularSchedule.dtstart === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonRegularSchedule.dtstart || ((jsonRegularSchedule.dtstart === "" || jsonRegularSchedule.dtstart === null) && this.showAll)) {
+                } else if (jsonRegularSchedule.dtstart || ((jsonRegularSchedule.dtstart === "" || jsonRegularSchedule.dtstart === null) && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.dtstart) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.dtstart)) : '') + "</td>";
                 }
             } catch (e) {
@@ -1287,8 +1281,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
                 let jsonRegularSchedule = jsonContent[i];
                 if (jsonRegularSchedule.freq === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonRegularSchedule.freq || ((jsonRegularSchedule.freq === "" || jsonRegularSchedule.freq === null) && this.showAll)) {
+                } else if (jsonRegularSchedule.freq || ((jsonRegularSchedule.freq === "" || jsonRegularSchedule.freq === null) && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.freq) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.freq)) : '') + "</td>";
                 }
             } catch (e) {
@@ -1307,8 +1300,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
                 let jsonRegularSchedule = jsonContent[i];
                 if (jsonRegularSchedule.interval === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonRegularSchedule.interval || ((jsonRegularSchedule.interval === "" || jsonRegularSchedule.interval === null) && this.showAll)) {
+                } else if (jsonRegularSchedule.interval || ((jsonRegularSchedule.interval === "" || jsonRegularSchedule.interval === null) && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.interval) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.interval)) : '') + "</td>";
                 }
             } catch (e) {
@@ -1327,8 +1319,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
                 let jsonRegularSchedule = jsonContent[i];
                 if (jsonRegularSchedule.byday === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonRegularSchedule.byday || ((jsonRegularSchedule.byday === "" || jsonRegularSchedule.byday === null) && this.showAll)) {
+                } else if (jsonRegularSchedule.byday || ((jsonRegularSchedule.byday === "" || jsonRegularSchedule.byday === null) && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.byday) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.byday)) : '') + "</td>";
                 }
             } catch (e) {
@@ -1345,8 +1336,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
                 let jsonRegularSchedule = jsonContent[i];
                 if (jsonRegularSchedule.weekday === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonRegularSchedule.weekday || ((jsonRegularSchedule.weekday === "" || jsonRegularSchedule.weekday === null) && this.showAll)) {
+                } else if (jsonRegularSchedule.weekday || ((jsonRegularSchedule.weekday === "" || jsonRegularSchedule.weekday === null) && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.weekday) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.weekday)) : '') + "</td>";
                 }
             } catch (e) {
@@ -1384,8 +1374,7 @@ clsOpenReferralPlus.prototype.DotNodeRegularSchedule = function (jsonContent) {
                 let jsonRegularSchedule = jsonContent[i];
                 if (jsonRegularSchedule.description === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonRegularSchedule.description || ((jsonRegularSchedule.description === "" || jsonRegularSchedule.description === null) && this.showAll)) {
+                } else if (jsonRegularSchedule.description || ((jsonRegularSchedule.description === "" || jsonRegularSchedule.description === null) && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.description) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.description)) : '') + "</td>";
                 }
             } catch (e) {
@@ -1456,8 +1445,7 @@ clsOpenReferralPlus.prototype.DotNodeHolidaySchedules = function (jsonContent) {
             let jsonHolidaySchedule = jsonContent[i];
             if (jsonHolidaySchedule.id === undefined && this.showAll) {
                 Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td><td align='left' balign='left' valign='top'>" + "    " + "</td></tr>";
-            }
-            if (jsonHolidaySchedule.id || (jsonHolidaySchedule.id === "") && this.showAll) {
+            } else if (jsonHolidaySchedule.id || (jsonHolidaySchedule.id === "") && this.showAll) {
                 Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonHolidaySchedule.id) ? nl2br(objORP.objViz.prepareString(jsonHolidaySchedule.id)) : '') + "</td></tr>";
             }
         } catch (e) {
@@ -1667,8 +1655,7 @@ clsOpenReferralPlus.prototype.DotNodeContacts = function (jsonContent) {
                 let jsonContact = jsonContent[i];
                 if (jsonContact.id === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonContact.id || ((jsonContact.id === "" || jsonContact.id === null) && this.showAll)) {
+                } else if (jsonContact.id || ((jsonContact.id === "" || jsonContact.id === null) && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonContact.id) ? nl2br(objORP.objViz.prepareString(jsonContact.id)) : '') + "</td>";
                 }
             } catch (e) {
@@ -1687,8 +1674,7 @@ clsOpenReferralPlus.prototype.DotNodeContacts = function (jsonContent) {
                 let jsonContact = jsonContent[i];
                 if (jsonContact.name === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonContact.name || ((jsonContact.name === "" || jsonContact.name === null) && this.showAll)) {
+                } else if (jsonContact.name || ((jsonContact.name === "" || jsonContact.name === null) && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonContact.name) ? nl2br(objORP.objViz.prepareString(jsonContact.name)) : '') + "</td>";
                 }
             } catch (e) {
@@ -1707,8 +1693,7 @@ clsOpenReferralPlus.prototype.DotNodeContacts = function (jsonContent) {
                 let jsonContact = jsonContent[i];
                 if (jsonContact.title === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonContact.title || ((jsonContact.title === "" || jsonContact.title === null) && this.showAll)) {
+                } else if (jsonContact.title || ((jsonContact.title === "" || jsonContact.title === null) && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonContact.title) ? nl2br(objORP.objViz.prepareString(jsonContact.title)) : '') + "</td>";
                 }
             } catch (e) {
@@ -1960,8 +1945,7 @@ clsOpenReferralPlus.prototype.DotNodeCostOptions = function (jsonContent) {
                 let jsonCostOption = jsonContent[i];
                 if ((jsonCostOption.option === undefined || jsonCostOption.option === null) && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonCostOption.option || (jsonCostOption.option === "" && this.showAll)) {
+                } else if (jsonCostOption.option || (jsonCostOption.option === "" && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonCostOption.option) ? nl2br(objORP.objViz.prepareString(jsonCostOption.option)) : '') + "</td>";
                 }
             } catch (e) {
@@ -1998,8 +1982,7 @@ clsOpenReferralPlus.prototype.DotNodeCostOptions = function (jsonContent) {
                 let jsonCostOption = jsonContent[i];
                 if ((jsonCostOption.amount_description === undefined || jsonCostOption.amount_description === null) && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonCostOption.amount_description || (jsonCostOption.amount_description === "" && this.showAll)) {
+                } else if (jsonCostOption.amount_description || (jsonCostOption.amount_description === "" && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonCostOption.amount_description) ? nl2br(objORP.objViz.prepareString(jsonCostOption.amount_description)) : '') + "</td>";
                 }
             } catch (e) {
@@ -2070,8 +2053,7 @@ clsOpenReferralPlus.prototype.DotNodeFundings = function (jsonContent) {
             let jsonFunding = jsonContent[i];
             if (jsonFunding.id === undefined && this.showAll) {
                 Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td><td align='left' balign='left' valign='top'>" + "    " + "</td></tr>";
-            }
-            if (jsonFunding.id || (jsonFunding.id === "") && this.showAll) {
+            } else if (jsonFunding.id || (jsonFunding.id === "") && this.showAll) {
                 Dot += "<tr><td align='left' balign='left' valign='top'><b>id  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonFunding.id) ? nl2br(objORP.objViz.prepareString(jsonFunding.id)) : '') + "</td></tr>";
             }
         } catch (e) {
@@ -2086,8 +2068,7 @@ clsOpenReferralPlus.prototype.DotNodeFundings = function (jsonContent) {
             let jsonFunding = jsonContent[i];
             if (jsonFunding.source === undefined && this.showAll) {
                 Dot += "<tr><td align='left' balign='left' valign='top'><b>source  </b></td><td align='left' balign='left' valign='top'>" + "    " + "</td></tr>";
-            }
-            if (jsonFunding.source || (jsonFunding.source === "") && this.showAll) {
+            } else if (jsonFunding.source || (jsonFunding.source === "") && this.showAll) {
                 Dot += "<tr><td align='left' balign='left' valign='top'><b>source  </b></td> <td align='left' balign='left' valign='top'>" + ((jsonFunding.source) ? nl2br(objORP.objViz.prepareString(jsonFunding.source)) : '') + "</td></tr>";
             }
         } catch (e) {
@@ -2333,8 +2314,7 @@ clsOpenReferralPlus.prototype.DotNodeReviews = function (jsonContent) {
                 let jsonRegularSchedule = jsonContent[i];
                 if (jsonRegularSchedule.id === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonRegularSchedule.id || ((jsonRegularSchedule.id === "" || jsonRegularSchedule.id === null) && this.showAll)) {
+                } else if (jsonRegularSchedule.id || ((jsonRegularSchedule.id === "" || jsonRegularSchedule.id === null) && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.id) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.id)) : '') + "</td>";
                 }
             } catch (e) {
@@ -2352,8 +2332,7 @@ clsOpenReferralPlus.prototype.DotNodeReviews = function (jsonContent) {
                 let jsonRegularSchedule = jsonContent[i];
                 if (jsonRegularSchedule.title === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonRegularSchedule.title || ((jsonRegularSchedule.title === "" || jsonRegularSchedule.title === null) && this.showAll)) {
+                } else if (jsonRegularSchedule.title || ((jsonRegularSchedule.title === "" || jsonRegularSchedule.title === null) && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.title) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.title)) : '') + "</td>";
                 }
             } catch (e) {
@@ -2372,8 +2351,7 @@ clsOpenReferralPlus.prototype.DotNodeReviews = function (jsonContent) {
                 let jsonRegularSchedule = jsonContent[i];
                 if (jsonRegularSchedule.description === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonRegularSchedule.description || ((jsonRegularSchedule.description === "" || jsonRegularSchedule.description === null) && this.showAll)) {
+                } else if (jsonRegularSchedule.description || ((jsonRegularSchedule.description === "" || jsonRegularSchedule.description === null) && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.description) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.description)) : '') + "</td>";
                 }
             } catch (e) {
@@ -2392,8 +2370,7 @@ clsOpenReferralPlus.prototype.DotNodeReviews = function (jsonContent) {
                 let jsonRegularSchedule = jsonContent[i];
                 if (jsonRegularSchedule.date === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonRegularSchedule.date || ((jsonRegularSchedule.date === "" || jsonRegularSchedule.date === null) && this.showAll)) {
+                } else if (jsonRegularSchedule.date || ((jsonRegularSchedule.date === "" || jsonRegularSchedule.date === null) && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.date) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.date)) : '') + "</td>";
                 }
             } catch (e) {
@@ -2412,8 +2389,7 @@ clsOpenReferralPlus.prototype.DotNodeReviews = function (jsonContent) {
                 let jsonRegularSchedule = jsonContent[i];
                 if (jsonRegularSchedule.score === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonRegularSchedule.score || ((jsonRegularSchedule.score === "" || jsonRegularSchedule.score === null) && this.showAll)) {
+                } else if (jsonRegularSchedule.score || ((jsonRegularSchedule.score === "" || jsonRegularSchedule.score === null) && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.score) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.score)) : '') + "</td>";
                 }
             } catch (e) {
@@ -2425,15 +2401,14 @@ clsOpenReferralPlus.prototype.DotNodeReviews = function (jsonContent) {
         Dot += "</tr>";
     }
 
-     if ((jsonContent[0].url !== null && jsonContent[0].url !== undefined && jsonContent[0].url !== "") || this.showAll) {
+    if ((jsonContent[0].url !== null && jsonContent[0].url !== undefined && jsonContent[0].url !== "") || this.showAll) {
         Dot += "<tr><td align='left' balign='left' valign='top'><b>url  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
                 let jsonRegularSchedule = jsonContent[i];
                 if (jsonRegularSchedule.url === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonRegularSchedule.url || ((jsonRegularSchedule.url === "" || jsonRegularSchedule.url === null) && this.showAll)) {
+                } else if (jsonRegularSchedule.url || ((jsonRegularSchedule.url === "" || jsonRegularSchedule.url === null) && this.showAll)) {
                     Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.url) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.url)) : '') + "</td>";
                 }
             } catch (e) {
@@ -2445,16 +2420,15 @@ clsOpenReferralPlus.prototype.DotNodeReviews = function (jsonContent) {
         Dot += "</tr>";
     }
 
-     if ((jsonContent[0].url !== null && jsonContent[0].url !== undefined && jsonContent[0].url !== "") || this.showAll) {
-        Dot += "<tr><td align='left' balign='left' valign='top'><b>url  </b></td>";
+    if ((jsonContent[0].widget !== null && jsonContent[0].widget !== undefined && jsonContent[0].widget !== "") || this.showAll) {
+        Dot += "<tr><td align='left' balign='left' valign='top'><b>widget  </b></td>";
         for (let i = 0; i < jsonLength; i++) {
             try {
                 let jsonRegularSchedule = jsonContent[i];
-                if (jsonRegularSchedule.url === undefined && this.showAll) {
+                if (jsonRegularSchedule.widget === undefined && this.showAll) {
                     Dot += "<td align='left' balign='left' valign='top'>" + "    " + "</td>";
-                }
-                if (jsonRegularSchedule.url || ((jsonRegularSchedule.url === "" || jsonRegularSchedule.url === null) && this.showAll)) {
-                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.url) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.url)) : '') + "</td>";
+                } else if (jsonRegularSchedule.widget || ((jsonRegularSchedule.widget === "" || jsonRegularSchedule.widget === null) && this.showAll)) {
+                    Dot += "<td align='left' balign='left' valign='top'>" + ((jsonRegularSchedule.widget) ? nl2br(objORP.objViz.prepareString(jsonRegularSchedule.widget)) : '') + "</td>";
                 }
             } catch (e) {
                 if (this.showAll) {
