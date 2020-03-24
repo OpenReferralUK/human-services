@@ -19,15 +19,15 @@
     - title: Reference
       url: /ToolsReference/
     - title: API Connector
-      url: https://opencommunity.porism.com/LandingBeta/
+      url: https://tools.openreferraluk.org/APIConnector/
       external: 1
       target: _blank
     - title: API Query Tool
-      url: https://opencommunity.porism.com/ApiQuery/
+      url: https://tools.openreferraluk.org/ApiQuery/
       target: _blank
       external: 1
     - title: Service Finder
-      url: https://opencommunity.porism.com/ServiceFinder/
+      url: https://tools.openreferraluk.org/ServiceFinder/
       target: _blank
       external: 1
 - title: About
