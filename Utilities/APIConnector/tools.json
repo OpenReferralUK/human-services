@@ -3,7 +3,7 @@
     {
       "name": "Service Finder",
       "title": "Open source service finder",
-      "url": "https://https://tools.openreferraluk.org/ServiceFinder/",
+      "url": "https://tools.openreferraluk.org/ServiceFinder/",
       "supplier": "VidaVia",
       "description": "Generic open source tool for finding services based on the profile of a service user. The Service Finder is designed to illustrate the range of service query options for front line workers supported by the API. The source code can be found <a href='https://github.com/esd-org-uk/human-services/tree/master/ServiceFinder'>here</a>.",
       "logo": "<img style='height: 48px' src=\"images/vidavia-dark-turqoise-url-h140_0.png\" class=\"rounded-top\" id=\"toolSupplier\" alt=\"VidaVia Logo\" style=\"{float: right}\"'>",
@@ -60,7 +60,7 @@
     {
       "name": "API Query Tool",
       "title": "Tool to help test and learn the API",
-      "url": "https://https://tools.openreferraluk.org/ApiQuery/",
+      "url": "https://tools.openreferraluk.org/ApiQuery/",
       "supplier": "Porism",
       "description": "Open source tool which illustrates how API calls can be made to filter queries for services and inspect the data returned.",
       "infoLink": "<a href='https://github.com/esd-org-uk/human-services/tree/master/Utilities/ApiDemoSite'>https://github.com/esd-org-uk/human-services/tree/master/Utilities/ApiDemoSite</a>",
