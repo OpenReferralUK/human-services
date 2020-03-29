@@ -16,7 +16,7 @@ Use there links to discuss UK extensions to the standard, standard taxonomies we
 
 Implementation of the standard is discussed in the LGA's [Local Services Open Data Project group](https://khub.net/group/local-services-open-data-project) and via [OpenCommunity](https://opencommunity.org.uk/).
 
-## International Open Referral standard (baswe from which Open Referral UK is built)
+## International Open Referral standard
 Use there links to discuss issues on the base Open Referral standard and everything that applies generally, rather than just in the UK
 
 -   [Google group](https://groups.google.com/d/forum/openreferral)
