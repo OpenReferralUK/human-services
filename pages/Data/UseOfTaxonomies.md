@@ -113,11 +113,13 @@ OpenCommunity will establish a register of CURIEs that have a common meaning acr
 
 All directories should use these CURIEs for national/international vocabularies:
 
--   esdCircumstance: - the LGA's [Circumstances List](http://id.esd.org.uk/list/circumstances) from "electronic service deliver" work. We'd normally only expect this to be used for service eligibility
+-   esdCircumstance: - the LGA's [Circumstances List](http://id.esd.org.uk/list/circumstances) from "electronic service deliver" work. This is used for individual circumstances. We'd normally only expect this to be used for service eligibility. The CURIE esdCircumstance can be expanded to the URI stub http://id.esd.org.uk/circumstance/ 
 
--   esdNeed: the LGA's [Needs List](http://id.esd.org.uk/list/needs) from "electronic service deliver" work. We would not normally expect this to be used to tag individual records
+- esdCircumstanceCollection: - the LGA's [Circumstances List](http://id.esd.org.uk/list/circumstances) from "electronic service deliver" work. This is used for collections of circumstances like a set of age ranges or chronic illnesses, so shoukld only be used if you're describing the whole collection. The CURIE esdCircumstanceCollection can be expanded to the URI stub http://id.esd.org.uk/circumstanceCollection/
 
--   esdServiceType: - the LGA [Services List](http://id.esd.org.uk/list/services) from "electronic service deliver" work
+-   esdNeed: the LGA's [Needs List](http://id.esd.org.uk/list/needs) from "electronic service deliver" work. We would not normally expect this to be used to tag individual records. The CURIE esdNeed can be expanded to the URI stub http://id.esd.org.uk/need/
+
+-   esdServiceType: - the LGA [Services List](http://id.esd.org.uk/list/services) from "electronic service deliver" work. The CURIE esdServiceType can be expanded to the URI stub http://id.esd.org.uk/service/
 
 -   openEligibility: - [OpenEligibility list](https://github.com/auntbertha/openeligibility/blob/master/taxonomy)  of "human services" and "human situations"
 
