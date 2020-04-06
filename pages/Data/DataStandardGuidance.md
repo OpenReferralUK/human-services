@@ -16,7 +16,7 @@ Version 1.0 This will be the version when it is finalised in March 2020.
 
 This document provides guidance on using the Open Referral UK data standard for locally delivered services.
 
-It is the successor to the Local Government Association's (LGA's) comma separated values (CSV) schema developed by iStandUK and published [here](https://schemas.opendata.esd.org.uk/ServiceDirectory){:target="_blank"} in February 2017. It constitutes the official schema developed in partnership by the LGA and partners involved in the [Local Digital](https://localdigital.gov.uk/)  [OpenCommunity](https://opencommunity.org.uk/) programme.
+It is the successor to the Local Government Association's (LGA's) comma separated values (CSV) schema developed by [iStandUK](https://istanduk.org/) and published [here](https://schemas.opendata.esd.org.uk/ServiceDirectory){:target="_blank"} in February 2017. It constitutes the official schema developed in partnership by the LGA, iStandUK and partners involved in the [Local Digital](https://localdigital.gov.uk/)  [OpenCommunity](https://opencommunity.org.uk/) programme.
 
 The Standard conforms to and extends the international [Open Referral](https://openreferral.org/){:target="_blank"} standard.
 {% comment %}
@@ -28,19 +28,21 @@ Open Referral UK defines the structure of data expected in interfaces between st
 
 The standard determines the structure of responses to application programming interface (API) web methods that return service and related data. The [API is defined here](https://api.porism.com/ServiceDirectoryService/swagger-ui.html){:target="_blank"}.
 
+## Design Principle for Open Referral UK
+
 The standard provides for recording sufficient data to be able to identify a small target set of services that closely meet the needs of a prospective service user, as given by the user's location and circumstances.
 
 ## Open Referral UK and Open Referral
 
-The OpenReferral schema defines a structure for human services data. Open Referral UK *extends* Open Referral to support richer data where needed. It then *constrains* the resultant schema by means of an *application profile* which says what fields are recommended for English use and what external vocabularies to reference.
+The OpenReferral schema defines a structure for [human services](https://en.wikipedia.org/wiki/Human_services) data - that is, a directory of services that meet human needs. Open Referral UK *extends* Open Referral to support richer data where needed. It then *constrains* the resultant schema by means of an *application profile* which says what fields are recommended for English use and what external vocabularies to reference.
 
 [![Schema Extension And Constraint](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Resources/SchemaExtensionAndConstraint.png){:class="img-fluid"}](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Resources/SchemaExtensionAndConstraint.png){:target="_blank"}
   
 The application profile reflects user needs identified by LGA work with pilot councils and [proposed changes](https://opencommunitystandard.github.io/specification/#proposed-changes){:target="_blank"} recommended by [OpenCommunity discovery work](https://opencommunity.org.uk/wp-content/uploads/2019/05/Report-OpenCommunity-Data-standards.pdf). The document [Community Services Data as an Application Profile of Open Referral](https://docs.google.com/document/d/16E59vkv2a1khiPHDZJfg00p6ukD1Dhe9z4EJZNxnkzA/edit?usp=sharing){:target="_blank"} assigns MoSCoW (Must, Should, Could, Won't) prioritisations to the proposed changes.
 
-The standard defined here reflects LGA findings combined with "Must have" changes recommended by OpenCommunity.
+The standard defined here reflects LGA findings combined with some "Must have" changes recommended by OpenCommunity. Further recommendations will be incorportaed in later releases in line with feedback from people implementing the standard. Issues and proposed changes are logged in the [Github Issues list](https://github.com/OpenReferralUK/human-services/issues).
 
-This Entity Relation Diagram shows the structure of data, distinguishing parts of the core Open Referral standard used from extensions introduced for Open Community.
+This Entity Relation Diagram shows the structure of data, distinguishing parts of the core Open Referral standard used from extensions introduced for Open Referral UK.
 
 [![LGA Application Profile Basic Entity Relationship Diagram](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Resources/LGA_ApplicationProfileBasicEntityRelationshipDiagram.png){:class="img-fluid"}{:width="75%"}](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Resources/LGA_ApplicationProfileBasicEntityRelationshipDiagram.png){:target="_blank"}    
 
@@ -58,7 +60,7 @@ It comprises:
 -   Tables, which may also be seen as classes in a data structure
 -   Table fields, which may be seen as class properties
   
-Service directories supporting the standard may keep their data in the structure given or may just transform it to that structure for API requests.
+Service directories supporting the standard may keep their data in the structure given or may just transform it to that structure for API requests. The tabular data package format can also be used for bulk import/export between directories.
 
 Each table and field is described below.
 
