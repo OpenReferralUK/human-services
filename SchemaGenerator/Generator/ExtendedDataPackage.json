@@ -13,7 +13,7 @@
     {
       "name": "organization",
       "path": "organizations.csv",
-      "description": "The organization record is used to provide basic description and details about each organization delivering services. Each service should be linked to the organization responsible for its delivery. One organization may deliver many services.",
+      "description": "The organization record is used to provide basic description and details about each organization delivering services. Each service should be linked to the organization responsible for its delivery. One organization may deliver many services. Note that the LGA extension table 'link_taxonomy' enables many taxonomy terms to associated with an organization.  These can define the type of organization e.g.<ul><li>charity</li><li>voluntary group</li><li>local authority</li></ul>",
       "format": "csv",
       "source": "openReferral",
       "applicationProfile": [ { "name": "openReferral" } ],
@@ -674,7 +674,7 @@
             "source": "openReferral",
             "applicationProfile": [
               {
-                "notes": "Use structured information where available in preference to this text field."
+                "notes": "Use structured information where available in preference to this text field. LGA defines an extension table for 'cost_option'.  This 'fees' field can contain a single human-readable description of costs.  The 'cost_option' table can optionally add a further breakdown that can be filtered on."
               },
               {
                 "name": "openCommunity",
@@ -693,7 +693,7 @@
             "applicationProfile": [
               {
                 "name": "LGA",
-                "notes": "Use structured information where available in preference to this text field."
+                "notes": "Use structured information where available in preference to this text field. LGA defines an extension table for 'review'.  This 'accreditations' field can contain a single human-readable description of reviews.  The 'review' table can optionally add a further breakdown that can be filtered on."
               },
               {
                 "name": "openCommunity",
@@ -1351,7 +1351,8 @@
             "source": "openReferral",
             "applicationProfile": [
               {
-                "name": "openReferral"
+                "name": "openReferral",
+                "notes": "'en' for english"
               },
               {
                 "name": "openCommunity",
@@ -1778,7 +1779,8 @@
             "source": "openReferral",
             "applicationProfile": [
               {
-                "name": "openReferral"
+                "name": "openReferral",
+                "notes": "Use 'GB'"
               },
               {
                 "name": "openCommunity",
@@ -1974,7 +1976,8 @@
             "type": "string",
             "applicationProfile": [
               {
-                "name": "openReferral"
+                "name": "openReferral",
+                "notes": "Use either service_id or service_at_location_id. Use service_id to give opening times for accessing the service with no location. Use service_at_location_id to give opening times for a location for the service."
               },
               {
                 "name": "openCommunity",
@@ -2091,7 +2094,8 @@
             "source": "LGA",
             "applicationProfile": [
               {
-                "name": "LGA"
+                "name": "LGA",
+                "notes": "Necessary when using the 'interval' feature."
               },
               {
                 "name": "openCommunity",
@@ -2106,7 +2110,8 @@
             "source": "LGA",
             "applicationProfile": [
               {
-                "name": "LGA"
+                "name": "LGA",
+                "notes": "See the 'interval' field for combinations to make other frequencies."
               },
               {
                 "name": "openCommunity",
@@ -2127,7 +2132,8 @@
             "source": "LGA",
             "applicationProfile": [
               {
-                "name": "LGA"
+                "name": "LGA",
+                "notes": "For example - interval 2 for freq WEEKLY gives Fortnightly"
               },
               {
                 "name": "openCommunity",
@@ -2157,7 +2163,8 @@
             "source": "LGA",
             "applicationProfile": [
               {
-                "name": "LGA"
+                "name": "LGA",
+                "notes": "if freq is MONTHLY"
               },
               {
                 "name": "openCommunity",
@@ -2172,7 +2179,8 @@
             "source": "openCommunity",
             "applicationProfile": [
               {
-                "name": "LGA"
+                "name": "LGA",
+                "notes": "Should match up with the iCAL field. E.g. 'The 2nd Monday of every month from 8:00pm till 12:00pm'"
               },
               {
                 "name": "openCommunity",
@@ -2247,7 +2255,8 @@
             "source": "openReferral",
             "applicationProfile": [
               {
-                "name": "openReferral"
+                "name": "openReferral",
+                "notes": "Use either service_id or service_at_location_id. Use service_id to give opening times for accessing the service with no location. Use service_at_location_id to give opening times for a location for the service."
               },
               {
                 "name": "openCommunity",
@@ -2498,7 +2507,7 @@
     {
       "name": "eligibility",
       "path": "eligibility.csv",
-      "description": "The eligibility tables contains details of the eligibility criteria for particular services",
+      "description": "The eligibility tables contains details of the eligibility criteria for particular services. Note that the LGA extension table 'link_taxonomy' enables many taxonomy terms to associated with an eligibility. These provide coded rules for the eligibility e.g.<ul><li>Over 60</li><li>Living in the Area</li></ul>These rules are combined as 'ANDs' and can be used to filter a search",
       "applicationProfile": [
         {
           "name": "openReferral"
@@ -2554,7 +2563,7 @@
             "applicationProfile": [
               {
                 "name": "LGA",
-                "notes": "Use structured information where available in preference to this text field."
+                "notes": "Use structured information where available in preference to this text field. OR permitted values should be removed from the LGA Application Profile."
               },
               {
                 "name": "openCommunity",
@@ -2643,7 +2652,7 @@
     {
       "name": "service_area",
       "path": "service_areas.csv",
-      "description": "The service_area table contains details of the geographic area for which a service is available.",
+      "description": "The service_area table contains details of the geographic area for which a service is available. Note that the LGA extension table 'link_taxonomy' enables many taxonomy terms to associated with a service_area.  These can define the type of area e.g.<ul><li>administrative geography</li><li>natural neighbourhood</li><li>town</li></ul>UK geographies can be referenced in <a href='http://statistics.data.gov.uk/home'>ONS statistical geographies</a> and in <a href='https://neighbourhoods.esd.org.uk/'>Natural Neighbourhoods</a>.",
       "applicationProfile": [
         {
           "name": "openReferral"
@@ -2725,7 +2734,8 @@
             "source": "LGA",
             "applicationProfile": [
               {
-                "name": "LGA"
+                "name": "openCommunity",
+                "moscow": "could"
               }
             ]
           },
@@ -2748,9 +2758,6 @@
             "source": "LGA",
             "applicationProfile": [
               {
-                "name": "LGA"
-              },
-              {
                 "name": "openCommunity",
                 "moscow": "won't"
               }
@@ -2761,7 +2768,7 @@
             "description": "A definition of the polygon defining the area, in geojson.",
             "type": "string",
             "geoType": "geometry",
-            "source": "openReferral",
+            "source": "LGA",
             "applicationProfile": [
               {
                 "name": "LGA"
@@ -2774,7 +2781,7 @@
           },
           {
             "name": "uri",
-            "description": "A persistent identifier to uniquely identify the organization.",
+            "description": "A persistent identifier to identify an area.",
             "type": "string",
             "source": "LGA",
             "applicationProfile": [
@@ -3052,7 +3059,7 @@
             "applicationProfile": [
               {
                 "name": "openReferral",
-                "notes": "A suitable list of enumerated values needs to be agreed on."
+                "notes": "A suitable list of enumerated values needs to be agreed on. OR permitted values should be removed from the LGA Application Profile."
               },
               {
                 "name": "openCommunity",
@@ -3389,7 +3396,7 @@
     {
       "name": "cost_option",
       "path": "cost_option.csv",
-      "description": "The cost option table contains the costs of a service at certain points in time",
+      "description": "The cost option table contains the costs of a service at certain points in time. This is an LGA Extension table. This table provides a structured version of the text information contained in the 'fees' field of the 'service' table.",
       "applicationProfile": [
         {
           "name": "LGA"
@@ -3462,7 +3469,8 @@
             "source": "LGA",
             "applicationProfile": [
               {
-                "name": "LGA"
+                "name": "LGA",
+                "notes": "e.g.<ul><li>For the over 60's</li><li>1st session</li></ul>"
               }
             ]
           },
@@ -3504,7 +3512,7 @@
     {
       "name": "review",
       "path": "reviews.csv",
-      "description": "The review table contains service reviews made by organizations",
+      "description": "The review table contains service reviews made by organizations. This is an LGA Extension table. This table provides a structured version of the text information contained in the 'accreditations' field of the 'service' table.",
       "format": "csv",
       "source": "LGA",
       "applicationProfile": [
@@ -3617,7 +3625,8 @@
             "source": "LGA",
             "applicationProfile": [
               {
-                "name": "LGA"
+                "name": "LGA",
+                "notes": "e.g. '3 star'"
               },
               {
                 "name": "openCommunity",
@@ -3678,7 +3687,7 @@
     {
       "name": "link_taxonomy",
       "path": "link_taxonomy.csv",
-      "description": "This table enables a taxonomy item to be associated with other classes in the model",
+      "description": "This table enables a taxonomy item to be associated with other classes in the model. This is an LGA Extension table. This table enables a taxonomy item to be associated with other classes in the model.",
       "applicationProfile": [
         {
           "name": "LGA"
