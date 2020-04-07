@@ -159,6 +159,7 @@ regular_schedule [label=<
 <tr><td port='id'  bgcolor="lawngreen"><b>id</b></td></tr>
 <tr><td port='service_id'  bgcolor="lawngreen"><b>service_id</b></td></tr>
 <tr><td port='service_at_location_id'  bgcolor="lawngreen"><b>service_at_location_id</b></td></tr>
+<tr><td  bgcolor="lawngreen"><b>weekday</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>opens_at</b></td></tr>
 <tr><td  bgcolor="lawngreen"><b>closes_at</b></td></tr>
 <tr><td  bgcolor="lightblue"><b>valid_from</b></td></tr>

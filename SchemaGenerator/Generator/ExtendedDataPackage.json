@@ -1,6 +1,6 @@
 {
   "name": "human_services_data",
-  "title": "OpenCommunity Application Profile for Human Services Data",
+  "title": "Open Referral UK Application Profile for Human Services Data",
   "description": "A specification of the Open Referral standard for Human Services as extended by OpenCommunity and Local Government Association work in the UK. Includes an Application Profile for use with English services.",
   "license": {
     "url": "https://creativecommons.org/licenses/by-sa/4.0/",
@@ -8,12 +8,12 @@
     "name": "Creative Commons Attribution-ShareAlike 4.0"
   },
   "version": "1.0",
-  "homepage": "http://docs.openreferral.org",
+  "homepage": "http://docs.openreferraluk.org",
   "resources": [
     {
       "name": "organization",
       "path": "organizations.csv",
-      "description": "The organization record is used to provide basic description and details about each organization delivering services. Each service should be linked to the organization responsible for its delivery. One organization may deliver many services. Note that the LGA extension table 'link_taxonomy' enables many taxonomy terms to associated with an organization.  These can define the type of organization e.g.<ul><li>charity</li><li>voluntary group</li><li>local authority</li></ul>",
+      "description": "The organization record is used to provide basic description and details about each organization delivering or reviewing services. Each service should be linked to the organization responsible for its delivery. One organization may deliver many services. Note that the LGA extension table 'link_taxonomy' enables many taxonomy terms to associated with an organization.  These can define the type of organization e.g.<ul><li>charity</li><li>voluntary group</li><li>local authority</li></ul>",
       "format": "csv",
       "source": "openReferral",
       "applicationProfile": [ { "name": "openReferral" } ],
@@ -549,7 +549,7 @@
           },
           {
             "name": "description",
-            "description": "A description of the service.",
+            "description": "A description of the service.  It can contain markup such as HTML or Markdown.",
             "type": "string",
             "source": "openReferral",
             "applicationProfile": [
@@ -736,6 +736,7 @@
             "source": "LGA",
             "applicationProfile": [
               {
+                "notes": "Expected to reference a taxonomy rather than an enueration in future versions",
                 "name": "LGA"
               },
               {
@@ -772,6 +773,7 @@
             "source": "LGA",
             "applicationProfile": [
               {
+                "notes": "Expected to reference a taxonomy ratehr than an enueration in future versions",
                 "name": "LGA"
               }
             ],
@@ -786,6 +788,7 @@
             "source": "LGA",
             "applicationProfile": [
               {
+                "notes": "Expected to reference a taxonomy ratehr than an enueration in future versions",
                 "name": "LGA"
               }
             ],
@@ -1604,7 +1607,7 @@
     {
       "name": "physical_address",
       "path": "physical_addresses.csv",
-      "description": "The addresses table contains the physical addresses for locations",
+      "description": "The addresses table contains the physical addresses for locations. The address fields are in a US form, and some fields are mandatory e.g. city.",
       "format": "csv",
       "source": "openReferral",
       "mediatype": "text/csv",
@@ -1939,7 +1942,7 @@
     {
       "name": "regular_schedule",
       "path": "regular_schedules.csv",
-      "description": "The regular_schedule table contains details of when a service or location is open under normal circumstances. Each entry in the table can relate to one and only one day of the week.",
+      "description": "The regular_schedule table contains details of when a service or location is open under normal circumstances. Each entry in the table can relate to one and only one day of the week. Open Referral UK extends this table to add extra fields used in the iCal standard to allow for more flexible scheduling.",
       "applicationProfile": [
         {
           "name": "openReferral"
@@ -2018,6 +2021,10 @@
             "type": "integer",
             "source": "openReferral",
             "applicationProfile": [
+                 {
+                "name": "LGA",
+                   "notes": "Although this is required in the base Open Referral UK schema, it may not be suitable for an iCal schedule record."
+              },
               {
                 "name": "openCommunity",
                 "moscow": "won't"
@@ -2218,7 +2225,7 @@
     {
       "name": "holiday_schedule",
       "path": "holiday_schedules.csv",
-      "description": "The holiday_schedule table contains details of when a service or location is open during holidays. Each entry in the table describes a period of one or more days, and the operating times on those days.",
+      "description": "The holiday_schedule table contains details of when a service or location is open during holidays. Each entry in the table describes a period of one or more days, and the operating times on those days. there is potential for this table to be deprecated if iCal rules are adopted in regular_schedule.",
       "applicationProfile": [
         {
           "name": "openReferral"
@@ -2507,7 +2514,7 @@
     {
       "name": "eligibility",
       "path": "eligibility.csv",
-      "description": "The eligibility tables contains details of the eligibility criteria for particular services. Note that the LGA extension table 'link_taxonomy' enables many taxonomy terms to associated with an eligibility. These provide coded rules for the eligibility e.g.<ul><li>Over 60</li><li>Living in the Area</li></ul>These rules are combined as 'ANDs' and can be used to filter a search",
+      "description": "The eligibility tables contains details of the eligibility criteria for particular services. Note that the LGA extension table 'link_taxonomy' enables many taxonomy terms to associated with an eligibility. A design principle for the standard is to “to be able to identify a small target set of services that closely meet the needs of a prospective service user”.  The approach to eligibility has been designed to enable a complex set of criteria to be coded so that services can be effectively filtered by a user’s needs and circumstances.<br />The design allows for one entry on this table for each set of qualifying conditions - for example<ul><li>Over 60, AND Male</li>OR<li>In receipt of Universal Credit</li></ul>Each set of AND conditions is then coded into this eligibility structure so that<ul><li>Age ranges use the minimum_age and maximum_age fields</li><li>Other circumstances are defined as taxonomy entries using the link_taxonony table.</li></ul>A ‘human-readable’ version of the coded conditions can also be provided in the ‘eligibility’ field.",
       "applicationProfile": [
         {
           "name": "openReferral"
@@ -3106,7 +3113,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "Each taxonomy entry must have a unique identifier. If combining multiple taxonomies with overlapping identifiers, use a prefix to distinguish them.",
+            "description": "Each taxonomy entry must have a unique identifier. If combining multiple taxonomies with overlapping identifiers, use a prefix to distinguish them. The prefix can be a CURIE which must be resolvable by all software consuming the data.",
             "type": "string",
             "source": "openReferral",
             "applicationProfile": [
@@ -3476,7 +3483,7 @@
           },
           {
             "name": "amount",
-            "description": "The cost of the option",
+            "description": "The cost of the option, expresssed as an amount in a currency (expected to be GBP by Open Referral UK).",
             "type": "number",
             "source": "LGA",
             "applicationProfile": [
@@ -3487,7 +3494,7 @@
           },
           {
             "name": "amount_description",
-            "description": "Specific details about the actual cost",
+            "description": "Specific details qualifying the cost amount, e.g. 'per session'",
             "type": "string",
             "source": "LGA",
             "applicationProfile": [
@@ -3728,7 +3735,7 @@
               }
             ],
             "constraints": {
-              "enum": [ "organization", "eligibility", "cost_option", "area" ],
+              "enum": [ "organization", "eligibility", "cost_option", "service_area" ],
               "required": true
             }
           },
