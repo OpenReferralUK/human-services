@@ -3485,6 +3485,7 @@
             "name": "amount",
             "description": "The cost of the option, expresssed as an amount in a currency (expected to be GBP by Open Referral UK).",
             "type": "number",
+			"format": "currency",
             "source": "LGA",
             "applicationProfile": [
               {
