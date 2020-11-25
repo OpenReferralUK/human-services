@@ -43,7 +43,8 @@ Documentation is generated using this command:
 The parameters  can have the following values.
 
 - type
-  - gv = ERD
+  - gv = ERD in Graphviz format
+  - erd = ERD in LucidChart CSV format
   - json = JSON Schema
   - table = JSON Table Schema
   - csv = CSV Schema
