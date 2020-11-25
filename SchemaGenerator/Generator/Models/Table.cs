@@ -101,6 +101,81 @@ namespace Convertor.Models
             }
         }
 
+        internal string ToERD(Options options)
+        {
+            StringBuilder table = new StringBuilder();
+            int ordinal = 0;
+            foreach (Column column in Columns)
+            {
+                StringBuilder columnErd = new StringBuilder();
+                columnErd.Append("mysql,service_directory,");
+                columnErd.Append(this.Name);
+                columnErd.Append(",");
+                columnErd.Append(column.Name);
+                columnErd.Append(",");
+                columnErd.Append(ordinal);
+                columnErd.Append(",");
+                columnErd.Append(column.TypeToDataType(options));
+                columnErd.Append(",");
+                columnErd.Append(column.TypeToCharMaximumLength(options));
+                columnErd.Append(",");
+                if (column.IsPrimaryKey)
+                {
+                    columnErd.Append("PRIMARY KEY");
+                }
+                else if (column.Unique)
+                {
+                    columnErd.Append("UNIQUE");
+                }
+                else if (column.IsForeignKey)
+                {
+                    columnErd.Append("FOREIGN KEY");                    
+                }
+                columnErd.Append(",");
+
+                if (column.IsForeignKey)
+                {
+                    bool isMatch = false;
+                    foreach (ForeignKeyReference reference in this.ForeignKeys)
+                    {
+                        if (reference.TableField == column.Name)
+                        {
+                            isMatch = true;
+                            EndERDRow(table, columnErd, reference);
+                        }
+                    }
+                    if (!isMatch)
+                    {
+                        EndERDRow(table, columnErd, null);
+                    }
+                }
+                else
+                {
+                    EndERDRow(table, columnErd, null);
+                }
+                ordinal++;
+            }
+
+            return table.ToString();
+        }
+
+        private static void EndERDRow(StringBuilder table, StringBuilder columnErd, ForeignKeyReference reference)
+        {
+            table.Append(columnErd.ToString());
+            table.Append("service_directory");
+            table.Append(",");
+            if (reference != null)
+            {
+                table.Append(reference.ReferenceTableName);
+            }
+            table.Append(",");
+            if (reference != null)
+            {
+                table.Append(reference.ReferenceTableField);
+            }
+            table.AppendLine();
+        }
+
         internal string ToHTML(Options options)
         {
             StringBuilder table = new StringBuilder();

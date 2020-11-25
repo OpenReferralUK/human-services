@@ -72,6 +72,7 @@
     <Compile Include="Models\CSVSchemaRow.cs" />
     <Compile Include="Models\DataPackage.cs" />
     <Compile Include="Models\HTML.cs" />
+    <Compile Include="Models\LucidChart.cs" />
     <Compile Include="Models\Profile.cs" />
     <Compile Include="Models\SQL.cs" />
     <Compile Include="Models\ERD.cs" />

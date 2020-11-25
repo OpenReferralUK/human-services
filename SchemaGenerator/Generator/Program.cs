@@ -61,6 +61,11 @@ namespace Convertor
                 HTML html = new HTML(dataPackage);
                 html.Generate(options);
             }
+            else if (options.ExportType == "erd")
+            {
+                LucidChart lucidChart = new LucidChart(dataPackage);
+                lucidChart.Generate(options);
+            }
             else
             {
                 Console.WriteLine("Export type not recognised");
@@ -85,16 +90,17 @@ namespace Convertor
                         continue;
                     }
 
-                    HashSet<string> keys = new HashSet<string>();
-                    keys.Add(resource.schema.primaryKey.Value);
+                    HashSet<string> primaryKeys = new HashSet<string>();
+                    HashSet<string> foreignKeys = new HashSet<string>();
+                    primaryKeys.Add(resource.schema.primaryKey.Value);
 
                     if (resource.schema.foreignKeys != null)
                     {
                         foreach (dynamic foreignKey in resource.schema.foreignKeys)
                         {
-                            if (!keys.Contains(foreignKey.fields.Value))
+                            if (!foreignKeys.Contains(foreignKey.fields.Value))
                             {
-                                keys.Add(foreignKey.fields.Value);
+                                foreignKeys.Add(foreignKey.fields.Value);
                             }
                         }
                     }
@@ -129,7 +135,7 @@ namespace Convertor
                             {
                                 enumValues = field.constraints["enum"].ToObject<string[]>();
                             }
-                            table.Columns.Add(new Column(field.name.Value, field.type.Value, field.numberType, field.geoType, (field.source == "openReferral"), field.source, field.applicationProfile, field.format, field.description, field.hidden, field.deprecated, keys.Contains(field.name.Value), required, unique, enumValues, options));
+                            table.Columns.Add(new Column(field.name.Value, field.type.Value, field.numberType, field.geoType, (field.source == "openReferral"), field.source, field.applicationProfile, field.format, field.description, field.hidden, field.deprecated, primaryKeys.Contains(field.name.Value), foreignKeys.Contains(field.name.Value), required, unique, enumValues, options));
                         }
                     }
 

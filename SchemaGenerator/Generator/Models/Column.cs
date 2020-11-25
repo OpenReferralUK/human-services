@@ -9,7 +9,7 @@ namespace Convertor.Models
 {
     public class Column
     {
-        internal Column(string name, string type, dynamic numberType, dynamic geoType, bool original, dynamic source, dynamic applicationProfile, dynamic format, dynamic description, dynamic hidden, dynamic deprecated, bool isKey, bool required, bool unique, string[] enumValues, Options options)
+        internal Column(string name, string type, dynamic numberType, dynamic geoType, bool original, dynamic source, dynamic applicationProfile, dynamic format, dynamic description, dynamic hidden, dynamic deprecated, bool isPrimaryKey, bool isForiegnKey, bool required, bool unique, string[] enumValues, Options options)
         {
             this.Name = name;
             this.Type = type;
@@ -58,7 +58,9 @@ namespace Convertor.Models
                 this.GeoType = geoType.Value;
             }
             this.IsOriginal = original;
-            this.IsKey = isKey;
+            this.IsPrimaryKey = isPrimaryKey;
+            this.IsForeignKey = isForiegnKey;
+            this.IsKey = isPrimaryKey || isForiegnKey;
             this.Required = required;
             this.Unique = unique;
             this.Enum = enumValues;
@@ -136,6 +138,18 @@ namespace Convertor.Models
             private set;
         }
 
+        internal bool IsPrimaryKey
+        {
+            get;
+            private set;
+        }
+
+        internal bool IsForeignKey
+        {
+            get;
+            private set;
+        }
+
         internal bool Required
         {
             get;
@@ -184,7 +198,7 @@ namespace Convertor.Models
             sb.Append(Name);
             sb.Append(Utility.RightEscape(options));
             sb.Append(" ");
-            sb.Append(TypeToSQLType(Type, NumberType, GeoType, IsKey, options));
+            sb.Append(TypeToSQLType(options));
             if (Required)
             {
                 sb.Append(" NOT NULL");
@@ -192,33 +206,59 @@ namespace Convertor.Models
             return sb.ToString();
         }
 
-        internal string TypeToSQLType(string type, string numberType, string geoType, bool isKey, Options options)
+        internal string TypeToSQLType(Options options)
         {
-            if (type == "string")
+            string sqlType = TypeToDataType(options);
+            string charLength = TypeToCharMaximumLength(options);
+            if (!string.IsNullOrEmpty(charLength))
             {
-                if (isKey)
+                sqlType += "(";
+                sqlType += charLength;
+                sqlType += ")";
+            }
+            return sqlType;
+        }
+
+        internal string TypeToDataType(Options options)
+        {
+            if (Type == "string")
+            {
+                if (IsKey)
                 {
-                    return "varchar(1536)";
+                    return "varchar";
                 }
                 if (options.Engine == 1)
                 {
-                    if (!string.IsNullOrEmpty(geoType))
+                    if (!string.IsNullOrEmpty(GeoType))
                     {
-                        return geoType;
+                        return GeoType;
                     }
                     return "text";
                 }
-                return "varchar(65535)";
+                return "varchar";
             }
-            if (type == "number")
+            if (Type == "number")
             {
-                return numberType;
+                return NumberType;
             }
-            if (type == "date")
+            if (Type == "date")
             {
                 return "datetime";
             }
-            return type;
+            return Type;
+        }
+
+        internal string TypeToCharMaximumLength(Options options)
+        {
+            if (Type == "string")
+            {
+                if (IsKey)
+                {
+                    return "1536";
+                }
+                return "65535";
+            }
+            return string.Empty;
         }
     }
 }
