@@ -1,0 +1,116 @@
+mysql,service_directory,organization,id,0,varchar,1536,PRIMARY KEY,service_directory,,
+mysql,service_directory,organization,name,1,varchar,65535,,service_directory,,
+mysql,service_directory,organization,description,2,varchar,65535,,service_directory,,
+mysql,service_directory,organization,email,3,varchar,65535,,service_directory,,
+mysql,service_directory,organization,url,4,varchar,65535,,service_directory,,
+mysql,service_directory,organization,logo,5,varchar,65535,,service_directory,,
+mysql,service_directory,organization,uri,6,varchar,65535,,service_directory,,
+mysql,service_directory,service,id,0,varchar,1536,PRIMARY KEY,service_directory,,
+mysql,service_directory,service,organization_id,1,varchar,1536,FOREIGN KEY,service_directory,organization,id
+mysql,service_directory,service,name,2,varchar,65535,,service_directory,,
+mysql,service_directory,service,description,3,varchar,65535,,service_directory,,
+mysql,service_directory,service,url,4,varchar,65535,,service_directory,,
+mysql,service_directory,service,email,5,varchar,65535,,service_directory,,
+mysql,service_directory,service,status,6,varchar,65535,,service_directory,,
+mysql,service_directory,service,fees,7,varchar,65535,,service_directory,,
+mysql,service_directory,service,accreditations,8,varchar,65535,,service_directory,,
+mysql,service_directory,service,deliverable_type,9,varchar,65535,,service_directory,,
+mysql,service_directory,service,assured_date,10,varchar,65535,,service_directory,,
+mysql,service_directory,service,attending_type,11,varchar,65535,,service_directory,,
+mysql,service_directory,service,attending_access,12,varchar,65535,,service_directory,,
+mysql,service_directory,service_taxonomy,id,0,varchar,1536,PRIMARY KEY,service_directory,,
+mysql,service_directory,service_taxonomy,service_id,1,varchar,1536,FOREIGN KEY,service_directory,service,id
+mysql,service_directory,service_taxonomy,taxonomy_id,2,varchar,1536,FOREIGN KEY,service_directory,taxonomy,id
+mysql,service_directory,service_at_location,id,0,varchar,1536,PRIMARY KEY,service_directory,,
+mysql,service_directory,service_at_location,service_id,1,varchar,1536,FOREIGN KEY,service_directory,service,id
+mysql,service_directory,service_at_location,location_id,2,varchar,1536,FOREIGN KEY,service_directory,location,id
+mysql,service_directory,location,id,0,varchar,1536,PRIMARY KEY,service_directory,,
+mysql,service_directory,location,name,1,varchar,65535,,service_directory,,
+mysql,service_directory,location,description,2,varchar,65535,,service_directory,,
+mysql,service_directory,location,latitude,3,double,,,service_directory,,
+mysql,service_directory,location,longitude,4,double,,,service_directory,,
+mysql,service_directory,phone,id,0,varchar,1536,PRIMARY KEY,service_directory,,
+mysql,service_directory,phone,contact_id,1,varchar,1536,FOREIGN KEY,service_directory,contact,id
+mysql,service_directory,phone,number,2,varchar,65535,,service_directory,,
+mysql,service_directory,phone,language,3,varchar,65535,,service_directory,,
+mysql,service_directory,contact,id,0,varchar,1536,PRIMARY KEY,service_directory,,
+mysql,service_directory,contact,service_id,1,varchar,1536,FOREIGN KEY,service_directory,service,id
+mysql,service_directory,contact,name,2,varchar,65535,,service_directory,,
+mysql,service_directory,contact,title,3,varchar,65535,,service_directory,,
+mysql,service_directory,physical_address,id,0,varchar,1536,PRIMARY KEY,service_directory,,
+mysql,service_directory,physical_address,location_id,1,varchar,1536,FOREIGN KEY,service_directory,location,id
+mysql,service_directory,physical_address,address_1,2,varchar,65535,,service_directory,,
+mysql,service_directory,physical_address,city,3,varchar,65535,,service_directory,,
+mysql,service_directory,physical_address,state_province,4,varchar,65535,,service_directory,,
+mysql,service_directory,physical_address,postal_code,5,varchar,65535,,service_directory,,
+mysql,service_directory,physical_address,country,6,varchar,65535,,service_directory,,
+mysql,service_directory,regular_schedule,id,0,varchar,1536,PRIMARY KEY,service_directory,,
+mysql,service_directory,regular_schedule,service_id,1,varchar,1536,FOREIGN KEY,service_directory,service,id
+mysql,service_directory,regular_schedule,service_at_location_id,2,varchar,1536,FOREIGN KEY,service_directory,service_at_location,id
+mysql,service_directory,regular_schedule,opens_at,3,time,,,service_directory,,
+mysql,service_directory,regular_schedule,closes_at,4,time,,,service_directory,,
+mysql,service_directory,regular_schedule,valid_from,5,datetime,,,service_directory,,
+mysql,service_directory,regular_schedule,valid_to,6,datetime,,,service_directory,,
+mysql,service_directory,regular_schedule,dtstart,7,datetime,,,service_directory,,
+mysql,service_directory,regular_schedule,freq,8,varchar,65535,,service_directory,,
+mysql,service_directory,regular_schedule,interval,9,,,,service_directory,,
+mysql,service_directory,regular_schedule,byday,10,varchar,65535,,service_directory,,
+mysql,service_directory,regular_schedule,bymonthday,11,,,,service_directory,,
+mysql,service_directory,regular_schedule,description,12,varchar,65535,,service_directory,,
+mysql,service_directory,holiday_schedule,id,0,varchar,1536,PRIMARY KEY,service_directory,,
+mysql,service_directory,holiday_schedule,service_id,1,varchar,1536,FOREIGN KEY,service_directory,service,id
+mysql,service_directory,holiday_schedule,service_at_location_id,2,varchar,1536,FOREIGN KEY,service_directory,service_at_location,id
+mysql,service_directory,holiday_schedule,closed,3,boolean,,,service_directory,,
+mysql,service_directory,holiday_schedule,opens_at,4,time,,,service_directory,,
+mysql,service_directory,holiday_schedule,closes_at,5,time,,,service_directory,,
+mysql,service_directory,holiday_schedule,start_date,6,datetime,,,service_directory,,
+mysql,service_directory,holiday_schedule,end_date,7,datetime,,,service_directory,,
+mysql,service_directory,funding,id,0,varchar,1536,PRIMARY KEY,service_directory,,
+mysql,service_directory,funding,service_id,1,varchar,1536,FOREIGN KEY,service_directory,service,id
+mysql,service_directory,funding,source,2,varchar,65535,,service_directory,,
+mysql,service_directory,eligibility,id,0,varchar,1536,PRIMARY KEY,service_directory,,
+mysql,service_directory,eligibility,service_id,1,varchar,1536,FOREIGN KEY,service_directory,service,id
+mysql,service_directory,eligibility,eligibility,2,varchar,65535,,service_directory,,
+mysql,service_directory,eligibility,minimum_age,3,,,,service_directory,,
+mysql,service_directory,eligibility,maximum_age,4,,,,service_directory,,
+mysql,service_directory,service_area,id,0,varchar,1536,PRIMARY KEY,service_directory,,
+mysql,service_directory,service_area,service_id,1,varchar,1536,FOREIGN KEY,service_directory,service,id
+mysql,service_directory,service_area,service_area,2,varchar,65535,,service_directory,,
+mysql,service_directory,service_area,name,3,varchar,65535,,service_directory,,
+mysql,service_directory,service_area,type,4,varchar,65535,,service_directory,,
+mysql,service_directory,service_area,extent,5,varchar,65535,,service_directory,,
+mysql,service_directory,service_area,uri,6,varchar,65535,,service_directory,,
+mysql,service_directory,language,id,0,varchar,1536,PRIMARY KEY,service_directory,,
+mysql,service_directory,language,service_id,1,varchar,1536,FOREIGN KEY,service_directory,service,id
+mysql,service_directory,language,language,2,varchar,65535,,service_directory,,
+mysql,service_directory,accessibility_for_disabilities,id,0,varchar,1536,PRIMARY KEY,service_directory,,
+mysql,service_directory,accessibility_for_disabilities,location_id,1,varchar,1536,FOREIGN KEY,service_directory,location,id
+mysql,service_directory,accessibility_for_disabilities,accessibility,2,varchar,65535,,service_directory,,
+mysql,service_directory,taxonomy,id,0,varchar,1536,PRIMARY KEY,service_directory,,
+mysql,service_directory,taxonomy,name,1,varchar,65535,,service_directory,,
+mysql,service_directory,taxonomy,parent_id,2,varchar,65535,,service_directory,,
+mysql,service_directory,taxonomy,vocabulary,3,varchar,65535,,service_directory,,
+mysql,service_directory,cost_option,id,0,varchar,1536,PRIMARY KEY,service_directory,,
+mysql,service_directory,cost_option,service_id,1,varchar,1536,FOREIGN KEY,service_directory,service,id
+mysql,service_directory,cost_option,valid_from,2,datetime,,,service_directory,,
+mysql,service_directory,cost_option,valid_to,3,datetime,,,service_directory,,
+mysql,service_directory,cost_option,option,4,varchar,65535,,service_directory,,
+mysql,service_directory,cost_option,amount,5,,,,service_directory,,
+mysql,service_directory,cost_option,amount_description,6,varchar,65535,,service_directory,,
+mysql,service_directory,review,id,0,varchar,1536,PRIMARY KEY,service_directory,,
+mysql,service_directory,review,service_id,1,varchar,1536,FOREIGN KEY,service_directory,service,id
+mysql,service_directory,review,reviewer_organization_id,2,varchar,1536,FOREIGN KEY,service_directory,organization,id
+mysql,service_directory,review,title,3,varchar,65535,,service_directory,,
+mysql,service_directory,review,description,4,varchar,65535,,service_directory,,
+mysql,service_directory,review,date,5,datetime,,,service_directory,,
+mysql,service_directory,review,score,6,varchar,65535,,service_directory,,
+mysql,service_directory,review,url,7,varchar,65535,,service_directory,,
+mysql,service_directory,review,widget,8,varchar,65535,,service_directory,,
+mysql,service_directory,link_taxonomy,id,0,varchar,1536,PRIMARY KEY,service_directory,,
+mysql,service_directory,link_taxonomy,link_type,1,varchar,65535,,service_directory,,
+mysql,service_directory,link_taxonomy,eligibility_id,2,varchar,1536,FOREIGN KEY,service_directory,eligibility,id
+mysql,service_directory,link_taxonomy,service_area_id,3,varchar,1536,FOREIGN KEY,service_directory,service_area,id
+mysql,service_directory,link_taxonomy,cost_option_id,4,varchar,1536,FOREIGN KEY,service_directory,cost_option,id
+mysql,service_directory,link_taxonomy,organization_id,5,varchar,1536,FOREIGN KEY,service_directory,organization,id
+mysql,service_directory,link_taxonomy,link_id,6,varchar,65535,,service_directory,,
+mysql,service_directory,link_taxonomy,taxonomy_id,7,varchar,1536,FOREIGN KEY,service_directory,taxonomy,id
