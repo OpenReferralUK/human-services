@@ -36,5 +36,8 @@ namespace Convertor
 
         [Option('n', "moscow", Required = false, HelpText = "The moscow level(s) to select on. If any.")]
         public string Moscow { get; set; }
+
+        [Option('d', "datapackage", Required = false, HelpText = "The location of the datapackage file to read.")]
+        public string DataPackageFile { get; set; }
     }
 }

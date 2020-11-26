@@ -57,6 +57,7 @@ The parameters  can have the following values.
 - verbose - 1 if the output should be verbose
 - title - the title of the output file
 - multiple - 1 if the initial object should represented as an array
+- datapackage - the location of the data package to process. If none is provided the default data package is used.
 
 To get all the available parameters along with help call: 
 >Generator.exe --help 

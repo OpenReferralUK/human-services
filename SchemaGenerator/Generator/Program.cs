@@ -20,6 +20,10 @@ namespace Convertor
             Options options = new Options();
             ParserResult<Options> result = Parser.Default.ParseArguments<Options>(args).WithParsed<Options>(o =>
             {
+                if (string.IsNullOrEmpty(o.DataPackageFile))
+                {
+                    o.DataPackageFile = "ExtendedDataPackage.json";
+                }
                 options = o;
             });
 
@@ -77,7 +81,7 @@ namespace Convertor
             DataPackage package = new DataPackage();
             HashSet<string> excludedColumns = new HashSet<string>();
 
-            dynamic dataPackage = JObject.Parse(File.ReadAllText("ExtendedDataPackage.json"));
+            dynamic dataPackage = JObject.Parse(File.ReadAllText(options.DataPackageFile));
             if (dataPackage != null && dataPackage.resources != null)
             {
                 package.Title = dataPackage.title;
