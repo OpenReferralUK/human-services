@@ -464,6 +464,7 @@
           {
             "name": "id",
             "type": "string",
+			"format": "uuid",
             "source": "openReferral",
             "description": "Each service must have a unique identifier.",
             "applicationProfile": [
@@ -854,6 +855,7 @@
             "name": "service_id",
             "description": "The identifier of the service at a given location.",
             "type": "string",
+			"format": "uuid",
             "source": "openReferral",
             "applicationProfile": [
               {
@@ -982,6 +984,7 @@
             "name": "service_id",
             "description": "The identifier of the service at a given location.",
             "type": "string",
+			"format": "uuid",
             "source": "openReferral",
             "applicationProfile": [
               {
@@ -1000,6 +1003,7 @@
             "name": "location_id",
             "description": "The identifier of the location where this service operates.",
             "type": "string",
+			"format": "uuid",
             "source": "openReferral",
             "applicationProfile": [
               {
@@ -1072,6 +1076,7 @@
             "name": "id",
             "description": "Each location must have a unique identifier",
             "type": "string",
+			"format": "uuid",
             "source": "openReferral",
             "applicationProfile": [
               {
@@ -1239,6 +1244,7 @@
             "name": "location_id",
             "description": "The identifier of the location where this phone number is located",
             "type": "string",
+			"format": "uuid",
             "source": "openReferral",
             "applicationProfile": [
               {
@@ -1251,6 +1257,7 @@
             "name": "service_id",
             "description": "The identifier of the service for which this is the phone number",
             "type": "string",
+			"format": "uuid",
             "source": "openReferral",
             "applicationProfile": [
               {
@@ -1472,6 +1479,7 @@
             "name": "service_id",
             "description": "The identifier of the service for which this is a contact",
             "type": "string",
+			"format": "uuid",
             "source": "openReferral",
             "applicationProfile": [
               {
@@ -1641,6 +1649,7 @@
             "name": "location_id",
             "description": "The identifier of the location for which this is the address.",
             "type": "string",
+			"format": "uuid",
             "source": "openReferral",
             "applicationProfile": [
               {
@@ -1842,7 +1851,8 @@
             "name": "location_id",
             "description": "The identifier of the location for which this is the postal address.",
             "source": "openReferral",
-            "type": "string"
+            "type": "string",
+			"format": "uuid"
           },
           {
             "name": "attention",
@@ -1977,6 +1987,7 @@
             "description": "The identifier of the service for which this is the regular schedule",
             "source": "openReferral",
             "type": "string",
+			"format": "uuid",
             "applicationProfile": [
               {
                 "name": "openReferral",
@@ -1993,6 +2004,7 @@
             "description": "The identifier of the location for which this is the regular schedule",
             "source": "openReferral",
             "type": "string",
+			"format": "uuid",
             "applicationProfile": [
               {
                 "name": "openCommunity",
@@ -2259,6 +2271,7 @@
             "name": "service_id",
             "description": "The identifier of the service for which this is the holiday schedule",
             "type": "string",
+			"format": "uuid",
             "source": "openReferral",
             "applicationProfile": [
               {
@@ -2275,6 +2288,7 @@
             "name": "location_id",
             "description": "The identifier of the location for which this is the holiday schedule",
             "type": "string",
+			"format": "uuid",
             "source": "openReferral",
             "applicationProfile": [
               {
@@ -2462,6 +2476,7 @@
             "name": "service_id",
             "description": "The identifier of the service in receipt of this funding",
             "type": "string",
+			"format": "uuid",
             "source": "openReferral",
             "applicationProfile": [
               {
@@ -2548,6 +2563,7 @@
             "name": "service_id",
             "description": "The identifier of the service for which this entry describes the eligibility criteria",
             "type": "string",
+			"format": "uuid",
             "source": "openReferral",
             "applicationProfile": [
               {
@@ -2693,6 +2709,7 @@
             "name": "service_id",
             "description": "The identifier of the service for which this entry describes the service area",
             "type": "string",
+			"format": "uuid",
             "applicationProfile": [
               {
                 "name": "openReferral"
@@ -2839,6 +2856,7 @@
             "name": "service_id",
             "description": "The identifier of the service for which this entry describes the required document",
             "type": "string",
+			"format": "uuid",
             "source": "openReferral"
           },
           {
@@ -2889,6 +2907,7 @@
             "name": "service_id",
             "description": "The identifier of the services for which the entry describes the accepted payment methods",
             "type": "string",
+			"format": "uuid",
             "source": "openReferral"
           },
           {
@@ -2946,6 +2965,7 @@
             "name": "service_id",
             "description": "The identifier of the service for which the entry describes the languages in which services are delivered",
             "type": "string",
+			"format": "uuid",
             "source": "openReferral",
             "applicationProfile": [
               {
@@ -2964,6 +2984,7 @@
             "name": "location_id",
             "description": "The identifier of the location for which the entry describes the languages in which services are delivered",
             "type": "string",
+			"format": "uuid",
             "source": "openReferral",
             "applicationProfile": [
               {
@@ -3044,6 +3065,7 @@
             "name": "location_id",
             "description": "The identifier of the location for which the entry describes the accessibility provision",
             "type": "string",
+			"format": "uuid",
             "source": "openReferral",
             "applicationProfile": [
               {
@@ -3437,6 +3459,7 @@
             "name": "service_id",
             "description": "The identifier of the services for which the entry describes the cost",
             "type": "string",
+			"format": "uuid",
             "source": "LGA",
             "applicationProfile": [
               {
@@ -3552,6 +3575,7 @@
             "name": "service_id",
             "description": "The identifier of the services for which the entry describes a review",
             "type": "string",
+			"format": "uuid",
             "source": "LGA",
             "applicationProfile": [
               {
