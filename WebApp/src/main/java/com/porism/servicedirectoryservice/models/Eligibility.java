@@ -11,15 +11,19 @@ import com.porism.servicedirectoryservice.validation.AllowedValues;
 import com.porism.servicedirectoryservice.views.BasicView;
 import com.porism.servicedirectoryservice.views.SelectedServiceView;
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -58,7 +62,12 @@ public class Eligibility implements Serializable, ITaxonomy {
     @JsonProperty("maximum_age")
     @Column(name = "maximum_age")
     @JsonView(value = {BasicView.class, SelectedServiceView.class})
-    private Float maximumAge;      
+    private Float maximumAge; 
+    @JoinColumn(name = "link_id", referencedColumnName = "id")
+    @JsonProperty("taxonomys")
+    @OneToMany(fetch=FetchType.EAGER)
+    @JsonView(value = {BasicView.class, SelectedServiceView.class})    
+    private Collection<EligibilityTaxonomy> taxonomys;
     @JoinColumn(name = "service_id", referencedColumnName = "id")
     @ManyToOne
     @JsonProperty("service")

@@ -96,11 +96,30 @@ public class ServiceController {
     private static final String ORGANIZATION = "organization";
     private static final String ELIGIBILITY = "eligibility";
     private static final String COST_OPTION = "cost_option";    
+    private static final String SERVICE_TYPE = "service_type";
     
     @ApiOperation(value = "Get all services", notes = "Note that the objects returned by this method contains a subset of the properties shown in the example.")    
     @JsonView(ServiceBasicView.class)        
     @RequestMapping(value = {"", ".json", ".csv", "/.json", "/.csv"}, method = RequestMethod.GET, produces = "application/json")
-    public Page<Service> getServices(HttpServletResponse response, HttpServletRequest request, @ApiParam(name = "taxonomy_type", allowableValues = "organization, eligibility, cost_option, area, service", required = false) @RequestParam(required = false) List<String> taxonomy_id, @RequestParam(required = false) List<String> taxonomy_type, @RequestParam(required = false) List<String> vocabulary, @RequestParam(required = false) List<String> need, @RequestParam(required = false) List<String> circumstance, @RequestParam(required = false) List<String> start_time, @RequestParam(required = false) List<String> end_time, @RequestParam(required = false) List<String> day, @RequestParam(required = false) String postcode, @RequestParam(required = false) Double proximity, @RequestParam(required = false) String coverage, @RequestParam(required = false) String text, @RequestParam(required = false, defaultValue = "1") Integer page, @RequestParam(required = false, defaultValue = "50") Integer per_page, @RequestParam(required = false) Float minimum_age, @RequestParam(required = false) Float maximum_age, @ApiParam(name = "include", value = "Enter the name of a service field and it will be included in the result. e.g. service_at_locations", required = false) @RequestParam(required = false) List<String> include) throws MissingParameterException, IllegalArgumentException, IOException, Exception {
+    public Page<Service> getServices(HttpServletResponse response, HttpServletRequest request, 
+            @ApiParam(name = "taxonomy_type", value = "An array of types of taxonomy to filter by. If there is more than one of the taxonomy_type, taxonomy_id and vocabulary parameters specified there must be the same number of each.", allowableValues = "organization, eligibility, cost_option, area, service", required = false) @RequestParam(required = false) List<String> taxonomy_type, 
+            @ApiParam(name = "taxonomy_id", value = "An array of taxonomy identifiers to filter by. If there is more than one of the taxonomy_type, taxonomy_id and vocabulary parameters specified there must be the same number of each.", required = false) @RequestParam(required = false) List<String> taxonomy_id, 
+            @ApiParam(name = "vocabulary", value = "An array of vocabulary identifiers to filter by. If there is more than one of the taxonomy_type, taxonomy_id and vocabulary parameters specified there must be the same number of each. This parameter may not be required if all taxonomy identifiers are unique across all vocabularies used, as will be the case where all taxonomy identifiers are prefixed with a CURIE.", required = false) @RequestParam(required = false) List<String> vocabulary, 
+            @ApiParam(name = "need", value = "An array of identifiers from the Needs taxonomy. The query will return services of all service types that are mapped against any given need. THIS IS AN EXTENSION FOR USERS OF LGA TAXONOMIES ONLY", required = false) @RequestParam(required = false) List<String> need, 
+            @ApiParam(name = "circumstance", value = "An array of identifiers from the Circumstances taxonomy. The query will return services of all service types that are mapped against any given circumstance. Using an OR. THIS IS AN EXTENSION FOR USERS OF LGA TAXONOMIES ONLY", required = false) @RequestParam(required = false) List<String> circumstance, 
+            @ApiParam(name = "start_time", value = "An array of start times. This will match services that have a start time equal to or more that the specified value, using the OR operator. If there is more than one of the start_time, end_time and day parameters specified there must be the same number of each.", required = false) @RequestParam(required = false) List<String> start_time, 
+            @ApiParam(name = "end_time", value = "An array of end times. This will match services that have a end time equal to or more that the specified value, using the OR operator. If there is more than one of the start_time, end_time and day parameters specified there must be the same number of each.", required = false) @RequestParam(required = false) List<String> end_time, 
+            @ApiParam(name = "day", value = "An array of days. This will match services that have a day equal to or more that the specified value, using the OR operator. If there is more than one of the start_time, end_time and day parameters specified there must be the same number of each.", allowableValues = "SU, MO, TU, WE, TH, FR, SA", required = false) @RequestParam(required = false) List<String> day, 
+            @ApiParam(name = "postcode", value = "The postcode of the person who wishes to use the service. In order to find services that are within a reasonable distance.", required = false) @RequestParam(required = false) String postcode, 
+            @ApiParam(name = "proximity", value = "The distance in metres that the person is willing to travel from the target postcode.", required = false) @RequestParam(required = false) Double proximity, 
+            @ApiParam(name = "coverage", value = "The postcode to use to check that a service applies to the specified area.", required = false) @RequestParam(required = false) String coverage, 
+            @ApiParam(name = "text", value = "Use text to perform a keyword search on services. This performs a full text search on the service title and description and ranks the results by relevancy.", required = false) @RequestParam(required = false) String text, 
+            @ApiParam(name = "page", value = "The page of the results to show. Page numbers start at 1.", required = false) @RequestParam(required = false, defaultValue = "1") Integer page, 
+            @ApiParam(name = "per_page", value = "The number of results per page to show.", required = false) @RequestParam(required = false, defaultValue = "50") Integer per_page, 
+            @ApiParam(name = "minimum_age", value = "Return services with a minimum age of at least the specified value.", required = false) @RequestParam(required = false) Float minimum_age, 
+            @ApiParam(name = "maximum_age", value = "Return services with a maximum age of at equal to or below the specified value.", required = false) @RequestParam(required = false) Float maximum_age, 
+            @ApiParam(name = "include", value = "Enter the name of a service field and it will be included in the result. e.g. service_at_locations", required = false) @RequestParam(required = false) List<String> include, 
+            @ApiParam(name = "service_type", value = "An array of service type identifiers. The query will return all services of ANY given service type. THIS EXTENSION MAY BE REPLACED BY A GENERIC SYNTAX FOR COMBINING TERMS FROM ANY TAXONOMY", required = false) @RequestParam(required = false) List<String> service_type) throws MissingParameterException, IllegalArgumentException, IOException, Exception {
         Page<Service> services;
                
         if ((taxonomy_id != null && !taxonomy_id.isEmpty()) || 
@@ -112,7 +131,8 @@ public class ServiceController {
                 (end_time != null && !end_time.isEmpty()) ||
                 (day != null && !day.isEmpty()) || 
                 (minimum_age != null) ||
-                (maximum_age != null))
+                (maximum_age != null) ||
+                (service_type != null && !service_type.isEmpty()))
         {
             List<String> ids = null;
             
@@ -123,6 +143,7 @@ public class ServiceController {
             ids = getNeedIds(need, ids);
             ids = getCircumstanceIds(circumstance, ids);
             ids = getAvailabilityIds(start_time, end_time, day, ids);
+            ids = getServiceTypes(service_type, ids);
                        
             if (text == null || "".equals(text))
             {
@@ -228,6 +249,22 @@ public class ServiceController {
         }
         
         //this is done outside of the for loop to make it an OR.
+        return intersect(ids, tmp);
+    }
+    
+    private List<String> getServiceTypes(List<String> service_types, List<String> ids) throws MissingParameterException{
+        if (service_types == null || service_types.isEmpty())
+        {
+            return ids;
+        }
+        
+        List<String> tmp = new ArrayList<String>(); 
+        
+        for(int i = 0;i < service_types.size(); i++)
+        {
+            tmp.addAll(DTOUtility.getIds(serviceTaxonomyService.findByTaxonomyIdIdAndTaxonomyIdVocabulary(service_types.get(i), "esdServiceTypes")));
+        }
+        
         return intersect(ids, tmp);
     }
 
@@ -402,10 +439,9 @@ public class ServiceController {
         }
         if (needs != null && !needs.isEmpty())
         {
+            List<String> tmp = new ArrayList<String>(); 
             for(String need : needs)
-            {
-                List<String> tmp = new ArrayList<String>();            
-
+            {                           
                 List<ServiceTaxonomy> serviceTaxonomies = serviceTaxonomyService.findByNeed(need);
                 if (serviceTaxonomies != null)
                 {
@@ -414,9 +450,8 @@ public class ServiceController {
                         tmp.add(serviceTaxonomy.getServiceId().getId());
                     }
                 }
-
-                ids = intersect(ids, tmp);
             }
+            return intersect(ids, tmp);
         }
         return ids;
     }  
@@ -428,10 +463,9 @@ public class ServiceController {
         }
         if (circumstances != null && !circumstances.isEmpty())
         {
+            List<String> tmp = new ArrayList<String>();
             for(String circumstance : circumstances)
-            {
-                List<String> tmp = new ArrayList<String>();            
-
+            {                            
                 List<ServiceTaxonomy> serviceTaxonomies = serviceTaxonomyService.findByCircumstance(circumstance);
                 if (serviceTaxonomies != null)
                 {
@@ -439,10 +473,9 @@ public class ServiceController {
                     {
                         tmp.add(serviceTaxonomy.getServiceId().getId());
                     }
-                }
-
-                ids = intersect(ids, tmp);
+                }                
             }
+            return intersect(ids, tmp);
         }
         return ids;
     }     
@@ -532,19 +565,7 @@ public class ServiceController {
     public ValidationResult[] validateService(@PathVariable("id") String id) throws IllegalArgumentException, IllegalAccessException {
         Service service = serviceService.findById(id);
         return ValidationUtility.Validate(service, taxonomyService, "service");
-    }
-    
-    @ApiOperation(value = "Validate a single service")
-    @JsonView(ServiceView.class)
-    @RequestMapping(value = "/{id}/validate", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
-    public ValidationResult[] putValidateService(@PathVariable("id") String id, @RequestBody Service service) throws Exception {
-        if (serviceService.findById(id) == null)
-        {
-            throw new Exception("Cannot validate service as no service with this ID exists");
-        }
-        
-        return ValidationUtility.Validate(service, taxonomyService, "service");
-    }    
+    }  
     
     @ApiOperation(value = "Validate service JSON")
     @JsonView(ServiceView.class)
@@ -553,37 +574,25 @@ public class ServiceController {
         return ValidationUtility.Validate(service, taxonomyService, "service", true);
     }    
     
-    @ApiOperation(value = "Rating a single service")
+    @ApiOperation(value = "Richness of a single service")
     @JsonView(BasicView.class)
-    @RequestMapping(value = "/{id}/rate", method = RequestMethod.GET, produces = "application/json")
-    public Rating ratingService(@PathVariable("id") String id) throws IllegalArgumentException, IllegalAccessException {
+    @RequestMapping(value = "/{id}/richness", method = RequestMethod.GET, produces = "application/json")
+    public Rating richnessService(@PathVariable("id") String id) throws IllegalArgumentException, IllegalAccessException {
         Service service = serviceService.findById(id);
         return RatingUtility.Rate(service);
     }
     
-    @ApiOperation(value = "Rating a single service")
+    @ApiOperation(value = "Richness of a single service")
     @JsonView(BasicView.class)
-    @RequestMapping(value = "/rate", method = RequestMethod.POST, produces = "application/json")
-    public Rating ratingService(@RequestBody Service service) throws IllegalArgumentException, IllegalAccessException {
+    @RequestMapping(value = "/richness", method = RequestMethod.POST, produces = "application/json")
+    public Rating richnessService(@RequestBody Service service) throws IllegalArgumentException, IllegalAccessException {
         return RatingUtility.Rate(service);
     }     
     
-    @ApiOperation(value = "Rating a single service")
-    @JsonView(ServiceView.class)
-    @RequestMapping(value = "/{id}/rate", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
-    public Rating putRatingService(@PathVariable("id") String id, @RequestBody Service service) throws Exception {
-        if (serviceService.findById(id) == null)
-        {
-            throw new Exception("Cannot rate service as no service with this ID exists");
-        }
-        
-        return RatingUtility.Rate(service);
-    }       
-    
-    @ApiOperation(value = "Rate a selection of services")
+    @ApiOperation(value = "Richness of a selection of services")
     @JsonView(BasicView.class)
-    @RequestMapping(value = "/rate", method = RequestMethod.GET, produces = "application/json")
-    public Ratings ratingServices(@RequestParam(required = false, defaultValue = "1") Integer page, @RequestParam(required = false, defaultValue = "50") Integer per_page) throws IllegalArgumentException, IllegalAccessException {
+    @RequestMapping(value = "/richness", method = RequestMethod.GET, produces = "application/json")
+    public Ratings richnessServices(@RequestParam(required = false, defaultValue = "1") Integer page, @RequestParam(required = false, defaultValue = "50") Integer per_page) throws IllegalArgumentException, IllegalAccessException {
         Page<Service> services = serviceService.findAll(PageRequest.of(page - 1, per_page)); 
         return RatingUtility.Rate(services.getContent());
     }     

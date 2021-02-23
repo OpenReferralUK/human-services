@@ -114,7 +114,7 @@ public class Service implements Serializable {
     @JsonProperty("attending_type")
     @AllowedValues(value={"phone", "online","venue","home visit"})
     @RichnessScore(2)
-    public String attendingType;
+    private String attendingType;
     @Lob
     @Size(max = 65535)
     @Column(name = "attending_access")
@@ -122,13 +122,13 @@ public class Service implements Serializable {
     @AllowedValues(value={"referral", "appointment","membership","drop-in"})
     @JsonProperty("attending_access")
     @RichnessScore(2)
-    public String attendingAccess;
+    private String attendingAccess;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "assured_date")
     @JsonView(value = {BasicView.class, SelectedServiceView.class})
     @JsonProperty("assured_date")
     @RichnessScore(value = 2, minimumAgeDays = 90)
-    public Date assuredDate;        
+    private Date assuredDate;        
     @OneToMany(mappedBy = "serviceId", cascade = CascadeType.ALL)
     @JsonView(ServiceView.class)
     @JsonProperty("service_areas")    
@@ -142,7 +142,7 @@ public class Service implements Serializable {
     @OneToMany(mappedBy = "serviceId", cascade = CascadeType.ALL)
     @JsonView(ServiceView.class)
     @JsonProperty("regular_schedules")
-    @RichnessScore(2)
+    @RichnessScore(value = 2, dependentField = "attendingType", dependentValue = {"phone", "online","home visit"})
     private Collection<RegularSchedule> regularScheduleCollection;
     @OneToMany(mappedBy = "serviceId", cascade = CascadeType.ALL)
     @JsonView(ServiceView.class)
@@ -152,7 +152,7 @@ public class Service implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "serviceId")
     @JsonView(ServiceView.class)
     @JsonProperty("service_at_locations")
-    @RichnessScore(value = 9, dependentField = "attendingType", dependentValue = "venue")
+    @RichnessScore(value = 9, dependentField = "attendingType", dependentValue = {"venue"})
     private Collection<ServiceAtLocation> serviceAtLocationCollection;
     @OneToMany(mappedBy = "serviceId", cascade = CascadeType.ALL)
     @JsonView(ServiceView.class)

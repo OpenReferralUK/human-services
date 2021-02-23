@@ -27,5 +27,5 @@ public interface ITaxonomyService {
     
     public List<String> findIdsByNeed(List<String> needs);
     public List<String> findIdsByCircumstance(List<String> circumstances);
-    public int countByVocabularyAndTerms(String vocabulary, List<String> terms);
+    public int countByVocabularyAndTerms(List<String> vocabulary, List<String> terms);
 }

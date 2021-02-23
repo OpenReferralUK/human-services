@@ -31,7 +31,7 @@ public interface ServiceRepository extends PagingAndSortingRepository<Service, S
         nativeQuery = true)      
     public Page<Service> findByIdIn(List<String> ids, Pageable pageable);
     @Query(value = "SELECT DISTINCT service.*, MATCH(service.name) AGAINST(?2) AS name_score, MATCH(service.description) AGAINST(?2) AS desc_score, (IF(`regular_schedule`.id IS NULL,0,1) + IF (`eligibility`.id IS NULL,0,1)) AS quality_score FROM service LEFT OUTER JOIN `regular_schedule` ON `regular_schedule`.service_id = service.id LEFT OUTER JOIN `eligibility` ON `eligibility`.service_id = service.id WHERE service.id IN ?1 AND MATCH(service.name, service.description) AGAINST(?2 IN BOOLEAN MODE) ORDER BY (name_score*1.5)+desc_score+quality_score DESC",
-        countQuery = "SELECT COUNT(service.id) FROM service WHERE service.id IN :serviceIds AND MATCH(service.name, service.description) AGAINST(?2 IN BOOLEAN MODE)",
+        countQuery = "SELECT COUNT(service.id) FROM service WHERE service.id IN ?1 AND MATCH(service.name, service.description) AGAINST(?2 IN BOOLEAN MODE)",
         nativeQuery = true)    
     public Page<Service> findByIdInAndTextSearch(List<String> ids, String searchText, Pageable pageable);
     @Query(value = "SELECT DISTINCT service.*, MATCH(service.name) AGAINST(?1) AS name_score, MATCH(service.description) AGAINST(?1) AS desc_score, (IF(`regular_schedule`.id IS NULL,0,1) + IF (`eligibility`.id IS NULL,0,1)) AS quality_score FROM service LEFT OUTER JOIN `regular_schedule` ON `regular_schedule`.service_id = service.id LEFT OUTER JOIN `eligibility` ON `eligibility`.service_id = service.id WHERE MATCH(service.name, service.description) AGAINST(?1 IN BOOLEAN MODE) ORDER BY (name_score*1.5)+desc_score+quality_score DESC",

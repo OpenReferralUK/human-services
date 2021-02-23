@@ -147,10 +147,10 @@ public class ValidationUtility {
                                 colVals.add(childObject.toString());                            
                             }
                         }
-                        if (taxonomyService.countByVocabularyAndTerms(requriedScheme.value(), colVals) == 0)
+                        if (taxonomyService.countByVocabularyAndTerms(Arrays.asList(requriedScheme.value()), colVals) == 0)
                         {
                             String fieldName = parentName + "." + name;
-                            result.add(new ValidationResult(String.format("The field '%s' must have at least one term from '%s'", fieldName, requriedScheme.value())));
+                            result.add(new ValidationResult(String.format("The field '%s' should have at least one term from '%s'", fieldName, String.join("' or '", requriedScheme.value()))));
                         }
                     }
                 }                

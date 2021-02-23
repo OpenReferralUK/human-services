@@ -86,7 +86,7 @@ public class TaxonomyService implements ITaxonomyService {
     }
     
     @Override
-    public int countByVocabularyAndTerms(String vocabulary, List<String> terms)
+    public int countByVocabularyAndTerms(List<String> vocabulary, List<String> terms)
     {
         if (terms == null || terms.isEmpty())
         {

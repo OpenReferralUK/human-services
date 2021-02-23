@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.porism.servicedirectoryservice.models.Service;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -95,9 +96,10 @@ public class RatingUtility {
             {
                 if (richness.dependentField() != null && !"".equals(richness.dependentField()))
                 {
+                    List<String> validValues = Arrays.asList(richness.dependentValue());
                     for(Field f : fields)
                     {
-                        if (f.getName().equals(richness.dependentField()) && !field.get(targetObject).toString().equals(richness.dependentValue()))
+                        if (f.getName().equals(richness.dependentField()) && !validValues.contains(field.get(targetObject).toString()))
                         {
                             return result;
                         }

@@ -19,6 +19,6 @@ import java.lang.annotation.Target;
 public @interface RichnessScore {
     double value() default 1;
     String dependentField() default "";
-    String dependentValue() default "";
+    String[] dependentValue() default "";
     int minimumAgeDays() default 0;
 }

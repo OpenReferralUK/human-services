@@ -53,7 +53,7 @@ public class ServiceTaxonomy implements Serializable, ITaxonomy {
     @ManyToOne(optional = false)
     @JsonView(value = {ServiceView.class, SelectedServiceView.class})
     @JsonProperty("taxonomy")   
-    @RequriedScheme("esdServiceTypes")
+    @RequriedScheme(value = {"esdServiceTypes", "Activity"})
     private Taxonomy taxonomyId;
 
     public ServiceTaxonomy() {

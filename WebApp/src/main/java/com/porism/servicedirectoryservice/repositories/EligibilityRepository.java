@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EligibilityRepository extends CrudRepository<Eligibility, String> {
     public List<Eligibility> findByIdIn(List<String> ids);
-    @Query(value = "SELECT DISTINCT service_id FROM `eligibility` WHERE (?1 IS NULL OR minimum_age >= ?1) AND (?2 IS NULL OR maximum_age <= ?2)",    
+    @Query(value = "SELECT DISTINCT service_id FROM `eligibility` WHERE (?1 IS NULL OR ?1 >= minimum_age) AND (?2 IS NULL OR ?2 <= maximum_age)",    
         nativeQuery = true)      
     public List<String> findByAge(Float min_age, Float max_age);        
 }

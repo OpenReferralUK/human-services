@@ -29,9 +29,9 @@ public interface TaxonomyRepository extends PagingAndSortingRepository<Taxonomy,
     public Page<Taxonomy> findByTextSearch(String searchText, String vocabulary, String parent_id, List<String> taxonomy_ids, boolean root_only, Pageable pageable);       
     @Query("SELECT DISTINCT t.vocabulary FROM Taxonomy t ORDER BY t.vocabulary ASC")
     public List<String> findDistinctVocabulary();
-    @Query(value = "SELECT COUNT(id) FROM taxonomy WHERE vocabulary = ?1 AND id IN ?2",    
+    @Query(value = "SELECT COUNT(id) FROM taxonomy WHERE vocabulary IN ?1 AND id IN ?2",    
     nativeQuery = true)    
-    public int countByVocabularyAndTerms(String vocabulary, List<String> terms);     
+    public int countByVocabularyAndTerms(List<String> vocabulary, List<String> terms);     
     @Query(value = "SELECT `esd_link`.`taxonomy_id` FROM `esd_link` WHERE `esd_link`.`need_id` IN ?1",    
     nativeQuery = true)    
     public List<String> findIdsByNeed(List<String> needs);
