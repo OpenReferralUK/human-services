@@ -1,0 +1,87 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Validate your Service Directory";
+}
+<script>
+    function outputArray(label, ulId, list) {
+        if (list.length == 0) {
+            return;
+        }
+        $('#divResults').append("<div class='row'><div class='col-sm'><strong>" + label + "</strong></div><div class='col-sm'><ul class='list-unstyled' id='" + ulId+"'></ul></div></div>");
+        var listElement = $('#'+ulId);
+        $.each(list, function (i, item) {
+            $('<li>').append(item).appendTo(listElement);
+        });
+    }
+
+    function performValidation() {
+        $('#divOutput').html('<h5>Scanning...please wait...this may take a few minutes...</h5>');
+        $.ajax({
+            type: "GET",
+            url: "/Index?handler=Validate",
+            contentType: "application/json",
+            dataType: "json",
+            data: {
+                baseUrl: $('#txtBaseUrl').val()
+            },
+            success: function (response) {
+                if (response.error) {
+                    $('#divOutput').html('<strong>' + response.error+'</strong>');
+                }
+                else {
+                    $('#divOutput').html('<div class="col-sm"><div id="divResults"><h4>Issues</h4></div></div><div class="col-sm"><h4>Statistics</h4><div id="divStats"></div></div>');                    
+                    $('#divResults').append("<div class='row'><div class='col-sm'><strong>Provides paginatable service</strong></div><div class='col-sm'>" + response.hasPagination + "</div></div>");
+                    $('#divResults').append("<div class='row'><div class='col-sm'><strong>Provides detail service information</strong></div><div class='col-sm'>" + response.hasDetailPage + "</div></div>");
+                    outputArray("Missing required fields", "missingFields", response.missingRequiredFields);
+                    outputArray("Unique fields with duplicate content", "uniqueFields", response.invalidUniqueFields);
+                    outputArray("Invalid data type fields", "typeFields", response.invalidDataTypes);
+                    outputArray("Invalid format fields", "formatFields", response.invalidFormats);
+                    outputArray("Invalid values", "invalidValues", response.invalidValues);
+                    $('#divStats').html("<ul class='list-unstyled' id='resourceStats'></ul>");
+                    var resourceStats = $("#resourceStats");
+                    $.each(response.resourceCounts, function (i, item) {
+                        $('<li>').append('Count of ' + item.name + ': ' + item.count).appendTo(resourceStats);
+                    });
+                }
+            },
+            failure: function (response) {
+                alert(response);
+            }
+        });
+    }
+    $(document).ready(function () {
+        $("#txtBaseUrl").keyup(function (event) {
+            if (event.keyCode === 13) {
+                performValidation();
+            }
+        });
+    });
+</script>
+<div>
+    <h1 class="display-4 mb-5">Validate your Service Directory</h1>
+    <div class="row">
+        <div class="col-sm">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Example base URL's</h3>
+                </div>
+
+                <div class="panel-body">
+                    <ol>
+                        <li>https://outpost-api-service.herokuapp.com/api/v1/</li>
+                        <li>https://api.porism.com/ServiceDirectoryServiceBlackburn/</li>
+                        <li>https://lgaapi.connecttosupport.org/</li>
+                    </ol>
+                </div>
+            </div>
+        </div><div class="col-sm">
+            <div class="form-group">
+                <label for="txtBaseUrl">Base URL</label>
+                <input class="form-control" type="url" id="txtBaseUrl" />
+            </div>
+            <input type="button" value="Validate" onclick="performValidation()" class="btn btn-primary" />
+        </div>
+    </div>
+    <div class="row mt-5" id="divOutput"></div>
+    </div>

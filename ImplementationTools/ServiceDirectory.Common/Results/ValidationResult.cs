@@ -1,0 +1,91 @@
+﻿using ServiceDirectory.Common.Validation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ServiceDirectory.Common.Results
+{
+    public class ValidationResult
+    {
+        public bool HasDetailPage { get; set; }
+        public bool HasPagination { get; set; }
+
+        public string Error { get; set; }
+        public List<string> MissingRequiredFields { get; set; }
+        public List<string> InvalidUniqueFields { get; set; }
+        public List<string> InvalidFormats { get; set; }
+        public List<string> InvalidDataTypes { get; set; }
+        public List<string> InvalidValues { get; set; }
+
+        public List<ResourceCount> ResourceCounts { get; set; }
+
+        public ValidationResult()
+        {
+            HasPagination = true;
+            HasDetailPage = true;
+            MissingRequiredFields = new List<string>();
+            InvalidUniqueFields = new List<string>();
+            InvalidFormats = new List<string>();
+            InvalidDataTypes = new List<string>();
+            InvalidValues = new List<string>();
+            ResourceCounts = new List<ResourceCount>();
+        }
+
+        public void AddResourceCount(Resource resource)
+        {
+            ResourceCounts.Add(new Results.ResourceCount(resource.Name, resource.Count));
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            if (!HasPagination)
+            {
+                sb.Append("A paginatable service method is not present. Of the form /services?page={nn}");
+                sb.AppendLine();
+            }
+            if (!HasDetailPage)
+            {
+                sb.Append("Missing search detail pages. It should be findable under /services/{id}");
+                sb.AppendLine();
+            }
+            foreach(string field in MissingRequiredFields)
+            {
+                sb.Append("Missing required fields: ");
+                sb.Append(field);
+                sb.AppendLine();
+            }
+            foreach (string field in InvalidUniqueFields)
+            {
+                sb.Append("Invalid unique fields: ");
+                sb.Append(field);
+                sb.AppendLine();
+            }
+            foreach (string format in InvalidFormats)
+            {
+                sb.Append(format);
+                sb.AppendLine();
+            }
+            foreach (string dataTypes in InvalidDataTypes)
+            {
+                sb.Append(dataTypes);
+                sb.AppendLine();
+            }
+            foreach (string invalidValue in InvalidValues)
+            {
+                sb.Append(invalidValue);
+                sb.AppendLine();
+            }
+            foreach (ResourceCount count in ResourceCounts)
+            {
+                sb.Append(count.Name);
+                sb.Append(" count: ");
+                sb.Append(count.Count);
+                sb.AppendLine();
+            }
+            return sb.ToString();
+        }
+    }
+}

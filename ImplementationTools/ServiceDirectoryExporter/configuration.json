@@ -1,0 +1,165 @@
+{
+  "comment": [
+    {
+      "column": "service.url",
+      "comment": "Service URL"
+    },
+    {
+      "column": "service.email",
+      "comment": "Service email"
+    },
+    {
+      "column": "service.attending_type",
+      "comment": "referral, drop-in, appointment or home visit"
+    }
+  ],
+  "hidecolumns": [
+    {
+      "column": "service.id"
+    },
+    {
+      "column": "service.organization_id"
+    },
+    {
+      "column": "service.status"
+    },
+    {
+      "column": "service.accreditations"
+    },
+    {
+      "column": "service.deliverable_type"
+    },
+    {
+      "column": "service.assured_date"
+    },
+    {
+      "column": "service.attending_type"
+    },
+    {
+      "column": "service.attending_access"
+    }
+  ],
+  "hidesheets": [
+    {
+      "sheet": "organization"
+    },
+    {
+      "sheet": "service_at_location"
+    },
+    {
+      "sheet": "service_taxonomy"
+    },
+    {
+      "sheet": "location"
+    },
+    {
+      "sheet": "phone"
+    },
+    {
+      "sheet": "contact"
+    },
+    {
+      "sheet": "physical_address"
+    },
+    {
+      "sheet": "regular_schedule"
+    },
+    {
+      "sheet": "eligibility"
+    },
+    {
+      "sheet": "service_area"
+    },
+    {
+      "sheet": "accessibility_for_disabilities"
+    },
+    {
+      "sheet": "taxonomy"
+    },
+    {
+      "sheet": "cost_option"
+    }
+  ],
+  "columns": [
+    {
+      "sheet": "service",
+      "title": "organization_name",
+      "Comment": "Provider",
+      "value": "=VLOOKUP({service.organization_id},{organization.id}:{organization.name}, 2, false)"
+    },
+    {
+      "sheet": "service",
+      "title": "description_plain",
+      "value": "=RegexReplace({service.description}, \"<[^<>]+>\", \"\")"
+    },
+    {
+      "sheet": "service_at_location",
+      "title": "location_name",
+      "value": "=VLOOKUP({service_at_location.location_id},{location.id}:{location.name}, 2, false)"
+    },
+    {
+      "sheet": "service",
+      "title": "location_name",
+      "value": "=VLOOKUP({service.id},{service_at_location.service_id}:{service_at_location.location_name}, 4, false)",
+      "Comment": "Venue"
+    },
+    {
+      "sheet": "service_taxonomy",
+      "title": "taxonomy_name",
+      "value": "=VLOOKUP({service_taxonomy.taxonomy_id},{taxonomy.id}:{taxonomy.name}, 2, false)"
+    },
+    {
+      "sheet": "service",
+      "title": "service_type",
+      "value": "=TEXTJOIN(\",\",TRUE,FILTER({service_taxonomy.taxonomy_name~}, {service_taxonomy.service_id~}={service.id}))",
+      "Comment": "Assured by"
+    },
+    {
+      "sheet": "service",
+      "title": "contact_name",
+      "value": "=VLOOKUP({service.id},{contact.service_id}:{contact.name}, 2, false)",
+      "Comment": "Service contact"
+    },
+    {
+      "sheet": "contact",
+      "title": "phone_number",
+      "value": "=VLOOKUP({contact.id},{phone.contact_id}:{phone.number}, 2, false)"
+    },
+    {
+      "sheet": "service",
+      "title": "phone_number",
+      "value": "=VLOOKUP({service.id},{contact.service_id}:{contact.phone_number}, 4, false)",
+      "Comment": "Service tel no"
+    },
+    {
+      "sheet": "service",
+      "title": "service_area",
+      "value": "=VLOOKUP({service.id},{service_area.service_id}:{service_area.service_area}, 2, false)"
+    },
+    {
+      "sheet": "service",
+      "title": "provider_url",
+      "value": "=VLOOKUP({service.organization_id},{organization.id}:{organization.url}, 5, false)"
+    },
+    {
+      "sheet": "service",
+      "title": "provider_email",
+      "value": "=VLOOKUP({service.organization_id},{organization.id}:{organization.email}, 4, false)"
+    },
+    {
+      "sheet": "location",
+      "title": "venue_map",
+      "value": "=CONCATENATE(\"https://www.google.com/maps/search/?api=1&query=\",{location.latitude},\",\",{location.longitude})"
+    },
+    {
+      "sheet": "service_at_location",
+      "title": "location_venue_map",
+      "value": "=VLOOKUP({service_at_location.location_id},{location.id}:{location.venue_map}, 6, false)"
+    },
+    {
+      "sheet": "service",
+      "title": "location_venue_map",
+      "value": "=VLOOKUP({service.id},{service_at_location.service_id}:{service_at_location.location_venue_map}, 5, false)"
+    }
+  ]
+}
