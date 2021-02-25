@@ -74,6 +74,8 @@ namespace ServiceDirectory.Common
                     }
                 }
 
+                result.PerformFinalReview();
+
                 return result;
             }
             catch (Exception e)

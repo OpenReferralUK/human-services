@@ -11,13 +11,14 @@ namespace ServiceDirectory.Common.Results
     {
         public bool HasDetailPage { get; set; }
         public bool HasPagination { get; set; }
-
+        public bool Level1Pass { get; private set; }
         public string Error { get; set; }
         public List<string> MissingRequiredFields { get; set; }
         public List<string> InvalidUniqueFields { get; set; }
         public List<string> InvalidFormats { get; set; }
         public List<string> InvalidDataTypes { get; set; }
         public List<string> InvalidValues { get; set; }
+        public List<string> ApiIssues { get; set; }
 
         public List<ResourceCount> ResourceCounts { get; set; }
 
@@ -25,12 +26,26 @@ namespace ServiceDirectory.Common.Results
         {
             HasPagination = true;
             HasDetailPage = true;
+            ApiIssues = new List<string>();
             MissingRequiredFields = new List<string>();
             InvalidUniqueFields = new List<string>();
             InvalidFormats = new List<string>();
             InvalidDataTypes = new List<string>();
             InvalidValues = new List<string>();
             ResourceCounts = new List<ResourceCount>();
+        }
+
+        public void PerformFinalReview()
+        {
+            if (!HasPagination)
+            {
+                ApiIssues.Add("A paginatable service method is not present. Of the form /services?page={nn}");
+            }
+            if (!HasDetailPage)
+            {
+                ApiIssues.Add("Missing search detail pages. It should be findable under /services/{id}");
+            }
+            Level1Pass = HasDetailPage && HasPagination;
         }
 
         public void AddResourceCount(Resource resource)
@@ -41,14 +56,9 @@ namespace ServiceDirectory.Common.Results
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            if (!HasPagination)
+            foreach (string issue in ApiIssues)
             {
-                sb.Append("A paginatable service method is not present. Of the form /services?page={nn}");
-                sb.AppendLine();
-            }
-            if (!HasDetailPage)
-            {
-                sb.Append("Missing search detail pages. It should be findable under /services/{id}");
+                sb.Append(issue);
                 sb.AppendLine();
             }
             foreach(string field in MissingRequiredFields)
