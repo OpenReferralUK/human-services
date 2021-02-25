@@ -16,6 +16,12 @@ namespace ServiceDirectory.Common
                 return new ValidationResult() { Error = "Invalid base URL" };
             }
 
+            Uri tmpUri;
+            if (!Uri.TryCreate(baseUrl, UriKind.Absolute, out tmpUri))
+            {
+                return new ValidationResult() { Error = "Invalid base URL" };
+            }
+
             try
             {
                 ValidationResult result = new ValidationResult();

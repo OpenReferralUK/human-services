@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceDirectoryExporter", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleSheets.Common", "GoogleSheets.Common\GoogleSheets.Common.csproj", "{E481DECE-3E68-4482-ADBE-A624BF0A0C8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Combiner", "Combiner\Combiner.csproj", "{6DB64168-B936-46B5-9A24-26320C8340B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Combiner", "Combiner\Combiner.csproj", "{6DB64168-B936-46B5-9A24-26320C8340B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
