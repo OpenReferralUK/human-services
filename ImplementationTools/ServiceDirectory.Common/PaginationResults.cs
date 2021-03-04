@@ -24,10 +24,13 @@ namespace ServiceDirectory.Common
             private set;
         }
 
+        public bool HasPaginationMetaData { get; set; }
+
         public PaginationResults()
         {
             MissingDetailIDs = new List<string>();
             Items = new List<dynamic>();
+            HasPaginationMetaData = true;
             TotalPages = 1;
         }
     }

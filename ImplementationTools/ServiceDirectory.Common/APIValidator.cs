@@ -32,6 +32,7 @@ namespace ServiceDirectory.Common
                     result.HasPagination = false;
                 }
                 result.HasDetailPage = !(paginationResults.MissingDetailIDs.Count == paginationResults.Items.Count);
+                result.HasPaginationMetaData = paginationResults.HasPaginationMetaData;
 
                 List<string> resourceNames = await Resources.GetResourceNames();
                 Dictionary<string, Resource> allRequired = GetFields(await Resources.GetResources());

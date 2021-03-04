@@ -11,6 +11,7 @@ namespace ServiceDirectory.Common.Results
     {
         public bool HasDetailPage { get; set; }
         public bool HasPagination { get; set; }
+        public bool HasPaginationMetaData { get; set; }
         public bool Level1Pass { get; private set; }
         public string Error { get; set; }
         public List<string> MissingRequiredFields { get; set; }
@@ -45,7 +46,11 @@ namespace ServiceDirectory.Common.Results
             {
                 ApiIssues.Add("Missing search detail pages. It should be findable under /services/{id}");
             }
-            Level1Pass = HasDetailPage && HasPagination;
+            if (!HasPaginationMetaData)
+            {
+                ApiIssues.Add("Missing search method paginaton metadata at the begining of the JSON payload it should be in the following format: {\"totalElements\":nn,\"totalPages\":nn,\"number\":nn,\"size\":nn,\"first\":bb,\"last\":bb");
+            }
+            Level1Pass = HasDetailPage && HasPagination && HasPaginationMetaData;
         }
 
         public void AddResourceCount(Resource resource)

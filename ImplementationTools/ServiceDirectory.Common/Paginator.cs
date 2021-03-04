@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Dynamic;
 
 namespace ServiceDirectory.Common
 {
@@ -22,6 +25,12 @@ namespace ServiceDirectory.Common
                 }
 
                 dynamic serviceList = await WebServiceReader.ConvertToDynamic(serviceUrl + "?page=" + pageNo);
+
+                if (!HasProperty(serviceList, "totalElements") || !HasProperty(serviceList, "totalPages") || !HasProperty(serviceList, "number") || !HasProperty(serviceList, "size") || !HasProperty(serviceList, "first") || !HasProperty(serviceList, "last"))
+                {
+                    paginationResults.HasPaginationMetaData = false;
+                }
+
                 try
                 {
                     paginationResults.TotalPages = Convert.ToInt32(serviceList.totalPages);
@@ -55,6 +64,15 @@ namespace ServiceDirectory.Common
             }
 
             return paginationResults;
+        }
+
+        public static bool HasProperty(dynamic settings, string name)
+        {
+            if (settings is JObject)
+            {
+                return (((JObject)settings).ToObject<Dictionary<string, object>>()).ContainsKey(name);
+            }
+            return settings.GetType().GetProperty(name) != null;
         }
     }
 }
