@@ -15,7 +15,7 @@ namespace ServiceDirectory.Common
                 pageNo++;
 
                 string serviceUrl = apiBaseUrl + "/services/";
-                if (apiBaseUrl.StartsWith("https://blackburn.openplace.directory"))
+                if (apiBaseUrl.Contains("blackburn.openplace.directory"))
                 {
                     //hack - temp
                     serviceUrl = apiBaseUrl + "/hservices/local/";
