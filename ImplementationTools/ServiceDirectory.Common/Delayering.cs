@@ -77,19 +77,7 @@ namespace ServiceDirectory.Common
                 {
                     objectCollection.Add(name, new Dictionary<string, dynamic>());
                 }
-                if (((IDictionary<String, object>)value).ContainsKey("id"))
-                {
-                    string id = Convert.ToString(value.id.Value);
-                    if (!objectCollection[name].ContainsKey(id))
-                    {
-                        objectCollection[name].Add(id, value);
-                    }
-                }
-                else
-                {
-                    //temp id
-                    objectCollection[name].Add(Guid.NewGuid().ToString(), value);
-                }
+                objectCollection[name].Add(Guid.NewGuid().ToString(), value);
             }
             catch (Exception e)
             {
