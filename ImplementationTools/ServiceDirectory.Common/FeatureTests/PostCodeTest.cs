@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 
 namespace ServiceDirectory.Common.FeatureTests
 {
@@ -20,7 +21,7 @@ namespace ServiceDirectory.Common.FeatureTests
 
         public string Parameters
         {
-            get { return "?proximity=100&postcode=" + postcode.Replace(" ", string.Empty); }
+            get { return "?proximity=100&postcode=" + HttpUtility.UrlEncode(postcode); }
         }
 
         public async System.Threading.Tasks.Task<bool> Execute(string apiBaseUrl)
