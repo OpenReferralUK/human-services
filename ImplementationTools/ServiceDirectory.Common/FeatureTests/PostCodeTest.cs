@@ -24,28 +24,37 @@ namespace ServiceDirectory.Common.FeatureTests
             get { return "?proximity=100&postcode=" + HttpUtility.UrlEncode(postcode); }
         }
 
+        public int CompareTo(object obj)
+        {
+            return 0;
+        }
+
         public async System.Threading.Tasks.Task<bool> Execute(string apiBaseUrl)
         {
-            dynamic serviceList = await WebServiceReader.ConvertToDynamic(apiBaseUrl + "services"+ Parameters);
-            if (serviceList == null)
-            {
-                return false;
-            }
+            bool result = false;
+            Paginator paginator = new Paginator();
             try
             {
-                foreach (dynamic s in serviceList.content)
+                await paginator.PaginateServices(apiBaseUrl, async delegate (dynamic serviceList, int totalPages)
                 {
-                    if (s != null && Convert.ToString(s.id.Value) == serviceId)
+                    if (serviceList == null)
                     {
-                        return true;
+                        result = false;
                     }
-                }
+                    foreach (dynamic s in serviceList.content)
+                    {
+                        if (s != null && Convert.ToString(s.id.Value) == serviceId)
+                        {
+                            result = true;
+                        }
+                    }
+                }, Parameters);
             }
             catch
             {
                 return false;
             }
-            return false;
+            return result;
         }
     }
 }

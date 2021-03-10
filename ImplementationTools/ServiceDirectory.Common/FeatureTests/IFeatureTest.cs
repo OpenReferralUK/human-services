@@ -1,6 +1,8 @@
-﻿namespace ServiceDirectory.Common.FeatureTests
+﻿using System;
+
+namespace ServiceDirectory.Common.FeatureTests
 {
-    public interface IFeatureTest
+    public interface IFeatureTest : IComparable
     {
         System.Threading.Tasks.Task<bool> Execute(string apiBaseUrl);
         string Name { get; }

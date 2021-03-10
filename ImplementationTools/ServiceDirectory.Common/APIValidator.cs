@@ -96,6 +96,7 @@ namespace ServiceDirectory.Common
 
         private static async Task RunLevel2Tests(string baseUrl, ValidationResult result, List<IFeatureTest> featureTests)
         {
+            featureTests.Sort();
             HashSet<string> testTypesRun = new HashSet<string>();
             foreach (IFeatureTest test in featureTests)
             {
@@ -129,6 +130,7 @@ namespace ServiceDirectory.Common
             }
             try
             {
+                RegularScheduleTest regularScheduleTest = null;
                 foreach (var prop in item)
                 {
                     if (prop.Value.Type == null)
@@ -146,33 +148,61 @@ namespace ServiceDirectory.Common
                     {
                         if (allRequired.ContainsKey(resourceName))
                         {
-                            Resource resource = allRequired[resourceName];
-                            foreach (Field requiredField in resource.Fields)
+                            if (resourceName == "physical_address")
                             {
-                                if (resourceName == "physical_address")
+                                if (prop.Name == "postal_code")
                                 {
-                                    if (prop.Name == "postal_code")
+                                    if (prop.Value != null)
                                     {
-                                        if (prop.Value != null)
+                                        try
                                         {
-                                            try
+                                            string val = Convert.ToString(prop.Value.Value);
+                                            if (string.IsNullOrEmpty(val) || string.IsNullOrWhiteSpace(val) || !Regex.IsMatch(val, "(GIR 0AA)|((([A-Z-[QVX]][0-9][0-9]?)|(([A-Z-[QVX]][A-Z-[IJZ]][0-9][0-9]?)|(([A-Z-[QVX]][0-9][A-HJKSTUW])|([A-Z-[QVX]][A-Z-[IJZ]][0-9][ABEHMNPRVWXY])))) [0-9][A-Z-[CIKMOV]]{2})", RegexOptions.Compiled | RegexOptions.IgnoreCase))
                                             {
-                                                string val = Convert.ToString(prop.Value.Value);
-                                                if (string.IsNullOrEmpty(val) || string.IsNullOrWhiteSpace(val) || !Regex.IsMatch(val, "(GIR 0AA)|((([A-Z-[QVX]][0-9][0-9]?)|(([A-Z-[QVX]][A-Z-[IJZ]][0-9][0-9]?)|(([A-Z-[QVX]][0-9][A-HJKSTUW])|([A-Z-[QVX]][A-Z-[IJZ]][0-9][ABEHMNPRVWXY])))) [0-9][A-Z-[CIKMOV]]{2})", RegexOptions.Compiled | RegexOptions.IgnoreCase))
-                                                {
-                                                    continue;
-                                                }
-                                                featureTests.Add(new PostCodeTest(val, serviceId));
+                                                continue;
                                             }
-                                            catch (Exception e)
-                                            {
-                                            }
+                                            featureTests.Add(new PostCodeTest(val, serviceId));
+                                        }
+                                        catch (Exception e)
+                                        {
                                         }
                                     }
                                 }
                             }
+                            else if (resourceName == "regular_schedule")
+                            {
+                                if (regularScheduleTest == null)
+                                {
+                                    regularScheduleTest = new RegularScheduleTest(serviceId);
+                                }
+                                if (prop.Name == "valid_from")
+                                {
+                                    regularScheduleTest.validFrom = Convert.ToString(prop.Value.Value);
+                                }
+                                if (prop.Name == "valid_to")
+                                {
+                                    regularScheduleTest.validTo = Convert.ToString(prop.Value.Value);
+                                }
+                                if (prop.Name == "opens_at")
+                                {
+                                    regularScheduleTest.opensAt = Convert.ToString(prop.Value.Value);
+                                }
+                                if (prop.Name == "closes_at")
+                                {
+                                    regularScheduleTest.closesAt = Convert.ToString(prop.Value.Value);
+                                }
+                                if (prop.Name == "byday")
+                                {
+                                    regularScheduleTest.day = Convert.ToString(prop.Value.Value);
+                                }
+                            }
                         }
                     }
+                }
+
+                if (regularScheduleTest != null && regularScheduleTest.IsValid())
+                {
+                    featureTests.Add(regularScheduleTest);
                 }
             }
             catch { }
