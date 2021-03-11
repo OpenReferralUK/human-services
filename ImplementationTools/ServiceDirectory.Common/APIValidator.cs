@@ -229,6 +229,27 @@ namespace ServiceDirectory.Common
                                     ageTest.maxAge = Convert.ToString(prop.Value.Value);
                                 }
                             }
+                            else if (resourceName == "service")
+                            {
+                                if (prop.Name == "name")
+                                {
+                                    if (prop.Value != null)
+                                    {
+                                        try
+                                        {
+                                            string val = Convert.ToString(prop.Value.Value);
+                                            if (string.IsNullOrEmpty(val) || string.IsNullOrWhiteSpace(val) || string.IsNullOrEmpty(val.Trim()))
+                                            {
+                                                continue;
+                                            }
+                                            featureTests.Add(new TextTest(val, serviceId));
+                                        }
+                                        catch (Exception e)
+                                        {
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
