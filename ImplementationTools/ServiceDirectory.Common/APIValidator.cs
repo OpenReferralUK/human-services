@@ -104,7 +104,7 @@ namespace ServiceDirectory.Common
                 {
                     continue;
                 }
-                if (!await test.Execute(baseUrl))
+                if (!await TestRunner.HasPassed(baseUrl, test))
                 {
                     result.ApiIssuesLevel2.Add(string.Format("{0} failed. When tested using /services{1}", test.Name, test.Parameters));
                 }

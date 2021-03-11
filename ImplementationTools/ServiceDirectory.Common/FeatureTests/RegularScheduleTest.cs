@@ -12,11 +12,10 @@ namespace ServiceDirectory.Common.FeatureTests
         internal string closesAt;
         internal string opensAt;
         internal string day;
-        private string serviceId;
 
         public RegularScheduleTest(string serviceId)
         {
-            this.serviceId = serviceId;
+            ServiceID = serviceId;
         }
         public string Name { get { return "Time Search Test"; } }
 
@@ -40,6 +39,8 @@ namespace ServiceDirectory.Common.FeatureTests
                 return "?" + string.Join("&", parameters);
             }
         }
+
+        public string ServiceID { get; private set; }
 
         public bool IsValid()
         {
@@ -99,34 +100,6 @@ namespace ServiceDirectory.Common.FeatureTests
                 score++;
             }
             return score;
-        }
-
-        public async Task<bool> Execute(string apiBaseUrl)
-        {
-            bool result = false;
-            Paginator paginator = new Paginator();
-            try
-            {
-                await paginator.PaginateServices(apiBaseUrl, async delegate (dynamic serviceList, int totalPages)
-                {
-                    if (serviceList == null)
-                    {
-                        result = false;
-                    }
-                    foreach (dynamic s in serviceList.content)
-                    {
-                        if (s != null && Convert.ToString(s.id.Value) == serviceId)
-                        {
-                            result = true;
-                        }
-                    }
-                }, Parameters);
-            }
-            catch
-            {
-                return false;
-            }
-            return result;
         }
     }
 }
