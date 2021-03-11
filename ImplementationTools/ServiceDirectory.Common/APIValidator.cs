@@ -108,6 +108,7 @@ namespace ServiceDirectory.Common
                 {
                     result.ApiIssuesLevel2.Add(string.Format("{0} failed. When tested using /services{1}", test.Name, test.Parameters));
                 }
+                result.Level2TestsRun++;
                 testTypesRun.Add(test.Name);
             }
         }
@@ -132,6 +133,7 @@ namespace ServiceDirectory.Common
             {
                 RegularScheduleTest regularScheduleTest = null;
                 TaxonomyTest taxonomyTest = null;
+                AgeTest ageTest = null;
                 foreach (var prop in item)
                 {
                     if (prop.Value.Type == null)
@@ -212,6 +214,21 @@ namespace ServiceDirectory.Common
                                     taxonomyTest.vocabulary = Convert.ToString(prop.Value.Value);
                                 }
                             }
+                            else if (resourceName == "eligibilitys")
+                            {
+                                if (ageTest == null)
+                                {
+                                    ageTest = new AgeTest(serviceId);
+                                }
+                                if (prop.Name == "minimum_age")
+                                {
+                                    ageTest.minAge = Convert.ToString(prop.Value.Value);
+                                }
+                                if (prop.Name == "maximum_age")
+                                {
+                                    ageTest.maxAge = Convert.ToString(prop.Value.Value);
+                                }
+                            }
                         }
                     }
                 }
@@ -223,6 +240,10 @@ namespace ServiceDirectory.Common
                 if (taxonomyTest != null && taxonomyTest.IsValid())
                 {
                     featureTests.Add(taxonomyTest);
+                }
+                if (ageTest != null && ageTest.IsValid())
+                {
+                    featureTests.Add(ageTest);
                 }
             }
             catch { }
