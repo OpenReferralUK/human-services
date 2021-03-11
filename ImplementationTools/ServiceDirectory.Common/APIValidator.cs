@@ -131,6 +131,7 @@ namespace ServiceDirectory.Common
             try
             {
                 RegularScheduleTest regularScheduleTest = null;
+                TaxonomyTest taxonomyTest = null;
                 foreach (var prop in item)
                 {
                     if (prop.Value.Type == null)
@@ -196,6 +197,21 @@ namespace ServiceDirectory.Common
                                     regularScheduleTest.day = Convert.ToString(prop.Value.Value);
                                 }
                             }
+                            else if (resourceName == "taxonomy")
+                            {
+                                if (taxonomyTest == null)
+                                {
+                                    taxonomyTest = new TaxonomyTest(serviceId);
+                                }
+                                if (prop.Name == "id")
+                                {
+                                    taxonomyTest.id = Convert.ToString(prop.Value.Value);
+                                }
+                                if (prop.Name == "vocabulary")
+                                {
+                                    taxonomyTest.vocabulary = Convert.ToString(prop.Value.Value);
+                                }
+                            }
                         }
                     }
                 }
@@ -203,6 +219,10 @@ namespace ServiceDirectory.Common
                 if (regularScheduleTest != null && regularScheduleTest.IsValid())
                 {
                     featureTests.Add(regularScheduleTest);
+                }
+                if (taxonomyTest != null && taxonomyTest.IsValid())
+                {
+                    featureTests.Add(taxonomyTest);
                 }
             }
             catch { }
