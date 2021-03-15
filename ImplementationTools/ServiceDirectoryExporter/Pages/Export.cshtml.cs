@@ -8,8 +8,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Text.RegularExpressions;
-using System.Net;
 
 namespace ServiceDirectoryExporter.Pages
 {
@@ -56,30 +54,5 @@ namespace ServiceDirectoryExporter.Pages
             Response.Redirect("https://docs.google.com/spreadsheets/d/" + spreadsheetId + "/");
         }
 
-        private bool urlValid(string url)
-        {
-            Regex urlPattern = new Regex(@"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$");
-            Match matches = urlPattern.Match(url);
-            return matches.Success;
-        }
-
-        private bool UrlCheck(string url)
-        {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = "HEAD";
-
-            try
-            {
-                //think this does aut cleanup
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse()) 
-                {
-                    //add 449 check
-                    return response.StatusCode != HttpStatusCode.NotFound;
-                }
-            } catch(WebException)
-            {
-                return false;
-            }
-        }
     }
 }
