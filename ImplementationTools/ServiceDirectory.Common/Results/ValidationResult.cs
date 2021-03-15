@@ -11,7 +11,10 @@ namespace ServiceDirectory.Common.Results
     {
         public bool HasDetailPage { get; set; }
         public bool HasPagination { get; set; }
+        public bool HasPaginationMetaData { get; set; }
         public bool Level1Pass { get; private set; }
+        public bool Level2Pass { get; private set; }
+        public int Level2TestsRun { get; set; }
         public string Error { get; set; }
         public List<string> MissingRequiredFields { get; set; }
         public List<string> InvalidUniqueFields { get; set; }
@@ -19,6 +22,7 @@ namespace ServiceDirectory.Common.Results
         public List<string> InvalidDataTypes { get; set; }
         public List<string> InvalidValues { get; set; }
         public List<string> ApiIssues { get; set; }
+        internal List<string> ApiIssuesLevel2 { get; set; }
 
         public List<ResourceCount> ResourceCounts { get; set; }
 
@@ -27,6 +31,7 @@ namespace ServiceDirectory.Common.Results
             HasPagination = true;
             HasDetailPage = true;
             ApiIssues = new List<string>();
+            ApiIssuesLevel2 = new List<string>();
             MissingRequiredFields = new List<string>();
             InvalidUniqueFields = new List<string>();
             InvalidFormats = new List<string>();
@@ -45,7 +50,13 @@ namespace ServiceDirectory.Common.Results
             {
                 ApiIssues.Add("Missing search detail pages. It should be findable under /services/{id}");
             }
-            Level1Pass = HasDetailPage && HasPagination;
+            if (!HasPaginationMetaData)
+            {
+                ApiIssues.Add("Missing search method paginaton metadata at the begining of the JSON payload it should be in the following format: {\"totalElements\":nn,\"totalPages\":nn,\"number\":nn,\"size\":nn,\"first\":bb,\"last\":bb");
+            }
+            Level1Pass = HasDetailPage && HasPagination && HasPaginationMetaData;
+            Level2Pass = (Level1Pass && ApiIssuesLevel2.Count == 0 && Level2TestsRun > 0);
+            ApiIssues.AddRange(ApiIssuesLevel2);
         }
 
         public void AddResourceCount(Resource resource)

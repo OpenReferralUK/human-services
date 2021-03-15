@@ -1,9 +1,13 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Microsoft.CSharp.RuntimeBinder;
+using Newtonsoft.Json.Linq;
+using ServiceDirectory.Common.FeatureTests;
 using ServiceDirectory.Common.Results;
 using ServiceDirectory.Common.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace ServiceDirectory.Common
 {
@@ -32,13 +36,16 @@ namespace ServiceDirectory.Common
                     result.HasPagination = false;
                 }
                 result.HasDetailPage = !(paginationResults.MissingDetailIDs.Count == paginationResults.Items.Count);
+                result.HasPaginationMetaData = paginationResults.HasPaginationMetaData;
 
                 List<string> resourceNames = await Resources.GetResourceNames();
+                List<IFeatureTest> featureTests = new List<IFeatureTest>();
                 Dictionary<string, Resource> allRequired = GetFields(await Resources.GetResources());
 
                 foreach (var item in paginationResults.Items)
                 {
                     ValidateItems(item, resourceNames, allRequired);
+                    featureTests = FindFeatureTests(item, resourceNames, featureTests, allRequired);
                 }
 
                 foreach (KeyValuePair<string, Resource> kvp in allRequired)
@@ -49,6 +56,7 @@ namespace ServiceDirectory.Common
                     {
                         continue;
                     }
+
                     foreach (Field field in kvp.Value.Fields)
                     {
                         if (field.IsRequired && field.Count == 0)
@@ -74,6 +82,8 @@ namespace ServiceDirectory.Common
                     }
                 }
 
+                await RunLevel2Tests(baseUrl, result, featureTests);
+
                 result.PerformFinalReview();
 
                 return result;
@@ -84,7 +94,185 @@ namespace ServiceDirectory.Common
             }
         }
 
-        private static void ValidateItems(dynamic item, List<string> resourceNames, Dictionary<string, Resource> allRequired, string resourceName = "service")
+        private static async Task RunLevel2Tests(string baseUrl, ValidationResult result, List<IFeatureTest> featureTests)
+        {
+            featureTests.Sort();
+            HashSet<string> testTypesRun = new HashSet<string>();
+            foreach (IFeatureTest test in featureTests)
+            {
+                if (testTypesRun.Contains(test.Name))
+                {
+                    continue;
+                }
+                if (!await TestRunner.HasPassed(baseUrl, test))
+                {
+                    result.ApiIssuesLevel2.Add(string.Format("{0} failed. When tested using /services{1}", test.Name, test.Parameters));
+                }
+                result.Level2TestsRun++;
+                testTypesRun.Add(test.Name);
+            }
+        }
+
+        private static List<IFeatureTest> FindFeatureTests(dynamic item, List<string> resourceNames, List<IFeatureTest> featureTests, Dictionary<string, Resource> allRequired, string resourceName = "service", string serviceId = null)
+        {
+            if (resourceName == "service" && string.IsNullOrEmpty(serviceId))
+            {
+                if (item != null)
+                {
+                    try
+                    {
+                        serviceId = Convert.ToString(item.id.Value);
+                    }
+                    catch (RuntimeBinderException)
+                    {
+                        // id doesn't exist
+                    }
+                }
+            }
+            try
+            {
+                RegularScheduleTest regularScheduleTest = null;
+                TaxonomyTest taxonomyTest = null;
+                AgeTest ageTest = null;
+                foreach (var prop in item)
+                {
+                    if (prop.Value.Type == null)
+                    {
+                        FindFeatureTests(prop.Value, resourceNames, featureTests, allRequired, Resources.FindResourceName(prop.Name, resourceNames), serviceId);
+                    }
+                    else if (prop.Value.Type == JTokenType.Array)
+                    {
+                        foreach (var arrayItem in prop.Value)
+                        {
+                            FindFeatureTests(arrayItem, resourceNames, featureTests, allRequired, Resources.FindResourceName(prop.Name, resourceNames), serviceId);
+                        }
+                    }
+                    else
+                    {
+                        if (allRequired.ContainsKey(resourceName))
+                        {
+                            if (resourceName == "physical_address")
+                            {
+                                if (prop.Name == "postal_code")
+                                {
+                                    if (prop.Value != null)
+                                    {
+                                        try
+                                        {
+                                            string val = Convert.ToString(prop.Value.Value);
+                                            if (string.IsNullOrEmpty(val) || string.IsNullOrWhiteSpace(val) || !Regex.IsMatch(val, "(GIR 0AA)|((([A-Z-[QVX]][0-9][0-9]?)|(([A-Z-[QVX]][A-Z-[IJZ]][0-9][0-9]?)|(([A-Z-[QVX]][0-9][A-HJKSTUW])|([A-Z-[QVX]][A-Z-[IJZ]][0-9][ABEHMNPRVWXY])))) [0-9][A-Z-[CIKMOV]]{2})", RegexOptions.Compiled | RegexOptions.IgnoreCase))
+                                            {
+                                                continue;
+                                            }
+                                            featureTests.Add(new PostCodeTest(val, serviceId));
+                                        }
+                                        catch (Exception e)
+                                        {
+                                        }
+                                    }
+                                }
+                            }
+                            else if (resourceName == "regular_schedule")
+                            {
+                                if (regularScheduleTest == null)
+                                {
+                                    regularScheduleTest = new RegularScheduleTest(serviceId);
+                                }
+                                if (prop.Name == "valid_from")
+                                {
+                                    regularScheduleTest.validFrom = Convert.ToString(prop.Value.Value);
+                                }
+                                if (prop.Name == "valid_to")
+                                {
+                                    regularScheduleTest.validTo = Convert.ToString(prop.Value.Value);
+                                }
+                                if (prop.Name == "opens_at")
+                                {
+                                    regularScheduleTest.opensAt = Convert.ToString(prop.Value.Value);
+                                }
+                                if (prop.Name == "closes_at")
+                                {
+                                    regularScheduleTest.closesAt = Convert.ToString(prop.Value.Value);
+                                }
+                                if (prop.Name == "byday")
+                                {
+                                    regularScheduleTest.day = Convert.ToString(prop.Value.Value);
+                                }
+                            }
+                            else if (resourceName == "taxonomy")
+                            {
+                                if (taxonomyTest == null)
+                                {
+                                    taxonomyTest = new TaxonomyTest(serviceId);
+                                }
+                                if (prop.Name == "id")
+                                {
+                                    taxonomyTest.id = Convert.ToString(prop.Value.Value);
+                                }
+                                if (prop.Name == "vocabulary")
+                                {
+                                    taxonomyTest.vocabulary = Convert.ToString(prop.Value.Value);
+                                }
+                            }
+                            else if (resourceName == "eligibilitys")
+                            {
+                                if (ageTest == null)
+                                {
+                                    ageTest = new AgeTest(serviceId);
+                                }
+                                if (prop.Name == "minimum_age")
+                                {
+                                    ageTest.minAge = Convert.ToString(prop.Value.Value);
+                                }
+                                if (prop.Name == "maximum_age")
+                                {
+                                    ageTest.maxAge = Convert.ToString(prop.Value.Value);
+                                }
+                            }
+                            else if (resourceName == "service")
+                            {
+                                if (prop.Name == "name")
+                                {
+                                    if (prop.Value != null)
+                                    {
+                                        try
+                                        {
+                                            string val = Convert.ToString(prop.Value.Value);
+                                            if (string.IsNullOrEmpty(val) || string.IsNullOrWhiteSpace(val) || string.IsNullOrEmpty(val.Trim()))
+                                            {
+                                                continue;
+                                            }
+                                            featureTests.Add(new TextTest(val, serviceId));
+                                        }
+                                        catch (Exception e)
+                                        {
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (regularScheduleTest != null && regularScheduleTest.IsValid())
+                {
+                    featureTests.Add(regularScheduleTest);
+                }
+                if (taxonomyTest != null && taxonomyTest.IsValid())
+                {
+                    featureTests.Add(taxonomyTest);
+                }
+                if (ageTest != null && ageTest.IsValid())
+                {
+                    featureTests.Add(ageTest);
+                }
+            }
+            catch { }
+
+            return featureTests;
+        }
+
+        private static void ValidateItems(dynamic item, List<string> resourceNames, Dictionary<string, Resource> allRequired, string resourceName = "service", string serviceId = null)
         {
             if (allRequired.ContainsKey(resourceName))
             {

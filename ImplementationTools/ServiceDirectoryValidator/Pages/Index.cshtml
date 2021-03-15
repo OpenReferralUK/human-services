@@ -32,6 +32,7 @@
                 else {
                     $('#divOutput').html('<div class="col-sm"><div id="divResults"><h4>Issues</h4></div></div><div class="col-sm"><h4>Statistics</h4><div id="divStats"></div></div>');                    
                     $('#divResults').append("<div class='row'><div class='col-sm'><strong>Level 1 Pass</strong></div><div class='col-sm'>" + response.level1Pass + "</div></div>");
+                    $('#divResults').append("<div class='row'><div class='col-sm'><strong>Level 2 Pass</strong></div><div class='col-sm'>" + response.level2Pass + "</div></div>");
                     outputArray("API issues", "apiIssues", response.apiIssues);
                     outputArray("Missing required fields", "missingFields", response.missingRequiredFields);
                     outputArray("Unique fields with duplicate content", "uniqueFields", response.invalidUniqueFields);
