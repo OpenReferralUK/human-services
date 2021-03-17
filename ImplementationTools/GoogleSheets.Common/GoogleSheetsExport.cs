@@ -60,15 +60,24 @@ namespace GoogleSheets.Common
             });
         }
 
-        public async static System.Threading.Tasks.Task WriteToSpreadsheetAsync(string spreadsheetId, IConfigurableHttpClientInitializer credential, string apiBaseUrl, string configPath)
+        public async static System.Threading.Tasks.Task<bool> WriteToSpreadsheetAsync(string spreadsheetId, IConfigurableHttpClientInitializer credential, string apiBaseUrl, string configPath)
         {
+            
             SheetsService service = CreateService(credential);
 
             SheetConfig config = JsonConvert.DeserializeObject<SheetConfig>(File.ReadAllText(configPath));
-
-            await AddUpdateMessage(spreadsheetId, service).ConfigureAwait(false);
+            //move text to config
+            await AddUpdateMessage(spreadsheetId, "Please wait while your export is generated, once completed this sheet will be deleted.", service).ConfigureAwait(false);
 
             Dictionary<string, Dictionary<string, dynamic>> objectCollection = await Delayering.DelayerPaginatedData(apiBaseUrl).ConfigureAwait(false);
+
+
+            if (objectCollection.Count == 0) {
+
+                await AddUpdateMessage(spreadsheetId, "Error, service directory data not found at the given url", service);
+                return false;
+
+            }
 
             Dictionary<string, string> columnToSheetIndex = new Dictionary<string, string>();
             List<ForeignKeyAssociaion> foreignKeys = new List<ForeignKeyAssociaion>();
@@ -173,12 +182,13 @@ namespace GoogleSheets.Common
             await AddExtraColumnsAsync(service, config, columnToSheetIndex, spreadsheetId).ConfigureAwait(false);
 
             await DeleteOriginalSheet(service, spreadsheetId).ConfigureAwait(false);
+            return true;
         }
 
-        private static async Task AddUpdateMessage(string spreadsheetId, SheetsService service)
+        private static async Task AddUpdateMessage(string spreadsheetId, string message, SheetsService service)
         {
             List<string> values = new List<string>();
-            values.Add("Please wait while your export is generated, once completed this sheet will be deleted.");
+            values.Add(message);
             await InsertColumnLineAsync(service, spreadsheetId, "Sheet1!" + GetColumnName(0) + "1", values.ToArray()).ConfigureAwait(false);
         }
 
@@ -648,7 +658,7 @@ namespace GoogleSheets.Common
             {
                 // convert columnValues to columList
                 var columList = columnValues.Select(v => new List<object> { v });
-
+                
                 // Add columList to values and input to valueRange
                 var values = new List<IList<object>>();
                 values.AddRange(columList.ToList());

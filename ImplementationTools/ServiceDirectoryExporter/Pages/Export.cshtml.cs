@@ -5,11 +5,10 @@ using GoogleSheets.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using ServiceDirectory.Common;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Text.RegularExpressions;
-using System.Net;
 
 namespace ServiceDirectoryExporter.Pages
 {
@@ -17,6 +16,8 @@ namespace ServiceDirectoryExporter.Pages
     [GoogleScopedAuthorize(SheetsService.ScopeConstants.Spreadsheets)]
     public class ExportModel : PageModel
     {
+        [TempData]
+        public string MsgText { get; set; }
         private readonly ILogger<ExportModel> _logger;
 
         public ExportModel(ILogger<ExportModel> logger)
@@ -26,6 +27,16 @@ namespace ServiceDirectoryExporter.Pages
         
         public async Task OnGetAsync([FromServices] IGoogleAuthProvider auth, string BaseURL)
         {
+
+            Urls url = new Urls(BaseURL);
+            
+            if (string.IsNullOrEmpty(BaseURL) || !url.UrlAbsolute() || !url.UrlValid())
+            {
+                MsgText = "Service directory not found, check you have specified the correct URL"; //move all text to config
+                Response.Redirect("https://localhost:5001");  //move to config
+                return;
+            }
+
             GoogleCredential credential = null;
             int attempt = 0;
 
@@ -49,37 +60,24 @@ namespace ServiceDirectoryExporter.Pages
             string spreadsheetId = await GoogleSheetsExport.CreateSpreadsheetAsync(credential);
             Thread t2 = new Thread(async delegate ()
             {
-                await GoogleSheetsExport.WriteToSpreadsheetAsync(spreadsheetId, credential, BaseURL, "configuration.json");
+                try
+                {
+                    bool back = await GoogleSheetsExport.WriteToSpreadsheetAsync(spreadsheetId, credential, BaseURL, "configuration.json");
+
+                } catch(Exception ex)
+                {
+                    Console.WriteLine("Your request was unsuccessful"); //temp
+                    _logger.LogError("");  //check logger configured
+                }
+                
+               
             });
+            
             t2.Start();
 
             Response.Redirect("https://docs.google.com/spreadsheets/d/" + spreadsheetId + "/");
+            
         }
 
-        private bool urlValid(string url)
-        {
-            Regex urlPattern = new Regex(@"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$");
-            Match matches = urlPattern.Match(url);
-            return matches.Success;
-        }
-
-        private bool UrlCheck(string url)
-        {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = "HEAD";
-
-            try
-            {
-                //think this does aut cleanup
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse()) 
-                {
-                    //add 449 check
-                    return response.StatusCode != HttpStatusCode.NotFound;
-                }
-            } catch(WebException)
-            {
-                return false;
-            }
-        }
     }
 }
