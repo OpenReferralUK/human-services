@@ -24,7 +24,7 @@ namespace ImplementationTools.Tests
 
             Urls url = new Urls(value);
             
-            bool result = url.urlValid();
+            bool result = url.UrlValid();
             Assert.False(result);
 
         }
@@ -38,7 +38,7 @@ namespace ImplementationTools.Tests
      
             var logger = new Mock<ILogger>();
             Urls url = new Urls(value);
-            bool result =url.urlValid();
+            bool result =url.UrlValid();
             Assert.True(result);
 
         }

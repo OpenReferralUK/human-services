@@ -12,6 +12,8 @@ namespace ServiceDirectory.Common
             PaginationResults paginationResults = new PaginationResults();
             await PaginateServices(apiBaseUrl, async delegate (dynamic serviceList, int totalPages)
             {
+                if (serviceList != null) { 
+
                 if (!HasProperty(serviceList, "totalElements") || !HasProperty(serviceList, "totalPages") || !HasProperty(serviceList, "number") || !HasProperty(serviceList, "size") || !HasProperty(serviceList, "first") || !HasProperty(serviceList, "last"))
                 {
                     paginationResults.HasPaginationMetaData = false;
@@ -47,6 +49,7 @@ namespace ServiceDirectory.Common
                     }
                     paginationResults.Items.Add(obj);
                 }
+            }
 
             });
 
@@ -86,7 +89,7 @@ namespace ServiceDirectory.Common
                 {
                     totalPages = Convert.ToInt32(serviceList.totalPages);
                 }
-                catch { }
+                catch { Console.WriteLine("Something went wrong "); }
 
 
                 await processor(serviceList, totalPages);
