@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServiceDirectory.Common.Pagination;
+using System;
 
 namespace ServiceDirectory.Common.FeatureTests
 {

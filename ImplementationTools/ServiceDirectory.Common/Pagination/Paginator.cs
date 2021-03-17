@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ServiceDirectory.Common
+namespace ServiceDirectory.Common.Pagination
 {
     public class Paginator
     {

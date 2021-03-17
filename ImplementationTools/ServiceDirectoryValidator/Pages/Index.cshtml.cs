@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using ServiceDirectory.Common;
@@ -27,6 +23,11 @@ namespace ServiceDirectoryValidator.Pages
         public async System.Threading.Tasks.Task<JsonResult> OnGetValidateAsync(string baseUrl)
         {
             ValidationResult result = await APIValidator.Validate(baseUrl);
+            
+            if (result.Exception != null)
+            {
+                _logger.LogError(result.Exception, result.Error);
+            }
 
             return new JsonResult(result);
         }

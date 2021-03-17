@@ -1,6 +1,8 @@
 ﻿using Microsoft.CSharp.RuntimeBinder;
 using Newtonsoft.Json.Linq;
+using ServiceDirectory.Common.DataStandard;
 using ServiceDirectory.Common.FeatureTests;
+using ServiceDirectory.Common.Pagination;
 using ServiceDirectory.Common.Results;
 using ServiceDirectory.Common.Validation;
 using System;
@@ -38,9 +40,10 @@ namespace ServiceDirectory.Common
                 result.HasDetailPage = !(paginationResults.MissingDetailIDs.Count == paginationResults.Items.Count);
                 result.HasPaginationMetaData = paginationResults.HasPaginationMetaData;
 
-                List<string> resourceNames = await Resources.GetResourceNames();
+                ResourceReader resourceReader = new ResourceReader();
+                List<string> resourceNames = await resourceReader.GetResourceNames().ConfigureAwait(false);
                 List<IFeatureTest> featureTests = new List<IFeatureTest>();
-                Dictionary<string, Resource> allRequired = GetFields(await Resources.GetResources());
+                Dictionary<string, Resource> allRequired = GetFields(await resourceReader.GetResources().ConfigureAwait(false));
 
                 foreach (var item in paginationResults.Items)
                 {
@@ -88,9 +91,13 @@ namespace ServiceDirectory.Common
 
                 return result;
             }
+            catch(ServiceDirectoryException sde)
+            {
+                return new ValidationResult() { Error = sde.Message, Exception = sde };
+            }
             catch (Exception e)
             {
-                return new ValidationResult() { Error = "An error occured, test aborted." };
+                return new ValidationResult() { Error = "An error occured, test aborted.", Exception = e };
             }
         }
 
