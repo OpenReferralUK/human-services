@@ -67,7 +67,7 @@ namespace ServiceDirectory.Common
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                throw new ServiceDirectoryException("Error converting the data structure into a tabular format", ex);
             }
         }
 
@@ -83,7 +83,7 @@ namespace ServiceDirectory.Common
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                throw new ServiceDirectoryException("Error saving object for the sheet", e);
             }
         }
 

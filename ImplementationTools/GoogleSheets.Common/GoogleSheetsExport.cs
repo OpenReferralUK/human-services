@@ -7,6 +7,7 @@ using Google.Apis.Util.Store;
 using GoogleSheets.Common.Config;
 using Newtonsoft.Json;
 using ServiceDirectory.Common;
+using ServiceDirectory.Common.DataStandard;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -61,129 +62,137 @@ namespace GoogleSheets.Common
         }
 
         public async static System.Threading.Tasks.Task<bool> WriteToSpreadsheetAsync(string spreadsheetId, IConfigurableHttpClientInitializer credential, string apiBaseUrl, string configPath)
-        {
-            
+        {            
             SheetsService service = CreateService(credential);
 
-            SheetConfig config = JsonConvert.DeserializeObject<SheetConfig>(File.ReadAllText(configPath));
-            //move text to config
-            await AddUpdateMessage(spreadsheetId, "Please wait while your export is generated, once completed this sheet will be deleted.", service).ConfigureAwait(false);
-
-            Dictionary<string, Dictionary<string, dynamic>> objectCollection = await Delayering.DelayerPaginatedData(apiBaseUrl).ConfigureAwait(false);
-
-
-            if (objectCollection.Count == 0) {
-
-                await AddUpdateMessage(spreadsheetId, "Error, service directory data not found at the given url", service);
-                return false;
-
-            }
-
-            Dictionary<string, string> columnToSheetIndex = new Dictionary<string, string>();
-            List<ForeignKeyAssociaion> foreignKeys = new List<ForeignKeyAssociaion>();
-            Resources resourceReader = new Resources();
-            dynamic resources = await resourceReader.GetResources().ConfigureAwait(false);
-
-            foreach (dynamic resource in resources)
+            try
             {
-                if (!Resources.ShowItem(resource))
+                SheetConfig config = JsonConvert.DeserializeObject<SheetConfig>(File.ReadAllText(configPath));
+                //move text to config
+                await AddUpdateMessage(spreadsheetId, "Please wait while your export is generated, once completed this sheet will be deleted.", service).ConfigureAwait(false);
+
+                Dictionary<string, Dictionary<string, dynamic>> objectCollection = await Delayering.DelayerPaginatedData(apiBaseUrl).ConfigureAwait(false);
+
+
+                if (objectCollection.Count == 0)
                 {
-                    continue;
+
+                    await AddUpdateMessage(spreadsheetId, "ERROR: service directory data not found at the given URL", service);
+                    return false;
+
                 }
 
-                string sheetName = resource.name;
+                Dictionary<string, string> columnToSheetIndex = new Dictionary<string, string>();
+                List<ForeignKeyAssociaion> foreignKeys = new List<ForeignKeyAssociaion>();
+                ResourceReader resourceReader = new ResourceReader();
+                dynamic resources = await resourceReader.GetResources().ConfigureAwait(false);
 
-                if (!objectCollection.ContainsKey(sheetName))
+                foreach (dynamic resource in resources)
                 {
-                    continue;
-                }
-
-                Console.WriteLine("Create Sheet: " + sheetName);
-
-                await CreateSheetAsync(service, spreadsheetId, sheetName, config).ConfigureAwait(false);
-
-                int sheetId = await GetSheetIdFromSheetNameAsync(service, spreadsheetId, sheetName).ConfigureAwait(false);
-
-                List<ForeignKeyAssociaion> localForeignKeys = new List<ForeignKeyAssociaion>();
-                if (resource.schema.foreignKeys != null)
-                {
-                    foreach (dynamic fk in resource.schema.foreignKeys)
-                    {
-                        localForeignKeys.Add(new ForeignKeyAssociaion(sheetId, sheetName, fk.fields.Value, fk.reference.resource.Value, fk.reference.fields.Value));
-                    }
-                }
-
-                int index = 0;
-                int columnNo = -1;
-                foreach (dynamic field in resource.schema.fields)
-                {
-                    if (!Resources.ShowItem(field))
-                    {
-                        continue;
-                    }
-                    string columnName = field.name.Value;
-
-                    if (columnName == "extent")
+                    if (!Resources.ShowItem(resource))
                     {
                         continue;
                     }
 
-                    if (config.IsColumnHidden(sheetName, columnName))
+                    string sheetName = resource.name;
+
+                    if (!objectCollection.ContainsKey(sheetName))
                     {
-                        await HideColumnAsync(service, spreadsheetId, sheetName, index, config).ConfigureAwait(false);
+                        continue;
                     }
 
-                    Console.WriteLine("Create Column Name: " + columnName);
-                    columnNo++;
-                    await InsertColumnLineAsync(service, spreadsheetId, sheetName + "!" + GetColumnName(index) + "1", columnName).ConfigureAwait(false); ;                    
-                    string comment = config.GetComment(sheetName, columnName);
-                    if (!string.IsNullOrEmpty(comment))
+                    Console.WriteLine("Create Sheet: " + sheetName);
+
+                    await CreateSheetAsync(service, spreadsheetId, sheetName, config).ConfigureAwait(false);
+
+                    int sheetId = await GetSheetIdFromSheetNameAsync(service, spreadsheetId, sheetName).ConfigureAwait(false);
+
+                    List<ForeignKeyAssociaion> localForeignKeys = new List<ForeignKeyAssociaion>();
+                    if (resource.schema.foreignKeys != null)
                     {
-                        await InsertColumnNoteAsync(service, spreadsheetId, await GetSheetIdFromSheetNameAsync(service, spreadsheetId, sheetName).ConfigureAwait(false), columnNo, comment);
-                    }
-                    List<object> columnValues = new List<object>();
-                    foreach (dynamic obj in objectCollection[sheetName].Values)
-                    {
-                        if (!((IDictionary<String, dynamic>)obj).ContainsKey(columnName))
+                        foreach (dynamic fk in resource.schema.foreignKeys)
                         {
-                            columnValues.Add(string.Empty);
-                        }
-                        else
-                        {
-                            columnValues.Add(((IDictionary<String, dynamic>)obj)[columnName]);
+                            localForeignKeys.Add(new ForeignKeyAssociaion(sheetId, sheetName, fk.fields.Value, fk.reference.resource.Value, fk.reference.fields.Value));
                         }
                     }
 
-                    Console.WriteLine("Load Column Values: " + columnName);
-                    List<List<object>> columnBatches = SplitList(columnValues, 1000);
-                    int rowNumber = 2;
-                    foreach (List<object> columnBatch in columnBatches)
+                    int index = 0;
+                    int columnNo = -1;
+                    foreach (dynamic field in resource.schema.fields)
                     {
-                        string colRange = sheetName + "!" + GetColumnName(index) + rowNumber;
-                        foreach (ForeignKeyAssociaion localForeignKey in localForeignKeys)
+                        if (!Resources.ShowItem(field))
                         {
-                            if (localForeignKey.Field == columnName)
+                            continue;
+                        }
+                        string columnName = field.name.Value;
+
+                        if (columnName == "extent")
+                        {
+                            continue;
+                        }
+
+                        if (config.IsColumnHidden(sheetName, columnName))
+                        {
+                            await HideColumnAsync(service, spreadsheetId, sheetName, index, config).ConfigureAwait(false);
+                        }
+
+                        Console.WriteLine("Create Column Name: " + columnName);
+                        columnNo++;
+                        await InsertColumnLineAsync(service, spreadsheetId, sheetName + "!" + GetColumnName(index) + "1", columnName).ConfigureAwait(false); ;
+                        string comment = config.GetComment(sheetName, columnName);
+                        if (!string.IsNullOrEmpty(comment))
+                        {
+                            await InsertColumnNoteAsync(service, spreadsheetId, await GetSheetIdFromSheetNameAsync(service, spreadsheetId, sheetName).ConfigureAwait(false), columnNo, comment);
+                        }
+                        List<object> columnValues = new List<object>();
+                        foreach (dynamic obj in objectCollection[sheetName].Values)
+                        {
+                            if (!((IDictionary<String, dynamic>)obj).ContainsKey(columnName))
                             {
-                                localForeignKey.StartColumnIndex = index;
-                                localForeignKey.Found = true;
+                                columnValues.Add(string.Empty);
+                            }
+                            else
+                            {
+                                columnValues.Add(((IDictionary<String, dynamic>)obj)[columnName]);
                             }
                         }
-                        SaveColumnRange(columnToSheetIndex, sheetName, columnName, colRange + ":" + GetColumnName(index) + columnValues.Count);
-                        await InsertColumnLineAsync(service, spreadsheetId, colRange, columnBatch.ToArray()).ConfigureAwait(false);
-                        rowNumber += columnBatch.Count;
+
+                        Console.WriteLine("Load Column Values: " + columnName);
+                        List<List<object>> columnBatches = SplitList(columnValues, 1000);
+                        int rowNumber = 2;
+                        foreach (List<object> columnBatch in columnBatches)
+                        {
+                            string colRange = sheetName + "!" + GetColumnName(index) + rowNumber;
+                            foreach (ForeignKeyAssociaion localForeignKey in localForeignKeys)
+                            {
+                                if (localForeignKey.Field == columnName)
+                                {
+                                    localForeignKey.StartColumnIndex = index;
+                                    localForeignKey.Found = true;
+                                }
+                            }
+                            SaveColumnRange(columnToSheetIndex, sheetName, columnName, colRange + ":" + GetColumnName(index) + columnValues.Count);
+                            await InsertColumnLineAsync(service, spreadsheetId, colRange, columnBatch.ToArray()).ConfigureAwait(false);
+                            rowNumber += columnBatch.Count;
+                        }
+
+                        index++;
                     }
-
-                    index++;
+                    foreignKeys.AddRange(localForeignKeys);
                 }
-                foreignKeys.AddRange(localForeignKeys);
+
+                await AddForiegnKeysAsync(service, foreignKeys, columnToSheetIndex, spreadsheetId).ConfigureAwait(false);
+
+                await AddExtraColumnsAsync(service, config, columnToSheetIndex, spreadsheetId).ConfigureAwait(false);
+
+                await DeleteOriginalSheet(service, spreadsheetId).ConfigureAwait(false);
+                return true;
             }
-
-            await AddForiegnKeysAsync(service, foreignKeys, columnToSheetIndex, spreadsheetId).ConfigureAwait(false);
-            
-            await AddExtraColumnsAsync(service, config, columnToSheetIndex, spreadsheetId).ConfigureAwait(false);
-
-            await DeleteOriginalSheet(service, spreadsheetId).ConfigureAwait(false);
-            return true;
+            catch(Exception e)
+            {
+                await AddUpdateMessage(spreadsheetId, "ERROR: service directory data not found at the given URL", service);
+                throw e;
+            }
         }
 
         private static async Task AddUpdateMessage(string spreadsheetId, string message, SheetsService service)
@@ -284,7 +293,7 @@ namespace GoogleSheets.Common
             }
             catch (Exception ex)
             {
-                // Do error processing here.
+                throw new ServiceDirectoryException("Error reading sheet id from name", ex);
             }
             finally
             {
@@ -579,7 +588,7 @@ namespace GoogleSheets.Common
                 await batchUpdateRequest.ExecuteAsync().ConfigureAwait(false);
                 await Throttler.ThrottleCheck().ConfigureAwait(false);
             }
-            catch (Exception e)
+            catch
             {
                 try
                 {
@@ -608,9 +617,10 @@ namespace GoogleSheets.Common
                     await batchUpdateRequest.ExecuteAsync().ConfigureAwait(false);
                     await Throttler.ThrottleCheck().ConfigureAwait(false);
                 }
-                catch
+                catch (Exception e)
                 {
                     //sheet doesn`t exist
+                    throw new ServiceDirectoryException("Unable to create spreadsheet", e);
                 }
             }
         }

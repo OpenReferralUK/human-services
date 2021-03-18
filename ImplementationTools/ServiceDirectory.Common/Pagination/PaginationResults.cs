@@ -25,12 +25,14 @@ namespace ServiceDirectory.Common.Pagination
         }
 
         public bool HasPaginationMetaData { get; set; }
+        public bool HasInvalidTotalPages { get; set; }
 
         public PaginationResults()
         {
             MissingDetailIDs = new List<string>();
             Items = new List<dynamic>();
             HasPaginationMetaData = true;
+            HasInvalidTotalPages = false;
             TotalPages = 1;
         }
     }

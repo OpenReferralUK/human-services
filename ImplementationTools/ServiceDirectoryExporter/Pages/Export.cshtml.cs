@@ -33,7 +33,7 @@ namespace ServiceDirectoryExporter.Pages
             if (string.IsNullOrEmpty(BaseURL) || !url.UrlAbsolute() || !url.UrlValid())
             {
                 MsgText = "Service directory not found, check you have specified the correct URL"; //move all text to config
-                Response.Redirect("https://localhost:5001");  //move to config
+                Response.Redirect(string.Format("{0}://{1}{2}", Request.Scheme, Request.Host.Host, Url.Content("~")));
                 return;
             }
 
@@ -64,10 +64,10 @@ namespace ServiceDirectoryExporter.Pages
                 {
                     bool back = await GoogleSheetsExport.WriteToSpreadsheetAsync(spreadsheetId, credential, BaseURL, "configuration.json");
 
-                } catch(Exception ex)
+                } 
+                catch(Exception ex)
                 {
-                    Console.WriteLine("Your request was unsuccessful"); //temp
-                    _logger.LogError("");  //check logger configured
+                    _logger.LogError(ex, ex.Message);
                 }
                 
                

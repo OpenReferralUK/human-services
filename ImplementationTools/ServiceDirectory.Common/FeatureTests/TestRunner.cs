@@ -28,6 +28,7 @@ namespace ServiceDirectory.Common.FeatureTests
             }
             catch
             {
+                //error logging not required here
                 return false;
             }
             return result;

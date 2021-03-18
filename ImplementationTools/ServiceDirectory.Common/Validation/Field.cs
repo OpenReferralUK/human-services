@@ -138,15 +138,8 @@ namespace ServiceDirectory.Common.Validation
 
         bool IsDateTime(string date)
         {
-            try
-            {
-                DateTime dt = DateTime.Parse(date);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            DateTime dt;
+            return DateTime.TryParse(date, out dt);
         }
 
         bool IsValidCurrency(string currency)

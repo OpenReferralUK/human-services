@@ -23,7 +23,10 @@ namespace ServiceDirectory.Common.Pagination
                 {
                     paginationResults.TotalPages = Convert.ToInt32(serviceList.totalPages);
                 }
-                catch { }
+                catch
+                {
+                    paginationResults.HasInvalidTotalPages = true;                    
+                }
 
                 foreach (dynamic s in serviceList.content)
                 {
@@ -45,6 +48,7 @@ namespace ServiceDirectory.Common.Pagination
                         }
                         catch
                         {
+                            //bad data don't stop the test for this
                         }
                     }
                     paginationResults.Items.Add(obj);
@@ -89,8 +93,10 @@ namespace ServiceDirectory.Common.Pagination
                 {
                     totalPages = Convert.ToInt32(serviceList.totalPages);
                 }
-                catch { Console.WriteLine("Something went wrong "); }
-
+                catch 
+                { 
+                    //if this isn't here we will ignore it and just paginate the first page. This issue will be reported upon in pagination 
+                }
 
                 await processor(serviceList, totalPages);
             }

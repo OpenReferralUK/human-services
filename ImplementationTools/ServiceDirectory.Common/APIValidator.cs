@@ -39,6 +39,7 @@ namespace ServiceDirectory.Common
                 }
                 result.HasDetailPage = !(paginationResults.MissingDetailIDs.Count == paginationResults.Items.Count);
                 result.HasPaginationMetaData = paginationResults.HasPaginationMetaData;
+                result.HasInvalidTotalPages = paginationResults.HasInvalidTotalPages;
 
                 ResourceReader resourceReader = new ResourceReader();
                 List<string> resourceNames = await resourceReader.GetResourceNames().ConfigureAwait(false);
@@ -133,6 +134,7 @@ namespace ServiceDirectory.Common
                     catch (RuntimeBinderException)
                     {
                         // id doesn't exist
+                        // ignore error
                     }
                 }
             }
@@ -175,6 +177,7 @@ namespace ServiceDirectory.Common
                                         }
                                         catch (Exception e)
                                         {
+                                            //this shouldn't stop tests ignore error
                                         }
                                     }
                                 }
@@ -253,6 +256,7 @@ namespace ServiceDirectory.Common
                                         }
                                         catch (Exception e)
                                         {
+                                            //this shouldn't stop tests ignore error
                                         }
                                     }
                                 }
@@ -274,7 +278,10 @@ namespace ServiceDirectory.Common
                     featureTests.Add(ageTest);
                 }
             }
-            catch { }
+            catch (Exception e) 
+            {
+                throw new ServiceDirectoryException("An error occured, trying to perform level 2 test", e);
+            }
 
             return featureTests;
         }
@@ -322,6 +329,7 @@ namespace ServiceDirectory.Common
                                             }
                                             catch (Exception e)
                                             {
+                                                //the test shouldn't stop if theres an error 
                                             }
                                         }
                                         else
@@ -336,7 +344,9 @@ namespace ServiceDirectory.Common
                     }
                 }
             }
-            catch { }
+            catch (Exception e){
+                throw new ServiceDirectoryException("An error occured, trying to validate items", e);
+            }
         }
 
         private static Dictionary<string, Resource> GetFields(dynamic resources)
