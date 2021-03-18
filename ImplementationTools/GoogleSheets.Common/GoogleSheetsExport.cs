@@ -81,7 +81,8 @@ namespace GoogleSheets.Common
 
             Dictionary<string, string> columnToSheetIndex = new Dictionary<string, string>();
             List<ForeignKeyAssociaion> foreignKeys = new List<ForeignKeyAssociaion>();
-            dynamic resources = await Resources.GetResources().ConfigureAwait(false);
+            Resources resourceReader = new Resources();
+            dynamic resources = await resourceReader.GetResources().ConfigureAwait(false);
 
             foreach (dynamic resource in resources)
             {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -53,7 +53,14 @@ namespace ServiceDirectoryValidator.Pages
 
         public async System.Threading.Tasks.Task<JsonResult> OnGetValidateAsync(string baseUrl)
         {
-            ServiceDirectory.Common.Results.ValidationResult result = await APIValidator.Validate(baseUrl);
+
+            ValidationResult result = await APIValidator.Validate(baseUrl);
+            
+            if (result.Exception != null)
+            {
+                _logger.LogError(result.Exception, result.Error);
+            }
+
 
             return new JsonResult(result);
         }

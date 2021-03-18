@@ -1,7 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
+using ServiceDirectory.Common.DataStandard;
+using ServiceDirectory.Common.Pagination;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ServiceDirectory.Common
@@ -10,7 +11,8 @@ namespace ServiceDirectory.Common
     {
         public static async Task<Dictionary<string, Dictionary<string, dynamic>>> DelayerPaginatedData(string apiBaseUrl)
         {
-            List<string> resourceNames = await Resources.GetResourceNames().ConfigureAwait(false);
+            ResourceReader resourceReader = new ResourceReader();
+            List<string> resourceNames = await resourceReader.GetResourceNames().ConfigureAwait(false);
             Dictionary<string, Dictionary<string, dynamic>> objectCollection = new Dictionary<string, Dictionary<string, dynamic>>();
 
             Paginator paginator = new Paginator();

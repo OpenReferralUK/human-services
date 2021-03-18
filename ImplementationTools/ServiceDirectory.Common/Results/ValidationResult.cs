@@ -1,4 +1,5 @@
-﻿using ServiceDirectory.Common.Validation;
+﻿using Newtonsoft.Json;
+using ServiceDirectory.Common.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace ServiceDirectory.Common.Results
         public bool Level2Pass { get; private set; }
         public int Level2TestsRun { get; set; }
         public string Error { get; set; }
+        [JsonIgnore]
+        public Exception Exception { get; set; }
         public List<string> MissingRequiredFields { get; set; }
         public List<string> InvalidUniqueFields { get; set; }
         public List<string> InvalidFormats { get; set; }
