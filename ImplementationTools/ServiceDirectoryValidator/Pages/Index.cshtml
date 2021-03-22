@@ -16,7 +16,42 @@
     }
 
     function performValidation() {
-        $('#divOutput').html('<h5>Scanning...please wait...this may take a few minutes...</h5>');
+
+
+        if ($('#txtBaseUrl').val().length === 0) {
+            
+            $('#errText').html("Please enter a valid url to access your data");
+            $('#errText').removeClass('d-none').addClass('d-block alert-danger');
+
+        } else {
+            $.ajax({
+                type: "GET",
+                url: "/Index?handler=ValidUrl",
+                contentType: "application/json",
+                dataType: "json",
+                data: {
+                    baseUrl: $('#txtBaseUrl').val()
+                },
+                success: function (response) {
+                    if (response.error) {
+                        $('#errText').html('<strong>' + response.error + '</strong>');
+                        $('#errText').removeClass('d-none').addClass('d-block');
+                        
+                    } else {
+                        $('#errText').removeClass('d-block alert-danger').addClass('d-none');
+                        validateDirectory();
+                    }
+                },
+                failure: function (response) {
+                    alert('it failed' + response)
+                }
+            });
+           
+            $('#divOutput').html("");
+        }
+        
+        function validateDirectory() {
+            $('#divOutput').html('<h5>Scanning...please wait...this may take a few minutes...</h5>');
         $.ajax({
             type: "GET",
             url: "/Index?handler=Validate",
@@ -27,10 +62,10 @@
             },
             success: function (response) {
                 if (response.error) {
-                    $('#divOutput').html('<strong>' + response.error+'</strong>');
+                    $('#errText').html('<strong>' + response.error + '</strong>');
                 }
                 else {
-                    $('#divOutput').html('<div class="col-sm"><div id="divResults"><h4>Issues</h4></div></div><div class="col-sm"><h4>Statistics</h4><div id="divStats"></div></div>');                    
+                    $('#divOutput').html('<div class="col-sm"><div id="divResults"><h4>Issues</h4></div></div><div class="col-sm"><h4>Statistics</h4><div id="divStats"></div></div>');
                     $('#divResults').append("<div class='row'><div class='col-sm'><strong>Level 1 Pass</strong></div><div class='col-sm'>" + response.level1Pass + "</div></div>");
                     $('#divResults').append("<div class='row'><div class='col-sm'><strong>Level 2 Pass</strong></div><div class='col-sm'>" + response.level2Pass + "</div></div>");
                     outputArray("API issues", "apiIssues", response.apiIssues);
@@ -50,6 +85,8 @@
                 alert(response);
             }
         });
+
+    }
     }
     $(document).ready(function () {
         $("#txtBaseUrl").keyup(function (event) {
@@ -77,11 +114,17 @@
                 </div>
             </div>
         </div><div class="col-sm">
+        <form id="validateForm">
+
             <div class="form-group">
                 <label for="txtBaseUrl">Base URL</label>
                 <input class="form-control" type="url" id="txtBaseUrl" />
+                <span asp-validation-for="txtBaseUrl"></span>
             </div>
+            <div class="d-none" id="errText">invalid</div>
+        
             <input type="button" value="Validate" onclick="performValidation()" class="btn btn-primary" />
+        </form>
         </div>
     </div>
     <div class="row mt-5" id="divOutput"></div>
