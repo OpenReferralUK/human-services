@@ -101,15 +101,16 @@
     <div class="row">
         <div class="col-sm">
             <div class="panel panel-primary">
+                <p>This tool checks that a specific service directory follows the standard. It shows any issues as well as statistics on what types of data is included in the scanned Service Directory. This helps organisations move to the standard. This tool also helps establish trust as it ensures that a Service Directory follows the standard.</p>
                 <div class="panel-heading">
                     <h3 class="panel-title">Example base URL's</h3>
                 </div>
 
                 <div class="panel-body">
                     <ol>
-                        <li>https://outpost-api-service.herokuapp.com/api/v1/</li>
-                        <li>https://api.porism.com/ServiceDirectoryServiceBlackburn/</li>
-                        <li>https://lgaapi.connecttosupport.org/</li>
+                            <li>https://outpost-api-service.herokuapp.com/api/v1/</li>
+                            <li>https://api.porism.com/ServiceDirectoryServiceBlackburn/</li>
+                            <li>https://lgaapi.connecttosupport.org/</li>
                     </ol>
                 </div>
             </div>
@@ -118,7 +119,7 @@
 
             <div class="form-group">
                 <label for="txtBaseUrl">Base URL</label>
-                <input class="form-control" type="url" id="txtBaseUrl" />
+                <input class="form-control DemoBaseURL" type="url" id="txtBaseUrl" />
                 <span asp-validation-for="txtBaseUrl"></span>
             </div>
             <div class="d-none" id="errText">invalid</div>
