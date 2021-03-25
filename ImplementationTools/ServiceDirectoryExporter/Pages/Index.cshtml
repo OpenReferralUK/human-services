@@ -16,11 +16,11 @@
                     </div>
 
                     <div class="panel-body">
-                        <ol>
-                            <li><a id="serviceDirectory1" href="javascript:$('.DemoBaseURL').val($('#serviceDirectory1').html())">https://outpost-api-service.herokuapp.com/api/v1/</a></li>
-                            <li><a id="serviceDirectory2" href="javascript:$('.DemoBaseURL').val($('#serviceDirectory2').html())">https://api.porism.com/ServiceDirectoryServiceBlackburn/</a></li>
-                            <li><a id="serviceDirectory3" href="javascript:$('.DemoBaseURL').val($('#serviceDirectory3').html())">https://lgaapi.connecttosupport.org/</a></li>
-                        </ol>
+                        <ul>
+                            <li class="mb-2"><span id="serviceDirectory1">https://outpost-api-service.herokuapp.com/api/v1/</span><button type="button" class="ml-2 btn btn-sm btn-outline-secondary" onclick="$('.DemoBaseURL').val($('#serviceDirectory1').html())"><span class="mr-2">Try Now</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button></li>
+                            <li class="mb-2"><span id="serviceDirectory2">https://api.porism.com/ServiceDirectoryServiceBlackburn/</span><button type="button" class="ml-2 btn btn-sm btn-outline-secondary" onclick="$('.DemoBaseURL').val($('#serviceDirectory2').html())"><span class="mr-2">Try Now</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button></li>
+                            <li><span id="serviceDirectory3">https://lgaapi.connecttosupport.org/</span><button type="button" class="ml-2 btn btn-sm btn-outline-secondary" onclick="$('.DemoBaseURL').val($('#serviceDirectory3').html())"><span class="mr-2">Try Now</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button></li>
+                        </ul>
                     </div>
                 </div>
             </div>
