@@ -52,13 +52,11 @@
         {% endif %}
         {% endcomment %}
         <div class="row">
-            <div class="col">
-                <h1 id="project_title">{{ site.title }}</h1>
-                <h2 id="project_tagline">Setting the open standard for community data</h2>
-                <!--        <h2 id="project_tagline">{{ site.description | default: site.github.project_tagline }}</h2>-->
+            <div class="col-sm-4 col-md-2 align-content-end align-content-center-md" style="min-width: 15%; max-width: 15%">
+                <img class="img-fluid w-25-md w-25-lg" src="https://raw.githubusercontent.com/OpenReferralUK/human-services/gh-pages/assets/images/OpenReferralUK.png" alt="OpenreferralUk Logo" style="background-color: white">
             </div>
-            <div class="col-sm-4 col-md-2 align-content-end align-content-center-md" style="min-width: 20%; max-width: 40%">
-                <img class="img-fluid w-25-md w-50-lg" src="https://raw.githubusercontent.com/OpenReferralUK/human-services/gh-pages/assets/images/OpenReferralUK.png" alt="OpenreferralUk Logo" style="background-color: white">
+			<div class="col d-flex align-items-center">
+                <h1 id="project_title">Developer documentation and tools</h1>
             </div>
         </div>
 
@@ -75,7 +73,7 @@
 <!-- MAIN CONTENT -->
 <div id="main_content_wrap" class="outer">
     <section>{% include navigation.html %}</section>
-    <section id="main_content" class="inner">
+    <section id="main_content" class="inner mt-4">
         {{ content }}
     </section>
 </div>
