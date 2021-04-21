@@ -68,7 +68,7 @@
                 },
                 success: function (response) {
                     if (response.error) {
-                        $('#errText').html('<strong>' + response.error + '</strong>');
+                        $('#divOutput').html('<h3 id="headerResults">An error occurred</h3><strong>' + response.error + '</strong>');
                     }
                     else {
                         $('#divOutput').html('<h3 id="headerResults">Results</h3>');
@@ -85,8 +85,8 @@
                         var resourceStats = $("#resourceStats");
                         $.each(response.resourceCounts, function (i, item) {
                             $('<li>').append('Count of ' + item.name + ': ' + item.count).appendTo(resourceStats);
-                        });
-                    }
+                        });                        
+                    }      
                     $("html, body").animate({ scrollTop: $("#headerResults").offset().top }, 1000);
                 },
                 failure: function (response) {
