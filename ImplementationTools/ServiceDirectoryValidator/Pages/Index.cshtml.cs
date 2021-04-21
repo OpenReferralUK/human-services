@@ -56,9 +56,9 @@ namespace ServiceDirectoryValidator.Pages
 
             ServiceDirectory.Common.Results.ValidationResult result = await APIValidator.Validate(baseUrl);
             
-            if (result.Exception != null)
+            if (result.GetException() != null)
             {
-                _logger.LogError(result.Exception, result.Error);
+                _logger.LogError(result.GetException(), result.Error);
             }
 
 

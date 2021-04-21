@@ -18,8 +18,6 @@ namespace ServiceDirectory.Common.Results
         public int Level2TestsRun { get; set; }
         public bool HasInvalidTotalPages { get; set; }
         public string Error { get; set; }
-        [JsonIgnore]
-        public Exception Exception { get; set; }
         public List<string> MissingRequiredFields { get; set; }
         public List<string> InvalidUniqueFields { get; set; }
         public List<string> InvalidFormats { get; set; }
@@ -27,8 +25,8 @@ namespace ServiceDirectory.Common.Results
         public List<string> InvalidValues { get; set; }
         public List<string> ApiIssues { get; set; }
         internal List<string> ApiIssuesLevel2 { get; set; }
-
         public List<ResourceCount> ResourceCounts { get; set; }
+        private Exception exception;
 
         public ValidationResult()
         {
@@ -42,6 +40,16 @@ namespace ServiceDirectory.Common.Results
             InvalidDataTypes = new List<string>();
             InvalidValues = new List<string>();
             ResourceCounts = new List<ResourceCount>();
+        }
+
+        public Exception GetException()
+        {
+            return exception;
+        }
+
+        public void SetException(Exception e)
+        {
+            exception = e;
         }
 
         public void PerformFinalReview()

@@ -94,11 +94,15 @@ namespace ServiceDirectory.Common
             }
             catch(ServiceDirectoryException sde)
             {
-                return new ValidationResult() { Error = sde.Message, Exception = sde };
+                ValidationResult vr = new ValidationResult() { Error = sde.Message};
+                vr.SetException(sde);
+                return vr;
             }
             catch (Exception e)
             {
-                return new ValidationResult() { Error = "An error occured, test aborted.", Exception = e };
+                ValidationResult vr = new ValidationResult() { Error = "An error occured, test aborted." };
+                vr.SetException(e);
+                return vr;
             }
         }
 
