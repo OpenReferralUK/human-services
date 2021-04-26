@@ -21,14 +21,12 @@
         <header class="inner">
 
             <div class="row">
-                <div class="col">
+                <div class="col-sm-4 col-md-2 align-content-end align-content-center-md" style="min-width: 15%; max-width: 15%">
+                    <a href="https://openreferraluk.org/"><img class="img-fluid w-25-md w-25-lg" src="/ApiQuery/images/oruk_logo_green.svg" alt="Open Referral UK" style="background-color: white"></a>
+</div>
+                <div class="col d-flex align-items-center">
                     <h1 id="project_title">API on Open Referral database - extended</h1>
-                    <h2 id="project_tagline">Open Referral UK Data Standard</h2>
-                    <!--        <h2 id="project_tagline">Extensions proposed by the English Local Government Association (LGA) and the local government OpenCommunity project to the OpenReferral standard for human services data.   Schema generator code is given to express the schema in various formats.  Data conversion routines to make it conform to the standard.  API that serves the data in a format compliant with the standard.</h2>-->
-                </div>
-                <div class="col-sm-4 col-md-2 align-content-end align-content-center-md" style="min-width: 20%; max-width: 40%">
-                    <img class="img-fluid w-25-md w-50-lg" src="images/OpenReferralUK.png" alt="OpenreferralUk Logo" style="background-color: white">
-                </div>
+                </div>				
             </div>
         </header>
     </div>
@@ -51,9 +49,9 @@
                 <select id="endpoint" class="form-control"></select>
             </div>
             <div class="row">
-                <h5 style="padding-top: 1%">
+                <label style="padding-top: 1%" class="ml-1 h5">
                     Get services
-                </h5>
+                </label>
             </div>
             <div class="row">
                 <div class="col-sm-4">
@@ -207,7 +205,7 @@
             </div>
         </div>
         <div class="col-md-6 col-sm-4" id="api">
-            <h5>API calls made:</h5>
+			<label aria-live="assertive" aria-atomic="true" style="padding-top: 2%" class="ml-1 h5 call-header">API calls made:</label>
         </div>
     </div>
 </div>
@@ -215,7 +213,7 @@
 <div id='tabs' style="padding: 3%">
     <ul class="nav nav-tabs">
         <li class="nav-item"><a id="resultTab" class="nav-link active" href="#resultPanel" data-toggle="tab">
-            Results </a></li>
+            <span id="spnResultTabLabel" aria-live="assertive" aria-atomic="true"></span> </a></li>
         <li class="nav-item"><a id="graphTab" class="nav-link disabled" href="#graphPanel" data-toggle="tab">
             Visualisation</a></li>
         <li class="nav-item"><a id="validateTab" class="nav-link disabled" href="#validatePanel" data-toggle="tab">
