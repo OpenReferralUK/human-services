@@ -278,7 +278,6 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     margin: 0;
     padding: 0;
     border: 0;
-    font: inherit;
     vertical-align: baseline
 }
 
@@ -293,22 +292,6 @@ ol, ul {
 table {
     border-collapse: collapse;
     border-spacing: 0
-}
-
-@font-face {
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url(/ApiQuery/fonts/Inter-Regular.woff2) format("woff2"), url(/ApiQuery/fonts/Inter-Regular.woff) format("woff");
-}
-
-@font-face {
-    font-family: "Inter";
-    font-style: italic;
-    font-weight: 400;
-    font-display: swap;
-    src: url(/ApiQuery/fonts/Inter-Italic.woff2) format("woff2"), url(/ApiQuery/fonts/Inter-Italic.woff) format("woff");
 }
 
 body {
