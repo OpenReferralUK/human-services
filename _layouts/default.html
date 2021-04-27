@@ -6,6 +6,7 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/fonts/inter.css?v=' | append: site.github.build_revision | relative_url }}">
     <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -52,14 +53,12 @@
         {% endif %}
         {% endcomment %}
         <div class="row">
-            <div class="col">
-                <h1 id="project_title">{{ site.title }}</h1>
-                <h2 id="project_tagline">Setting the open standard for community data</h2>
-                <!--        <h2 id="project_tagline">{{ site.description | default: site.github.project_tagline }}</h2>-->
-            </div>
-            <div class="col-sm-4 col-md-2 align-content-end align-content-center-md" style="min-width: 20%; max-width: 40%">
-                <img class="img-fluid w-25-md w-50-lg" src="https://raw.githubusercontent.com/OpenReferralUK/human-services/gh-pages/assets/images/OpenReferralUK.png" alt="OpenreferralUk Logo" style="background-color: white">
-            </div>
+                <div class="col-sm-4 col-md-2 align-content-end align-content-center-md" style="min-width: 15%; max-width: 15%">
+                    <a href="https://developers.openreferraluk.org/"><img class="img-fluid w-25-md w-25-lg" src="/assets/images/oruk_logo_white.svg" alt="Open Referral UK" style="box-shadow:none"></a>
+</div>
+                <div class="col d-flex align-items-center">
+                    <h1 id="project_title">Developer documentation and tools</h1>
+                </div>			
         </div>
 
 
@@ -75,7 +74,7 @@
 <!-- MAIN CONTENT -->
 <div id="main_content_wrap" class="outer">
     <section>{% include navigation.html %}</section>
-    <section id="main_content" class="inner">
+    <section id="main_content" class="inner mt-4">
         {{ content }}
     </section>
 </div>

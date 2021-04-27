@@ -1,3 +1,5 @@
+- title: Documentation home
+  url: /
 - title: Data standard
   child:
     - title: Reference
@@ -16,27 +18,12 @@
       url: /API-Guidance/
 - title: Tools
   child:
-    - title: Reference
-      url: /ToolsReference/
-    - title: API Connector
-      url: https://tools.openreferraluk.org/APIConnector/
+    - title: Validator
+      url: https://validator.openreferraluk.org/
       external: 1
-      target: _blank
+    - title: Exporter
+      url: https://exporter.openreferraluk.org/
+      external: 1
     - title: API Query Tool
-      url: https://tools.openreferraluk.org/ApiQuery/
-      target: _blank
+      url: https://query.openreferraluk.org/
       external: 1
-    - title: Service Finder
-      url: https://tools.openreferraluk.org/ServiceFinder/
-      target: _blank
-      external: 1
-- title: About
-  child:
-    - title: About
-      url: /About/
-    - title: Contact us
-      url: /ContactUs/
-    - title: Governance
-      url: /Governance/
-    - title: Technical group terms of reference
-      url: /TechGroup/
