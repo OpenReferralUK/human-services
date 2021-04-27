@@ -16,3 +16,14 @@
       url: /ApiReference/
     - title: Guidance
       url: /API-Guidance/
+- title: Tools
+  child:
+    - title: Validator
+      url: https://validator.openreferraluk.org/
+      external: 1
+    - title: Exporter
+      url: https://exporter.openreferraluk.org/
+      external: 1
+    - title: API Query Tool
+      url: https://query.openreferraluk.org/
+      external: 1
