@@ -5,8 +5,6 @@ permalink: /UseOfTaxonomies/
 ---
 # Use of Taxonomies with OpenCommunity services data
 {:.no_toc}
-#### Contents
-{:.no_toc}
 * TOC 
 {:toc}  
 ## Purpose

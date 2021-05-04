@@ -6,8 +6,6 @@ permalink: /API-Guidance/
 
 ## Open Referral UK API Guidance 
 {:.no_toc}
-#### Contents
-{:.no_toc}
 * TOC 
 {:toc}
 This page describes how to conform to and apply the Open Referral UK Application Programming Interface (API).
