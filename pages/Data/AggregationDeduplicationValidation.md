@@ -5,8 +5,6 @@ permalink: /Validation/
 ---
 # Aggregation, deduplication and validation of service data DRAFT
 {:.no_toc}
-#### Contents
-{:.no_toc}
 * TOC 
 {:toc}
   
