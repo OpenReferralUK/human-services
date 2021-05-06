@@ -63,7 +63,7 @@ The Schema does not make explicit provision for recording the circumstances of u
 
 These vocabularies are suitable for describing circumstance types:
 
--   The LGA's [Personal Circumstances List](http://beta.id.esd.org.uk/list/circumstancesPersonal) - a subset of all circumstances defined by the LGA. Many of the circumstances correspond with those used by the UK Office for National Statistics and other public organisations for classifying statistics. Hence service provision can be correlated with statistics pertaining to specific communities.
+-   The LGA's [Personal Circumstances List](http://id.esd.org.uk/list/circumstancesPersonal) - a subset of all circumstances defined by the LGA. Many of the circumstances correspond with those used by the UK Office for National Statistics and other public organisations for classifying statistics. Hence service provision can be correlated with statistics pertaining to specific communities.
 
 -   [OpenEligibility list](https://github.com/auntbertha/openeligibility/blob/master/taxonomy) - described as a "way to categorize human services and human situations", the human situations part of this list provides broad categorisations of types of individual
 
@@ -189,7 +189,7 @@ Hence:
 
 Service Finder utilities can be configured to filter services according to their target groups.
 
-The sample [service finder here](https://opencommunity.porism.com/ServiceFinder) (see [here for source code](https://github.com/esd-org-uk/human-services/tree/master/ServiceFinder)) illustrates how "personas" can be used for quick filtering according to target groups.
+The sample [service finder here](https://tools.openreferraluk.org/ServiceFinder/) (see [here for source code](https://github.com/OpenReferralUK/ServiceFinder)) illustrates how "personas" can be used for quick filtering according to target groups.
 
 ![ServiceFinder homepage](https://raw.githubusercontent.com/OpenReferralUK/human-services/gh-pages/assets/images/ServiceFinderPage.png)
 
@@ -244,9 +244,9 @@ The LGA supports these relevant taxonomies:
 
 -   Needs - <http://id.esd.org.uk/list/needs> with mappings to service types
 
--   Personal circumstances - [http://id.esd.org.uk/list/circumstancesPersonal](http://beta.id.esd.org.uk/list/circumstancesPersonal)  with mappings to service types
+-   Personal circumstances - [http://id.esd.org.uk/list/circumstancesPersonal](http://id.esd.org.uk/list/circumstancesPersonal)  with mappings to service types
 
--   Eligibility circumstances - [http://id.esd.org.uk/list/circumstancesEligibility](http://beta.id.esd.org.uk/list/circumstancesEligibility)
+-   Eligibility circumstances - [http://id.esd.org.uk/list/circumstancesEligibility](http://id.esd.org.uk/list/circumstancesEligibility)
 
 The URIs for these taxonomies and for their taxonomy items resolve to web pages where more information can be found, including a "Downloads" tabbed page for each list and each mapping to another list in CSV of XML format. Signed in users of the standards pages can subscribe to any list and so be informed of updates and consulted on major changes.
 

@@ -68,7 +68,7 @@ Pluralised versions of the JSON schemas define arrays of simple or verbose objec
 
 Append "verbose" to the above two calls to get full details of every service/organization returned.
 
-<https://api.porism.com/ServiceDirectoryService/services/000d18bd-f12b-4152-a2fd-9d29f80c90d9>  returns verbose details of a single 
+<https://api.porism.com/ServiceDirectoryService/services/4278313c-6b1c-407e-8e77-0d8ee2440d52>  returns verbose details of a single service
 
 <https://api.porism.com/ServiceDirectoryService/organizations/00329d8f-5d0f-4dec-9040-33587f758a87> returns verbose details of a single organization
 
