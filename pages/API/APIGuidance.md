@@ -20,7 +20,7 @@ Use that documentation to look up specific web methods, their parameters and res
 
 The API allows for services data to be interchanged in a consistent structure between databases and applications. Hence adapters do not need to be developed by each piece of software that needs to process services data.
 
-Developers who learn the API and the Open Referral UK data structure (see [Data Standard Guidance](https://esd-org-uk.github.io/human-services/Guidance/)) can apply that knowledge to a wide range of applications and data from many sources. Software components using the standard can be interchanged without modification. 
+Developers who learn the API and the Open Referral UK data structure (see [Data Standard Guidance](/Guidance/)) can apply that knowledge to a wide range of applications and data from many sources. Software components using the standard can be interchanged without modification. 
 
 UK local authorities signed up to the [Local Digital Declaration](https://localdigital.gov.uk/declaration/) commit to
 
