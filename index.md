@@ -32,5 +32,5 @@ pageTitle: Open Referral UK
 </div>   
 </div> 
 
-Check the [Contact us](/ContactUs/) page if you need help applying the standard or want to publicise how you use it.
+Check the [Contact us](https://openreferraluk.org/contact-us) page if you need help applying the standard or want to publicise how you use it.
 
