@@ -35,8 +35,8 @@ namespace ServiceDirectoryExporter
             o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
         }).AddCookie().AddGoogleOpenIdConnect(options =>
         {
-            options.ClientId = "1079571407435-e83hm1n7l8pg31936obqip62lh1kvie7.apps.googleusercontent.com";
-            options.ClientSecret = "Y9OGaTm4eOyyFM0nNjeY2PPU";
+            options.ClientId = "856082464201-dfkd0sr7rck00m4vhs740nn8s5e02l64.apps.googleusercontent.com";
+            options.ClientSecret = "PskzuYYlikx-hPuRfot0L7vZ";
         });
         }
 
