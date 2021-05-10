@@ -37,7 +37,7 @@ namespace ServiceDirectory.Common
                 {
                     result.HasPagination = false;
                 }
-                result.HasDetailPage = !(paginationResults.MissingDetailIDs.Count == paginationResults.Items.Count);
+                result.HasDetailPage = (paginationResults.MissingDetailIDs.Count != paginationResults.Items.Count || paginationResults.Items.Count == 0);
                 result.HasPaginationMetaData = paginationResults.HasPaginationMetaData;
                 result.HasInvalidTotalPages = paginationResults.HasInvalidTotalPages;
 
