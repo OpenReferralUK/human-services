@@ -64,7 +64,7 @@ namespace ServiceDirectory.Common.Results
             }
             if (!HasPaginationMetaData)
             {
-                ApiIssues.Add("Missing search method paginaton metadata at the begining of the JSON payload it should be in the following format: {\"totalElements\":nn,\"totalPages\":nn,\"number\":nn,\"size\":nn,\"first\":bb,\"last\":bb");
+                ApiIssues.Add("Missing search method paginaton metadata at the begining of the JSON payload it should be in the following format: {\"totalElements\":nn,\"totalPages\":nn,\"number\":nn,\"size\":nn,\"first\":bb,\"last\":bb\",\"content\":[{},{}]");
             }
             if (HasInvalidTotalPages)
             {

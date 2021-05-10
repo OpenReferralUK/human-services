@@ -11,7 +11,7 @@
         $('#divResults').append("<div class='row'><div class='col-md-4'><strong>" + label + "</strong></div><div class='col-md-8'><ul class='list-unstyled' id='" + ulId+"'></ul></div></div>");
         var listElement = $('#'+ulId);
         $.each(list, function (i, item) {
-            $('<li>').append(item).appendTo(listElement);
+            $('<li>').addClass('text-break').append(item).appendTo(listElement);
         });
     }
 

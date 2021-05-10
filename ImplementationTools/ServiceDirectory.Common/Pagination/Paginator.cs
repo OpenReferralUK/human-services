@@ -14,7 +14,8 @@ namespace ServiceDirectory.Common.Pagination
             {
                 if (serviceList != null) { 
 
-                if (!HasProperty(serviceList, "totalElements") || !HasProperty(serviceList, "totalPages") || !HasProperty(serviceList, "number") || !HasProperty(serviceList, "size") || !HasProperty(serviceList, "first") || !HasProperty(serviceList, "last"))
+                if (!HasProperty(serviceList, "totalElements") || !HasProperty(serviceList, "totalPages") || !HasProperty(serviceList, "number") || !HasProperty(serviceList, "size") || !HasProperty(serviceList, "first") || !HasProperty(serviceList, "last")
+                     || !HasProperty(serviceList, "content"))
                 {
                     paginationResults.HasPaginationMetaData = false;
                 }
@@ -28,30 +29,33 @@ namespace ServiceDirectory.Common.Pagination
                     paginationResults.HasInvalidTotalPages = true;                    
                 }
 
-                foreach (dynamic s in serviceList.content)
+                if (HasProperty(serviceList, "content"))
                 {
-                    dynamic obj = s;
-                    try
+                    foreach (dynamic s in serviceList.content)
                     {
-                        obj = await WebServiceReader.ConvertToDynamic(apiBaseUrl + "/services/" + s.id);
-                        if (obj == null)
-                        {
-                            obj = s;
-                            paginationResults.MissingDetailIDs.Add(Convert.ToString(s.id));
-                        }
-                    }
-                    catch
-                    {
+                        dynamic obj = s;
                         try
                         {
-                            paginationResults.MissingDetailIDs.Add(Convert.ToString(s.id));
+                            obj = await WebServiceReader.ConvertToDynamic(apiBaseUrl + "/services/" + s.id);
+                            if (obj == null)
+                            {
+                                obj = s;
+                                paginationResults.MissingDetailIDs.Add(Convert.ToString(s.id));
+                            }
                         }
                         catch
                         {
-                            //bad data don't stop the test for this
+                            try
+                            {
+                                paginationResults.MissingDetailIDs.Add(Convert.ToString(s.id));
+                            }
+                            catch
+                            {
+                                //bad data don't stop the test for this
+                            }
                         }
+                        paginationResults.Items.Add(obj);
                     }
-                    paginationResults.Items.Add(obj);
                 }
             }
 
