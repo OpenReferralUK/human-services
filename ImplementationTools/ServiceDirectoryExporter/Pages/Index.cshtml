@@ -1,35 +1,43 @@
 ﻿@page
 @model IndexModel
-@{
+@{ 
+
     ViewData["Title"] = "Home page";
 }
-
+    
     <div>
-        <h1 class="display-4 mb-5">Convert Service Directory to Google Sheet</h1>
+        <h1 class="display-4 mb-5">Export your Service Directory to Google Sheets</h1>
         <div class="row">
             <div class="col-sm">
                 <div class="panel panel-primary">
+                    <p>The Service Exporter allows providers to easily view the entire contents of a Service Directory in a Google Spreadsheet form. With derived columns to show how services relate to organisations, service types etc.</p>
                     <div class="panel-heading">
-                        <h3 class="panel-title">Example base URL's</h3>
+                        <h2 class="panel-title">Example base URL's</h2>
                     </div>
 
                     <div class="panel-body">
-                        <ol>
-                            <li>https://outpost-api-service.herokuapp.com/api/v1/</li>
-                            <li>https://api.porism.com/ServiceDirectoryServiceBlackburn/</li>
-                            <li>https://lgaapi.connecttosupport.org/</li>
-                        </ol>
+                        <p>Click on a try now button below to automatically populate the Base URL field.</p>
+                        <ul>
+                            <li class="mb-2"><span id="serviceDirectory1">https://outpost-api-service.herokuapp.com/api/v1/</span><button type="button" class="ml-2 btn btn-sm btn-outline-secondary" onclick="$('.DemoBaseURL').val($('#serviceDirectory1').html())"><span class="mr-2">Try Now</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button></li>
+                            <li class="mb-2"><span id="serviceDirectory2">https://api.porism.com/ServiceDirectoryServiceBlackburn/</span><button type="button" class="ml-2 btn btn-sm btn-outline-secondary" onclick="$('.DemoBaseURL').val($('#serviceDirectory2').html())"><span class="mr-2">Try Now</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button></li>
+                            <li><span id="serviceDirectory3">https://lgaapi.connecttosupport.org/</span><button type="button" class="ml-2 btn btn-sm btn-outline-secondary" onclick="$('.DemoBaseURL').val($('#serviceDirectory3').html())"><span class="mr-2">Try Now</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button></li>
+                        </ul>
                     </div>
                 </div>
             </div>
             <div class="col-sm">
                 <form method="get" asp-page="/Export">
                     <div class="form-group">
-                        <label for="txtBaseUrl">Base URL</label>
-                        <input class="form-control" type="url" id="BaseUrl" name="BaseUrl" />
+                        <label for="BaseUrl">Base URL</label>
+                        <input class="form-control DemoBaseURL" type="url" id="BaseUrl" name="BaseUrl"/>
                     </div>
-                    <input type="submit" value="Export" class="btn btn-primary" />
-                </form>
+                    @if (TempData["MsgText"] != null )
+                    {
+                        <div class="alert alert-danger">@TempData["MsgText"]</div>
+                    }
+
+                        <input type="submit" value="Export" class="btn btn-primary" />
+                    </form>
             </div>
         </div>
     </div>

@@ -8,47 +8,93 @@
         if (list.length == 0) {
             return;
         }
-        $('#divResults').append("<div class='row'><div class='col-sm'><strong>" + label + "</strong></div><div class='col-sm'><ul class='list-unstyled' id='" + ulId+"'></ul></div></div>");
+        $('#divResults').append("<div class='row'><div class='col-md-4'><strong>" + label + "</strong></div><div class='col-md-8'><ul class='list-unstyled' id='" + ulId+"'></ul></div></div>");
         var listElement = $('#'+ulId);
         $.each(list, function (i, item) {
             $('<li>').append(item).appendTo(listElement);
         });
     }
 
+    function outputPassFail(isPass, passMessage, failMessage) {
+        if (isPass) {
+            $('#divOutput').append('<div class="alert alert-success w-100 text-left" role="alert">' + passMessage+'</div>');
+        } else {
+            $('#divOutput').append('<div class="alert alert-danger w-100 text-left" role="alert">' + failMessage +'</div>');
+        }
+    }
+
     function performValidation() {
-        $('#divOutput').html('<h5>Scanning...please wait...this may take a few minutes...</h5>');
-        $.ajax({
-            type: "GET",
-            url: "/Index?handler=Validate",
-            contentType: "application/json",
-            dataType: "json",
-            data: {
-                baseUrl: $('#txtBaseUrl').val()
-            },
-            success: function (response) {
-                if (response.error) {
-                    $('#divOutput').html('<strong>' + response.error+'</strong>');
+        if ($('#txtBaseUrl').val().length === 0) {
+            
+            $('#errText').html("Please enter a valid url to access your data");
+            $('#errText').removeClass('d-none').addClass('d-block alert-danger');
+
+        } else {
+            $.ajax({
+                type: "GET",
+                url: "/Index?handler=ValidUrl",
+                contentType: "application/json",
+                dataType: "json",
+                data: {
+                    baseUrl: $('#txtBaseUrl').val()
+                },
+                success: function (response) {
+                    if (response.error) {
+                        $('#errText').html('<strong>' + response.error + '</strong>');
+                        $('#errText').removeClass('d-none').addClass('d-block');
+                        
+                    } else {
+                        $('#errText').removeClass('d-block alert-danger').addClass('d-none');
+                        validateDirectory();
+                    }
+                },
+                failure: function (response) {
+                    alert('it failed' + response)
                 }
-                else {
-                    $('#divOutput').html('<div class="col-sm"><div id="divResults"><h4>Issues</h4></div></div><div class="col-sm"><h4>Statistics</h4><div id="divStats"></div></div>');                    
-                    $('#divResults').append("<div class='row'><div class='col-sm'><strong>Level 1 Pass</strong></div><div class='col-sm'>" + response.level1Pass + "</div></div>");
-                    outputArray("API issues", "apiIssues", response.apiIssues);
-                    outputArray("Missing required fields", "missingFields", response.missingRequiredFields);
-                    outputArray("Unique fields with duplicate content", "uniqueFields", response.invalidUniqueFields);
-                    outputArray("Invalid data type fields", "typeFields", response.invalidDataTypes);
-                    outputArray("Invalid format fields", "formatFields", response.invalidFormats);
-                    outputArray("Invalid values", "invalidValues", response.invalidValues);
-                    $('#divStats').html("<ul class='list-unstyled' id='resourceStats'></ul>");
-                    var resourceStats = $("#resourceStats");
-                    $.each(response.resourceCounts, function (i, item) {
-                        $('<li>').append('Count of ' + item.name + ': ' + item.count).appendTo(resourceStats);
-                    });
+            });
+           
+            $('#divOutput').html("");
+        }
+        
+        function validateDirectory() {
+            $('#divOutput').html('<h3 id="headerLogo">Scanning...please wait...this may take a few minutes...</h3>');
+            $.ajax({
+                type: "GET",
+                url: "/Index?handler=Validate",
+                contentType: "application/json",
+                dataType: "json",
+                data: {
+                    baseUrl: $('#txtBaseUrl').val()
+                },
+                success: function (response) {
+                    if (response.error) {
+                        $('#divOutput').html('<h3 id="headerResults">An error occurred</h3><strong>' + response.error + '</strong>');
+                    }
+                    else {
+                        $('#divOutput').html('<h3 id="headerResults">Results</h3>');
+                        outputPassFail(response.level1Pass, 'You have passed level 1 compliance, which means data can be read from your Service Directory API in a standard way.', 'You have failed level 1 compliance, which means data can not be read from your Service Directory API in a standard way.');
+                        outputPassFail(response.level2Pass, 'You have passed level 2 compliance, which means your Service Directory API supports the more advanced features of the API standard.', 'You have failed level 2 compliance, which means your Service Directory API does not support the more advanced features of the API standard.');
+                        $('#divOutput').append('<div class="col-8 pl-0"><div id="divResults"><h4>Issues</h4></div></div><div class="col-4 pr-0"><h4>Statistics</h4><div id="divStats"></div></div>');
+                        outputArray("API issues", "apiIssues", response.apiIssues);
+                        outputArray("Missing required fields", "missingFields", response.missingRequiredFields);
+                        outputArray("Unique fields with duplicate content", "uniqueFields", response.invalidUniqueFields);
+                        outputArray("Invalid data type fields", "typeFields", response.invalidDataTypes);
+                        outputArray("Invalid format fields", "formatFields", response.invalidFormats);
+                        outputArray("Invalid values", "invalidValues", response.invalidValues);
+                        $('#divStats').html("<ul class='list-unstyled' id='resourceStats'></ul>");
+                        var resourceStats = $("#resourceStats");
+                        $.each(response.resourceCounts, function (i, item) {
+                            $('<li>').append('Count of ' + item.name + ': ' + item.count).appendTo(resourceStats);
+                        });                        
+                    }      
+                    $("html, body").animate({ scrollTop: $("#headerResults").offset().top }, 1000);
+                },
+                failure: function (response) {
+                    alert(response);
                 }
-            },
-            failure: function (response) {
-                alert(response);
-            }
-        });
+            });
+            $("html, body").animate({ scrollTop: $("#headerLogo").offset().top }, 1000);
+        }
     }
     $(document).ready(function () {
         $("#txtBaseUrl").keyup(function (event) {
@@ -63,25 +109,33 @@
     <div class="row">
         <div class="col-sm">
             <div class="panel panel-primary">
+                <p>This tool checks that a specific service directory follows the standard. It shows any issues as well as statistics on what types of data is included in the scanned Service Directory. This helps organisations move to the standard. This tool also helps establish trust as it ensures that a Service Directory follows the standard.</p>
                 <div class="panel-heading">
-                    <h3 class="panel-title">Example base URL's</h3>
+                    <h2 class="panel-title">Example base URL's</h2>
                 </div>
 
                 <div class="panel-body">
-                    <ol>
-                        <li>https://outpost-api-service.herokuapp.com/api/v1/</li>
-                        <li>https://api.porism.com/ServiceDirectoryServiceBlackburn/</li>
-                        <li>https://lgaapi.connecttosupport.org/</li>
-                    </ol>
+                    <p>Click on a try now button below to automatically populate the Base URL field.</p>
+                    <ul>
+                        <li class="mb-2"><span id="serviceDirectory1">https://outpost-api-service.herokuapp.com/api/v1/</span><button type="button" class="ml-2 btn btn-sm btn-outline-secondary" onclick="$('.DemoBaseURL').val($('#serviceDirectory1').html())"><span class="mr-2">Try Now</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button></li>
+                        <li class="mb-2"><span id="serviceDirectory2">https://api.porism.com/ServiceDirectoryServiceBlackburn/</span><button type="button" class="ml-2 btn btn-sm btn-outline-secondary" onclick="$('.DemoBaseURL').val($('#serviceDirectory2').html())"><span class="mr-2">Try Now</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button></li>
+                        <li><span id="serviceDirectory3">https://lgaapi.connecttosupport.org/</span><button type="button" class="ml-2 btn btn-sm btn-outline-secondary" onclick="$('.DemoBaseURL').val($('#serviceDirectory3').html())"><span class="mr-2">Try Now</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button></li>
+                    </ul>
                 </div>
             </div>
         </div><div class="col-sm">
+        <form id="validateForm">
+
             <div class="form-group">
                 <label for="txtBaseUrl">Base URL</label>
-                <input class="form-control" type="url" id="txtBaseUrl" />
+                <input class="form-control DemoBaseURL" type="url" id="txtBaseUrl" />
+                <span asp-validation-for="txtBaseUrl"></span>
             </div>
+            <div class="d-none" id="errText">invalid</div>
+        
             <input type="button" value="Validate" onclick="performValidation()" class="btn btn-primary" />
+        </form>
         </div>
     </div>
-    <div class="row mt-5" id="divOutput"></div>
+    <div class="row m-0 mt-5" id="divOutput"></div>
     </div>

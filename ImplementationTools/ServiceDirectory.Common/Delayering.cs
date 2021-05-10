@@ -1,7 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
+using ServiceDirectory.Common.DataStandard;
+using ServiceDirectory.Common.Pagination;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ServiceDirectory.Common
@@ -10,7 +11,8 @@ namespace ServiceDirectory.Common
     {
         public static async Task<Dictionary<string, Dictionary<string, dynamic>>> DelayerPaginatedData(string apiBaseUrl)
         {
-            List<string> resourceNames = await Resources.GetResourceNames().ConfigureAwait(false);
+            ResourceReader resourceReader = new ResourceReader();
+            List<string> resourceNames = await resourceReader.GetResourceNames().ConfigureAwait(false);
             Dictionary<string, Dictionary<string, dynamic>> objectCollection = new Dictionary<string, Dictionary<string, dynamic>>();
 
             Paginator paginator = new Paginator();
@@ -65,7 +67,7 @@ namespace ServiceDirectory.Common
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                throw new ServiceDirectoryException("Error converting the data structure into a tabular format", ex);
             }
         }
 
@@ -77,23 +79,11 @@ namespace ServiceDirectory.Common
                 {
                     objectCollection.Add(name, new Dictionary<string, dynamic>());
                 }
-                if (((IDictionary<String, object>)value).ContainsKey("id"))
-                {
-                    string id = Convert.ToString(value.id.Value);
-                    if (!objectCollection[name].ContainsKey(id))
-                    {
-                        objectCollection[name].Add(id, value);
-                    }
-                }
-                else
-                {
-                    //temp id
-                    objectCollection[name].Add(Guid.NewGuid().ToString(), value);
-                }
+                objectCollection[name].Add(Guid.NewGuid().ToString(), value);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                throw new ServiceDirectoryException("Error saving object for the sheet", e);
             }
         }
 
