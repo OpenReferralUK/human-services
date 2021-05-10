@@ -1,6 +1,8 @@
 ﻿using Microsoft.CSharp.RuntimeBinder;
 using Newtonsoft.Json.Linq;
+using ServiceDirectory.Common.DataStandard;
 using ServiceDirectory.Common.FeatureTests;
+using ServiceDirectory.Common.Pagination;
 using ServiceDirectory.Common.Results;
 using ServiceDirectory.Common.Validation;
 using System;
@@ -37,10 +39,12 @@ namespace ServiceDirectory.Common
                 }
                 result.HasDetailPage = !(paginationResults.MissingDetailIDs.Count == paginationResults.Items.Count);
                 result.HasPaginationMetaData = paginationResults.HasPaginationMetaData;
+                result.HasInvalidTotalPages = paginationResults.HasInvalidTotalPages;
 
-                List<string> resourceNames = await Resources.GetResourceNames();
+                ResourceReader resourceReader = new ResourceReader();
+                List<string> resourceNames = await resourceReader.GetResourceNames().ConfigureAwait(false);
                 List<IFeatureTest> featureTests = new List<IFeatureTest>();
-                Dictionary<string, Resource> allRequired = GetFields(await Resources.GetResources());
+                Dictionary<string, Resource> allRequired = GetFields(await resourceReader.GetResources().ConfigureAwait(false));
 
                 foreach (var item in paginationResults.Items)
                 {
@@ -88,9 +92,17 @@ namespace ServiceDirectory.Common
 
                 return result;
             }
+            catch(ServiceDirectoryException sde)
+            {
+                ValidationResult vr = new ValidationResult() { Error = sde.Message};
+                vr.SetException(sde);
+                return vr;
+            }
             catch (Exception e)
             {
-                return new ValidationResult() { Error = "An error occured, test aborted." };
+                ValidationResult vr = new ValidationResult() { Error = "An error occured, test aborted." };
+                vr.SetException(e);
+                return vr;
             }
         }
 
@@ -126,6 +138,7 @@ namespace ServiceDirectory.Common
                     catch (RuntimeBinderException)
                     {
                         // id doesn't exist
+                        // ignore error
                     }
                 }
             }
@@ -168,6 +181,7 @@ namespace ServiceDirectory.Common
                                         }
                                         catch (Exception e)
                                         {
+                                            //this shouldn't stop tests ignore error
                                         }
                                     }
                                 }
@@ -246,6 +260,7 @@ namespace ServiceDirectory.Common
                                         }
                                         catch (Exception e)
                                         {
+                                            //this shouldn't stop tests ignore error
                                         }
                                     }
                                 }
@@ -267,7 +282,10 @@ namespace ServiceDirectory.Common
                     featureTests.Add(ageTest);
                 }
             }
-            catch { }
+            catch (Exception e) 
+            {
+                throw new ServiceDirectoryException("An error occured, trying to perform level 2 test", e);
+            }
 
             return featureTests;
         }
@@ -315,6 +333,7 @@ namespace ServiceDirectory.Common
                                             }
                                             catch (Exception e)
                                             {
+                                                //the test shouldn't stop if theres an error 
                                             }
                                         }
                                         else
@@ -329,7 +348,9 @@ namespace ServiceDirectory.Common
                     }
                 }
             }
-            catch { }
+            catch (Exception e){
+                throw new ServiceDirectoryException("An error occured, trying to validate items", e);
+            }
         }
 
         private static Dictionary<string, Resource> GetFields(dynamic resources)

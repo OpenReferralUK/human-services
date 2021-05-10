@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -12,8 +13,11 @@ namespace ServiceDirectoryValidator.Pages
 {
     public class IndexModel : PageModel
     {
+        [BindProperty]
+        [Required]
+        public string txtBaseUrl { get; set; }
         private readonly ILogger<IndexModel> _logger;
-
+         
         public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
@@ -24,9 +28,39 @@ namespace ServiceDirectoryValidator.Pages
 
         }
 
+        public IActionResult OnGetValidUrl(string baseUrl)
+        {
+            Urls url = new Urls(baseUrl);
+
+
+            if (string.IsNullOrEmpty(baseUrl))
+            {
+
+                var result = new ServiceDirectory.Common.Results.ValidationResult() { Error = "Please enter the URL for the service directory" };
+                return new JsonResult(result);
+            }
+
+            if (!url.UrlAbsolute() || !url.UrlValid())
+            {
+
+               var result = new ServiceDirectory.Common.Results.ValidationResult() { Error = "Please ensure you specify a valid URL for the service directory." };
+                return new JsonResult(result);
+            }
+
+            return new JsonResult(true);
+        }
+
+
         public async System.Threading.Tasks.Task<JsonResult> OnGetValidateAsync(string baseUrl)
         {
-            ValidationResult result = await APIValidator.Validate(baseUrl);
+
+            ServiceDirectory.Common.Results.ValidationResult result = await APIValidator.Validate(baseUrl);
+            
+            if (result.GetException() != null)
+            {
+                _logger.LogError(result.GetException(), result.Error);
+            }
+
 
             return new JsonResult(result);
         }

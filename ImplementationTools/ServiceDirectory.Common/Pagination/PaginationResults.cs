@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ServiceDirectory.Common
+namespace ServiceDirectory.Common.Pagination
 {
     public class PaginationResults
     {
@@ -25,12 +25,14 @@ namespace ServiceDirectory.Common
         }
 
         public bool HasPaginationMetaData { get; set; }
+        public bool HasInvalidTotalPages { get; set; }
 
         public PaginationResults()
         {
             MissingDetailIDs = new List<string>();
             Items = new List<dynamic>();
             HasPaginationMetaData = true;
+            HasInvalidTotalPages = false;
             TotalPages = 1;
         }
     }

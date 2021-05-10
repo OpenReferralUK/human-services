@@ -403,9 +403,9 @@ function updateEndpoint() {
     $("#resultTab").addClass("active");
     $("#resultPanel").addClass("active");
 
-    endpoint = $("#endpoint").val();
+    endpoint = $("#endpoint").val();	
     updateParameters("endpoint", endpoint);
-    clearForm(endpoint);
+    clearForm(endpoint);	
     $("#Vocabulary").val("");
     $("#TaxonomyTerm").val("");
     $("#Coverage").val("");
@@ -728,10 +728,11 @@ function executeForm(pageNumber) {
             if (data.totalElements === 0 || data.total_items === 0) {
                 results.append("<div><p>No results found</p></div>");
             }
+			$('#spnResultTabLabel').html((data.totalElements ?? data.total_items) + " results");
             $.each(data.content ? data.content : data.items, function (_, value) {
 
                 results.append(
-                    "<div id='col" + value.id + "' class='row rowhover'>" +
+                    "<div id='col" + value.id + "' class='row rowhover mt-2 mb-2'>" +
                     "    <div id='text" + value.id + "' class='col-md-1 col-sm-2 text-truncate'> " + value.id + "</div>" +
                     "    <div class='col'>" + value.name + "</div>" +
                     "    <div class='col'>" +
@@ -1086,11 +1087,15 @@ function addApiPanel(text, code) {
     }
     let panel = $("#api");
     let colour = "";
+	let cssClass = "";
     if (code) {
         colour = "lightgray";
+		cssClass = "IsCode";
     }
-    panel.add("<div style='background-color: " + colour + "'><p class='text-wrap' style='word-wrap: break-word'>" + text + "</p></div>")
+    panel.add("<div style='background-color: " + colour + "' class='"+cssClass+"'><p class='text-wrap' style='word-wrap: break-word'>" + text + "</p></div>")
         .appendTo(panel);
+		
+	$("#api .call-header").html($("#api").find('div.IsCode').length+' API calls made:');
 }
 
 const getUrlParameter = function getUrlParameter(sParam) {
@@ -1218,6 +1223,7 @@ function setupPageEndpoints() {
                 }
             });
         }).done(function () {
+			$("title").html("API Query Tool for "+config.name);
             getVocabulary();
         });
     } else {

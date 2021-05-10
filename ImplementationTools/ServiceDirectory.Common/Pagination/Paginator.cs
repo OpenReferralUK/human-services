@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ServiceDirectory.Common
+namespace ServiceDirectory.Common.Pagination
 {
     public class Paginator
     {
@@ -12,6 +12,8 @@ namespace ServiceDirectory.Common
             PaginationResults paginationResults = new PaginationResults();
             await PaginateServices(apiBaseUrl, async delegate (dynamic serviceList, int totalPages)
             {
+                if (serviceList != null) { 
+
                 if (!HasProperty(serviceList, "totalElements") || !HasProperty(serviceList, "totalPages") || !HasProperty(serviceList, "number") || !HasProperty(serviceList, "size") || !HasProperty(serviceList, "first") || !HasProperty(serviceList, "last"))
                 {
                     paginationResults.HasPaginationMetaData = false;
@@ -21,7 +23,10 @@ namespace ServiceDirectory.Common
                 {
                     paginationResults.TotalPages = Convert.ToInt32(serviceList.totalPages);
                 }
-                catch { }
+                catch
+                {
+                    paginationResults.HasInvalidTotalPages = true;                    
+                }
 
                 foreach (dynamic s in serviceList.content)
                 {
@@ -43,10 +48,12 @@ namespace ServiceDirectory.Common
                         }
                         catch
                         {
+                            //bad data don't stop the test for this
                         }
                     }
                     paginationResults.Items.Add(obj);
                 }
+            }
 
             });
 
@@ -86,8 +93,10 @@ namespace ServiceDirectory.Common
                 {
                     totalPages = Convert.ToInt32(serviceList.totalPages);
                 }
-                catch { }
-
+                catch 
+                { 
+                    //if this isn't here we will ignore it and just paginate the first page. This issue will be reported upon in pagination 
+                }
 
                 await processor(serviceList, totalPages);
             }

@@ -5,6 +5,7 @@ using GoogleSheets.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using ServiceDirectory.Common;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,6 +16,8 @@ namespace ServiceDirectoryExporter.Pages
     [GoogleScopedAuthorize(SheetsService.ScopeConstants.Spreadsheets)]
     public class ExportModel : PageModel
     {
+        [TempData]
+        public string MsgText { get; set; }
         private readonly ILogger<ExportModel> _logger;
 
         public ExportModel(ILogger<ExportModel> logger)
@@ -24,6 +27,16 @@ namespace ServiceDirectoryExporter.Pages
         
         public async Task OnGetAsync([FromServices] IGoogleAuthProvider auth, string BaseURL)
         {
+
+            Urls url = new Urls(BaseURL);
+            
+            if (string.IsNullOrEmpty(BaseURL) || !url.UrlAbsolute() || !url.UrlValid())
+            {
+                MsgText = "Service directory not found, check you have specified the correct URL"; //move all text to config
+                Response.Redirect(string.Format("{0}://{1}{2}", Request.Scheme, Request.Host.Host, Url.Content("~")));
+                return;
+            }
+
             GoogleCredential credential = null;
             int attempt = 0;
 
@@ -47,11 +60,23 @@ namespace ServiceDirectoryExporter.Pages
             string spreadsheetId = await GoogleSheetsExport.CreateSpreadsheetAsync(credential);
             Thread t2 = new Thread(async delegate ()
             {
-                await GoogleSheetsExport.WriteToSpreadsheetAsync(spreadsheetId, credential, BaseURL, "configuration.json");
+                try
+                {
+                    bool back = await GoogleSheetsExport.WriteToSpreadsheetAsync(spreadsheetId, credential, BaseURL, "configuration.json");
+
+                } 
+                catch(Exception ex)
+                {
+                    _logger.LogError(ex, ex.Message);
+                }
+                
+               
             });
+            
             t2.Start();
 
             Response.Redirect("https://docs.google.com/spreadsheets/d/" + spreadsheetId + "/");
+            
         }
 
     }

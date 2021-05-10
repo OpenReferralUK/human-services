@@ -1,9 +1,8 @@
 ﻿using MySql.Data.MySqlClient;
 using ServiceDirectory.Common;
+using ServiceDirectory.Common.DataStandard;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Text;
 
 namespace Combiner
 {
@@ -21,8 +20,9 @@ namespace Combiner
             baseUrls.Add("https://api.porism.com/ServiceDirectoryServiceNYorks");
             baseUrls.Add("https://api.porism.com/ServiceDirectoryServiceCQC");
 
-            dynamic resources = Resources.GetResources().GetAwaiter().GetResult();
-            List<string> resourceNames = Resources.GetResourceNames().GetAwaiter().GetResult();            
+            ResourceReader resourceReader = new ResourceReader(); 
+            dynamic resources = resourceReader.GetResources().GetAwaiter().GetResult();
+            List<string> resourceNames = resourceReader.GetResourceNames().GetAwaiter().GetResult();            
 
             using (MySqlConnection conn = new MySqlConnection("Server=informplus-beta.rds.esd.org.uk;Port=3306;Database=ServiceDirectoryCombined;Uid=awsuserbeta;Pwd=pQr1$m"))
             {
