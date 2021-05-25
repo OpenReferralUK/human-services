@@ -59,10 +59,12 @@ namespace ServiceDirectory.Common
                         ((IDictionary<String, Object>)newObj).Add(prop.Name, prop.Value);
                     }
                 }
+
                 if (parent != null)
                 {
                     parent.AddID(newObj);
                 }
+
                 SaveObject(objectCollection, newObj, name);
             }
             catch (Exception ex)

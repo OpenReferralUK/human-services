@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleSheets.Common", "Goog
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Combiner", "Combiner\Combiner.csproj", "{6DB64168-B936-46B5-9A24-26320C8340B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImplementationTools.Tests", "ImplementationTools.Tests\ImplementationTools.Tests.csproj", "{7028B402-A56C-4257-83B3-2DB0148BEB56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImplementationTools.Tests", "ImplementationTools.Tests\ImplementationTools.Tests.csproj", "{7028B402-A56C-4257-83B3-2DB0148BEB56}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oruk.MultiValidation", "MultiValidation\Oruk.MultiValidation.csproj", "{14339004-9D8D-4FDE-8AEA-4EB9AB5E8C54}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{7028B402-A56C-4257-83B3-2DB0148BEB56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7028B402-A56C-4257-83B3-2DB0148BEB56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7028B402-A56C-4257-83B3-2DB0148BEB56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14339004-9D8D-4FDE-8AEA-4EB9AB5E8C54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14339004-9D8D-4FDE-8AEA-4EB9AB5E8C54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14339004-9D8D-4FDE-8AEA-4EB9AB5E8C54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14339004-9D8D-4FDE-8AEA-4EB9AB5E8C54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -15,7 +15,7 @@ namespace ServiceDirectory.Common
 {
     public class APIValidator
     {
-        public static async System.Threading.Tasks.Task<ValidationResult> Validate(string baseUrl)
+        public static async Task<ValidationResult> Validate(string baseUrl, APIValidatorSettings settings = null)
         {
             if (string.IsNullOrEmpty(baseUrl))
             {
@@ -30,16 +30,26 @@ namespace ServiceDirectory.Common
 
             try
             {
-                ValidationResult result = new ValidationResult();
-                Paginator paginator = new Paginator();
-                PaginationResults paginationResults = await paginator.GetAllServices(baseUrl);
+                var result = new ValidationResult();
+                var paginator = new Paginator();
+                var paginationResults = await paginator.GetServices(baseUrl, settings);
+
+                result.IsUp = true;
+                result.IsServiceFound = paginationResults.Items.Count > 0;
+
                 if (paginationResults.Items.Count == 0)
                 {
                     result.HasPagination = false;
                 }
+
                 result.HasDetailPage = (paginationResults.MissingDetailIDs.Count != paginationResults.Items.Count || paginationResults.Items.Count == 0);
                 result.HasPaginationMetaData = paginationResults.HasPaginationMetaData;
                 result.HasInvalidTotalPages = paginationResults.HasInvalidTotalPages;
+
+                if (settings.RandomServiceOnly && paginationResults.Items.Count > 0)
+                {
+                    result.RandomServiceIdentifier = paginationResults.Items.First().id ?? null; 
+                }
 
                 ResourceReader resourceReader = new ResourceReader();
                 List<string> resourceNames = await resourceReader.GetResourceNames().ConfigureAwait(false);
@@ -297,6 +307,7 @@ namespace ServiceDirectory.Common
                 Resource resource = allRequired[resourceName];
                 resource.Count++;
             }
+
             try
             {
                 foreach (var prop in item)

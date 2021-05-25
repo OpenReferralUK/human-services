@@ -10,6 +10,8 @@ namespace ServiceDirectory.Common.Results
 {
     public class ValidationResult
     {
+        public bool IsUp { get; set; }
+        public bool IsServiceFound { get; set; }
         public bool HasDetailPage { get; set; }
         public bool HasPagination { get; set; }
         public bool HasPaginationMetaData { get; set; }
@@ -23,16 +25,28 @@ namespace ServiceDirectory.Common.Results
         public List<string> InvalidFormats { get; set; }
         public List<string> InvalidDataTypes { get; set; }
         public List<string> InvalidValues { get; set; }
-        public List<string> ApiIssues { get; set; }
-        internal List<string> ApiIssuesLevel2 { get; set; }
+        public List<string> ApiIssuesLevel1 { get; set; }
+        public List<string> ApiIssuesLevel2 { get; set; }
+        public string RandomServiceIdentifier { get; set; }
+        public IEnumerable<string> ApiIssues
+        {
+            get
+            {
+                if (ApiIssuesLevel1 == null && ApiIssuesLevel2 == null)
+                    return null;
+                return (ApiIssuesLevel1 ?? new List<string>()).Union(ApiIssuesLevel2 ?? new List<string>());
+            }
+        }
         public List<ResourceCount> ResourceCounts { get; set; }
         private Exception exception;
 
         public ValidationResult()
         {
+            IsUp = false;
+            IsServiceFound = false;
             HasPagination = true;
             HasDetailPage = true;
-            ApiIssues = new List<string>();
+            ApiIssuesLevel1 = new List<string>();
             ApiIssuesLevel2 = new List<string>();
             MissingRequiredFields = new List<string>();
             InvalidUniqueFields = new List<string>();
@@ -56,23 +70,22 @@ namespace ServiceDirectory.Common.Results
         {
             if (!HasPagination)
             {
-                ApiIssues.Add("A paginatable service method is not present. Of the form /services?page={nn}");
+                ApiIssuesLevel1.Add("A paginatable service method is not present. Of the form /services?page={nn}");
             }
             if (!HasDetailPage)
             {
-                ApiIssues.Add("Missing search detail pages. It should be findable under /services/{id}");
+                ApiIssuesLevel1.Add("Missing search detail pages. It should be findable under /services/{id}");
             }
             if (!HasPaginationMetaData)
             {
-                ApiIssues.Add("Missing search method paginaton metadata at the begining of the JSON payload it should be in the following format: {\"totalElements\":nn,\"totalPages\":nn,\"number\":nn,\"size\":nn,\"first\":bb,\"last\":bb\",\"content\":[{},{}]");
+                ApiIssuesLevel1.Add("Missing search method paginaton metadata at the begining of the JSON payload it should be in the following format: {\"totalElements\":nn,\"totalPages\":nn,\"number\":nn,\"size\":nn,\"first\":bb,\"last\":bb\",\"content\":[{},{}]");
             }
             if (HasInvalidTotalPages)
             {
-                ApiIssues.Add("The totalPages pagination attribute should be in a number format");
+                ApiIssuesLevel1.Add("The totalPages pagination attribute should be in a number format");
             }
             Level1Pass = HasDetailPage && HasPagination && HasPaginationMetaData;
-            Level2Pass = (Level1Pass && ApiIssuesLevel2.Count == 0 && Level2TestsRun > 0);
-            ApiIssues.AddRange(ApiIssuesLevel2);
+            Level2Pass = Level1Pass && ApiIssuesLevel2.Count == 0 && Level2TestsRun > 0;
         }
 
         public void AddResourceCount(Resource resource)
