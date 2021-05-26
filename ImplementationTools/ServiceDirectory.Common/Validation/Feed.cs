@@ -6,6 +6,8 @@ namespace ServiceDirectory.Common.Validation
     {
         public string Url { get; set; }
         public string Label { get; set; }
+        public string OrganisationLabel { get; set; }
+        public string OrganisationUrl { get; set; }
         public string ServicePathOverride { get; set; }
 
         public DateTime LastCheck { get; set; }

@@ -17,6 +17,8 @@ namespace ServiceDirectory.Common
     {
         public static async Task<ValidationResult> Validate(string baseUrl, APIValidatorSettings settings = null)
         {
+            settings = settings ?? new APIValidatorSettings();
+
             if (string.IsNullOrEmpty(baseUrl))
             {
                 return new ValidationResult() { Error = "Invalid base URL" };

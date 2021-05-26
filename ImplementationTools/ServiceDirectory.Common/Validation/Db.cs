@@ -110,6 +110,8 @@ namespace ServiceDirectory.Common.Validation
             {
                 Url = Convert.ToString(reader["url"]),
                 Label = Convert.ToString(reader["label"]),
+                OrganisationLabel = Convert.ToString(reader["organisation_label"]),
+                OrganisationUrl = Convert.ToString(reader["organisation_url"]),
                 ServicePathOverride = Convert.ToString(reader["service_path_override"]),
 
                 LastCheck = Convert.ToDateTime(reader["last_check"]),
@@ -171,7 +173,7 @@ namespace ServiceDirectory.Common.Validation
         {
             var table = "feed";
             var updateFields = new[] { "last_check", "check_is_running", "time_taken", "is_up", "is_services_valid", "services_message", "is_service_example_valid", "service_example_identifier", "service_example_message", "is_search_enabled", "search_enabled_message" };
-            var fields = new[] { "url", "label", "service_path_override" }.Concat(updateFields).ToArray();
+            var fields = new[] { "url", "label", "organisation_label", "organisation_url", "service_path_override" }.Concat(updateFields).ToArray();
 
             var sql = $"insert into {table} " +
                 $"({string.Join(", ", fields.Select(EscapeField))}) " +
