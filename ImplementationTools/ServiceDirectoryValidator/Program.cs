@@ -10,7 +10,7 @@ namespace ServiceDirectoryValidator
     {
         public static void Main(string[] args)
         {
-            var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
             try
             {
                 logger.Debug("init main");
@@ -36,7 +36,7 @@ namespace ServiceDirectoryValidator
                     webBuilder.UseStartup<Startup>().ConfigureLogging(logging =>
                     {
                         logging.ClearProviders();
-                        logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+                        logging.SetMinimumLevel(LogLevel.Trace);
                     }).UseNLog();
                 });
     }

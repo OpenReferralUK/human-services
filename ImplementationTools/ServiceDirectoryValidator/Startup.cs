@@ -15,9 +15,17 @@ namespace ServiceDirectoryValidator
 
         public IConfiguration Configuration { get; }
 
+        private string[] GetCorsAllowedOrigins()
+        {
+            var corsAllowedOriginsSection = Configuration.GetSection("CorsAllowedOrigins");
+            var origins = corsAllowedOriginsSection.Get<string[]>();
+            return origins ?? new string[0];
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddRazorPages();
         }
 
@@ -41,6 +49,13 @@ namespace ServiceDirectoryValidator
             app.UseRouting();
 
             app.UseAuthorization();
+
+            var origins = GetCorsAllowedOrigins();
+
+            app.UseCors(options =>
+            {
+                options.WithOrigins(origins).AllowAnyHeader().WithMethods("GET", "POST");
+            });
 
             app.UseEndpoints(endpoints =>
             {
