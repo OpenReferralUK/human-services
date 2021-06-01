@@ -11,14 +11,14 @@ namespace Oruk.MultiValidation.Data
     {
         public async Task<Feed> Check(Feed feed)
         {
-            var startTime = DateTime.Now;
+            var startTime = DateTime.UtcNow;
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
             Console.WriteLine($"checking: {feed.Url}");
             Console.WriteLine($"started at: {startTime.ToString("yyyy-MM-ddTHH:mm:ss")}");
 
-            var result = await APIValidator.Validate(feed.Url, new APIValidatorSettings { FirstPageOnly = false, RandomServiceOnly = true });
+            var result = await APIValidator.Validate(feed.Url, new APIValidatorSettings { FirstPageOnly = true, RandomServiceOnly = true });
 
             stopwatch.Stop();
 
@@ -26,6 +26,10 @@ namespace Oruk.MultiValidation.Data
             {
                 Url = feed.Url,
                 Label = feed.Label,
+                OrganisationLabel = feed.OrganisationLabel,
+                OrganisationUrl = feed.OrganisationUrl,
+                DeveloperLabel = feed.DeveloperLabel,
+                DeveloperUrl = feed.DeveloperUrl,
                 ServicePathOverride = feed.ServicePathOverride,
 
                 LastCheck = startTime,

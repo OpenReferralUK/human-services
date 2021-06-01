@@ -30,9 +30,10 @@ namespace ServiceDirectory.Common
                 return new ValidationResult() { Error = "Invalid base URL" };
             }
 
+            var result = new ValidationResult();
+
             try
             {
-                var result = new ValidationResult();
                 var paginator = new Paginator();
                 var paginationResults = await paginator.GetServices(baseUrl, settings);
 
@@ -104,17 +105,17 @@ namespace ServiceDirectory.Common
 
                 return result;
             }
-            catch(ServiceDirectoryException sde)
+            catch(ServiceDirectoryException e)
             {
-                ValidationResult vr = new ValidationResult() { Error = sde.Message};
-                vr.SetException(sde);
-                return vr;
+                result.Error = e.Message;
+                result.SetException(e);
+                return result;
             }
             catch (Exception e)
             {
-                ValidationResult vr = new ValidationResult() { Error = "An error occured, test aborted." };
-                vr.SetException(e);
-                return vr;
+                result.Error = e.Message;
+                result.SetException(e);
+                return result;
             }
         }
 

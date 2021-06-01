@@ -8,6 +8,8 @@ namespace ServiceDirectory.Common.Validation
         public string Label { get; set; }
         public string OrganisationLabel { get; set; }
         public string OrganisationUrl { get; set; }
+        public string DeveloperLabel { get; set; }
+        public string DeveloperUrl { get; set; }
         public string ServicePathOverride { get; set; }
 
         public DateTime LastCheck { get; set; }
@@ -32,9 +34,13 @@ namespace ServiceDirectory.Common.Validation
             {
                 Url = feed.Url,
                 Label = feed.Label,
+                OrganisationLabel = feed.OrganisationLabel,
+                OrganisationUrl = feed.OrganisationUrl,
+                DeveloperLabel = feed.DeveloperLabel,
+                DeveloperUrl = feed.DeveloperUrl,
                 ServicePathOverride = feed.ServicePathOverride,
 
-                LastCheck = DateTime.Now,
+                LastCheck = DateTime.UtcNow,
                 CheckIsRunning = true,
                 TimeTaken = -1,
 
