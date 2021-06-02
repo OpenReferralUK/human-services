@@ -6,6 +6,7 @@ namespace ServiceDirectory.Common.Validation
     {
         public string Url { get; set; }
         public string Label { get; set; }
+        public string Summary { get; set; }
         public string OrganisationLabel { get; set; }
         public string OrganisationUrl { get; set; }
         public string DeveloperLabel { get; set; }
@@ -34,6 +35,7 @@ namespace ServiceDirectory.Common.Validation
             {
                 Url = feed.Url,
                 Label = feed.Label,
+                Summary = feed.Summary,
                 OrganisationLabel = feed.OrganisationLabel,
                 OrganisationUrl = feed.OrganisationUrl,
                 DeveloperLabel = feed.DeveloperLabel,

@@ -26,6 +26,7 @@ namespace Oruk.MultiValidation.Data
             {
                 Url = feed.Url,
                 Label = feed.Label,
+                Summary = feed.Summary,
                 OrganisationLabel = feed.OrganisationLabel,
                 OrganisationUrl = feed.OrganisationUrl,
                 DeveloperLabel = feed.DeveloperLabel,
