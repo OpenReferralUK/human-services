@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ServiceDirectory.Common.Pagination
@@ -8,6 +9,22 @@ namespace ServiceDirectory.Common.Pagination
     public class Paginator
     {
         public delegate Task ServiceProcessorAsync(dynamic services, int totalPages);
+
+        private readonly string[] requiredProperties = new[] { "totalElements", "totalPages", "number", "size", "first", "last", "content" };
+
+        private string[] GetMissingPaginationMetadata(dynamic serviceList)
+        {
+            var missing = new List<string>();
+
+            foreach (var requiredProperty in requiredProperties)
+            {
+                if (HasProperty(serviceList, requiredProperty))
+                    continue;
+                missing.Add(requiredProperty);
+            }
+
+            return missing.ToArray();
+        }
 
         public async Task<PaginationResults> GetServices(string apiBaseUrl, APIValidatorSettings settings = null)
         {
@@ -20,11 +37,7 @@ namespace ServiceDirectory.Common.Pagination
                 if (serviceList == null)
                     return;
 
-                if (!HasProperty(serviceList, "totalElements") || !HasProperty(serviceList, "totalPages") || !HasProperty(serviceList, "number") || !HasProperty(serviceList, "size") || !HasProperty(serviceList, "first") || !HasProperty(serviceList, "last")
-                     || !HasProperty(serviceList, "content"))
-                {
-                    paginationResults.HasPaginationMetaData = false;
-                }
+                paginationResults.MissingPaginationMetaData = GetMissingPaginationMetadata(serviceList);
 
                 try
                 {
@@ -170,7 +183,11 @@ namespace ServiceDirectory.Common.Pagination
         {
             if (settings is JObject)
             {
-                return (((JObject)settings).ToObject<Dictionary<string, object>>()).ContainsKey(name);
+                var dictionary = ((JObject)settings).ToObject<Dictionary<string, object>>();
+
+                //return dictionary.Keys.Select(k => k.ToUpperInvariant()).Contains(name.ToUpperInvariant());
+
+                return dictionary.ContainsKey(name);
             }
             return settings.GetType().GetProperty(name) != null;
         }

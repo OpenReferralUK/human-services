@@ -15,8 +15,7 @@ namespace Oruk.MultiValidation.Data
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            Console.WriteLine($"checking: {feed.Url}");
-            Console.WriteLine($"started at: {startTime.ToString("yyyy-MM-ddTHH:mm:ss")}");
+            Console.WriteLine($"checking: {feed.Url}; started at: {startTime.ToString("yyyy-MM-ddTHH:mm:ss")}");
 
             var result = await APIValidator.Validate(feed.Url, new APIValidatorSettings { FirstPageOnly = true, RandomServiceOnly = true });
 
@@ -46,12 +45,11 @@ namespace Oruk.MultiValidation.Data
                 ServiceExampleIdentifier = result.RandomServiceIdentifier,
                 ServiceExampleMessage = result.ApiIssuesLevel2 == null || !result.ApiIssuesLevel2.Any() ? null : string.Join("\n", result.ApiIssuesLevel2),
 
-                IsSearchEnabled = result.Level2Pass,
+                IsSearchEnabled = result.Level2TestsRun > 0 && !result.ApiIssuesLevel2.Any(),
                 SearchEnabledMessage = result.ApiIssuesLevel2 == null || !result.ApiIssuesLevel2.Any() ? null : string.Join("\n", result.ApiIssuesLevel2),
             };
 
-            Console.WriteLine($"done");
-            Console.WriteLine($"took: {stopwatch.ElapsedMilliseconds.ToString("#,###")}ms");
+            Console.WriteLine($"done: {feed.Url}; took: {stopwatch.ElapsedMilliseconds.ToString("#,###")}ms");
 
             return newFeed;
         }

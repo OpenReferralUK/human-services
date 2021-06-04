@@ -14,7 +14,14 @@ namespace ServiceDirectory.Common.Results
         public bool IsServiceFound { get; set; }
         public bool HasDetailPage { get; set; }
         public bool HasPagination { get; set; }
-        public bool HasPaginationMetaData { get; set; }
+        public string[] MissingPaginationMetaData { get; set; }
+        public bool HasPaginationMetaData
+        {
+            get
+            {
+                return MissingPaginationMetaData == null || MissingPaginationMetaData.Length == 0;
+            }
+        }
         public bool Level1Pass { get; private set; }
         public bool Level2Pass { get; private set; }
         public int Level2TestsRun { get; set; }
@@ -78,7 +85,7 @@ namespace ServiceDirectory.Common.Results
             }
             if (!HasPaginationMetaData)
             {
-                ApiIssuesLevel1.Add("Missing search method paginaton metadata at the begining of the JSON payload it should be in the following format: {\"totalElements\":nn,\"totalPages\":nn,\"number\":nn,\"size\":nn,\"first\":bb,\"last\":bb\",\"content\":[{},{}]");
+                ApiIssuesLevel1.Add($"Missing search method paginaton metadata at the begining of the JSON payload. Required: {string.Join("; ", MissingPaginationMetaData.Select(f => $"\"{f}\""))}. It is case sensitive, and should be in the following format: {{\"totalElements\":nn,\"totalPages\":nn,\"number\":nn,\"size\":nn,\"first\":bb,\"last\":bb\",\"content\":[{{}},{{}}]...");
             }
             if (HasInvalidTotalPages)
             {

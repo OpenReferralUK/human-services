@@ -24,8 +24,7 @@ namespace ServiceDirectory.Common
                 return new ValidationResult() { Error = "Invalid base URL" };
             }
 
-            Uri tmpUri;
-            if (!Uri.TryCreate(baseUrl, UriKind.Absolute, out tmpUri))
+            if (!Uri.TryCreate(baseUrl, UriKind.Absolute, out _))
             {
                 return new ValidationResult() { Error = "Invalid base URL" };
             }
@@ -46,7 +45,7 @@ namespace ServiceDirectory.Common
                 }
 
                 result.HasDetailPage = (paginationResults.MissingDetailIDs.Count != paginationResults.Items.Count || paginationResults.Items.Count == 0);
-                result.HasPaginationMetaData = paginationResults.HasPaginationMetaData;
+                result.MissingPaginationMetaData = paginationResults.MissingPaginationMetaData;
                 result.HasInvalidTotalPages = paginationResults.HasInvalidTotalPages;
 
                 if (settings.RandomServiceOnly && paginationResults.Items.Count > 0)
@@ -100,15 +99,21 @@ namespace ServiceDirectory.Common
                 }
 
                 await RunLevel2Tests(baseUrl, result, featureTests);
-
-                result.PerformFinalReview();
-
-                return result;
             }
             catch(ServiceDirectoryException e)
             {
                 result.Error = e.Message;
                 result.SetException(e);
+            }
+            catch (Exception e)
+            {
+                result.Error = e.Message;
+                result.SetException(e);
+            }
+
+            try
+            {
+                result.PerformFinalReview();
                 return result;
             }
             catch (Exception e)
@@ -155,6 +160,11 @@ namespace ServiceDirectory.Common
                     }
                 }
             }
+
+            string currentItemType = item.GetType().Name;
+            string currentPropName = "";
+            object currentPropValue = null;
+
             try
             {
                 RegularScheduleTest regularScheduleTest = null;
@@ -162,6 +172,9 @@ namespace ServiceDirectory.Common
                 AgeTest ageTest = null;
                 foreach (var prop in item)
                 {
+                    currentPropName = prop.Name;
+                    currentPropValue = prop.Value;
+
                     if (prop.Value.Type == null)
                     {
                         FindFeatureTests(prop.Value, resourceNames, featureTests, allRequired, Resources.FindResourceName(prop.Name, resourceNames), serviceId);
@@ -170,6 +183,9 @@ namespace ServiceDirectory.Common
                     {
                         foreach (var arrayItem in prop.Value)
                         {
+                            if (arrayItem is JValue)
+                                continue; // not currently validating arrays of floats / strings etc
+
                             FindFeatureTests(arrayItem, resourceNames, featureTests, allRequired, Resources.FindResourceName(prop.Name, resourceNames), serviceId);
                         }
                     }
@@ -295,9 +311,11 @@ namespace ServiceDirectory.Common
                     featureTests.Add(ageTest);
                 }
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
-                throw new ServiceDirectoryException("An error occured, trying to perform level 2 test", e);
+                var message = $"{currentItemType}; {currentPropName}; {(currentPropValue == null ? "null" : currentPropValue.ToString())}";
+
+                throw new ServiceDirectoryException($"An error occured, trying to perform level 2 test; {message}", e);
             }
 
             return featureTests;
@@ -323,6 +341,9 @@ namespace ServiceDirectory.Common
                     {
                         foreach (var arrayItem in prop.Value)
                         {
+                            if (arrayItem is JValue)
+                                continue; // not currently validating arrays of floats / strings etc
+
                             ValidateItems(arrayItem, resourceNames, allRequired, Resources.FindResourceName(prop.Name, resourceNames));
                         }
                     }

@@ -22,14 +22,22 @@ namespace ServiceDirectory.Common.Pagination
             private set;
         }
 
-        public bool HasPaginationMetaData { get; set; }
+        public string[] MissingPaginationMetaData { get; set; } = new string[0];
+        
+        public bool HasPaginationMetaData
+        {
+            get
+            {
+                return MissingPaginationMetaData == null || MissingPaginationMetaData.Length == 0;
+            }
+        }
+
         public bool HasInvalidTotalPages { get; set; }
 
         public PaginationResults()
         {
             MissingDetailIDs = new List<string>();
             Items = new List<dynamic>();
-            HasPaginationMetaData = true;
             HasInvalidTotalPages = false;
             TotalPages = 1;
         }
