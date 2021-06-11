@@ -44,19 +44,19 @@ namespace ServiceDirectory.Common.Validation
 
                 LastCheck = DateTime.UtcNow,
                 CheckIsRunning = true,
-                TimeTaken = -1,
+                TimeTaken = feed.TimeTaken,
 
-                IsUp = false,
+                IsUp = feed.IsUp,
 
-                IsServicesValid = false,
-                ServicesMessage = null,
+                IsServicesValid = feed.IsServicesValid,
+                ServicesMessage = feed.ServicesMessage,
 
-                IsServiceExampleValid = false,
-                ServiceExampleIdentifier = null,
-                ServiceExampleMessage = null,
+                IsServiceExampleValid = feed.IsServiceExampleValid,
+                ServiceExampleIdentifier = feed.ServiceExampleIdentifier,
+                ServiceExampleMessage = feed.ServiceExampleMessage,
 
-                IsSearchEnabled = false,
-                SearchEnabledMessage = null,
+                IsSearchEnabled = feed.IsSearchEnabled,
+                SearchEnabledMessage = feed.SearchEnabledMessage,
             };
         }
     }

@@ -12,7 +12,10 @@ namespace ServiceDirectory.Common.FeatureTests
         {
             ServiceID = serviceId;
         }
-        public string Name { get { return "Taxonomy Test"; } }
+
+        public static string TestName = "Taxonomy Test";
+
+        public string Name { get { return TestName; } }
 
         public string Parameters
         {

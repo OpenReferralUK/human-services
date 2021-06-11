@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web;
+﻿using System.Web;
 
 namespace ServiceDirectory.Common.FeatureTests
 {
@@ -13,9 +12,11 @@ namespace ServiceDirectory.Common.FeatureTests
             ServiceID = serviceId;
         }
 
+        public static string TestName = "Postcode Search";
+
         public string Name
         {
-            get { return "Postcode Search"; }
+            get { return TestName; }
         }
 
         public string Parameters

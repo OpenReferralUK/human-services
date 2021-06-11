@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace ServiceDirectory.Common.FeatureTests
@@ -17,7 +16,10 @@ namespace ServiceDirectory.Common.FeatureTests
         {
             ServiceID = serviceId;
         }
-        public string Name { get { return "Time Search Test"; } }
+
+        public static string TestName = "Time Search Test";
+
+        public string Name { get { return TestName; } }
 
         public string Parameters
         {

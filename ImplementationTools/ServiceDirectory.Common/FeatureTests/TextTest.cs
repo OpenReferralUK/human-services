@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Web;
+﻿using System.Web;
 
 namespace ServiceDirectory.Common.FeatureTests
 {
@@ -12,7 +11,10 @@ namespace ServiceDirectory.Common.FeatureTests
             this.text = text;
             ServiceID = serviceId;
         }
-        public string Name { get { return "Text Test"; } }
+
+        public static string TestName = "Text Test";
+
+        public string Name { get { return TestName; } }
 
         public string Parameters
         {

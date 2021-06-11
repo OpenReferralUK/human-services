@@ -15,6 +15,8 @@ namespace ServiceDirectory.Common
 {
     public class APIValidator
     {
+        static readonly Random rand = new Random();
+
         public static async Task<ValidationResult> Validate(string baseUrl, APIValidatorSettings settings = null)
         {
             settings = settings ?? new APIValidatorSettings();
@@ -48,9 +50,10 @@ namespace ServiceDirectory.Common
                 result.MissingPaginationMetaData = paginationResults.MissingPaginationMetaData;
                 result.HasInvalidTotalPages = paginationResults.HasInvalidTotalPages;
 
-                if (settings.RandomServiceOnly && paginationResults.Items.Count > 0)
+                if (paginationResults.Items.Count > 0)
                 {
-                    result.RandomServiceIdentifier = paginationResults.Items.First().id ?? null; 
+                    var items = paginationResults.Items;
+                    result.RandomServiceIdentifier = items.ElementAt(rand.Next(items.Count)).id; 
                 }
 
                 ResourceReader resourceReader = new ResourceReader();
@@ -98,7 +101,7 @@ namespace ServiceDirectory.Common
                     }
                 }
 
-                await RunLevel2Tests(baseUrl, result, featureTests);
+                result.Level2Results = await RunLevel2Tests(baseUrl, result, featureTests);
             }
             catch(ServiceDirectoryException e)
             {
@@ -124,23 +127,36 @@ namespace ServiceDirectory.Common
             }
         }
 
-        private static async Task RunLevel2Tests(string baseUrl, ValidationResult result, List<IFeatureTest> featureTests)
+        private static async Task<List<TestResult>> RunLevel2Tests(string baseUrl, ValidationResult result, List<IFeatureTest> featureTests)
         {
             featureTests.Sort();
-            HashSet<string> testTypesRun = new HashSet<string>();
+            var testTypesRun = new HashSet<string>();
+            var testResults = new List<TestResult>();
+
             foreach (IFeatureTest test in featureTests)
             {
                 if (testTypesRun.Contains(test.Name))
-                {
                     continue;
-                }
+
+                var testResult = new TestResult { Test = test };
+                testResults.Add(testResult);
+
                 if (!await TestRunner.HasPassed(baseUrl, test))
                 {
-                    result.ApiIssuesLevel2.Add(string.Format("{0} failed. When tested using /services{1}", test.Name, test.Parameters));
+                    var message = string.Format("{0} failed. When tested using /services{1}", test.Name, test.Parameters);
+                    result.ApiIssuesLevel2.Add(message);
+                    testResult.ErrorMessage = message;
                 }
+                else
+                {
+                    testResult.Success = true;
+                }
+
                 result.Level2TestsRun++;
                 testTypesRun.Add(test.Name);
             }
+
+            return testResults;
         }
 
         private static List<IFeatureTest> FindFeatureTests(dynamic item, List<string> resourceNames, List<IFeatureTest> featureTests, Dictionary<string, Resource> allRequired, string resourceName = "service", string serviceId = null)

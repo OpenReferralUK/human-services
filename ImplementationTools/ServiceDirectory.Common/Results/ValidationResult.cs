@@ -1,10 +1,8 @@
-﻿using Newtonsoft.Json;
-using ServiceDirectory.Common.Validation;
+﻿using ServiceDirectory.Common.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ServiceDirectory.Common.Results
 {
@@ -25,6 +23,7 @@ namespace ServiceDirectory.Common.Results
         public bool Level1Pass { get; private set; }
         public bool Level2Pass { get; private set; }
         public int Level2TestsRun { get; set; }
+        public List<TestResult> Level2Results { get; set; } = new List<TestResult>();
         public bool HasInvalidTotalPages { get; set; }
         public string Error { get; set; }
         public List<string> MissingRequiredFields { get; set; }

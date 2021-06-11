@@ -12,13 +12,17 @@ namespace ServiceDirectory.Common.FeatureTests
         {
             ServiceID = serviceId;
         }
-        public string Name { get { return "Age Test"; } }
+
+        public static string TestName = "Age Test";
+
+        public string Name { get { return TestName; } }
 
         public string Parameters
         {
             get
             {
                 List<string> parameters = new List<string>();
+
                 if (!string.IsNullOrEmpty(minAge))
                 {
                     parameters.Add("minimum_age=" + HttpUtility.UrlEncode(minAge));
@@ -27,6 +31,7 @@ namespace ServiceDirectory.Common.FeatureTests
                 {
                     parameters.Add("maximum_age=" + HttpUtility.UrlEncode(maxAge));
                 }
+
                 return "?" + string.Join("&", parameters);
             }
         }
