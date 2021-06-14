@@ -1,7 +1,9 @@
 ﻿using MySql.Data.MySqlClient;
+using ServiceDirectory.Common.Results;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Dynamic;
 using System.Linq;
 
 namespace ServiceDirectory.Common.Validation
@@ -106,6 +108,8 @@ namespace ServiceDirectory.Common.Validation
 
         private static Feed BuildFeed(IDataReader reader)
         {
+            var searchResults = GetSearchResults(reader);
+
             return new Feed
             {
                 Url = Convert.ToString(reader["url"]),
@@ -128,7 +132,22 @@ namespace ServiceDirectory.Common.Validation
                 ServiceExampleMessage = Convert.ToString(reader["service_example_message"]),
                 IsSearchEnabled = Convert.ToBoolean(reader["is_search_enabled"]),
                 SearchEnabledMessage = Convert.ToString(reader["search_enabled_message"]),
+                SearchResults = searchResults
             };
+        }
+
+        private static List<BasicTestResult> GetSearchResults(IDataReader reader)
+        {
+            var searchEnabledMessage = Convert.ToString(reader["search_enabled_message"]);
+
+            try
+            {
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<List<BasicTestResult>>(searchEnabledMessage);
+            }
+            catch (Exception e)
+            {
+                return new List<BasicTestResult>();
+            }
         }
 
         public List<Feed> GetFeeds()

@@ -20,6 +20,10 @@ namespace Oruk.MultiValidation
             {
                 ValidateOldest().GetAwaiter().GetResult();
             }
+            else if (args.FirstOrDefault() == "failed")
+            {
+                ValidateFailed().GetAwaiter().GetResult();
+            }
             else if (args.FirstOrDefault() == "all")
             {
                 ValidateAll().GetAwaiter().GetResult();
@@ -58,9 +62,20 @@ namespace Oruk.MultiValidation
             return await ValidateFeed(feed);
         }
 
+        static Task<Feed[]> ValidateFailed()
+        {
+            var feeds = new Db(ConnectionString).GetFeeds().Where(f => !f.CheckIsRunning && !f.IsCompleteSuccess).ToList();
+            return ValidateFeeds(feeds);
+        }
+
         static Task<Feed[]> ValidateAll()
         {
             var feeds = new Db(ConnectionString).GetFeeds();
+            return ValidateFeeds(feeds);
+        }
+
+        static Task<Feed[]> ValidateFeeds(List<Feed> feeds)
+        {
             var newFeeds = new List<Task<Feed>>();
 
             foreach (var feed in feeds)

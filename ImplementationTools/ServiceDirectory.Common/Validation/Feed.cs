@@ -28,6 +28,15 @@ namespace ServiceDirectory.Common.Validation
 
         public bool IsSearchEnabled { get; set; }
         public string SearchEnabledMessage { get; set; }
+        public object SearchResults { get; set; }
+
+        public bool IsCompleteSuccess
+        {
+            get
+            {
+                return IsUp && IsServicesValid && IsServiceExampleValid && IsSearchEnabled;
+            }
+        }
 
         public static Feed CreateRunning(Feed feed)
         {
@@ -57,6 +66,7 @@ namespace ServiceDirectory.Common.Validation
 
                 IsSearchEnabled = feed.IsSearchEnabled,
                 SearchEnabledMessage = feed.SearchEnabledMessage,
+                SearchResults = feed.SearchResults,
             };
         }
     }

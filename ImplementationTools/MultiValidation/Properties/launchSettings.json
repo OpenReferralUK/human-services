@@ -2,7 +2,7 @@
   "profiles": {
     "Oruk.MultiValidation": {
       "commandName": "Project",
-      "commandLineArgs": "https://fyldecoast.openplace.directory/o/ServiceDirectoryService/v2"
+      "commandLineArgs": "https://northlincs.openplace.directory/o/ServiceDirectoryService/v2"
     }
   }
 }

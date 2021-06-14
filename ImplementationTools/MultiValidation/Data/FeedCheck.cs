@@ -1,5 +1,6 @@
 ﻿using ServiceDirectory.Common;
 using ServiceDirectory.Common.FeatureTests;
+using ServiceDirectory.Common.Results;
 using ServiceDirectory.Common.Validation;
 using System;
 using System.Collections.Generic;
@@ -58,7 +59,7 @@ namespace Oruk.MultiValidation.Data
 
         public TestResult GetTestByType(List<TestResult> results, string name)
         {
-            return results.FirstOrDefault(r => r.Test.Name == name) ?? new TestResult { Success = false, ErrorMessage = $"Could not run {name} test due to lack of data." };
+            return results.FirstOrDefault(r => r.TestName == name) ?? new TestResult { NoTestName = name, Success = false, ErrorMessage = $"Could not run {name} test due to lack of data." };
         }
 
         public string GetSearchResultJson(List<TestResult> results)
@@ -66,34 +67,24 @@ namespace Oruk.MultiValidation.Data
             return Newtonsoft.Json.JsonConvert.SerializeObject(GetSearchResult(results));
         }
 
-        public object GetSearchResult(List<TestResult> results)
+        public List<BasicTestResult> GetSearchResult(List<TestResult> testResults)
         {
-            var text = GetTestByType(results, TextTest.TestName);
-            var age = GetTestByType(results, AgeTest.TestName);
-            var postcode = GetTestByType(results, PostCodeTest.TestName);
-            var taxonomy = GetTestByType(results, TaxonomyTest.TestName);
-            var regularSchedule = GetTestByType(results, RegularScheduleTest.TestName);
+            var text = GetTestByType(testResults, TextTest.TestName);
+            var age = GetTestByType(testResults, AgeTest.TestName);
+            var postcode = GetTestByType(testResults, PostCodeTest.TestName);
+            var taxonomy = GetTestByType(testResults, TaxonomyTest.TestName);
+            var regularSchedule = GetTestByType(testResults, RegularScheduleTest.TestName);
 
-            var tests = new List<TestResult> { text, age, postcode, taxonomy, regularSchedule };
+            var results = new List<TestResult> { text, age, postcode, taxonomy, regularSchedule };
+            var testNames = results.Select(r => r.TestName).ToList();
+            results.AddRange(testResults.Where(t => !testNames.Contains(t.TestName)));
 
-            return new
-            {
-                total = tests.Count,
-                passed = tests.Count(s => s != null && s.Success),
-                messages = tests.Where(s => !s.Success).Select(s => s.ErrorMessage),
-
-                all = new
-                {
-                    total = results.Count,
-                    passed = results.Count(s => s != null && s.Success),
-                    messages = results.Where(s => !s.Success).Select(s => s.ErrorMessage),
-                }
-            };
+            return results.Select(r => new BasicTestResult { TestName = r.TestName, Success = r.Success, ErrorMessage = r.ErrorMessage }).ToList();
         }
 
         public Dictionary<string, object> GetSearchDictionary(List<TestResult> results)
         {
-            return results.ToDictionary(r => r.Test.Name, r => (object)new { success = r.Success, message = r.ErrorMessage });
+            return results.ToDictionary(r => r.TestName, r => (object)new { success = r.Success, message = r.ErrorMessage });
         }
     }
 }
