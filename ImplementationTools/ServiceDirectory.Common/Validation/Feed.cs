@@ -72,6 +72,8 @@ namespace ServiceDirectory.Common.Validation
                 IsSearchEnabled = feed.IsSearchEnabled,
                 SearchEnabledMessage = feed.SearchEnabledMessage,
                 SearchResults = feed.SearchResults,
+
+                Filters = feed.Filters,
             };
         }
     }

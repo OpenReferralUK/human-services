@@ -51,6 +51,8 @@ namespace Oruk.MultiValidation.Data
 
                 IsSearchEnabled = result.Level2Results != null && result.Level2Results.Any(t => t.Success),
                 SearchEnabledMessage = GetSearchResultJson(result.Level2Results),
+
+                Filters = feed.Filters,
             };
 
             Console.WriteLine($"done: {feed.Url}; took: {stopwatch.ElapsedMilliseconds.ToString("#,###")}ms");
