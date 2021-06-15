@@ -24,12 +24,16 @@
     }
 
     function performValidation() {
+        if ($("#btnValidate").is(":disabled")) {
+            return;
+        }
         if ($('#txtBaseUrl').val().length === 0) {
             
             $('#errText').html("Please enter a valid url to access your data");
             $('#errText').removeClass('d-none').addClass('d-block alert-danger');
 
         } else {
+            $('#btnValidate').prop('disabled', true);
             $.ajax({
                 type: "GET",
                 url: "/Index?handler=ValidUrl",
@@ -38,7 +42,7 @@
                 data: {
                     baseUrl: $('#txtBaseUrl').val()
                 },
-                success: function (response) {
+                success: function (response) {                    
                     if (response.error) {
                         $('#errText').html('<strong>' + response.error + '</strong>');
                         $('#errText').removeClass('d-none').addClass('d-block');
@@ -67,6 +71,7 @@
                     baseUrl: $('#txtBaseUrl').val()
                 },
                 success: function (response) {
+                    $('#btnValidate').prop('disabled', false);
                     if (response.error) {
                         $('#divOutput').html('<h3 id="headerResults">An error occurred</h3><strong>' + response.error + '</strong>');
                     }
@@ -90,6 +95,7 @@
                     $("html, body").animate({ scrollTop: $("#headerResults").offset().top }, 1000);
                 },
                 failure: function (response) {
+                    $('#btnValidate').prop('disabled', false);
                     alert(response);
                 }
             });
@@ -102,6 +108,17 @@
                 performValidation();
             }
         });
+        $.ajax({
+            url: "https://validator.openreferraluk.org/api",
+            type: "GET",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                $.each(response, function (index, value) {
+                    $('#ulExamples').append('<li class="mb-2"><span id="serviceDirectory' + index + '">' + value.url + '</span><button type="button" class="ml-2 btn btn-sm btn-outline-secondary" onclick="$(\'.DemoBaseURL\').val($(\'#serviceDirectory' + index + '\').html())"><span class="mr-2">Try Now</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button></li>');
+                });
+            }
+        });        
     });
 </script>
 <div>
@@ -116,11 +133,7 @@
 
                 <div class="panel-body">
                     <p>Click on a try now button below to automatically populate the Base URL field.</p>
-                    <ul>
-                        <li class="mb-2"><span id="serviceDirectory1">https://outpost-api-service.herokuapp.com/api/v1/</span><button type="button" class="ml-2 btn btn-sm btn-outline-secondary" onclick="$('.DemoBaseURL').val($('#serviceDirectory1').html())"><span class="mr-2">Try Now</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button></li>
-                        <li class="mb-2"><span id="serviceDirectory2">https://api.porism.com/ServiceDirectoryServiceBlackburn/</span><button type="button" class="ml-2 btn btn-sm btn-outline-secondary" onclick="$('.DemoBaseURL').val($('#serviceDirectory2').html())"><span class="mr-2">Try Now</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button></li>
-                        <li><span id="serviceDirectory3">https://lgaapi.connecttosupport.org/</span><button type="button" class="ml-2 btn btn-sm btn-outline-secondary" onclick="$('.DemoBaseURL').val($('#serviceDirectory3').html())"><span class="mr-2">Try Now</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button></li>
-                    </ul>
+                    <ul id="ulExamples"></ul>
                 </div>
             </div>
         </div><div class="col-sm">
@@ -133,7 +146,7 @@
             </div>
             <div class="d-none" id="errText">invalid</div>
         
-            <input type="button" value="Validate" onclick="performValidation()" class="btn btn-primary" />
+            <input type="button" value="Validate" id="btnValidate" onclick="performValidation()" class="btn btn-primary" />
         </form>
         </div>
     </div>

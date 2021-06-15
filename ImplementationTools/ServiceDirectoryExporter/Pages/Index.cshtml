@@ -4,7 +4,21 @@
 
     ViewData["Title"] = "Home page";
 }
-    
+    <script>
+        $(document).ready(function () {
+        $.ajax({
+            url: "https://validator.openreferraluk.org/api",
+            type: "GET",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                $.each(response, function (index, value) {
+                    $('#ulExamples').append('<li class="mb-2"><span id="serviceDirectory' + index + '">' + value.url + '</span><button type="button" class="ml-2 btn btn-sm btn-outline-secondary" onclick="$(\'.DemoBaseURL\').val($(\'#serviceDirectory' + index + '\').html())"><span class="mr-2">Try Now</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button></li>');
+                });
+            }
+        });   
+        });
+    </script>
     <div>
         <h1 class="display-4 mb-5">Export your Service Directory to Google Sheets</h1>
         <div class="row">
@@ -17,11 +31,7 @@
 
                     <div class="panel-body">
                         <p>Click on a try now button below to automatically populate the Base URL field.</p>
-                        <ul>
-                            <li class="mb-2"><span id="serviceDirectory1">https://outpost-api-service.herokuapp.com/api/v1/</span><button type="button" class="ml-2 btn btn-sm btn-outline-secondary" onclick="$('.DemoBaseURL').val($('#serviceDirectory1').html())"><span class="mr-2">Try Now</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button></li>
-                            <li class="mb-2"><span id="serviceDirectory2">https://api.porism.com/ServiceDirectoryServiceBlackburn/</span><button type="button" class="ml-2 btn btn-sm btn-outline-secondary" onclick="$('.DemoBaseURL').val($('#serviceDirectory2').html())"><span class="mr-2">Try Now</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button></li>
-                            <li><span id="serviceDirectory3">https://lgaapi.connecttosupport.org/</span><button type="button" class="ml-2 btn btn-sm btn-outline-secondary" onclick="$('.DemoBaseURL').val($('#serviceDirectory3').html())"><span class="mr-2">Try Now</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button></li>
-                        </ul>
+                        <ul id="ulExamples"></ul>
                     </div>
                 </div>
             </div>
