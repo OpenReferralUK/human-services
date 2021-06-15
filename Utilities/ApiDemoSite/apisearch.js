@@ -834,8 +834,17 @@ function executeForm(pageNumber) {
         });
 }
 
+function convertConfig(data){
+	var config = {'endpoints':[]};
+	$.each(data, function (index, item) {
+		config.endpoints.push({"name":item.label,"url":item.url,"schemaType":item.schemaType,"filters":item.filters});
+	});	
+	return config;
+}
+
 function populateEndpointsFromJson() {
-    $.getJSON("config.json", function (data) {
+    $.getJSON("https://validator.openreferraluk.org/api", function (data) {
+		data = convertConfig(data);
         $("#endpoint").empty();
         $.each(data.endpoints, function (index, item) {
             $("#endpoint").append("<option value='" + item.url + "'>" + item.name + "</option>");
@@ -847,7 +856,8 @@ function populateEndpointsFromJson() {
 }
 
 function setupEndpointFilter() {
-    $.getJSON("config.json", function (data) {
+    $.getJSON("https://validator.openreferraluk.org/api", function (data) {
+		data = convertConfig(data);
         $("#RegularScheduleRow").show();
         $("#CoverageRow").show();
         $("#api").css("height", "450px");
@@ -1216,7 +1226,8 @@ function setupPageEndpoints() {
 
     if (getUrlParameter("endpoint") !== undefined) {
         $("#endpoint").val(getUrlParameter("endpoint"));
-        $.getJSON("config.json", function (data) {
+        $.getJSON("https://validator.openreferraluk.org/api", function (data) {
+			config = convertConfig(data);
             $.each(config.endpoints, function (index, item) {
                 if (item.url === $("#endpoint option:selected").val()) {
                     config = item;
