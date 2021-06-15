@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>Oruk.MultiValidation</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
