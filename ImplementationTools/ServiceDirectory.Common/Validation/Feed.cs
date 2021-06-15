@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ServiceDirectory.Common.Validation
 {
@@ -29,6 +30,8 @@ namespace ServiceDirectory.Common.Validation
         public bool IsSearchEnabled { get; set; }
         public string SearchEnabledMessage { get; set; }
         public object SearchResults { get; set; }
+
+        public List<string> Filters { get; set; } = new List<string>();
 
         public bool IsCompleteSuccess
         {

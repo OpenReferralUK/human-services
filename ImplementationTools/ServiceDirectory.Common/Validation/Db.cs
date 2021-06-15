@@ -3,15 +3,12 @@ using ServiceDirectory.Common.Results;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Dynamic;
 using System.Linq;
 
 namespace ServiceDirectory.Common.Validation
 {
     public class Db
     {
-        private string ConnectionStringName { get => "oruk_validation"; }
-
         private string ConnectionString { get; set; }
 
         public Db(string connectionString)
@@ -106,6 +103,15 @@ namespace ServiceDirectory.Common.Validation
             }
         }
 
+        private static FeedFilter BuildFeedFilter(IDataReader reader)
+        {
+            return new FeedFilter
+            {
+                Url = Convert.ToString(reader["url"]),
+                Filter = Convert.ToString(reader["filter"])
+            };
+        }
+
         private static Feed BuildFeed(IDataReader reader)
         {
             var searchResults = GetSearchResults(reader);
@@ -152,17 +158,50 @@ namespace ServiceDirectory.Common.Validation
 
         public List<Feed> GetFeeds()
         {
-            return GetList(BuildFeed, "select * from feed;");
+            var feeds = GetList(BuildFeed, "select * from feed;");
+
+            var feedFilters = GetFeedFilters();
+
+            foreach (var feed in feeds)
+            {
+                feed.Filters = feedFilters.Where(f => f.Url == feed.Url).Select(f => f.Filter).ToList();
+            }
+
+            return feeds;
         }
 
         public Feed GetFeed(string url)
         {
-            return GetItem(BuildFeed, "select * from feed where url = @url;", new KeyValuePair<string, object>("url", url));
+            var feed = GetItem(BuildFeed, "select * from feed where url = @url;", new KeyValuePair<string, object>("url", url));
+            
+            if (feed == null)
+                return null;
+
+            feed.Filters = GetFeedFilters(url).Select(f => f.Filter).ToList();
+
+            return feed;
         }
 
         public Feed GetOldestFeed()
         {
-            return GetItem(BuildFeed, "select * from feed order by last_check, url limit 1;");
+            var feed = GetItem(BuildFeed, "select * from feed order by last_check, url limit 1;");
+            
+            if (feed == null)
+                return null;
+
+            feed.Filters = GetFeedFilters(feed.Url).Select(f => f.Filter).ToList();
+
+            return feed;
+        }
+
+        public List<FeedFilter> GetFeedFilters()
+        {
+            return GetList(BuildFeedFilter, "select * from feed_filter;");
+        }
+
+        public List<FeedFilter> GetFeedFilters(string url)
+        {
+            return GetList(BuildFeedFilter, "select * from feed_filter where url = @url;", new KeyValuePair<string, object>("url", url));
         }
 
         private string EscapeField(string field) => $"`{field}`";
