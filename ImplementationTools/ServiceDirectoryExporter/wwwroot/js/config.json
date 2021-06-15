@@ -1,0 +1,268 @@
+{
+  "endpoints": [
+      {
+      "name": "Bristol Services - Live (Placecube)",
+      "url": "https://bristol.openplace.directory/o/ServiceDirectoryService/v2",
+      "filters": [
+        "TaxonomyType",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "Keywords",
+        "Coverage",
+        "Proximity",
+        "minAge",
+        "maxAge"
+      ],
+      "schemaType": "Placecube"
+    },
+		    {
+      "name": "Hull Services - Live (PCG)",
+      "url": "https://lgaapi.connecttosupport.org",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "Day",
+        "Coverage",
+        "Proximity"
+      ]
+    },
+	    {
+      "name": "Buckinghamshire Family Information Service - (FutureGov)",
+      "url": "https://outpost-api-service.herokuapp.com/api/v1",
+      "filters": [
+        "TaxonomyType",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "Keywords",
+        "Coverage",
+        "Proximity",
+        "minAge",
+        "maxAge"
+      ]
+    },
+
+	    {
+      "name": "Elmbridge Services - UAT (Placecube)",
+      "url": "https://api.porism.com/ServiceDirectoryServiceElmbridge",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity",
+        "minAge",
+        "maxAge"
+      ]
+    },
+	{
+      "name": "Blackburn Services - Sample data (Porism)",
+      "url": "https://api.porism.com/ServiceDirectoryServiceBlackburn",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity",
+        "minAge",
+        "maxAge"
+      ]
+    },
+    {
+      "name": "North Yorkshire SevicesData at 20/12/2019 (Porism)",
+      "url": "https://api.porism.com/ServiceDirectoryServiceNYorks",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity",
+        "minAge",
+        "maxAge"
+      ]
+    },
+		{
+      "name": "Care Quality Commission (Porism)",
+      "url": "https://api.porism.com/ServiceDirectoryServiceCQC",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity",
+        "minAge",
+        "maxAge"
+      ]
+    },
+	{
+      "name": "OpenActive Sports & Wellbeing Services - Aggregated feed (Porism)",
+      "url": "https://api.porism.com/ServiceDirectoryServiceOpenActiveAggregated",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity",
+        "minAge",
+        "maxAge"
+      ]
+    },
+    {
+      "name": "Miami Services - Live (Miami Open211 Project)",
+      "url": "https://api.miami211.openreferral.org/index.php",
+      "filters": [
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm"
+      ],
+      "schemaType": "OpenReferral"
+    }
+    
+
+  ],
+  "archive": [
+	    {
+      "name": "Bristol data",
+      "url": "https://api.porism.com/ServiceDirectoryService",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity",
+        "minAge",
+        "maxAge",
+        "Need",
+        "Circumstance"
+      ]
+    },
+	    {
+      "name": "Bucks data",
+      "url": "https://api.porism.com/ServiceDirectoryServiceBucks",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity",
+        "minAge",
+        "maxAge"
+      ]
+    },
+	    {
+      "name": "Open Active data",
+      "url": "https://api.porism.com/ServiceDirectoryServiceOpenActive",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity",
+        "minAge",
+        "maxAge"
+      ]
+    },
+	    {
+      "name": "Test data",
+      "url": "https://api.porism.com/ServiceDirectoryServiceTest",
+      "filters": [
+        "TaxonomyType",
+        "Keywords",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "ChildTaxonomyTerm",
+        "ChildChildTaxonomyTerm",
+        "Day",
+        "StartTime",
+        "EndTime",
+        "Coverage",
+        "Proximity",
+        "Need",
+        "Circumstance"
+      ]
+    },
+	{
+      "name": "Placecube Bristol data",
+      "url": "https://bristol.uat.nonlive.servicedirectory.placecube.com/o/ServiceDirectoryService/v2",
+      "filters": [
+        "TaxonomyType",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "Keywords",
+        "Coverage",
+        "Proximity",
+        "minAge",
+        "maxAge"
+      ],
+      "schemaType": "Placecube"
+    },
+    {
+      "name": "Placecube Elmbridge data",
+      "url": "https://uat.elmbridge.openplace.directory/o/ServiceDirectoryService/v2",
+      "filters": [
+        "TaxonomyType",
+        "Vocabulary",
+        "TaxonomyTerm",
+        "Keywords",
+        "Coverage",
+        "Proximity",
+        "minAge",
+        "maxAge"
+      ],
+      "schemaType": "Placecube"
+    }
+  ]
+  
+}

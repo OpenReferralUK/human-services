@@ -413,3 +413,68 @@
 2021-06-14 13:45:45.4725 Info Adding target FileTarget(Name=allfile)
 2021-06-14 13:45:45.4792 Info Adding target FileTarget(Name=ownFile-web)
 2021-06-14 13:45:45.5096 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=D:\Projects\OpenReferralUK\human-services\ImplementationTools\ServiceDirectoryValidator\bin\Debug\netcoreapp3.1\nlog.config
+2021-06-15 09:05:47.4238 Info Message Template Auto Format enabled
+2021-06-15 09:05:47.5090 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-15 09:05:47.9799 Info Adding target FileTarget(Name=allfile)
+2021-06-15 09:05:48.4287 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-15 09:05:48.6081 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=D:\Apps\human-services\ImplementationTools\ServiceDirectoryValidator\bin\Release\netcoreapp3.1\nlog.config
+2021-06-15 09:18:45.7879 Info Message Template Auto Format enabled
+2021-06-15 09:18:45.9585 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-15 09:18:46.1264 Info Adding target FileTarget(Name=allfile)
+2021-06-15 09:18:46.1433 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-15 09:18:46.2744 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=D:\Apps\human-services\ImplementationTools\ServiceDirectoryValidator\bin\Release\netcoreapp3.1\nlog.config
+2021-06-15 09:20:00.0133 Info Message Template Auto Format enabled
+2021-06-15 09:20:00.0821 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-15 09:20:00.3080 Info Adding target FileTarget(Name=allfile)
+2021-06-15 09:20:00.3414 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-15 09:20:00.4090 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=D:\Apps\human-services\ImplementationTools\ServiceDirectoryValidator\bin\Release\netcoreapp3.1\nlog.config
+2021-06-15 09:21:35.8517 Info Message Template Auto Format enabled
+2021-06-15 09:21:35.9850 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-15 09:21:36.1558 Info Adding target FileTarget(Name=allfile)
+2021-06-15 09:21:36.1909 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-15 09:21:36.3101 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=D:\Apps\human-services\ImplementationTools\ServiceDirectoryValidator\bin\Release\netcoreapp3.1\nlog.config
+2021-06-15 09:59:04.1238 Info Message Template Auto Format enabled
+2021-06-15 09:59:04.2714 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-15 09:59:04.4602 Info Adding target FileTarget(Name=allfile)
+2021-06-15 09:59:04.4977 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-15 09:59:04.5994 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=D:\Apps\human-services\ImplementationTools\ServiceDirectoryValidator\bin\Release\netcoreapp3.1\nlog.config
+2021-06-15 10:21:23.5084 Info Message Template Auto Format enabled
+2021-06-15 10:21:23.5658 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-15 10:21:23.8705 Info Adding target FileTarget(Name=allfile)
+2021-06-15 10:21:23.8871 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-15 10:21:23.9999 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=D:\Apps\human-services\ImplementationTools\ServiceDirectoryValidator\bin\Release\netcoreapp3.1\nlog.config
+2021-06-15 10:23:20.5777 Info Message Template Auto Format enabled
+2021-06-15 10:23:20.6705 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-15 10:23:20.9760 Info Adding target FileTarget(Name=allfile)
+2021-06-15 10:23:21.1854 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-15 10:23:21.2461 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=D:\Apps\human-services\ImplementationTools\ServiceDirectoryValidator\bin\Release\netcoreapp3.1\nlog.config
+2021-06-15 10:28:36.6549 Info Message Template Auto Format enabled
+2021-06-15 10:28:36.7384 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-15 10:28:37.0714 Info Adding target FileTarget(Name=allfile)
+2021-06-15 10:28:37.3952 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-15 10:28:37.6357 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=D:\Apps\human-services\ImplementationTools\ServiceDirectoryValidator\bin\Release\netcoreapp3.1\nlog.config
+2021-06-15 10:30:19.4703 Info Message Template Auto Format enabled
+2021-06-15 10:30:19.5492 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-15 10:30:19.7537 Info Adding target FileTarget(Name=allfile)
+2021-06-15 10:30:19.7747 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-15 10:30:19.8368 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=D:\Apps\human-services\ImplementationTools\ServiceDirectoryValidator\bin\Release\netcoreapp3.1\nlog.config
+2021-06-15 10:37:06.9146 Info Message Template Auto Format enabled
+2021-06-15 10:37:07.6615 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-15 10:37:07.7565 Info Adding target FileTarget(Name=allfile)
+2021-06-15 10:37:07.7763 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-15 10:37:07.8431 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=D:\Apps\human-services\ImplementationTools\ServiceDirectoryValidator\bin\Release\netcoreapp3.1\nlog.config
+2021-06-15 11:28:55.5720 Info Message Template Auto Format enabled
+2021-06-15 11:28:55.6385 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-15 11:28:55.8583 Info Adding target FileTarget(Name=allfile)
+2021-06-15 11:28:55.9275 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-15 11:28:56.0155 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=D:\Apps\human-services\ImplementationTools\ServiceDirectoryValidator\bin\Release\netcoreapp3.1\nlog.config
+2021-06-15 11:30:03.6628 Info Message Template Auto Format enabled
+2021-06-15 11:30:04.4392 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-15 11:30:04.6176 Info Adding target FileTarget(Name=allfile)
+2021-06-15 11:30:04.6325 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-15 11:30:04.6990 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=D:\Apps\human-services\ImplementationTools\ServiceDirectoryValidator\bin\Release\netcoreapp3.1\nlog.config
+2021-06-15 11:31:13.0571 Info Message Template Auto Format enabled
+2021-06-15 11:31:13.1914 Info Loading assembly: NLog.Web.AspNetCore
+2021-06-15 11:31:13.3675 Info Adding target FileTarget(Name=allfile)
+2021-06-15 11:31:13.4097 Info Adding target FileTarget(Name=ownFile-web)
+2021-06-15 11:31:13.4717 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=D:\Apps\human-services\ImplementationTools\ServiceDirectoryValidator\bin\Release\netcoreapp3.1\nlog.config
