@@ -34,6 +34,7 @@ namespace Oruk.MultiValidation.Data
                 DeveloperLabel = feed.DeveloperLabel,
                 DeveloperUrl = feed.DeveloperUrl,
                 ServicePathOverride = feed.ServicePathOverride,
+                SchemaType = feed.SchemaType,
 
                 LastCheck = startTime,
                 CheckIsRunning = false,

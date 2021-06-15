@@ -13,6 +13,7 @@ namespace ServiceDirectory.Common.Validation
         public string DeveloperLabel { get; set; }
         public string DeveloperUrl { get; set; }
         public string ServicePathOverride { get; set; }
+        public string SchemaType { get; set; }
 
         public DateTime LastCheck { get; set; }
         public bool CheckIsRunning { get; set; }
@@ -53,6 +54,7 @@ namespace ServiceDirectory.Common.Validation
                 DeveloperLabel = feed.DeveloperLabel,
                 DeveloperUrl = feed.DeveloperUrl,
                 ServicePathOverride = feed.ServicePathOverride,
+                SchemaType = feed.SchemaType,
 
                 LastCheck = DateTime.UtcNow,
                 CheckIsRunning = true,

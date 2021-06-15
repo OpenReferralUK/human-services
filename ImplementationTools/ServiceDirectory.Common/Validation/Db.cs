@@ -115,6 +115,7 @@ namespace ServiceDirectory.Common.Validation
         private static Feed BuildFeed(IDataReader reader)
         {
             var searchResults = GetSearchResults(reader);
+            var schemaType = Convert.ToString(reader["schema_type"]);
 
             return new Feed
             {
@@ -126,6 +127,7 @@ namespace ServiceDirectory.Common.Validation
                 DeveloperLabel = Convert.ToString(reader["developer_label"]),
                 DeveloperUrl = Convert.ToString(reader["developer_url"]),
                 ServicePathOverride = Convert.ToString(reader["service_path_override"]),
+                SchemaType = string.IsNullOrEmpty(schemaType) ? null : schemaType,
 
                 LastCheck = Convert.ToDateTime(reader["last_check"]),
                 CheckIsRunning = Convert.ToBoolean(reader["check_is_running"]),
