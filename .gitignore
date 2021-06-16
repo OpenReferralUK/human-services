@@ -9,3 +9,4 @@ obj/
 ImplementationTools/ServiceDirectoryExporter/internal-nlog.txt
 ImplementationTools/ServiceDirectoryValidator/internal-nlog.txt
 ImplementationTools/ServiceDirectoryValidator/internal-nlog.txt
+*internal-nlog.txt
