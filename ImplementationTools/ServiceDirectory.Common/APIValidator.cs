@@ -273,7 +273,7 @@ namespace ServiceDirectory.Common
                                     taxonomyTest.vocabulary = Convert.ToString(prop.Value.Value);
                                 }
                             }
-                            else if (resourceName == "eligibilitys")
+                            else if (resourceName == "eligibility")
                             {
                                 if (ageTest == null)
                                 {
