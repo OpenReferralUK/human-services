@@ -144,11 +144,6 @@ namespace ServiceDirectory.Common.Pagination
                 pageNo++;
 
                 string serviceUrl = apiBaseUrl + "/services/";
-                if (apiBaseUrl.StartsWith("https://blackburn.openplace.directory"))
-                {
-                    //hack - temp
-                    serviceUrl = apiBaseUrl + "/hservices/local/";
-                }
 
                 serviceUrl += parameters;
 
