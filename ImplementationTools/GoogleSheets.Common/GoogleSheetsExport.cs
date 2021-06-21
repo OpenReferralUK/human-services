@@ -231,7 +231,7 @@ namespace GoogleSheets.Common
             {
                 Spreadsheet requestBody = new Spreadsheet();
                 requestBody.Properties = new SpreadsheetProperties();
-                requestBody.Properties.Title = "Service Directory Generated: " + DateTime.Now.ToString();
+                requestBody.Properties.Title = "Service Directory Generated: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"); ;
                 SpreadsheetsResource.CreateRequest request = service.Spreadsheets.Create(requestBody);
                 Spreadsheet response = await request.ExecuteAsync().ConfigureAwait(false);
                 return response.SpreadsheetId;

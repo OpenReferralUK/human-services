@@ -109,6 +109,11 @@
       "value": "=VLOOKUP({service_taxonomy.taxonomy_id},{taxonomy.id}:{taxonomy.name}, 2, false)"
     },
     {
+      "sheet": "service_taxonomy",
+      "title": "taxonomy_vocabulary",
+      "value": "=VLOOKUP({service_taxonomy.taxonomy_id},{taxonomy.id}:{taxonomy.vocabulary}, 4, false)"
+    },
+    {
       "sheet": "service",
       "title": "service_type",
       "value": "=TEXTJOIN(\",\",TRUE,FILTER({service_taxonomy.taxonomy_name~}, {service_taxonomy.service_id~}={service.id}))",
