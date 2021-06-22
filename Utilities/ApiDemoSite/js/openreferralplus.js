@@ -162,8 +162,8 @@ clsOpenReferralPlus.prototype.makeDot = function (jsonContent) {
     objORP.Dot += "digraph  { \n";
     objORP.Dot += "\toverlap=false; \n";
     objORP.Dot += "\tsplines=true; \n";
-    objORP.Dot += "\tnode [ color=black, fillcolor=lightblue ,fontname=Arial, fontcolor=black, fontsize=7]; \n";
-    objORP.Dot += "\tedge [fontname=Arial, fontsize=7, labelfontname=Arial, labelfontsize=7, len=3.0]; \n";
+    objORP.Dot += "\tnode [ color=black, fillcolor=lightblue ,fontname=Inter, fontcolor=black, fontsize=7]; \n";
+    objORP.Dot += "\tedge [fontname=Inter, fontsize=7, labelfontname=Inter, labelfontsize=7, len=3.0]; \n";
 
     if (objORP.Resource === 'services' || (config.schemaType === "OpenReferral" && objORP.Resource === "services/complete")) {
         if (objORP.Parameter) {
