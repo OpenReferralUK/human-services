@@ -160,7 +160,7 @@ namespace ServiceDirectory.Common.Validation
 
         public List<Feed> GetFeeds()
         {
-            var feeds = GetList(BuildFeed, "select * from feed;");
+            var feeds = GetList(BuildFeed, "select * from feed order by label;");
 
             var feedFilters = GetFeedFilters();
 
