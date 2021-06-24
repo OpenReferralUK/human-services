@@ -12,15 +12,15 @@
       url: /Validation/
 - title: API
   child:
-    - title: Dashboard
-      url: https://openreferraluk.org/dashboard
-      external: 1
     - title: Reference
       url: /ApiReference/
     - title: Guidance
       url: /API-Guidance/
 - title: Tools
   child:
+    - title: Dashboard
+      url: https://openreferraluk.org/dashboard
+      external: 1
     - title: Validator
       url: https://validator.openreferraluk.org/
       external: 1
