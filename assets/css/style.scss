@@ -251,6 +251,63 @@ $dropDown: true;
   }
 }
 
+.button-primary {
+	&:hover {
+		background-color: #0f4c5e;
+		color: #ffd152;
+		-webkit-text-fill-color: #ffd152;
+		cursor: pointer;
+		box-shadow: 0 0 0 4px #ffd152;
+		text-decoration: none;
+	}
+}
+.button-secondary {
+	&:hover {
+		background-color: #0f4c5e;
+		color: #ffd152;
+		-webkit-text-fill-color: #ffd152;
+		cursor: pointer;
+		box-shadow: 0 0 0 4px #ffd152;
+		text-decoration: none;
+	}
+	background-color: #fff;
+	color: #135e75;
+	box-shadow: inset 0 0 0 3px #197a99;
+	font-weight: 500;
+}
+.button-light {
+	background-color: #fff;
+	color: #135e75;
+}
+.button {
+	padding: .7em 1.5em;
+	border-radius: .2em;
+	font-size: 1.125rem;
+	border: 0;
+	text-decoration: none;
+	display: inline-block;
+	line-height: 1.2;
+}
+.button-header {
+	text-decoration: none;
+	font-size: 1rem;
+	font-weight: 600;
+	letter-spacing: .0125rem;
+	box-shadow: none;
+	padding: .875em 1.25em;
+	color: #135e75;
+	border: 0;
+	background-color: #fff;
+	display: inline-block;
+	line-height: 1;
+	min-width: .75em;
+}
+
+.forum-link {
+    margin-right: 1rem;
+    margin-left: auto;
+}
+
 .navwidth {
   max-width: 92vw;
   margin: 0 auto;
