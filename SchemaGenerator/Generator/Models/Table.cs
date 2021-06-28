@@ -189,6 +189,8 @@ namespace Convertor.Models
             table.AppendLine("<table cellpadding=\"2\">");
             table.AppendLine("<tr><th style=\"width:10em\">Field Name</th><th style=\"width:5em\">Type (Format)</th><th style=\"width:15em\">Source</th><th>Description</th><th style=\"width:10em\">Allowed Values</th><th style=\"width:5em\">Required?</th><th style=\"width:5em\">Unique?</th></tr>");
             table.AppendLine();
+
+            bool noRows = true;
             foreach (Column column in Columns)
             {
                 if (column.IsHidden || (column.IsDeprecated && options.IncludeDeprecated != 1))
@@ -229,8 +231,15 @@ namespace Convertor.Models
                 {
                     format += " (" + column.Format + ")";
                 }
+                noRows = false;
                 table.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td></tr>", column.Name, format, source, FormatHTML(column.Description), allowedValues, column.Required, column.Unique);
             }
+
+            if (noRows)
+            {
+                return string.Empty;
+            }
+
             table.AppendLine("</table>");
 
             return table.ToString();
