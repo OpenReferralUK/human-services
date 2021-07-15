@@ -1,5 +1,7 @@
-﻿using System;
+﻿using ServiceDirectory.Common.Results;
+using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace ServiceDirectory.Common.Validation
 {
@@ -75,6 +77,52 @@ namespace ServiceDirectory.Common.Validation
 
                 Filters = feed.Filters,
             };
+        }
+
+        public static Feed Build(IDataReader reader)
+        {
+            var searchResults = GetSearchResults(reader);
+            var schemaType = Convert.ToString(reader["schema_type"]);
+
+            return new Feed
+            {
+                Url = Convert.ToString(reader["url"]),
+                Label = Convert.ToString(reader["label"]),
+                Summary = Convert.ToString(reader["summary"]),
+                OrganisationLabel = Convert.ToString(reader["organisation_label"]),
+                OrganisationUrl = Convert.ToString(reader["organisation_url"]),
+                DeveloperLabel = Convert.ToString(reader["developer_label"]),
+                DeveloperUrl = Convert.ToString(reader["developer_url"]),
+                ServicePathOverride = Convert.ToString(reader["service_path_override"]),
+                SchemaType = string.IsNullOrEmpty(schemaType) ? null : schemaType,
+
+                LastCheck = Convert.ToDateTime(reader["last_check"]),
+                CheckIsRunning = Convert.ToBoolean(reader["check_is_running"]),
+                TimeTaken = Convert.ToInt64(reader["time_taken"]),
+                IsUp = Convert.ToBoolean(reader["is_up"]),
+                IsServicesValid = Convert.ToBoolean(reader["is_services_valid"]),
+                ServicesMessage = Convert.ToString(reader["services_message"]),
+                IsServiceExampleValid = Convert.ToBoolean(reader["is_service_example_valid"]),
+                ServiceExampleIdentifier = Convert.ToString(reader["service_example_identifier"]),
+                ServiceExampleMessage = Convert.ToString(reader["service_example_message"]),
+                IsSearchEnabled = Convert.ToBoolean(reader["is_search_enabled"]),
+                SearchEnabledMessage = Convert.ToString(reader["search_enabled_message"]),
+                SearchResults = searchResults
+            };
+        }
+
+        private static List<BasicTestResult> GetSearchResults(IDataReader reader)
+        {
+            var searchEnabledMessage = Convert.ToString(reader["search_enabled_message"]);
+
+            try
+            {
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<List<BasicTestResult>>(searchEnabledMessage);
+            }
+            catch (Exception e)
+            {
+                return new List<BasicTestResult>();
+            }
         }
     }
 }

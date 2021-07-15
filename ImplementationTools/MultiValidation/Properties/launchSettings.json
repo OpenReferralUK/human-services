@@ -2,7 +2,7 @@
   "profiles": {
     "Oruk.MultiValidation": {
       "commandName": "Project",
-      "commandLineArgs": "https://bristol.openplace.directory/o/ServiceDirectoryService/v2"
+      "commandLineArgs": "https://api.porism.com/ServiceDirectoryServiceOpenActiveAggregated"
     }
   }
 }

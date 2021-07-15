@@ -1,5 +1,4 @@
 ﻿using MySql.Data.MySqlClient;
-using ServiceDirectory.Common.Results;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,13 +15,13 @@ namespace ServiceDirectory.Common.Validation
             this.ConnectionString = connectionString;
         }
 
-        public T GetItem<T>(Func<IDataReader, T> convertRow, string sql, params KeyValuePair<string, object>[] parameters)
+        public T GetItem<T>(Func<IDataReader, T> convertRow, string sql, params MySqlParameter[] parameters)
         {
             var results = GetList(convertRow, sql, parameters);
             return results.FirstOrDefault();
         }
 
-        public List<T> GetList<T>(Func<IDataReader, T> convertRow, string sql, params KeyValuePair<string, object>[] parameters)
+        public List<T> GetList<T>(Func<IDataReader, T> convertRow, string sql, params MySqlParameter[] parameters)
         {
             try
             {
@@ -66,7 +65,17 @@ namespace ServiceDirectory.Common.Validation
             }
         }
 
-        public int Execute(string sql, params KeyValuePair<string, object>[] parameters)
+        public MySqlParameter[] ToParameters(params Tuple<string, object>[] parameters)
+        {
+            return parameters.Select(p => new MySqlParameter(p.Item1, p.Item2)).ToArray();
+        }
+
+        public int Execute(string sql, params Tuple<string, object>[] parameters)
+        {
+            return Execute(sql, ToParameters(parameters));
+        }
+
+        public int Execute(string sql, params MySqlParameter[] parameters)
         {
             try
             {
@@ -92,14 +101,14 @@ namespace ServiceDirectory.Common.Validation
             }
         }
 
-        private void AddParameters(MySqlCommand command, params KeyValuePair<string, object>[] parameters)
+        private void AddParameters(MySqlCommand command, params MySqlParameter[] parameters)
         {
             if (parameters == null)
                 return;
 
             foreach (var parameter in parameters)
             {
-                command.Parameters.AddWithValue($"@{parameter.Key}", parameter.Value);
+                command.Parameters.Add(parameter);
             }
         }
 
@@ -112,55 +121,9 @@ namespace ServiceDirectory.Common.Validation
             };
         }
 
-        private static Feed BuildFeed(IDataReader reader)
-        {
-            var searchResults = GetSearchResults(reader);
-            var schemaType = Convert.ToString(reader["schema_type"]);
-
-            return new Feed
-            {
-                Url = Convert.ToString(reader["url"]),
-                Label = Convert.ToString(reader["label"]),
-                Summary = Convert.ToString(reader["summary"]),
-                OrganisationLabel = Convert.ToString(reader["organisation_label"]),
-                OrganisationUrl = Convert.ToString(reader["organisation_url"]),
-                DeveloperLabel = Convert.ToString(reader["developer_label"]),
-                DeveloperUrl = Convert.ToString(reader["developer_url"]),
-                ServicePathOverride = Convert.ToString(reader["service_path_override"]),
-                SchemaType = string.IsNullOrEmpty(schemaType) ? null : schemaType,
-
-                LastCheck = Convert.ToDateTime(reader["last_check"]),
-                CheckIsRunning = Convert.ToBoolean(reader["check_is_running"]),
-                TimeTaken = Convert.ToInt64(reader["time_taken"]),
-                IsUp = Convert.ToBoolean(reader["is_up"]),
-                IsServicesValid = Convert.ToBoolean(reader["is_services_valid"]),
-                ServicesMessage = Convert.ToString(reader["services_message"]),
-                IsServiceExampleValid = Convert.ToBoolean(reader["is_service_example_valid"]),
-                ServiceExampleIdentifier = Convert.ToString(reader["service_example_identifier"]),
-                ServiceExampleMessage = Convert.ToString(reader["service_example_message"]),
-                IsSearchEnabled = Convert.ToBoolean(reader["is_search_enabled"]),
-                SearchEnabledMessage = Convert.ToString(reader["search_enabled_message"]),
-                SearchResults = searchResults
-            };
-        }
-
-        private static List<BasicTestResult> GetSearchResults(IDataReader reader)
-        {
-            var searchEnabledMessage = Convert.ToString(reader["search_enabled_message"]);
-
-            try
-            {
-                return Newtonsoft.Json.JsonConvert.DeserializeObject<List<BasicTestResult>>(searchEnabledMessage);
-            }
-            catch (Exception e)
-            {
-                return new List<BasicTestResult>();
-            }
-        }
-
         public List<Feed> GetFeeds()
         {
-            var feeds = GetList(BuildFeed, "select * from feed order by label;");
+            var feeds = GetList(Feed.Build, "select * from feed order by label;");
 
             var feedFilters = GetFeedFilters();
 
@@ -174,7 +137,7 @@ namespace ServiceDirectory.Common.Validation
 
         public Feed GetFeed(string url)
         {
-            var feed = GetItem(BuildFeed, "select * from feed where url = @url;", new KeyValuePair<string, object>("url", url));
+            var feed = GetItem(Feed.Build, "select * from feed where url = @url;", new MySqlParameter("url", url));
             
             if (feed == null)
                 return null;
@@ -186,7 +149,7 @@ namespace ServiceDirectory.Common.Validation
 
         public Feed GetOldestFeed()
         {
-            var feed = GetItem(BuildFeed, "select * from feed order by last_check, url limit 1;");
+            var feed = GetItem(Feed.Build, "select * from feed order by last_check, url limit 1;");
             
             if (feed == null)
                 return null;
@@ -203,7 +166,7 @@ namespace ServiceDirectory.Common.Validation
 
         public List<FeedFilter> GetFeedFilters(string url)
         {
-            return GetList(BuildFeedFilter, "select * from feed_filter where url = @url;", new KeyValuePair<string, object>("url", url));
+            return GetList(BuildFeedFilter, "select * from feed_filter where url = @url;", new MySqlParameter("url", url));
         }
 
         private string EscapeField(string field) => $"`{field}`";
@@ -214,8 +177,8 @@ namespace ServiceDirectory.Common.Validation
 
         private string ToProperty(string field) => string.Join("", field.Split('_').Select(f => f.First().ToString().ToUpper() + f.Substring(1)));
 
-        private List<KeyValuePair<string, object>> ToParameteres<T>(T obj, params string[] fields) {
-            var parameters = new List<KeyValuePair<string, object>>();
+        private List<Tuple<string, object>> ToParameteres<T>(T obj, params string[] fields) {
+            var parameters = new List<Tuple<string, object>>();
 
             var type = obj.GetType();
 
@@ -226,7 +189,7 @@ namespace ServiceDirectory.Common.Validation
                 if (info == null)
                     continue;
                 var value = info.GetValue(obj, null);
-                parameters.Add(new KeyValuePair<string, object>(field, value));
+                parameters.Add(Tuple.Create(field, value));
             }
 
             return parameters;
@@ -246,6 +209,63 @@ namespace ServiceDirectory.Common.Validation
             var parameters = ToParameteres(feed, fields);
 
             Execute(sql, parameters.ToArray());
+        }
+
+        public List<RegisteredUser> GetRegisteredUsers()
+        {
+            var sql = $"select * from registered_user;";
+
+            return GetList(RegisteredUser.Build, sql);
+        }
+
+        public RegisteredUser GetRegisteredUser(string email_address)
+        {
+            var sql = $"select * from registered_user where email_address = @email_address;";
+
+            return GetItem(RegisteredUser.Build, sql, new MySqlParameter("@email_address", email_address));
+        }
+
+        public void RegisterUser(string email_address)
+        {
+            var sql = $"insert into registered_user (email_address) values (@email_address) on duplicate key update email_address = email_address;";
+
+            Execute(sql, Tuple.Create<string, object>("@email_address", email_address));
+        }
+
+        public List<RegisteredUser> GetRegisteredOrganisations()
+        {
+            var sql = $"select * from registered_organisation;";
+
+            return GetList(RegisteredUser.Build, sql);
+        }
+
+        public RegisteredOrganisation GetRegisteredOrganisation(int id)
+        {
+            var sql = $"select * from registered_organisation where id = @id;";
+
+            return GetItem(RegisteredOrganisation.Build, sql, new MySqlParameter("@id", id));
+        }
+
+        public int RegisterOrganisation(string organisation_name, string organisation_type, string adoptation_stage, string url, string private_email_address, string public_email_address)
+        {
+            var sql = $"insert into registered_organisation " +
+                $"(organisation_name, organisation_type, adoptation_stage, url, private_email_address, public_email_address) " +
+                $"values (@organisation_name, @organisation_type, @adoptation_stage, @url, @private_email_address, @public_email_address); " +
+                $"select last_insert_id() as id;";
+
+            var parameters = new MySqlParameter[]
+            {
+                new MySqlParameter("@organisation_name", organisation_name),
+                new MySqlParameter("@organisation_type", organisation_type),
+                new MySqlParameter("@adoptation_stage", adoptation_stage),
+                new MySqlParameter("@url", url),
+                new MySqlParameter("@private_email_address", private_email_address),
+                new MySqlParameter("@public_email_address", public_email_address)
+            };
+
+            var item = GetItem((IDataReader reader) => new { id = Convert.ToInt32(reader["id"]) }, sql, parameters);
+
+            return item.id;
         }
     }
 }
