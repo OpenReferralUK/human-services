@@ -35,7 +35,7 @@ namespace ServiceDirectoryValidator.Controllers
             var db = new Db(connectionString);
 
             if (!EmailPassesSanityCheck(email_address))
-                return Json(new { success = false, errors = new[] { new FieldError("email", "Email does not look valid.") } });
+                return Json(new { success = false, errors = new[] { new FieldError("email_address", "Email does not look valid.") } });
 
             var existingUser = db.GetRegisteredUser(email_address);
 
