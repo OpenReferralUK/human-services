@@ -232,26 +232,25 @@ namespace ServiceDirectory.Common.Validation
             Execute(sql, Tuple.Create<string, object>("@email_address", email_address));
         }
 
-        public List<RegisteredUser> GetRegisteredOrganisations()
+        public List<RegisteredOrganisation> GetRegisteredOrganisations()
         {
             var sql = $"select * from registered_organisation;";
 
-            return GetList(RegisteredUser.Build, sql);
+            return GetList(RegisteredOrganisation.Build, sql);
         }
 
-        public RegisteredOrganisation GetRegisteredOrganisation(int id)
+        public RegisteredOrganisation GetRegisteredOrganisation(string private_email_address)
         {
-            var sql = $"select * from registered_organisation where id = @id;";
+            var sql = $"select * from registered_organisation where private_email_address = @private_email_address;";
 
-            return GetItem(RegisteredOrganisation.Build, sql, new MySqlParameter("@id", id));
+            return GetItem(RegisteredOrganisation.Build, sql, new MySqlParameter("@private_email_address", private_email_address));
         }
 
         public int RegisterOrganisation(string organisation_name, string organisation_type, string adoptation_stage, string url, string private_email_address, string public_email_address)
         {
             var sql = $"insert into registered_organisation " +
                 $"(organisation_name, organisation_type, adoptation_stage, url, private_email_address, public_email_address) " +
-                $"values (@organisation_name, @organisation_type, @adoptation_stage, @url, @private_email_address, @public_email_address); " +
-                $"select last_insert_id() as id;";
+                $"values (@organisation_name, @organisation_type, @adoptation_stage, @url, @private_email_address, @public_email_address); ";
 
             var parameters = new MySqlParameter[]
             {
@@ -263,9 +262,7 @@ namespace ServiceDirectory.Common.Validation
                 new MySqlParameter("@public_email_address", public_email_address)
             };
 
-            var item = GetItem((IDataReader reader) => new { id = Convert.ToInt32(reader["id"]) }, sql, parameters);
-
-            return item.id;
+            return Execute(sql, parameters);
         }
     }
 }

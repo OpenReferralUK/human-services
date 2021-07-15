@@ -81,9 +81,14 @@ namespace ServiceDirectoryValidator.Controllers
             if (errors.Length > 0)
                 return Json(new { success = false, errors });
 
-            var id = db.RegisterOrganisation(parameters.organisation_name, parameters.organisation_type, parameters.adoptation_stage, parameters.url, parameters.private_email_address, parameters.public_email_address);
+            var existingOrganisation = db.GetRegisteredOrganisation(parameters.private_email_address);
+
+            if (existingOrganisation != null)
+                return Json(new { success = false, error = "Already registered.", existingOrganisation });
+
+            db.RegisterOrganisation(parameters.organisation_name, parameters.organisation_type, parameters.adoptation_stage, parameters.url, parameters.private_email_address, parameters.public_email_address);
             
-            var organisation = db.GetRegisteredOrganisation(id);
+            var organisation = db.GetRegisteredOrganisation(parameters.private_email_address);
 
             if (organisation == null)
                 return Json(new { success = false, error = "Unknown problem." });

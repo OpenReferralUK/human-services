@@ -5,7 +5,6 @@ namespace ServiceDirectory.Common.Validation
 {
     public class RegisteredOrganisation
     {
-        public int Id { get; set; }
         public string OrganisationName { get; set; }
         public string OrganisationType { get; set; }
         public string AdoptationStage { get; set; }
@@ -18,7 +17,6 @@ namespace ServiceDirectory.Common.Validation
         {
             return new RegisteredOrganisation
             {
-                Id = Convert.ToInt32(reader["id"]),
                 OrganisationName = Convert.ToString(reader["organisation_name"]),
                 OrganisationType = Convert.ToString(reader["organisation_type"]),
                 AdoptationStage = Convert.ToString(reader["adoptation_stage"]),
