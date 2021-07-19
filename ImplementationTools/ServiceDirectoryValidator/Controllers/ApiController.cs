@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using ServiceDirectory.Common;
 using ServiceDirectory.Common.Validation;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -93,6 +94,8 @@ namespace ServiceDirectoryValidator.Controllers
             if (organisation == null)
                 return Json(new { success = false, error = "Unknown problem." });
 
+            SendRegisteredOrganisationEmail(parameters);
+
             return Json(new { success = true, organisation });
         }
 
@@ -151,6 +154,34 @@ namespace ServiceDirectoryValidator.Controllers
             }
 
             return errors.ToArray();
+        }
+
+        private void SendRegisteredUser(string email_address)
+        {
+            var subject = $"A user registered for ORUK";
+            var body = $"{email_address} registered for ORUK.<br />See the full list at <a href=\"{Settings.RegisteredUsersUrl}\">{Settings.RegisteredUsersUrl}</a>.";
+
+            try
+            {
+                EmailUtility.Send(Settings.DefaultSupportEmail, Settings.RegisterAlertEmail, subject, body);
+            }
+            catch
+            {
+            }
+        }
+
+        private void SendRegisteredOrganisationEmail(RegisterOrganisationParameters parameters)
+        {
+            var subject = $"{parameters.organisation_name} registered for ORUK";
+            var body = $"{parameters.organisation_name} ({parameters.private_email_address}) registered for ORUK.<br />See the full list at <a href=\"{Settings.RegisteredOrganisationsUrl}\">{Settings.RegisteredOrganisationsUrl}</a>.";
+
+            try
+            {
+                EmailUtility.Send(Settings.DefaultSupportEmail, Settings.RegisterAlertEmail, subject, body);
+            }
+            catch
+            {
+            }
         }
     }
 }
