@@ -6,7 +6,7 @@ pageTitle: Open Referral UK
 
 # Open Referral UK Data Standard
 <div class="row"><div class="col">
-<p>These pages provide guidance on using the Open Referral UK standard - a UK extension to the international <a href="https://openreferral.org/">Open Referral</a> standard for interchange of data on human services.</p>
+<p>These pages provide guidance on using the Open Referral UK standard - a UK extension to the international <a href="https://openreferral.org/">Open Referral</a> standard for interchange of data on human services.</p> 
 
 <p>They describe the standard data structure and Application Programmer Interface (API). They also link to open source tools that help you adopt the standard and see what others are doing with it.</p>
 </div><div class="col-auto d-flex align-items-center" style="min-width: 190px">  
