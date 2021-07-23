@@ -21,12 +21,12 @@
     - title: Dashboard
       url: https://openreferraluk.org/dashboard
       external: 1
-    - title: Validator
-      url: https://validator.openreferraluk.org/
+    - title: API Query Tool
+      url: https://query.openreferraluk.org/
       external: 1
     - title: Exporter
       url: https://exporter.openreferraluk.org/
       external: 1
-    - title: API Query Tool
-      url: https://query.openreferraluk.org/
+    - title: Validator
+      url: https://validator.openreferraluk.org/
       external: 1
