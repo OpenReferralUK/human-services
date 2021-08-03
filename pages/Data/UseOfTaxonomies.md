@@ -29,7 +29,7 @@ These vocabularies are suitable for describing service types:
 
 -   OpenActive [Activity List](https://openactive.io/activity-list/activity-list.jsonld) - a list of types of sports and wellbeing activity
 
--   [Snowmed Clinical Terminologies](http://www.snomed.org/) (see also [here](https://termbrowser.nhs.uk/?perspective=full&conceptId1=404684003&edition=uk-edition&release=v20191001&server=https://termbrowser.nhs.uk/sct-browser-api/snomed&langRefset=999001261000000100,999000691000001104))- a list of clinical terms which can be associated with clinical services
+-   [Snomed Clinical Terminologies](http://www.snomed.org/) (see also [NHS Digital Snomed CT Browser](https://termbrowser.nhs.uk/?perspective=full&conceptId1=404684003&edition=uk-edition&release=v20191001&server=https://termbrowser.nhs.uk/sct-browser-api/snomed&langRefset=999001261000000100,999000691000001104))- a list of clinical terms which can be associated with clinical services
 
 -   [OpenEligibility list](https://github.com/auntbertha/openeligibility/blob/master/taxonomy) - described as a "way to categorize human services and human situations", the human services part of this list provides broad categorisations of service types
 
@@ -45,7 +45,7 @@ These vocabularies are suitable for describing eligibility types:
 
 ### Accessibility for disabilities
 
-The Schema currently only provides for a limited set of accessibility entries. Proposals have been made ([see here](https://docs.google.com/document/d/15Z-gVDXG9_mOQc2_cjZuzWiKLncpJku03qkbxcDNsos/edit?usp=sharing)) for switching to use of taxonomies for accessibility terms.
+The Schema currently only provides for a limited set of accessibility entries. [Proposals have been made](https://docs.google.com/document/d/15Z-gVDXG9_mOQc2_cjZuzWiKLncpJku03qkbxcDNsos/edit?usp=sharing) for switching to use of taxonomies for accessibility terms.
 
 This vocabulary may be considered describing service types:
 
@@ -123,7 +123,7 @@ All directories should use these CURIEs for national/international vocabularies:
 
 -   openActiveActivity: - OpenActive [Activity List](https://openactive.io/activity-list/activity-list.jsonld) 
 
--   snomedCT: - [Snomed Clinical Terminologies](http://www.snomed.org/) (see also [here](https://termbrowser.nhs.uk/?perspective=full&conceptId1=404684003&edition=uk-edition&release=v20191001&server=https://termbrowser.nhs.uk/sct-browser-api/snomed&langRefset=999001261000000100,999000691000001104))
+-   snomedCT: - [Snomed Clinical Terminologies](http://www.snomed.org/) (see also [NHS Digital Snomed CT Browser](https://termbrowser.nhs.uk/?perspective=full&conceptId1=404684003&edition=uk-edition&release=v20191001&server=https://termbrowser.nhs.uk/sct-browser-api/snomed&langRefset=999001261000000100,999000691000001104))
 
 Publishers are free to devise their own CURIEs for local lists. They may use the authority name abbreviated eg "BCC:" or "Bristol:", "Hull:".
 
@@ -147,7 +147,7 @@ The Schema supports use of any given taxonomy, including taxonomies local to an 
 
 ### Using taxonomies with the API
 
-The standard API's web method for getting services is defined [here](https://api.porism.com/ServiceDirectoryService/swagger-ui.html#/Services/getServicesUsingGET).
+The [standard API's web method for getting services](https://api.porism.com/ServiceDirectoryService/swagger-ui.html#/Services/getServicesUsingGET).
 
 It includes filter parameters for:
 
@@ -189,7 +189,7 @@ Hence:
 
 Service Finder utilities can be configured to filter services according to their target groups.
 
-The sample [service finder here](https://tools.openreferraluk.org/ServiceFinder/) (see [here for source code](https://github.com/OpenReferralUK/ServiceFinder)) illustrates how "personas" can be used for quick filtering according to target groups.
+The sample [service finder](https://tools.openreferraluk.org/ServiceFinder/) (see [source code](https://github.com/OpenReferralUK/ServiceFinder)) illustrates how "personas" can be used for quick filtering according to target groups.
 
 ![ServiceFinder homepage](https://raw.githubusercontent.com/OpenReferralUK/human-services/gh-pages/assets/images/ServiceFinderPage.png)
 
