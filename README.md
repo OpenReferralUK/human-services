@@ -4,6 +4,9 @@ title: Local install
 permalink: /install/
 ---
 
+# notes
+html pages seem to use "liquid syntax" (e.g. {% for entry in site.data.navigation %}). Best documentation seems to be on shopify (e.g. https://shopify.dev/api/liquid/objects/for-loops)
+
 # To serve site locally
 
 ## Using Ruby installer - Windows
