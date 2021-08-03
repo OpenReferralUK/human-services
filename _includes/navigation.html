@@ -10,11 +10,11 @@
                     {% if entry.child %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="{{ site.baseurl }}{{ entry.url }}" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="navbarDropdown{{ forloop.index }}">
                                 {{ entry.title }}
                             </a>
 
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown{{ forloop.index }}">
                                 {% for child in entry.child %}
                                     {% if child.external %}
                                         <a class="dropdown-item" href="{{ child.url }}" {% if child.target %} target="{{child.target}}"{% endif %}>{{ child.title }}</a>
