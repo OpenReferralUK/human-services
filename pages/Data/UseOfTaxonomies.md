@@ -29,7 +29,7 @@ These vocabularies are suitable for describing service types:
 
 -   OpenActive [Activity List](https://openactive.io/activity-list/activity-list.jsonld) - a list of types of sports and wellbeing activity
 
--   [Snomed Clinical Terminologies](http://www.snomed.org/) (see also [NHS Digital Snomed CT Browser](https://termbrowser.nhs.uk/?perspective=full&conceptId1=404684003&edition=uk-edition&release=v20191001&server=https://termbrowser.nhs.uk/sct-browser-api/snomed&langRefset=999001261000000100,999000691000001104))- a list of clinical terms which can be associated with clinical services
+-   [Snomed Clinical Terminologies](http://www.snomed.org/) (see also [NHS Digital Snomed CT Browser](https://termbrowser.nhs.uk/?perspective=full&conceptId1=404684003&edition=uk-edition&release=v20191001&server=https://termbrowser.nhs.uk/sct-browser-api/snomed&langRefset=999001261000000100,999000691000001104)) - a list of clinical terms which can be associated with clinical services
 
 -   [OpenEligibility list](https://github.com/auntbertha/openeligibility/blob/master/taxonomy) - described as a "way to categorize human services and human situations", the human services part of this list provides broad categorisations of service types
 
