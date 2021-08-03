@@ -42,7 +42,7 @@ The standard defined here reflects LGA findings combined with some "Must have" c
 <div id="erd-description">
 This Entity Relation Diagram shows the structure of data, distinguishing parts of the core Open Referral standard used from extensions introduced for Open Referral UK.
 </div><br/>
-[{:class="img-fluid"}{:width="75%"}{:aria-describedby="erd-description"}](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Resources/LGA_ApplicationProfileBasicEntityRelationshipDiagram.png){:target="_blank"}    
+![LGA Application Profile Basic Entity Relationship Diagram](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Resources/LGA_ApplicationProfileBasicEntityRelationshipDiagram.png){:class="img-fluid"}{:width="75%"}{:aria-describedby="erd-description"}  
 
 {% comment %}
 The remaining "should have", "could have" and "won't have" recommendations are shown in the following diagram. They will be introduced in future versions of the standard if there is a business case for doing so. Local implementations may also choose to implement them.
