@@ -26,7 +26,7 @@
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link m-0" href="{{ site.baseurl }}{{ entry.url }}" {% if entry.target %} target="{{entry.target}}"{% endif %}>{{ entry.title }}</a>
+                            <a class="nav-link" href="{{ site.baseurl }}{{ entry.url }}" {% if entry.target %} target="{{entry.target}}"{% endif %}>{{ entry.title }}</a>
                         </li>
                     {% endif %}
                 {% endfor%}
