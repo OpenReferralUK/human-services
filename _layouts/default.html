@@ -31,54 +31,57 @@
 
 <body>
 
-<!-- HEADER -->
-<div id="header_wrap" class="outer">
-    <header class="inner">
-        <a class="skip-to-main-content" href="#main_content">Skip to main content</a>
-        {% comment &}
-        {% if site.github.is_project_page %}
-        <a id="forkme_banner" href="{{ site.github.repository_url }}">View on GitHub</a>
-        {% endif %}
-        {% endcomment %}
-        <div class="row">
-                <div class="col-sm-4 col-md-2 align-content-end align-content-center-md" style="min-width: 15%; max-width: 15%">
-                    <a href="https://developers.openreferraluk.org/"><img class="img-fluid w-25-md w-25-lg" src="/assets/images/oruk_logo_white.svg" alt="Open Referral UK" style="box-shadow:none"></a>
+    
+    <div class="container-fluid p-0">
+        <!-- HEADER -->
+        <div id="header_wrap" class="outer">
+            <header class="inner">
+                <a class="skip-to-main-content" href="#main_content">Skip to main content</a>
+                {% comment &}
+                {% if site.github.is_project_page %}
+                <a id="forkme_banner" href="{{ site.github.repository_url }}">View on GitHub</a>
+                {% endif %}
+                {% endcomment %}
+                <div class="row">
+                    <div class="col-auto ">
+                        <a href="https://developers.openreferraluk.org/"><img class="p-0" src="/assets/images/oruk_logo_white.svg" alt="Open Referral UK" style="box-shadow:none"></a>
+                    </div>
+                    <div class="col d-flex align-items-center">
+                        <h1 id="project_title">Developer documentation and tools</h1>
+                    </div>	
+                    <div class="col-auto d-flex align-items-center">
+                        <a href="https://forum.openreferraluk.org/" class="forum-link button button-secondary button-header show-md">Forum</a><a href="https://openreferraluk.org" class="button button-secondary button-header show-md">Main site</a>		
+                    </div>
                 </div>
-                <div class="col d-flex align-items-center">
-                    <h1 id="project_title">Developer documentation and tools</h1>
-                </div>	
-                <div class="col d-flex align-items-center">
-                    <a href="https://forum.openreferraluk.org/" class="forum-link button button-secondary button-header show-md">Forum</a><a href="https://openreferraluk.org" class="button button-secondary button-header show-md">Main site</a>		
-                </div>
+
+
+                {% if site.show_downloads %}
+                <section id="downloads">
+                    <a class="zip_download_link" href="{{ site.github.zip_url }}">Download this project as a .zip file</a>
+                    <a class="tar_download_link" href="{{ site.github.tar_url }}">Download this project as a tar.gz file</a>
+                </section>
+                {% endif %}
+            </header>
         </div>
 
+        <!-- MAIN CONTENT -->
+        <div id="main_content_wrap" class="outer">
+            <section>{% include navigation.html %}</section>
+            <section id="main_content" class="inner mt-4">
+                {{ content }}
+            </section>
+        </div>
 
-        {% if site.show_downloads %}
-        <section id="downloads">
-            <a class="zip_download_link" href="{{ site.github.zip_url }}">Download this project as a .zip file</a>
-            <a class="tar_download_link" href="{{ site.github.tar_url }}">Download this project as a tar.gz file</a>
-        </section>
-        {% endif %}
-    </header>
-</div>
-
-<!-- MAIN CONTENT -->
-<div id="main_content_wrap" class="outer">
-    <section>{% include navigation.html %}</section>
-    <section id="main_content" class="inner mt-4">
-        {{ content }}
-    </section>
-</div>
-
-<!-- FOOTER  -->
-<div id="footer_wrap" class="outer">
-    <footer class="inner">
-        {% if site.github.is_project_page %}
-        <p class="copyright">{{ site.title | default: site.github.repository_name }} maintained by <a href="https://github.com/OpenReferralUK">Open Referral UK</a></p>
-        {% endif %}
-        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
-    </footer>
-</div>
+        <!-- FOOTER  -->
+        <div id="footer_wrap" class="outer">
+            <footer class="inner">
+                {% if site.github.is_project_page %}
+                <p class="copyright">{{ site.title | default: site.github.repository_name }} maintained by <a href="https://github.com/OpenReferralUK">Open Referral UK</a></p>
+                {% endif %}
+                <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+            </footer>
+        </div>
+    </div>
 
 {% if site.google_analytics %}
 <script>
