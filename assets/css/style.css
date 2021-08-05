@@ -262,3 +262,20 @@ h3 {
 .navbackground {
   background-color: #28614F !important;
 }
+
+a.skip-to-main-content {
+  position: absolute;
+  color: white;
+  background-color: #28614F;
+  padding: 0.5rem;
+  border-radius: 0 0 1rem 1rem;
+  
+  left: 50%;
+  -webkit-transform: translate(-50%, -100%);
+  transform: translate(-50%, -100%);
+}
+
+a.skip-to-main-content:focus {
+  -webkit-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+}
