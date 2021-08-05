@@ -258,3 +258,7 @@ a.skip-to-main-content:focus {
   border-color: #fff !important;
   border-width: 2px;
 }
+#main_content p {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
