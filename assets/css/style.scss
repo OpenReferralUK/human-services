@@ -117,10 +117,11 @@ $dropDown: true;
 
         .dropdown-item {
           color: $colDefault;
+          white-space: normal;
 
           &:hover, &:focus, &.active {
-			color: #FFF;
-			background-color: #2A3834;
+            color: #FFF;
+            background-color: #2A3834;
           }
         }
 
