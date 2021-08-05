@@ -93,7 +93,7 @@ h3 {
 .navbar .navbar-nav .nav-link {
   color: #FFFFFF !important;
   border-radius: 0.25rem;
-  margin: 0 0.25em;
+  margin: 0 0.25em 0 0;
 }
 .navbar .navbar-nav .nav-link:not(.disabled):hover, .navbar .navbar-nav .nav-link:not(.disabled):focus {
   color: #FFF;

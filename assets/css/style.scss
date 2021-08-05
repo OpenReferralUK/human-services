@@ -101,7 +101,7 @@ $dropDown: true;
     .nav-link {
       color: $colDefault;
       border-radius: .25rem;
-      margin: 0 0.25em;
+      margin: 0 0.25em 0 0;
 
       &:not(.disabled) {
         &:hover, &:focus {
