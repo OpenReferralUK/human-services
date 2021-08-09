@@ -10,7 +10,7 @@
             var url = $(this).attr('data-url');
             $('.DemoBaseURL').val(url);
 
-            var $formGroup = $('#validateForm .form-group');
+            var $formGroup = $('#exporterForm .form-group');
             var $message = $formGroup.find('span.accessibility-message');
             if ($message.length > 0)
                 return;
@@ -54,7 +54,7 @@
                 </div>
             </div>
             <div class="col-sm">
-                <form method="get" asp-page="/Export">
+                <form method="get" asp-page="/Export" id="exporterForm">
                     <div class="form-group" aria-live="polite" aria-atomic="true">
                         <label for="BaseUrl">Base URL</label>
                         <input class="form-control DemoBaseURL" type="url" id="BaseUrl" name="BaseUrl"/>
