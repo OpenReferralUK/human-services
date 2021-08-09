@@ -13,7 +13,7 @@
             dataType: "json",
             success: function (response) {
                 $.each(response, function (index, value) {
-                    $('#ulExamples').append('<li class="mb-2"><span id="serviceDirectory' + index + '">' + value.url + '</span><button type="button" class="ml-2 btn btn-sm btn-outline-secondary" onclick="$(\'.DemoBaseURL\').val($(\'#serviceDirectory' + index + '\').html())"><span class="mr-2">Try Now</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button></li>');
+                    $('#ulExamples').append('<li class="mb-2"><button type="button" class="ml-2 btn btn-sm btn-outline-secondary" onclick="$(\'.DemoBaseURL\').val(\'' + value.url + '\')"><span class="mr-2">' + value.url + '</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button></li>');
                 });
             }
         });   
