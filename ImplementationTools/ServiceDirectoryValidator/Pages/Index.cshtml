@@ -107,12 +107,26 @@
             $("html, body").animate({ scrollTop: $("#headerLogo").offset().top }, 1000);
         }
     }
+
+    var onTryMeButtonClick = function () {
+        var url = $(this).attr('data-url');
+        $('.DemoBaseURL').val(url);
+
+        var $formGroup = $('#validateForm .form-group');
+        var $message = $formGroup.find('span.accessibility-message');
+        if ($message.length > 0)
+            return;
+
+        $formGroup.prepend('<span class="accessibility-message" style="opacity: 0; position: absolute">Base URL applied</span>');
+    };
+
     $(document).ready(function () {
         $("#txtBaseUrl").keyup(function (event) {
             if (event.keyCode === 13) {
                 performValidation();
             }
         });
+
         $.ajax({
             url: "/api",
             type: "GET",
@@ -120,7 +134,11 @@
             dataType: "json",
             success: function (response) {
                 $.each(response, function (index, value) {
-                    $('#ulExamples').append('<li class="mb-2"><button type="button" class="ml-2 btn btn-sm btn-outline-secondary" onclick="$(\'.DemoBaseURL\').val(\'' + value.url + '\')"><span class="mr-2">' + value.url + '</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button></li>');
+                    var $li = $('<li class="mb-2"></li>');
+                    var $button = $('<button type="button" data-url="' + value.url + '" class="ml-2 btn btn-sm btn-outline-secondary"><span class="mr-2">' + value.url + '</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button>');
+                    $li.append($button);
+                    $('#ulExamples').append($li);
+                    $button.on('click', onTryMeButtonClick);
                 });
             }
         });
@@ -148,7 +166,7 @@
         </div><div class="col-sm">
         <form id="validateForm">
 
-            <div class="form-group">
+            <div class="form-group" aria-live="polite" aria-atomic="true">
                 <label for="txtBaseUrl">Base URL</label>
                 <input class="form-control DemoBaseURL" type="url" id="txtBaseUrl" value="@endpoint" />
                 <span asp-validation-for="txtBaseUrl"></span>
