@@ -34,7 +34,9 @@ The standard provides for recording sufficient data to be able to identify a sma
 
 The OpenReferral schema defines a structure for [human services](https://en.wikipedia.org/wiki/Human_services) data - that is, a directory of services that meet human needs. Open Referral UK *extends* Open Referral to support richer data where needed. It then *constrains* the resultant schema by means of an *application profile* which says what fields are recommended for English use and what external vocabularies to reference.
 
+<div style="text-align: center;">
 ![Schema Extension And Constraint](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Resources/SchemaExtensionAndConstraint.png){:class="img-fluid"}
+</div>
   
 The application profile reflects user needs identified by LGA work with pilot councils and [proposed changes](https://opencommunitystandard.github.io/specification/#proposed-changes){:target="_blank"} recommended by [OpenCommunity discovery work](https://opencommunity.org.uk/wp-content/uploads/2019/05/Report-OpenCommunity-Data-standards.pdf). The document [Community Services Data as an Application Profile of Open Referral](https://docs.google.com/document/d/16E59vkv2a1khiPHDZJfg00p6ukD1Dhe9z4EJZNxnkzA/edit?usp=sharing){:target="_blank"} assigns MoSCoW (Must, Should, Could, Won't) prioritisations to the proposed changes.
 
@@ -42,9 +44,12 @@ The standard defined here reflects LGA findings combined with some "Must have" c
 <div id="erd-description">
 This Entity Relation Diagram shows the structure of data, distinguishing parts of the core Open Referral standard used from extensions introduced for Open Referral UK.
 </div><br/>
+
+<div style="text-align: center;">
 ![LGA Application Profile Basic Entity Relationship Diagram](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Resources/LGA_ApplicationProfileBasicEntityRelationshipDiagram.png){:class="img-fluid"}{:width="75%"}{:aria-describedby="erd-description"}
 <br />
 [Open a high-resolution version of the raw image in a new tab](https://raw.githubusercontent.com/esd-org-uk/human-services/master/Resources/LGA_ApplicationProfileBasicEntityRelationshipDiagram.png){:target="_blank"}
+</div>
 
 {% comment %}
 The remaining "should have", "could have" and "won't have" recommendations are shown in the following diagram. They will be introduced in future versions of the standard if there is a business case for doing so. Local implementations may also choose to implement them.
