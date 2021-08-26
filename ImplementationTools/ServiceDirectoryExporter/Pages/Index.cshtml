@@ -5,19 +5,37 @@
     ViewData["Title"] = "Home page";
 }
     <script>
+
+        var onTryMeButtonClick = function () {
+            var url = $(this).attr('data-url');
+            $('.DemoBaseURL').val(url);
+
+            var $formGroup = $('#exporterForm .form-group');
+            var $message = $formGroup.find('span.accessibility-message');
+            if ($message.length > 0)
+                return;
+
+            $formGroup.prepend('<span class="accessibility-message" style="opacity: 0; position: absolute">Base URL applied</span>');
+        };
+
         $(document).ready(function () {
-        $.ajax({
-            url: "https://validator.openreferraluk.org/api",
-            type: "GET",
-            contentType: "application/json",
-            dataType: "json",
-            success: function (response) {
-                $.each(response, function (index, value) {
-                    $('#ulExamples').append('<li class="mb-2"><span id="serviceDirectory' + index + '">' + value.url + '</span><button type="button" class="ml-2 btn btn-sm btn-outline-secondary" onclick="$(\'.DemoBaseURL\').val($(\'#serviceDirectory' + index + '\').html())"><span class="mr-2">Try Now</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button></li>');
-                });
-            }
-        });   
+            $.ajax({
+                url: "https://validator.openreferraluk.org/api",
+                type: "GET",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (response) {
+                    $.each(response, function (index, value) {
+                        var $li = $('<li class="mb-2"></li>');
+                        var $button = $('<button type="button" data-url="' + value.url + '" class="ml-2 btn btn-sm btn-outline-secondary"><span class="mr-2">' + value.url + '</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button>');
+                        $li.append($button);
+                        $('#ulExamples').append($li);
+                        $button.on('click', onTryMeButtonClick);
+                    });
+                }
+            });
         });
+
     </script>
     <div>
         <h1 class="display-4 mb-5">Export your Service Directory to Google Sheets</h1>
@@ -30,14 +48,14 @@
                     </div>
 
                     <div class="panel-body">
-                        <p>Click on a try now button below to automatically populate the Base URL field.</p>
+                        <p>Click on a button below to automatically populate the Base URL field.</p>
                         <ul id="ulExamples"></ul>
                     </div>
                 </div>
             </div>
             <div class="col-sm">
-                <form method="get" asp-page="/Export">
-                    <div class="form-group">
+                <form method="get" asp-page="/Export" id="exporterForm">
+                    <div class="form-group" aria-live="polite" aria-atomic="true">
                         <label for="BaseUrl">Base URL</label>
                         <input class="form-control DemoBaseURL" type="url" id="BaseUrl" name="BaseUrl"/>
                     </div>

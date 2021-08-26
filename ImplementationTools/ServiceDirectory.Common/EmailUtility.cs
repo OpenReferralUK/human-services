@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ServiceDirectory.Common.Config;
+using System;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
@@ -7,38 +9,41 @@ namespace ServiceDirectory.Common
 {
     public class EmailUtility
     {
-        public static SmtpClient GetSmtpClient()
+        public static SmtpClient GetSmtpClient(Smtp smtp)
         {
-            var credentials = !string.IsNullOrEmpty(Settings.Smtp.Username) && !string.IsNullOrEmpty(Settings.Smtp.Password)
-                ? new NetworkCredential(Settings.Smtp.Username, Settings.Smtp.Password)
+            var credentials = !string.IsNullOrEmpty(smtp.Username) && !string.IsNullOrEmpty(smtp.Password)
+                ? new NetworkCredential(smtp.Username, smtp.Password)
                 : null;
 
-            var client = new SmtpClient(Settings.Smtp.Host, Settings.Smtp.Port)
+            var client = new SmtpClient(smtp.Host, smtp.Port)
             {
                 Credentials = credentials,
-                EnableSsl = Settings.Smtp.EnableSsl,
+                EnableSsl = smtp.EnableSsl,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
             };
 
             return client;
         }
 
-        public static void Send(string from, string to, string subject, string body, bool isHtml = false)
+        public static void Send(Smtp smtp, string from, string[] to, string subject, string body, bool isHtml = true)
         {
-            var message = new MailMessage(from, to)
+            var message = new MailMessage()
             {
+                From = new MailAddress(from),
                 Subject = subject,
                 Body = body,
                 BodyEncoding = Encoding.UTF8,
                 IsBodyHtml = isHtml
             };
 
-            Send(message);
+            to.ToList().ForEach(t => message.To.Add(t));
+
+            Send(smtp, message);
         }
 
-        public static void Send(MailMessage message)
+        public static void Send(Smtp smtp, MailMessage message)
         {
-            var client = GetSmtpClient();
+            var client = GetSmtpClient(smtp);
 
             try
             {

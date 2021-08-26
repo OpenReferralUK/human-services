@@ -2,7 +2,7 @@
   "profiles": {
     "Oruk.MultiValidation": {
       "commandName": "Project",
-      "commandLineArgs": "https://api.porism.com/ServiceDirectoryServiceOpenActiveAggregated"
+      "commandLineArgs": "https://openreferral.localgovdrupal.org/openreferral/v1"
     }
   }
 }

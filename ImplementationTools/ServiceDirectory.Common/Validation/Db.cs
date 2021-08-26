@@ -112,6 +112,11 @@ namespace ServiceDirectory.Common.Validation
             }
         }
 
+        public string GetPassword(string username)
+        {
+            return GetItem(r => Convert.ToString(r["password"]), "select password from account where username = @username;", new MySqlParameter("username", username));
+        }
+
         private static FeedFilter BuildFeedFilter(IDataReader reader)
         {
             return new FeedFilter
@@ -213,7 +218,7 @@ namespace ServiceDirectory.Common.Validation
 
         public List<RegisteredUser> GetRegisteredUsers()
         {
-            var sql = $"select * from registered_user;";
+            var sql = $"select * from registered_user order by date_registered desc;";
 
             return GetList(RegisteredUser.Build, sql);
         }
@@ -234,7 +239,7 @@ namespace ServiceDirectory.Common.Validation
 
         public List<RegisteredOrganisation> GetRegisteredOrganisations()
         {
-            var sql = $"select * from registered_organisation;";
+            var sql = $"select * from registered_organisation order by date_registered desc;";
 
             return GetList(RegisteredOrganisation.Build, sql);
         }

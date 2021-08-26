@@ -11,7 +11,7 @@
     <script src="js/lib/viz-js/viz.js"></script>
 	<link rel="icon" href="images/favicon.ico" />
 	<link rel="stylesheet" href="fonts/inter.css" />
-	<link rel="stylesheet" href="site.css" />
+	<link rel="stylesheet" href="site.css?v=1.01" />
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -19,23 +19,27 @@
 	<meta name="description" content="Find out how you can use the Service Directory API with the API Query Tool." />
 </head>
 <body>
-<div id="header_wrap" class="outer">
+<div class="container-fluid p-0">
+    <div id="header_wrap" class="outer">
         <header class="inner">
-
             <div class="row">
-                <div class="col-sm-4 col-md-2 align-content-end align-content-center-md" style="min-width: 15%; max-width: 15%">
-                    <a href="https://developers.openreferraluk.org/"><img class="img-fluid w-25-md w-25-lg" src="/ApiQuery/images/oruk_logo_white.svg" alt="Open Referral UK" style="box-shadow:none"></a>
-</div>
+                <div class="col-auto">
+                    <a href="https://developers.openreferraluk.org/"><img class="p-0" src="/ApiQuery/images/oruk_logo_white.svg" alt="Open Referral UK" style="box-shadow:none"></a>
+                </div>
                 <div class="col d-flex align-items-center">
                     <h1 id="project_title">API on Open Referral database - extended</h1>
-                </div>				
+                </div>
+                <div class="col-auto d-flex align-items-center">
+                    <a href="https://forum.openreferraluk.org/" class="forum-link button button-secondary button-header show-md">Forum</a><a href="https://openreferraluk.org" class="button button-secondary button-header show-md">Main site</a>		
+                </div>			
             </div>
         </header>
     </div>
+
     <div id="main_content_wrap" class="outer">
         <section>
             <div class="navbackground">
-                <nav class="navbar navbar-expand-md navwidth navbar-dark">
+                <nav class="navbar navbar-expand-md navwidth navbar-dark pl-0">
                     <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbar_expand" aria-controls="navbar_expand" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -104,19 +108,10 @@
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-
-
-                                    <a class="dropdown-item" href="https://validator.openreferraluk.org/">Validator</a>
-
-
-
-                                    <a class="dropdown-item" href="https://exporter.openreferraluk.org/">Exporter</a>
-
-
-
+                                    <a class="dropdown-item" href="https://openreferraluk.org/dashboard">Dashboard</a>
                                     <a class="dropdown-item" href="https://query.openreferraluk.org/">API Query Tool</a>
-
-
+                                    <a class="dropdown-item" href="https://exporter.openreferraluk.org/">Exporter</a>
+                                    <a class="dropdown-item" href="https://validator.openreferraluk.org/">Validator</a>
                                 </div>
                             </li>
 
@@ -128,237 +123,237 @@
             </div>
         </section>
         <section id="main_content" class="inner">
-		<h1>API Query Tool</h1>
-		 <p>Connect to your chosen API endpoint to query taxonomy and service data. Each API call is exposed to allow you to copy the syntax. You can also examine results in diagrammatic and JSON format to better understand the data structure.</p>
-<div class="container-fluid" style="padding-left: 5%; padding-right: 5%">
-    <div class="row">
-        <div class="col-md-6 col-sm-8">
-            <div class="row">
-                <label class="ml-1" for="endpoint">Endpoint</label>
-                <select id="endpoint" class="form-control"></select>
-            </div>
-            <div class="row">
-                <label style="padding-top: 1%" class="ml-1 h5">
-                    Get services
-                </label>
-            </div>
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="row">
-                        <label class="ml-1" for="TaxonomyType">Taxonomy type</label>
-                    </div>
-                    <div class="row">
-                        <select id="TaxonomyType" class="form-control mr-1" disabled="disabled">
-                            <option>Any</option>
-                            <option value="area">Area</option>
-                            <option value="cost">Cost</option>
-                            <option value="eligibility">Eligibility</option>
-                            <option value="organization">Organization</option>
-                            <option value="service">Service</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-sm-8">
-                    <div class="row">
-                        <label class="ml-1" for="Keywords">Keywords</label>
-                    </div>
-                    <div class="row">
-                        <input id="Keywords" class="form-control ml-1" disabled="disabled">
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-2">
-                <div class="col-sm-4">
-                    <div class="row">
-                        <label class="ml-1" for="Vocabulary">Vocabulary</label>
-                    </div>
-                    <div class="row">
-                        <select id="Vocabulary" class="form-control mr-1" disabled="disabled">
-                            <option></option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-sm-8">
-                    <div class="row">
-                        <div class="col">
-                            <div class="row">
-                                <label class="ml-1" for="TaxonomyTerm">Taxonomy term</label>
-                            </div>
-                            <div class="row">
-                                <select id="TaxonomyTerm" class="form-control ml-1 mr-1" disabled="disabled">
-                                    <option></option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="row">
-                                <label class="ml-1" for="ChildTaxonomyTerm">Child term</label>
-                            </div>
-                            <div class="row">
-                                <select id="ChildTaxonomyTerm" class="form-control ml-1 mr-1" disabled="disabled">
-                                    <option></option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col" id="ChildChildTaxonomyTermDiv" style="display: none">
-                            <div class="row">
-                                <label for="ChildChildTaxonomyTerm">Child term</label>
-                            </div>
-                            <div class="row">
-                                <select id="ChildChildTaxonomyTerm" class="form-control ml-1" disabled="disabled">
-                                    <option></option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="RegularScheduleRow" class="row mt-2">
-                <div class="col-sm-4">
-                    <div class="row">
-                        <label class="ml-1" for="Day">Day</label>
-                    </div>
-                    <div class="row">
-                        <select id="Day" class="form-control mr-1" disabled="disabled">
-                            <option value=""></option>
-                            <option value="MO">Monday</option>
-                            <option value="TU">Tuesday</option>
-                            <option value="WE">Wednesday</option>
-                            <option value="TH">Thursday</option>
-                            <option value="FR">Friday</option>
-                            <option value="SA">Saturday</option>
-                            <option value="SU">Sunday</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="row">
-                        <label class="ml-1" for="StartTime">Start time</label>
-                    </div>
-                    <div class="row">
-                        <input id="StartTime" type="time" class="form-control ml-1 mr-1" disabled="disabled">
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="row">
-                        <label class="ml-1" for="EndTime">End time</label>
-                    </div>
-                    <div class="row">
-                        <input id="EndTime" type="time" class="form-control ml-1 mr-1" disabled="disabled">
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-2" id="CoverageRow">
-                <div class="col-sm-4">
-                    <div class="row">
-                        <label class="ml-1" for="Coverage">Coverage (postcode)</label>
-                    </div>
-                    <div class="row">
-                        <input id="Coverage" class="form-control mr-1" disabled="disabled">
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="row">
-                        <label class="ml-1" for="Proximity">Proximity (km)</label>
-                    </div>
-                    <div class="row">
-                        <input id="Proximity" type="number" class="form-control ml-1 mr-1" disabled="disabled">
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="row">
-                        <label class="ml-1">Min/Max age</label>
-                        <label class="sr-only" for="minAge">Min age</label>
-                        <label class="sr-only" for="maxAge">Max age</label>
-                    </div>
-                    <div class="row">
-                        <div class="input-group">
-                            <input id="minAge" type="number" class="form-control ml-1" disabled="disabled">
-                            <input id="maxAge" type="number" class="form-control mr-1" disabled="disabled">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row" style="padding-top: 3%">
-                <div class="col-sm-8 pl-0 pr-0">
-                    <button id="execute" class="btn btn-success form-control" disabled="disabled">
-                        Execute query
-                    </button>
-                </div>
-                <div class="col-sm-4 pr-2 pl-1">
-                    <button id="clear" class="btn btn-secondary form-control ml-1">
-                        Clear
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-sm-4" id="api">
-			<label aria-live="assertive" aria-atomic="true" style="padding-top: 2%" class="ml-1 h5 call-header">API calls made:</label>
-        </div>
-    </div>
-</div>
-
-<div id='tabs' style="padding: 3%">
-    <ul class="nav nav-tabs">
-        <li class="nav-item"><a id="resultTab" class="nav-link active" href="#resultPanel" data-toggle="tab">
-            <span id="spnResultTabLabel" aria-live="assertive" aria-atomic="true"></span> </a></li>
-        <li class="nav-item"><a id="graphTab" class="nav-link disabled" href="#graphPanel" data-toggle="tab">
-            Visualisation</a></li>
-        <li class="nav-item"><a id="validateTab" class="nav-link disabled" href="#validatePanel" data-toggle="tab">
-            Validate</a></li>
-        <li class="nav-item"><a id="richnessTab" class="nav-link disabled" href="#richnessPanel" data-toggle="tab">
-            Richness</a></li>
-    </ul>
-
-    <div class="tab-content">
-        <div class="tab-pane active" id="resultPanel">
-            <div id="results" class="col-sm-12" >
-
-            </div>
-        </div>
-        <div class="tab-pane" id="graphPanel">
-            <div id="graphLoading"></div>
-            <div class="container-fluid">
+            <h1>API Query Tool</h1>
+            <p>Connect to your chosen API endpoint to query taxonomy and service data. Each API call is exposed to allow you to copy the syntax. You can also examine results in diagrammatic and JSON format to better understand the data structure.</p>
+            <div class="container-fluid" style="padding-left: 5%; padding-right: 5%">
                 <div class="row">
-                    <div class="col-sm2-2">
-                        <label class="mr-1" for="format">Format</label>
-                        <select id="format" class="form-control mr-1 mb-2" style="width:auto">
-                            <option value="image">Image</option>
-                            <option value="dot script">Dot script</option>
-                            <option value="json">Json</option>
-                        </select>
-                    </div>
+                    <div class="col-md-6 col-sm-8">
+                        <div class="row">
+                            <label class="ml-1" for="endpoint">Endpoint</label>
+                            <select id="endpoint" class="form-control"></select>
+                        </div>
+                        <div class="row">
+                            <label style="padding-top: 1%" class="ml-1 h5">
+                                Get services
+                            </label>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="row">
+                                    <label class="ml-1" for="TaxonomyType">Taxonomy type</label>
+                                </div>
+                                <div class="row">
+                                    <select id="TaxonomyType" class="form-control mr-1" disabled="disabled">
+                                        <option>Any</option>
+                                        <option value="area">Area</option>
+                                        <option value="cost">Cost</option>
+                                        <option value="eligibility">Eligibility</option>
+                                        <option value="organization">Organization</option>
+                                        <option value="service">Service</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="row">
+                                    <label class="ml-1" for="Keywords">Keywords</label>
+                                </div>
+                                <div class="row">
+                                    <input id="Keywords" class="form-control ml-1" disabled="disabled">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-sm-4">
+                                <div class="row">
+                                    <label class="ml-1" for="Vocabulary">Vocabulary</label>
+                                </div>
+                                <div class="row">
+                                    <select id="Vocabulary" class="form-control mr-1" disabled="disabled">
+                                        <option></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="row">
+                                            <label class="ml-1" for="TaxonomyTerm">Taxonomy term</label>
+                                        </div>
+                                        <div class="row">
+                                            <select id="TaxonomyTerm" class="form-control ml-1 mr-1" disabled="disabled">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <label class="ml-1" for="ChildTaxonomyTerm">Child term</label>
+                                        </div>
+                                        <div class="row">
+                                            <select id="ChildTaxonomyTerm" class="form-control ml-1 mr-1" disabled="disabled">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col" id="ChildChildTaxonomyTermDiv" style="display: none">
+                                        <div class="row">
+                                            <label for="ChildChildTaxonomyTerm">Child term</label>
+                                        </div>
+                                        <div class="row">
+                                            <select id="ChildChildTaxonomyTerm" class="form-control ml-1" disabled="disabled">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="RegularScheduleRow" class="row mt-2">
+                            <div class="col-sm-4">
+                                <div class="row">
+                                    <label class="ml-1" for="Day">Day</label>
+                                </div>
+                                <div class="row">
+                                    <select id="Day" class="form-control mr-1" disabled="disabled">
+                                        <option value=""></option>
+                                        <option value="MO">Monday</option>
+                                        <option value="TU">Tuesday</option>
+                                        <option value="WE">Wednesday</option>
+                                        <option value="TH">Thursday</option>
+                                        <option value="FR">Friday</option>
+                                        <option value="SA">Saturday</option>
+                                        <option value="SU">Sunday</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="row">
+                                    <label class="ml-1" for="StartTime">Start time</label>
+                                </div>
+                                <div class="row">
+                                    <input id="StartTime" type="time" class="form-control ml-1 mr-1" disabled="disabled">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="row">
+                                    <label class="ml-1" for="EndTime">End time</label>
+                                </div>
+                                <div class="row">
+                                    <input id="EndTime" type="time" class="form-control ml-1 mr-1" disabled="disabled">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2" id="CoverageRow">
+                            <div class="col-sm-4">
+                                <div class="row">
+                                    <label class="ml-1" for="Coverage">Coverage (postcode)</label>
+                                </div>
+                                <div class="row">
+                                    <input id="Coverage" class="form-control mr-1" disabled="disabled">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="row">
+                                    <label class="ml-1" for="Proximity">Proximity (km)</label>
+                                </div>
+                                <div class="row">
+                                    <input id="Proximity" type="number" class="form-control ml-1 mr-1" disabled="disabled">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="row">
+                                    <label class="ml-1">Min/Max age</label>
+                                    <label class="sr-only" for="minAge">Min age</label>
+                                    <label class="sr-only" for="maxAge">Max age</label>
+                                </div>
+                                <div class="row">
+                                    <div class="input-group">
+                                        <input id="minAge" type="number" class="form-control ml-1" disabled="disabled">
+                                        <input id="maxAge" type="number" class="form-control mr-1" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div>
-                        <label class="ml-1" for="allTables">Objects</label>
-                        <select id="allTables" class="form-control ml-1 mb-2" style="width:auto">
-                            <option value="false">Populated</option>
-                            <option value="true">All</option>
-                        </select>
+                        <div class="row" style="padding-top: 3%">
+                            <div class="col-sm-8 pl-0 pr-0">
+                                <button id="execute" class="btn btn-success form-control" disabled="disabled">
+                                    Execute query
+                                </button>
+                            </div>
+                            <div class="col-sm-4 pr-2 pl-1">
+                                <button id="clear" class="btn btn-secondary form-control ml-1">
+                                    Clear
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-4" id="api">
+                        <label aria-live="assertive" aria-atomic="true" style="padding-top: 2%" class="ml-1 h5 call-header">API calls made:</label>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div id="graph" class="graph">
 
+            <div id='tabs' style="padding: 3%">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a id="resultTab" class="nav-link active" href="#resultPanel" data-toggle="tab">
+                        <span id="spnResultTabLabel" aria-live="assertive" aria-atomic="true"></span> </a></li>
+                    <li class="nav-item"><a id="graphTab" class="nav-link disabled" href="#graphPanel" data-toggle="tab">
+                        Visualisation</a></li>
+                    <li class="nav-item"><a id="validateTab" class="nav-link disabled" href="#validatePanel" data-toggle="tab">
+                        Validate</a></li>
+                    <li class="nav-item"><a id="richnessTab" class="nav-link disabled" href="#richnessPanel" data-toggle="tab">
+                        Richness</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="resultPanel">
+                        <div id="results" class="col-sm-12" >
+
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="graphPanel">
+                        <div id="graphLoading"></div>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm2-2">
+                                    <label class="mr-1" for="format">Format</label>
+                                    <select id="format" class="form-control mr-1 mb-2" style="width:auto">
+                                        <option value="image">Image</option>
+                                        <option value="dot script">Dot script</option>
+                                        <option value="json">Json</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="ml-1" for="allTables">Objects</label>
+                                    <select id="allTables" class="form-control ml-1 mb-2" style="width:auto">
+                                        <option value="false">Populated</option>
+                                        <option value="true">All</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="graph" class="graph">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="validatePanel">
+                        <div id="validate" class="col-sm-12" style="padding-left: 3%">
+
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="richnessPanel">
+                        <div id="richness" class="col-sm-12 col-md-10 col-lg-8 mt-2" style="padding-left: 1%">
+
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="tab-pane" id="validatePanel">
-            <div id="validate" class="col-sm-12" style="padding-left: 3%">
 
-            </div>
-        </div>
-        <div class="tab-pane" id="richnessPanel">
-            <div id="richness" class="col-sm-12 col-md-10 col-lg-8 mt-2" style="padding-left: 1%">
-
-            </div>
-        </div>
-    </div>
-</div>
-
-</section>
+        </section>
     </div>
 
     <div id="footer_wrap" class="outer">
@@ -366,6 +361,7 @@
             <p class="copyright">Open Referral UK Data Standard maintained by <a href="https://github.com/OpenReferralUK">Open Referral UK</a></p>
         </footer>
     </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         crossorigin="anonymous"></script>
