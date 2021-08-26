@@ -30,9 +30,6 @@
       "column": "service.deliverable_type"
     },
     {
-      "column": "service.assured_date"
-    },
-    {
       "column": "service.attending_type"
     },
     {
