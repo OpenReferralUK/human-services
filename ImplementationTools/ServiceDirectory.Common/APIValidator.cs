@@ -1,5 +1,6 @@
 ﻿using Microsoft.CSharp.RuntimeBinder;
 using Newtonsoft.Json.Linq;
+using ServiceDirectory.Common.Cache;
 using ServiceDirectory.Common.DataStandard;
 using ServiceDirectory.Common.FeatureTests;
 using ServiceDirectory.Common.Pagination;
@@ -17,7 +18,7 @@ namespace ServiceDirectory.Common
     {
         static readonly Random rand = new Random();
 
-        public static async Task<ValidationResult> Validate(string baseUrl, APIValidatorSettings settings = null)
+        public static async Task<ValidationResult> Validate(string baseUrl, string id, APIValidatorSettings settings = null)
         {
             settings = settings ?? new APIValidatorSettings();
 
@@ -36,7 +37,7 @@ namespace ServiceDirectory.Common
             try
             {
                 var paginator = new Paginator();
-                var paginationResults = await paginator.GetServices(baseUrl, settings);
+                var paginationResults = await paginator.GetServices(baseUrl, id, settings);
 
                 result.IsUp = true;
                 result.IsServiceFound = paginationResults.Items.Count > 0;
@@ -127,6 +128,10 @@ namespace ServiceDirectory.Common
             }
         }
 
+        public static Progress Progress(string id)
+        {
+            return ProgressCache.Get(id);
+        }
         private static async Task<List<TestResult>> RunLevel2Tests(string baseUrl, ValidationResult result, List<IFeatureTest> featureTests)
         {
             featureTests.Sort();

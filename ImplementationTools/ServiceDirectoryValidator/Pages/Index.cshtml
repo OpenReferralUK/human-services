@@ -45,7 +45,8 @@
                 contentType: "application/json",
                 dataType: "json",
                 data: {
-                    baseUrl: $('#txtBaseUrl').val()
+                    baseUrl: $('#txtBaseUrl').val(),
+                    id: $('#hidID').val()
                 },
                 success: function (response) {                    
                     if (response.error) {
@@ -64,16 +65,35 @@
            
             $('#divOutput').html("");
         }
+
+        function showProgress() {
+            $.ajax({
+                type: "GET",
+                url: "/Index?handler=Progress",
+                contentType: "application/json",
+                dataType: "json",
+                data: {
+                    baseUrl: $('#txtBaseUrl').val(),
+                    id: $('#hidID').val()
+                },
+                success: function (response) {
+                    $('#divOutput').html('<h3 id="headerLogo">Scanning page ' + response.currentPage + ' of ' + response.totalPages + ' result pages...please wait...this may take a while...</h3>');
+                    setTimeout(function () { showProgress(); }, 10000);
+                }
+            });
+        }
         
         function validateDirectory() {
-            $('#divOutput').html('<h3 id="headerLogo">Scanning...please wait...this may take a few minutes...</h3>');
+            showProgress();
+           
             $.ajax({
                 type: "GET",
                 url: "/Index?handler=Validate",
                 contentType: "application/json",
                 dataType: "json",
                 data: {
-                    baseUrl: $('#txtBaseUrl').val()
+                    baseUrl: $('#txtBaseUrl').val(),
+                    id: $('#hidID').val()
                 },
                 success: function (response) {
                     $('#btnValidate').prop('disabled', false);
@@ -169,6 +189,7 @@
             <div class="form-group" aria-live="polite" aria-atomic="true">
                 <label for="txtBaseUrl">Base URL</label>
                 <input class="form-control DemoBaseURL" type="url" id="txtBaseUrl" value="@endpoint" />
+                <input type="hidden" id="hidID" asp-for="hidID"/>
                 <span asp-validation-for="txtBaseUrl"></span>
             </div>
             <div class="d-none" id="errText">invalid</div>

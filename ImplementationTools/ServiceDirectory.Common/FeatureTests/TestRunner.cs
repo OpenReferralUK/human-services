@@ -11,7 +11,7 @@ namespace ServiceDirectory.Common.FeatureTests
             Paginator paginator = new Paginator();
             try
             {
-                await paginator.PaginateServices(apiBaseUrl, async delegate (dynamic serviceList, int totalPages)
+                await paginator.PaginateServices(apiBaseUrl, string.Empty, async delegate (dynamic serviceList, int totalPages)
                 {
                     if (serviceList == null)
                     {

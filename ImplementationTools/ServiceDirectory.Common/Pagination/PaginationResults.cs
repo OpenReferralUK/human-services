@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace ServiceDirectory.Common.Pagination
 {
     public class PaginationResults
     {
-        public List<dynamic> Items
+        public ConcurrentBag<dynamic> Items
         {
             get;
             private set;
@@ -16,7 +17,7 @@ namespace ServiceDirectory.Common.Pagination
             set;
         }
 
-        public List<string> MissingDetailIDs
+        public ConcurrentBag<string> MissingDetailIDs
         {
             get;
             private set;
@@ -36,8 +37,8 @@ namespace ServiceDirectory.Common.Pagination
 
         public PaginationResults()
         {
-            MissingDetailIDs = new List<string>();
-            Items = new List<dynamic>();
+            MissingDetailIDs = new ConcurrentBag<string>();
+            Items = new ConcurrentBag<dynamic>();
             HasInvalidTotalPages = false;
             TotalPages = 1;
         }

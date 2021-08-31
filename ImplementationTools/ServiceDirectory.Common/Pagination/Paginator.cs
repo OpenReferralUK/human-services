@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using ServiceDirectory.Common.Cache;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace ServiceDirectory.Common.Pagination
             return missing.ToArray();
         }
 
-        public async Task<PaginationResults> GetServices(string apiBaseUrl, APIValidatorSettings settings = null)
+        public async Task<PaginationResults> GetServices(string apiBaseUrl, string id, APIValidatorSettings settings = null)
         {
             settings = settings ?? new APIValidatorSettings();
 
@@ -48,6 +49,8 @@ namespace ServiceDirectory.Common.Pagination
                     paginationResults.HasInvalidTotalPages = true;
                 }
 
+                ProgressCache.UpdateTotalPage(id, paginationResults.TotalPages);
+
                 if (HasProperty(serviceList, "content"))
                 {
                     if (settings.RandomServiceOnly)
@@ -56,15 +59,21 @@ namespace ServiceDirectory.Common.Pagination
                     }
                     else
                     {
+                        List<dynamic> services = new List<dynamic>();
                         foreach (dynamic s in serviceList.content)
                         {
-                            await ValidateService(apiBaseUrl, paginationResults, s);
+                            services.Add(s);
                         }
+
+                        Parallel.ForEach(services, async(s) =>
+                        {
+                            await ValidateService(apiBaseUrl, paginationResults, s);
+                        });
                     }
                 }
             }
 
-            await PaginateServices(apiBaseUrl, processor, totalPagesOverride: settings.FirstPageOnly ? 1 : (int?)null);
+            await PaginateServices(apiBaseUrl, id, processor, totalPagesOverride: settings.FirstPageOnly ? 1 : (int?)null);
 
             return paginationResults;
         }
@@ -100,9 +109,9 @@ namespace ServiceDirectory.Common.Pagination
             return service;
         }
 
-        public async Task<PaginationResults> GetAllServices(string apiBaseUrl)
+        public async Task<PaginationResults> GetAllServices(string apiBaseUrl, string id)
         {
-            return await GetServices(apiBaseUrl);
+            return await GetServices(apiBaseUrl, id);
         }
 
         private static async Task ValidateService(string apiBaseUrl, PaginationResults paginationResults, dynamic service)
@@ -134,7 +143,7 @@ namespace ServiceDirectory.Common.Pagination
             paginationResults.Items.Add(obj);
         }
 
-        public async Task PaginateServices(string apiBaseUrl, ServiceProcessorAsync processor, string parameters = "", int? totalPagesOverride = null)
+        public async Task PaginateServices(string apiBaseUrl, string id, ServiceProcessorAsync processor, string parameters = "", int? totalPagesOverride = null)
         {
             int pageNo = 0;
             int totalPages = totalPagesOverride ?? 1;
@@ -142,6 +151,8 @@ namespace ServiceDirectory.Common.Pagination
             while (pageNo < totalPages)
             {
                 pageNo++;
+
+                ProgressCache.UpdateCurrentPage(id, pageNo);
 
                 string serviceUrl = apiBaseUrl + "/services/";
 

@@ -8,7 +8,7 @@ namespace Validator
     {
         static void Main(string[] args)
         {
-            ValidationResult result = APIValidator.Validate("https://api.porism.com/ServiceDirectoryServiceBlackburn/").GetAwaiter().GetResult();
+            ValidationResult result = APIValidator.Validate("https://api.porism.com/ServiceDirectoryServiceOpenActiveAggregated/", string.Empty).GetAwaiter().GetResult();
 
             Console.WriteLine(result.ToString());
             Console.ReadKey();

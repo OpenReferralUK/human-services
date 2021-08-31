@@ -16,6 +16,9 @@ namespace ServiceDirectoryValidator.Pages
         [BindProperty]
         [Required]
         public string txtBaseUrl { get; set; }
+        [BindProperty(SupportsGet = true)]
+        [Required]
+        public string hidID { get; set; }
         private readonly ILogger<IndexModel> _logger;
          
         public IndexModel(ILogger<IndexModel> logger)
@@ -25,7 +28,7 @@ namespace ServiceDirectoryValidator.Pages
 
         public void OnGet()
         {
-
+            hidID = Guid.NewGuid().ToString();
         }
 
         public IActionResult OnGetValidUrl(string baseUrl)
@@ -51,10 +54,10 @@ namespace ServiceDirectoryValidator.Pages
         }
 
 
-        public async System.Threading.Tasks.Task<JsonResult> OnGetValidateAsync(string baseUrl)
+        public async System.Threading.Tasks.Task<JsonResult> OnGetValidateAsync(string baseUrl, string id)
         {
 
-            ServiceDirectory.Common.Results.ValidationResult result = await APIValidator.Validate(baseUrl);
+            ServiceDirectory.Common.Results.ValidationResult result = await APIValidator.Validate(baseUrl, id);
             
             if (result.GetException() != null)
             {
@@ -63,6 +66,11 @@ namespace ServiceDirectoryValidator.Pages
 
 
             return new JsonResult(result);
+        }
+
+        public JsonResult OnGetProgress(string id)
+        {
+            return new JsonResult(APIValidator.Progress(id));
         }
     }
 }
