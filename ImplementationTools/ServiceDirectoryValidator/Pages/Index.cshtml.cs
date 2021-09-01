@@ -57,7 +57,7 @@ namespace ServiceDirectoryValidator.Pages
         public async System.Threading.Tasks.Task<JsonResult> OnGetValidateAsync(string baseUrl, string id)
         {
 
-            ServiceDirectory.Common.Results.ValidationResult result = await APIValidator.Validate(baseUrl, id);
+            ServiceDirectory.Common.Results.ValidationResult result = await APIValidator.Validate(baseUrl, id, new APIValidatorSettings() { SamplePages = true });
             
             if (result.GetException() != null)
             {

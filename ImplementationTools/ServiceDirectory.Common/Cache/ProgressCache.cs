@@ -24,7 +24,7 @@ namespace ServiceDirectory.Common.Cache
                 .SetAbsoluteExpiration(TimeSpan.FromDays(1));
         }
 
-        public static void UpdateCurrentPage(string id, int currentPage)
+        public static void Update(string id, int currentPage, int totalPages)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -34,29 +34,12 @@ namespace ServiceDirectory.Common.Cache
             if (_cache.TryGetValue(id, out cacheEntry))
             {
                 cacheEntry.CurrentPage = currentPage;
-            }
-            else
-            {
-                cacheEntry = new Progress();
-                cacheEntry.CurrentPage = currentPage;
-            }
-            _cache.Set(id, cacheEntry, CreateCacheOptions());
-        }
-
-        public static void UpdateTotalPage(string id, int totalPages)
-        {
-            if (string.IsNullOrEmpty(id))
-            {
-                return;
-            }
-            Progress cacheEntry;
-            if (_cache.TryGetValue(id, out cacheEntry))
-            {
                 cacheEntry.TotalPages = totalPages;
             }
             else
             {
                 cacheEntry = new Progress();
+                cacheEntry.CurrentPage = currentPage;
                 cacheEntry.TotalPages = totalPages;
             }
             _cache.Set(id, cacheEntry, CreateCacheOptions());

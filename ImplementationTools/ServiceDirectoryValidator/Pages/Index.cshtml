@@ -78,7 +78,9 @@
                 },
                 success: function (response) {
                     $('#divOutput').html('<h3 id="headerLogo">Scanning page ' + response.currentPage + ' of ' + response.totalPages + ' result pages...please wait...this may take a while...</h3>');
-                    setTimeout(function () { showProgress(); }, 10000);
+                    if (response.currentPage == 0 || response.currentPage != response.totalPages) {
+                        setTimeout(function () { showProgress(); }, 10000);
+                    }
                 }
             });
         }

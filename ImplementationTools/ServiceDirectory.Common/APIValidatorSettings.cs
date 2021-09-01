@@ -3,6 +3,7 @@
     public class APIValidatorSettings
     {
         public bool FirstPageOnly { get; set; } = false;
+        public bool SamplePages { get; set; } = false;
         public bool RandomServiceOnly { get; set; } = false;
     }
 }

@@ -22,8 +22,10 @@ namespace ServiceDirectory.Common.FeatureTests
                         if (s != null && Convert.ToString(s.id.Value) == test.ServiceID)
                         {
                             result = true;
+                            return false;
                         }
                     }
+                    return true;
                 }, test.Parameters);
             }
             catch

@@ -9,7 +9,7 @@ namespace ServiceDirectory.Common.Pagination
 {
     public class Paginator
     {
-        public delegate Task ServiceProcessorAsync(dynamic services, int totalPages);
+        public delegate Task<bool> ServiceProcessorAsync(dynamic services, int totalPages);
 
         private readonly string[] requiredProperties = new[] { "totalElements", "totalPages", "number", "size", "first", "last", "content" };
 
@@ -33,10 +33,10 @@ namespace ServiceDirectory.Common.Pagination
 
             var paginationResults = new PaginationResults();
 
-            async Task processor(dynamic serviceList, int totalPages)
+            async Task<bool> processor(dynamic serviceList, int totalPages)
             {
                 if (serviceList == null)
-                    return;
+                    return true;
 
                 paginationResults.MissingPaginationMetaData = GetMissingPaginationMetadata(serviceList);
 
@@ -48,8 +48,6 @@ namespace ServiceDirectory.Common.Pagination
                 {
                     paginationResults.HasInvalidTotalPages = true;
                 }
-
-                ProgressCache.UpdateTotalPage(id, paginationResults.TotalPages);
 
                 if (HasProperty(serviceList, "content"))
                 {
@@ -71,9 +69,17 @@ namespace ServiceDirectory.Common.Pagination
                         });
                     }
                 }
+
+                return true;
             }
 
-            await PaginateServices(apiBaseUrl, id, processor, totalPagesOverride: settings.FirstPageOnly ? 1 : (int?)null);
+            int? maximumPages = null;
+            if (settings != null && settings.SamplePages)
+            {
+                maximumPages = 20;
+            }
+
+            await PaginateServices(apiBaseUrl, id, processor, totalPagesOverride: settings.FirstPageOnly ? 1 : maximumPages);
 
             return paginationResults;
         }
@@ -152,8 +158,6 @@ namespace ServiceDirectory.Common.Pagination
             {
                 pageNo++;
 
-                ProgressCache.UpdateCurrentPage(id, pageNo);
-
                 string serviceUrl = apiBaseUrl + "/services/";
 
                 serviceUrl += parameters;
@@ -169,19 +173,25 @@ namespace ServiceDirectory.Common.Pagination
 
                 dynamic serviceList = await WebServiceReader.ConvertToDynamic(serviceUrl + "page=" + pageNo);
 
-                if (!totalPagesOverride.HasValue)
+                try
                 {
-                    try
+                    int tmp = Convert.ToInt32(serviceList.totalPages);
+                    if (!totalPagesOverride.HasValue || tmp < totalPages)
                     {
-                        totalPages = Convert.ToInt32(serviceList.totalPages);
-                    }
-                    catch
-                    {
-                        //if this isn't here we will ignore it and just paginate the first page. This issue will be reported upon in pagination 
+                        totalPages = tmp;
                     }
                 }
+                catch
+                {
+                    //if this isn't here we will ignore it and just paginate the first page. This issue will be reported upon in pagination 
+                }                
 
-                await processor(serviceList, totalPages);
+                if (!await processor(serviceList, totalPages))
+                {
+                    break;
+                }
+
+                ProgressCache.Update(id, pageNo, totalPages);
             }
         }
 
