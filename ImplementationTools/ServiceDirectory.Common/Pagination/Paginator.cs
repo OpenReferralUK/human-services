@@ -11,6 +11,7 @@ namespace ServiceDirectory.Common.Pagination
     {
         public delegate Task<bool> ServiceProcessorAsync(dynamic services, int totalPages);
 
+        private const int SampleSize = 10;
         private readonly string[] requiredProperties = new[] { "totalElements", "totalPages", "number", "size", "first", "last", "content" };
 
         private string[] GetMissingPaginationMetadata(dynamic serviceList)
@@ -76,7 +77,7 @@ namespace ServiceDirectory.Common.Pagination
             int? maximumPages = null;
             if (settings != null && settings.SamplePages)
             {
-                maximumPages = 20;
+                maximumPages = SampleSize;
             }
 
             await PaginateServices(apiBaseUrl, id, processor, totalPagesOverride: settings.FirstPageOnly ? 1 : maximumPages);

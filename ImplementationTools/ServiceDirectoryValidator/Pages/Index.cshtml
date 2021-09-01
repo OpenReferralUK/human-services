@@ -84,6 +84,14 @@
                 }
             });
         }
+
+        function scrollTo(id) {
+            var offset = $(id).offset();
+            if (offset == null) {
+                return;
+            }
+            $("html, body").animate({ scrollTop: offset.top }, 1000);
+        }
         
         function validateDirectory() {
             showProgress();
@@ -119,14 +127,14 @@
                             $('<li>').append('Count of ' + item.name + ': ' + item.count).appendTo(resourceStats);
                         });                        
                     }      
-                    $("html, body").animate({ scrollTop: $("#headerResults").offset().top }, 1000);
+                    scrollTo("#headerResults");
                 },
                 failure: function (response) {
                     $('#btnValidate').prop('disabled', false);
                     alert(response);
                 }
             });
-            $("html, body").animate({ scrollTop: $("#headerLogo").offset().top }, 1000);
+            scrollTo("#headerLogo");
         }
     }
 

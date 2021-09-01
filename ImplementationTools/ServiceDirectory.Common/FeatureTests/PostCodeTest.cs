@@ -21,7 +21,7 @@ namespace ServiceDirectory.Common.FeatureTests
 
         public string Parameters
         {
-            get { return "?proximity=100&postcode=" + HttpUtility.UrlEncode(postcode); }
+            get { return "?proximity=1000&postcode=" + HttpUtility.UrlEncode(postcode); }
         }
 
         public string ServiceID { get; private set; }
