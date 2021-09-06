@@ -7,6 +7,7 @@
     var endpointValues = Request.Query["endpoint"];
     var urlValues = Request.Query["url"];
     var endpoint = !StringValues.IsNullOrEmpty(endpointValues) ? endpointValues : urlValues;
+    var finished = false;
 }
 <script>
     function outputArray(label, ulId, list) {
@@ -71,15 +72,25 @@
                 type: "GET",
                 url: "/Index?handler=Progress",
                 contentType: "application/json",
+                cache: false,
                 dataType: "json",
                 data: {
                     baseUrl: $('#txtBaseUrl').val(),
                     id: $('#hidID').val()
                 },
                 success: function (response) {
-                    $('#divOutput').html('<h3 id="headerLogo">Scanning page ' + response.currentPage + ' of ' + response.totalPages + ' result pages...please wait...this may take a while...</h3>');
+                    if (finished) { return; }
+                    if (response.totalPages == 0) {
+                        $('#divOutput').html('<h3 id="headerLogo">Starting scan...please wait...this may take a while...</h3>');
+                    }
+                    else if (response.currentPage == response.totalPages) {
+                        $('#divOutput').html('<h3 id="headerLogo">Performing final tests...please wait...this may take a while...</h3>');
+                    }
+                    else {
+                        $('#divOutput').html('<h3 id="headerLogo">Scanned ' + Math.floor((response.currentPage / response.totalPages) * 100) + '% of sample data...please wait...this may take a while...</h3>');
+                    }
                     if (response.currentPage == 0 || response.currentPage != response.totalPages) {
-                        setTimeout(function () { showProgress(); }, 10000);
+                        setTimeout(function () { showProgress(); }, 5000);
                     }
                 }
             });
@@ -94,6 +105,7 @@
         }
         
         function validateDirectory() {
+            finished = false;
             showProgress();
            
             $.ajax({
@@ -106,6 +118,7 @@
                     id: $('#hidID').val()
                 },
                 success: function (response) {
+                    finished = true;
                     $('#btnValidate').prop('disabled', false);
                     if (response.error) {
                         $('#divOutput').html('<h3 id="headerResults">An error occurred</h3><strong>' + response.error + '</strong>');
