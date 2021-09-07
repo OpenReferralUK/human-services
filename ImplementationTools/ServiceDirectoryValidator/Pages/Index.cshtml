@@ -29,6 +29,16 @@
         }
     }
 
+    function disableValidateButton() {
+        $('#btnValidate').prop('disabled', true);
+        $('#btnValidate').css('pointer-events', 'none');
+    }
+
+    function enableValidateButton() {
+        $('#btnValidate').prop('disabled', false);
+        $('#btnValidate').css('pointer-events', '');
+    }
+
     function performValidation() {
         if ($("#btnValidate").is(":disabled")) {
             return;
@@ -39,7 +49,7 @@
             $('#errText').removeClass('d-none').addClass('d-block alert-danger');
 
         } else {
-            $('#btnValidate').prop('disabled', true);
+            disableValidateButton();
             $.ajax({
                 type: "GET",
                 url: "/Index?handler=ValidUrl",
@@ -119,7 +129,7 @@
                 },
                 success: function (response) {
                     finished = true;
-                    $('#btnValidate').prop('disabled', false);
+                    enableValidateButton();
                     if (response.error) {
                         $('#divOutput').html('<h3 id="headerResults">An error occurred</h3><strong>' + response.error + '</strong>');
                     }
@@ -143,7 +153,7 @@
                     scrollTo("#headerResults");
                 },
                 failure: function (response) {
-                    $('#btnValidate').prop('disabled', false);
+                    enableValidateButton();
                     alert(response);
                 }
             });
