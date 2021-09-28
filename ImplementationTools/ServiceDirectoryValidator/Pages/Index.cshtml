@@ -173,7 +173,24 @@
         $formGroup.prepend('<span class="accessibility-message" style="opacity: 0; position: absolute">Base URL applied</span>');
     };
 
+    function togglePanel() {
+        var w = $(window).width();
+        if (w <= 1199) {
+            $('#example-links').addClass('collapse');
+            $('#example-links-button').attr('aria-expanded', 'true');
+        } else {
+            $('#example-links').removeClass('collapse');
+            $('#example-links-button').attr('aria-expanded', 'false');
+        }
+    }
+
+    $(window).resize(function () {
+        togglePanel();
+    });    
+
     $(document).ready(function () {
+        togglePanel();
+
         $("#txtBaseUrl").keyup(function (event) {
             if (event.keyCode === 13) {
                 performValidation();
@@ -188,7 +205,7 @@
             success: function (response) {
                 $.each(response, function (index, value) {
                     var $li = $('<li class="mb-2"></li>');
-                    var $button = $('<button type="button" data-url="' + value.url + '" class="ml-2 btn btn-sm btn-outline-secondary"><span class="mr-2">' + value.url + '</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button>');
+                    var $button = $('<a href="javascript:void()" data-url="' + value.url + '">' + value.url + '</a>');
                     $li.append($button);
                     $('#ulExamples').append($li);
                     $button.on('click', onTryMeButtonClick);
@@ -205,31 +222,32 @@
     <h1 class="display-4 mb-5">Validate your Service Directory</h1>
     <div class="row">
         <div class="col-sm">
-            <div class="panel panel-primary">
+            <div class="panel panel-primary mb-5">
                 <p>This tool checks that a specific service directory follows the standard. It shows any issues as well as statistics on what types of data is included in the scanned Service Directory. This helps organisations move to the standard. This tool also helps establish trust as it ensures that a Service Directory follows the standard.</p>
                 <div class="panel-heading">
-                    <h2 class="panel-title">Example base URLs</h2>
+                    <div class="panel-title h3"><span id="example-links-button" class="accordion-toggle" data-toggle="collapse" data-target="#example-links"><span>Example base URLs</span></span></div>
                 </div>
 
-                <div class="panel-body">
-                    <p>Click on a button below to automatically populate the Base URL field.</p>
-                    <ul id="ulExamples"></ul>
+                <div class="panel-body" id="example-links">
+                    <p>Click on a URL below to automatically populate the Base URL field.</p>
+                    <ul class="list-unstyled" id="ulExamples"></ul>
                 </div>
             </div>
-        </div><div class="col-sm">
-        <form id="validateForm">
-
-            <div class="form-group" aria-live="polite" aria-atomic="true">
-                <label for="txtBaseUrl">Base URL</label>
-                <input class="form-control DemoBaseURL" type="url" id="txtBaseUrl" value="@endpoint" />
-                <input type="hidden" id="hidID" asp-for="hidID"/>
-                <span asp-validation-for="txtBaseUrl"></span>
-            </div>
-            <div class="d-none" id="errText">invalid</div>
-        
-            <input type="button" value="Validate" id="btnValidate" onclick="performValidation()" class="btn btn-primary" />
-        </form>
         </div>
-    </div>
-    <div class="row m-0 mt-5" id="divOutput"></div>
+        <div class="col-sm">
+            <form id="validateForm">
+
+                <div class="form-group" aria-live="polite" aria-atomic="true">
+                    <label for="txtBaseUrl">Base URL</label>
+                    <input class="form-control DemoBaseURL" type="url" id="txtBaseUrl" value="@endpoint" />
+                    <input type="hidden" id="hidID" asp-for="hidID" />
+                    <span asp-validation-for="txtBaseUrl"></span>
+                </div>
+                <div class="d-none" id="errText">invalid</div>
+
+                <input type="button" value="Validate" id="btnValidate" onclick="performValidation()" class="button button-primary" />
+            </form>
+            <div class="row m-0 mt-5" id="divOutput"></div>
+        </div>
+    </div>    
 </div>

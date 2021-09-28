@@ -1,3 +1,23 @@
 ﻿.alert-danger {
     text-align: center;
 }
+
+#example-links-button span {
+    color: #135e75;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.panel-heading .accordion-toggle:after {
+    /* symbol for "opening" panels */
+    font-family: 'Glyphicons Halflings'; /* essential for enabling glyphicon */
+    content: "\e114"; /* adjust as needed, taken from bootstrap.css */
+    margin-left: 1em;
+    text-decoration: none;
+    color: #135e75;
+    font-size: 1.1rem;
+}
+
+.panel-heading .accordion-toggle.collapsed:after {
+    content: "\e080"; /* adjust as needed, taken from bootstrap.css */
+}
