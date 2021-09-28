@@ -180,13 +180,27 @@ h3 {
   color: #2a3834 !important;
   background-color: #6e6e6e !important;
 }
+#main_content a {
+  color: #135e75;
+  text-decoration: underline;
+}
+
 .button-primary:hover {
   background-color: #0f4c5e;
-  color: #ffd152;
+  color: #ffd152 !important;
   -webkit-text-fill-color: #ffd152;
   cursor: pointer;
   box-shadow: 0 0 0 4px #ffd152;
-  text-decoration: none;
+  text-decoration: none !important;
+  text-align:center;
+}
+.button-primary {
+    border: 0;
+    background-color: #135e75;
+    color: #fff !important;
+    font-weight: 500;
+	text-decoration: none !important;
+	text-align:center;
 }
 .button-secondary {
   background-color: #fff;

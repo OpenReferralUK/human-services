@@ -72,8 +72,9 @@ h3 {
 $bgDefault: #28614F !important;
 $bgHighlight: #6e6e6e !important;
 $colDefault: #FFFFFF !important;
-$colHighlight: #2A3834 !important;
+$colHighlight: #135e75 !important;
 $dropDown: true;
+
 .navbar {
   background-color: $bgDefault;
 
@@ -339,4 +340,9 @@ a.skip-to-main-content:focus {
 #main_content p {
   overflow-wrap: break-word;
   word-wrap: break-word;
+}
+
+#main_content a {
+  color: $colHighlight;
+  text-decoration: underline !important;
 }
