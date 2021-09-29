@@ -18,7 +18,24 @@
             $formGroup.prepend('<span class="accessibility-message" style="opacity: 0; position: absolute">Base URL applied</span>');
         };
 
+        function togglePanel() {
+            var w = $(window).width();
+            if (w <= 1199) {
+                $('#example-links').addClass('collapse');
+                $('#example-links-button').attr('aria-expanded', 'true');
+            } else {
+                $('#example-links').removeClass('collapse');
+                $('#example-links-button').attr('aria-expanded', 'false');
+            }
+        }
+
+        $(window).resize(function () {
+            togglePanel();
+        });    
+
         $(document).ready(function () {
+            togglePanel();
+
             $.ajax({
                 url: "https://validator.openreferraluk.org/api",
                 type: "GET",
@@ -27,7 +44,7 @@
                 success: function (response) {
                     $.each(response, function (index, value) {
                         var $li = $('<li class="mb-2"></li>');
-                        var $button = $('<button type="button" data-url="' + value.url + '" class="ml-2 btn btn-sm btn-outline-secondary"><span class="mr-2">' + value.url + '</span><img class="m-0 p-0" style="box-shadow:none" src="/images/arrow-thick-right.png" /></button>');
+                        var $button = $('<a href="javascript:void()" data-url="' + value.url + '">' + value.url + '</a>');
                         $li.append($button);
                         $('#ulExamples').append($li);
                         $button.on('click', onTryMeButtonClick);
@@ -44,12 +61,12 @@
                 <div class="panel panel-primary">
                     <p>The Service Exporter allows providers to easily view the entire contents of a Service Directory in a Google Spreadsheet form. With derived columns to show how services relate to organisations, service types etc.</p>
                     <div class="panel-heading">
-                        <h2 class="panel-title">Example base URLs</h2>
+                        <h2 class="panel-title"><span id="example-links-button" class="accordion-toggle" data-toggle="collapse" data-target="#example-links"><span>Example base URLs</span></span></h2>
                     </div>
 
-                    <div class="panel-body">
+                    <div class="panel-body" id="example-links">
                         <p>Click on a button below to automatically populate the Base URL field.</p>
-                        <ul id="ulExamples"></ul>
+                        <ul class="list-unstyled" id="ulExamples"></ul>
                     </div>
                 </div>
             </div>
@@ -64,7 +81,7 @@
                         <div class="alert alert-danger">@TempData["MsgText"]</div>
                     }
 
-                        <input type="submit" value="Export" class="btn btn-primary" />
+                        <input type="submit" value="Export" class="button button-primary" />
                     </form>
             </div>
         </div>
