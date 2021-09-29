@@ -99,7 +99,7 @@ clsOpenReferralPlus.prototype.get = function () {
 
     addApiPanel("Get JSON for visualisation", false);
     addApiPanel(url);
-    addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
+    addApiPanel('<button class="button button-primary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
     updateScroll();
 
     $("#graph").empty();

@@ -122,7 +122,7 @@
                 </nav>
             </div>
         </section>
-        <section id="main_content" class="inner">
+        <section id="main_content" class="inner mt-4">
             <h1>API Query Tool</h1>
             <p>Connect to your chosen API endpoint to query taxonomy and service data. Each API call is exposed to allow you to copy the syntax. You can also examine results in diagrammatic and JSON format to better understand the data structure.</p>
             <div class="container-fluid" style="padding-left: 5%; padding-right: 5%">
@@ -276,19 +276,17 @@
                         </div>
 
                         <div class="row" style="padding-top: 3%">
-                            <div class="col-sm-8 pl-0 pr-0">
-                                <button id="execute" class="btn btn-success form-control" disabled="disabled">
+                            <div class="col-sm-12 pl-0 pr-0">
+                                <button id="execute" class="button button-primary" disabled="disabled">
                                     Execute query
                                 </button>
-                            </div>
-                            <div class="col-sm-4 pr-2 pl-1">
-                                <button id="clear" class="btn btn-secondary form-control ml-1">
+								<button id="clear" class="button button-secondary ml-1">
                                     Clear
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-4" id="api">
+                    <div class="col-md-6 col-sm-4 mt-4 mt-md-0" id="api">
                         <label aria-live="assertive" aria-atomic="true" style="padding-top: 2%" class="ml-1 h5 call-header">API calls made:</label>
                     </div>
                 </div>
@@ -356,7 +354,7 @@
         </section>
     </div>
 
-    <div id="footer_wrap" class="outer">
+    <div id="footer_wrap" class="outer mt-3">
         <footer class="inner">
             <p class="copyright">Open Referral UK Data Standard maintained by <a href="https://github.com/OpenReferralUK">Open Referral UK</a></p>
         </footer>

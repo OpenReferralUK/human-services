@@ -954,6 +954,10 @@ h3 {
     text-align: center;
 }
 
+input[type=text], input[type=url], select {
+    border-color: #135e75;
+}
+
 .button-secondary {
     background-color: #fff;
     color: #135e75;

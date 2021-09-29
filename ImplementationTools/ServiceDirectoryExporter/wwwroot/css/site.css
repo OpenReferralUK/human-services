@@ -944,6 +944,10 @@ h3 {
     text-decoration: underline;
 }
 
+input[type=text], input[type=url], select {
+    border-color: #135e75;
+}
+
 .button-primary:hover {
     background-color: #0f4c5e;
     color: #ffd152 !important;

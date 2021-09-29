@@ -27,7 +27,7 @@ function getVocabulary() {
         $("#Vocabulary").empty().append("<option></option>");
         addApiPanel("Get vocabulary list", false);
         addApiPanel(url);
-        addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
+        addApiPanel('<button class="button button-primary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
         updateScroll();
 
         $.ajax({
@@ -74,7 +74,7 @@ function getVocabulary() {
         $("#Vocabulary").empty().append("<option></option>");
         addApiPanel("Get vocabulary list", false);
         addApiPanel(url);
-        addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
+        addApiPanel('<button class="button button-primary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
         updateScroll();
 
         $.ajax({
@@ -123,7 +123,7 @@ function getTaxonomyTerm() {
             taxonomyTerm.find("option").remove().end().append("<option></option>");
             addApiPanel("Get Taxonomy terms for the vocabulary", false);
             addApiPanel(url);
-            addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
+            addApiPanel('<button class="button button-primary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
             updateScroll();
 
             if (taxonomys) {
@@ -167,7 +167,7 @@ function getTaxonomyTerm() {
             taxonomyTerm.find("option").remove().end().append("<option></option>");
             addApiPanel("Get Taxonomy terms for the vocabulary", false);
             addApiPanel(url);
-            addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
+            addApiPanel('<button class="button button-primary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
             updateScroll();
 
             $.ajax({
@@ -255,7 +255,7 @@ function getChildTaxonomyTerm() {
             childTaxonomyTerm.find("option").remove().end().append("<option></option>");
             addApiPanel("Get Taxonomy terms for the parent term", false);
             addApiPanel(url);
-            addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
+            addApiPanel('<button class="button button-primary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
             updateScroll();
 
             $.ajax({
@@ -346,7 +346,7 @@ function getChildChildTaxonomyTerm() {
             childChildTaxonomyTerm.find("option").remove().end().append("<option></option>");
             addApiPanel("Get Taxonomy terms for the parent term", false);
             addApiPanel(url);
-            addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
+            addApiPanel('<button class="button button-primary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
             updateScroll();
 
             $.ajax({
@@ -710,7 +710,7 @@ function executeForm(pageNumber) {
 
     addApiPanel("Get service(s)", false);
     addApiPanel(url, true);
-    addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
+    addApiPanel('<button class="button button-primary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
     updateScroll();
     $("#results").append("<div><img src='images/ajax-loader.gif' alt='Loading'></div>");
 
@@ -739,10 +739,10 @@ function executeForm(pageNumber) {
                     "        <div class='visualise'>" +
                     "            <div class='row'>" +
                     "                <div class='col' style=\"text-align: right\">" +
-                    "                    <button id='" + value.id + "' class='btn btn-secondary btn-sm mb-1 visualiseButton'>Visualise</button>" +
-                    "                    <button id='json" + value.id + "' class='btn btn-secondary btn-sm mb-1 '> JSON</button>" +
-                    "                    <button id='validate" + value.id + "' class='btn btn-secondary btn-sm mb-1'>Validate</button>" +
-                    "                    <button id='richness" + value.id + "' class='btn btn-secondary btn-sm mb-1'>Richness</button>" +
+                    "                    <button id='" + value.id + "' class='button button-secondary btn-sm mb-1 visualiseButton'>Visualise</button>" +
+                    "                    <button id='json" + value.id + "' class='button button-secondary btn-sm mb-1 '> JSON</button>" +
+                    "                    <button id='validate" + value.id + "' class='button button-secondary btn-sm mb-1'>Validate</button>" +
+                    "                    <button id='richness" + value.id + "' class='button button-secondary btn-sm mb-1'>Richness</button>" +
                     "                </div>" +
                     "            </div>" +
                     "        </div>" +
@@ -807,10 +807,10 @@ function executeForm(pageNumber) {
             results.append(
                 "<div class='container-fluid'>" +
                 "<div class='row'>" +
-                "<div><button id='previousPage' class='btn btn-secondary btn-sm mt-1 mr-1' " + firstPage + ">Previous</button>" +
+                "<div><button id='previousPage' class='button button-secondary btn-sm mt-1 mr-1' " + firstPage + ">Previous</button>" +
                 "</div>" +
                 "<div class=' mt-1'>Page " + (pageNo) + "</div>" +
-                "<div><button id='nextPage' class='btn btn-secondary btn-sm mt-1 ml-1' " + lastPage + ">  Next  </button>" +
+                "<div><button id='nextPage' class='button button-secondary btn-sm mt-1 ml-1' " + lastPage + ">  Next  </button>" +
                 "</div>" +
                 "</div>" +
                 "</div>");
@@ -826,7 +826,7 @@ function executeForm(pageNumber) {
             if (config.schemaType === "OpenReferral") {
                 $("#results").append(" or no results were found");
             }
-            $("#results").append('<div><button class="show-error btn btn-secondary">Show error</button></div>');
+            $("#results").append('<div><button class="show-error button button-secondary">Show error</button></div>');
             $(".show-error").on("click", function () {
                 let win = window.open(url, "_blank");
                 win.focus();
@@ -960,7 +960,7 @@ function getValidate(id) {
 
     addApiPanel("Get JSON for validate", false);
     addApiPanel(url);
-    addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
+    addApiPanel('<button class="button button-primary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
     updateScroll();
     $.ajax({
         async: true,
@@ -1018,7 +1018,7 @@ function getRichness(id) {
     }
     addApiPanel("Get JSON for richness", false);
     addApiPanel(url);
-    addApiPanel('<button class="btn btn-secondary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
+    addApiPanel('<button class="button button-primary" onclick=\'win = window.open("' + url + '", "_blank"); win.focus()\'>Show results</button>', false);
     updateScroll();
     $.ajax({
         async: true,
