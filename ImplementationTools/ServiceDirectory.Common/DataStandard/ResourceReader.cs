@@ -34,7 +34,11 @@ namespace ServiceDirectory.Common.DataStandard
             {
                 if (json == null)
                 {
-                    json = await WebServiceReader.ConvertToDynamic(ExtendedDataPackage).ConfigureAwait(false);
+                    WebServiceResponse response = await WebServiceReader.ConvertToDynamic(ExtendedDataPackage).ConfigureAwait(false);
+                    if (response != null)
+                    {
+                        json = response.Data;
+                    }
                 }
                 return json;
             }

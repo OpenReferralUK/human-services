@@ -9,7 +9,7 @@ namespace ServiceDirectory.Common
 {
     public class Delayering
     {
-        public static async Task<Dictionary<string, Dictionary<string, dynamic>>> DelayerPaginatedData(string apiBaseUrl)
+        public static async Task<DelayeredResult> DelayerPaginatedData(string apiBaseUrl)
         {
             ResourceReader resourceReader = new ResourceReader();
             List<string> resourceNames = await resourceReader.GetResourceNames().ConfigureAwait(false);
@@ -23,7 +23,7 @@ namespace ServiceDirectory.Common
                 ExtractObjects(resourceNames, objectCollection, s, "service", null);
             }
 
-            return objectCollection;
+            return new DelayeredResult(objectCollection, paginationResults.Hashes);
         }
 
         private static void ExtractObjects(List<string> resourceNames, Dictionary<string, Dictionary<string, dynamic>> objectCollection, dynamic obj, string name, Parent parent)

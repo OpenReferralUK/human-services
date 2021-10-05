@@ -27,7 +27,7 @@ namespace ServiceDirectory.Common
             callCount = 0;
         }
 
-        internal static async System.Threading.Tasks.Task<dynamic> ConvertToDynamic(string url, int attempt = 0)
+        internal static async System.Threading.Tasks.Task<WebServiceResponse> ConvertToDynamic(string url, int attempt = 0)
         {
             try
             {
@@ -65,8 +65,7 @@ namespace ServiceDirectory.Common
                     return null;
                 }
                 byte[] result = await response.Content.ReadAsByteArrayAsync();
-                string s = Encoding.UTF8.GetString(result);
-                return Newtonsoft.Json.JsonConvert.DeserializeObject(s);
+                return new WebServiceResponse(result);
             }
             catch(Exception e)
             {

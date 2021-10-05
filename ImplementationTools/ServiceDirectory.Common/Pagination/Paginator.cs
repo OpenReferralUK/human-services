@@ -9,7 +9,7 @@ namespace ServiceDirectory.Common.Pagination
 {
     public class Paginator
     {
-        public delegate Task<bool> ServiceProcessorAsync(dynamic services, int totalPages);
+        public delegate Task<bool> ServiceProcessorAsync(dynamic services, int totalPages, int hash);
 
         private const int SampleSize = 10;
         private readonly string[] requiredProperties = new[] { "totalElements", "totalPages", "number", "size", "first", "last", "content" };
@@ -34,12 +34,13 @@ namespace ServiceDirectory.Common.Pagination
 
             var paginationResults = new PaginationResults();
 
-            async Task<bool> processor(dynamic serviceList, int totalPages)
+            async Task<bool> processor(dynamic serviceList, int totalPages, int hash)
             {
                 if (serviceList == null)
                     return true;
 
                 paginationResults.MissingPaginationMetaData = GetMissingPaginationMetadata(serviceList);
+                paginationResults.Hashes.Add(hash);
 
                 try
                 {
@@ -127,8 +128,13 @@ namespace ServiceDirectory.Common.Pagination
 
             try
             {
-                obj = await WebServiceReader.ConvertToDynamic(apiBaseUrl + "/services/" + service.id);
+                WebServiceResponse result = await WebServiceReader.ConvertToDynamic(apiBaseUrl + "/services/" + service.id);
                 
+                if (result != null)
+                {
+                    obj = result.Data;
+                }
+
                 if (obj == null)
                 {
                     obj = service;
@@ -172,11 +178,15 @@ namespace ServiceDirectory.Common.Pagination
                     serviceUrl += "&";
                 }
 
-                dynamic serviceList = await WebServiceReader.ConvertToDynamic(serviceUrl + "page=" + pageNo);
+                WebServiceResponse serviceList = await WebServiceReader.ConvertToDynamic(serviceUrl + "page=" + pageNo);
 
                 try
                 {
-                    int tmp = Convert.ToInt32(serviceList.totalPages);
+                    if (serviceList == null)
+                    {
+                        continue;
+                    }
+                    int tmp = Convert.ToInt32(serviceList.Data.totalPages);
                     if (!totalPagesOverride.HasValue || tmp < totalPages)
                     {
                         totalPages = tmp;
@@ -187,7 +197,7 @@ namespace ServiceDirectory.Common.Pagination
                     //if this isn't here we will ignore it and just paginate the first page. This issue will be reported upon in pagination 
                 }                
 
-                if (!await processor(serviceList, totalPages))
+                if (!await processor(serviceList.Data, totalPages, serviceList.HashCode))
                 {
                     break;
                 }

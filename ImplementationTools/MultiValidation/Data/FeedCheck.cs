@@ -20,7 +20,7 @@ namespace Oruk.MultiValidation.Data
 
             Console.WriteLine($"checking: {feed.Url}; started at: {startTime.ToString("yyyy-MM-ddTHH:mm:ss")}");
 
-            var result = await APIValidator.Validate(feed.Url, new APIValidatorSettings { FirstPageOnly = false, RandomServiceOnly = false });
+            var result = await APIValidator.Validate(feed.Url, string.Empty, new APIValidatorSettings { FirstPageOnly = false, RandomServiceOnly = false });
 
             stopwatch.Stop();
 

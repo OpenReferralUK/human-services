@@ -17,6 +17,8 @@ namespace ServiceDirectory.Common.Pagination
             set;
         }
 
+        public HashSet<int> Hashes { get; set; }
+
         public ConcurrentBag<string> MissingDetailIDs
         {
             get;
@@ -39,6 +41,7 @@ namespace ServiceDirectory.Common.Pagination
         {
             MissingDetailIDs = new ConcurrentBag<string>();
             Items = new ConcurrentBag<dynamic>();
+            Hashes = new HashSet<int>();
             HasInvalidTotalPages = false;
             TotalPages = 1;
         }
