@@ -32,94 +32,99 @@ namespace Combiner
             {
                 conn.Open();
                 ClearDatabase(conn);
-                foreach (BaseURLElement baseUrl in baseUrls)
+            }
+
+            foreach (BaseURLElement baseUrl in baseUrls)
+            {
+                Dictionary<string, Dictionary<string, string>> keyReWrite = new Dictionary<string, Dictionary<string, string>>();
+                DelayeredResult delayeredResult = Delayering.DelayerPaginatedData(baseUrl.URL).GetAwaiter().GetResult();
+
+                if (!HasUpdated(delayeredResult, hashDatabase.Get(baseUrl.URL)))
                 {
-                    Dictionary<string, Dictionary<string, string>> keyReWrite = new Dictionary<string, Dictionary<string, string>>();
-                    DelayeredResult delayeredResult = Delayering.DelayerPaginatedData(baseUrl.URL).GetAwaiter().GetResult();
+                    Console.WriteLine("Data not changed skipping");
+                    continue;
+                }
 
-                    if (!HasUpdated(delayeredResult, hashDatabase.Get(baseUrl.URL)))
+                List<Row> rows = new List<Row>();
+                foreach (KeyValuePair<string, Dictionary<string, dynamic>> kvp in delayeredResult.Collection)
+                {
+                    dynamic resource = GetResource(resources, kvp.Key);
+                    string resourceName = Resources.FindResourceName(kvp.Key, resourceNames);
+                    foreach (KeyValuePair<string, dynamic> vals in kvp.Value)
                     {
-                        Console.WriteLine("Data not changed skipping");
-                        continue;
-                    }
-
-                    List<Row> rows = new List<Row>();
-                    foreach (KeyValuePair<string, Dictionary<string, dynamic>> kvp in delayeredResult.Collection)
-                    {
-                        dynamic resource = GetResource(resources, kvp.Key);
-                        string resourceName = Resources.FindResourceName(kvp.Key, resourceNames);
-                        foreach (KeyValuePair<string, dynamic> vals in kvp.Value)
+                        if (resource == null)
                         {
-                            if (resource == null)
+                            continue;
+                        }
+
+                        Row row = new Row(resourceName);
+                        foreach (KeyValuePair<string, dynamic> fieldKvp in vals.Value)
+                        {
+                            string columnName = fieldKvp.Key.ToLower();
+                            FieldStatus fieldStatus = ResourceFieldStatus(resource, columnName);
+                            if (fieldKvp.Value == null || !fieldStatus.IsVisible)
                             {
                                 continue;
                             }
-
-                            Row row = new Row(resourceName);
-                            foreach (KeyValuePair<string, dynamic> fieldKvp in vals.Value)
+                            row.Fields.Add(COLUMN_ESCAPE + columnName + COLUMN_ESCAPE);
+                            if (fieldKvp.Value is String)
                             {
-                                string columnName = fieldKvp.Key.ToLower();
-                                FieldStatus fieldStatus = ResourceFieldStatus(resource, columnName);
-                                if (fieldKvp.Value == null || !fieldStatus.IsVisible)
+                                if (string.IsNullOrEmpty(fieldKvp.Value) && fieldStatus.IsNullByDefault)
                                 {
+                                    row.Values.Add(NULL);
                                     continue;
                                 }
-                                row.Fields.Add(COLUMN_ESCAPE + columnName + COLUMN_ESCAPE);
-                                if (fieldKvp.Value is String)
-                                {
-                                    if (string.IsNullOrEmpty(fieldKvp.Value) && fieldStatus.IsNullByDefault)
-                                    {
-                                        row.Values.Add(NULL);
-                                        continue;
-                                    }
-                                    row.Values.Add(QUOTATION + fieldKvp.Value + QUOTATION);
-                                    continue;
-                                }
-                                if (fieldKvp.Value.Type == Newtonsoft.Json.Linq.JTokenType.String)
-                                {
-                                    if (string.IsNullOrEmpty(fieldKvp.Value.Value) && fieldStatus.IsNullByDefault)
-                                    {
-                                        row.Values.Add(NULL);
-                                        continue;
-                                    }
-                                    row.Values.Add(QUOTATION + MySqlHelper.EscapeString(Convert.ToString(fieldKvp.Value.Value)) + QUOTATION);
-                                    continue;
-                                }
-                                if (fieldKvp.Value.Type == Newtonsoft.Json.Linq.JTokenType.Date)
-                                {
-                                    row.Values.Add(QUOTATION + MySqlHelper.EscapeString(Convert.ToString(fieldKvp.Value.Value)) + QUOTATION);
-                                    continue;
-                                }
-                                row.Values.Add(Convert.ToString(fieldKvp.Value));
+                                row.Values.Add(QUOTATION + fieldKvp.Value + QUOTATION);
+                                continue;
                             }
-
-                            if (!row.Fields.Contains(ID_COLUMN))
+                            if (fieldKvp.Value.Type == Newtonsoft.Json.Linq.JTokenType.String)
                             {
-                                row.Fields.Add(ID_COLUMN);
-                                row.Values.Add(QUOTATION + Guid.NewGuid().ToString() + QUOTATION);
-                            }
-                            else
-                            {
-                                int index = row.Fields.IndexOf(ID_COLUMN);
-                                if (index > -1 && resourceName != "service" && resourceName != "organization" && resourceName != "location")
+                                if (string.IsNullOrEmpty(fieldKvp.Value.Value) && fieldStatus.IsNullByDefault)
                                 {
-                                    if (!keyReWrite.ContainsKey(resourceName))
-                                    {
-                                        keyReWrite.Add(resourceName, new Dictionary<string, string>());
-                                    }
-                                    string originalKey = row.Values[index].Replace(QUOTATION, string.Empty);
-                                    if (!keyReWrite[resourceName].ContainsKey(originalKey))
-                                    {
-                                        keyReWrite[resourceName].Add(originalKey, Guid.NewGuid().ToString());
-                                    }
-                                    row.Values[index] = QUOTATION + keyReWrite[resourceName][originalKey] + QUOTATION;
+                                    row.Values.Add(NULL);
+                                    continue;
                                 }
+                                row.Values.Add(QUOTATION + MySqlHelper.EscapeString(Convert.ToString(fieldKvp.Value.Value)) + QUOTATION);
+                                continue;
                             }
-                            Console.WriteLine("Reading: " + resourceName);
-                            rows.Add(row);
+                            if (fieldKvp.Value.Type == Newtonsoft.Json.Linq.JTokenType.Date)
+                            {
+                                row.Values.Add(QUOTATION + MySqlHelper.EscapeString(Convert.ToString(fieldKvp.Value.Value)) + QUOTATION);
+                                continue;
+                            }
+                            row.Values.Add(Convert.ToString(fieldKvp.Value));
                         }
-                    }
 
+                        if (!row.Fields.Contains(ID_COLUMN))
+                        {
+                            row.Fields.Add(ID_COLUMN);
+                            row.Values.Add(QUOTATION + Guid.NewGuid().ToString() + QUOTATION);
+                        }
+                        else
+                        {
+                            int index = row.Fields.IndexOf(ID_COLUMN);
+                            if (index > -1 && resourceName != "service" && resourceName != "organization" && resourceName != "location")
+                            {
+                                if (!keyReWrite.ContainsKey(resourceName))
+                                {
+                                    keyReWrite.Add(resourceName, new Dictionary<string, string>());
+                                }
+                                string originalKey = row.Values[index].Replace(QUOTATION, string.Empty);
+                                if (!keyReWrite[resourceName].ContainsKey(originalKey))
+                                {
+                                    keyReWrite[resourceName].Add(originalKey, Guid.NewGuid().ToString());
+                                }
+                                row.Values[index] = QUOTATION + keyReWrite[resourceName][originalKey] + QUOTATION;
+                            }
+                        }
+                        Console.WriteLine("Reading: " + resourceName);
+                        rows.Add(row);
+                    }
+                }
+
+                using (MySqlConnection conn = new MySqlConnection("Server=informplus-beta.rds.esd.org.uk;Port=3306;Database=ServiceDirectoryCombined;Uid=awsuserbeta;Pwd=pQr1$m"))
+                {
+                    conn.Open();
                     List<Row> retryCommands;
 
                     do
