@@ -6,7 +6,7 @@ permalink: /ApiValidation/
 
 # Open Referral UK API Validation Rules
 
-This document summarises the checks performed on Open Referral UK Application Programming Interface (API) endpoints by the [Validator tool](https://validator.openreferraluk.org/) and by daily checks used to populate settings in the [Dashboard of API feeds](https://openreferraluk.org/dashboard).
+This page summarises the checks performed on Open Referral UK Application Programming Interface (API) endpoints by the [Validator tool](https://validator.openreferraluk.org/) and by daily checks used to populate settings in the [Dashboard of API feeds](https://openreferraluk.org/dashboard).
 
 Validation is performed against the specified data structure (as described in the [Guidance](https://developers.openreferraluk.org/Guidance/)) and API specification (see the [Swagger documentation](https://api.porism.com/ServiceDirectoryService/swagger-ui.html)).
 
@@ -52,13 +52,13 @@ The validator will select the best record on a test-by-test basis with each reco
 
 If multiple service records have the same level of richness then one service is chosen at random from amongst these services. 
 
-To cover all of the API functionality the following five tests are performed each test extracts the required data from the services as it parses them and then performs the associated tests using the API query parameters. All items highlighted in orange don’t take part in the test but are used to determine if the data is valid.
+To cover all of the API functionality the following five tests are performed each test extracts the required data from the services as it parses them and then performs the associated tests using the API query parameters. Items **in bold font** don’t take part in the test but are used to determine if the data is valid.
 
 | Test Name | Required Data | API Parameters Involved |
 | ---      | ---      | ---      |
 | Age Test | - eligibility.minimum_age<br>- eligibility.maximum_age | - minimum_age <br>- maximum_age |
 | Postcode Search | - physical_address.postal_code | - proximity=1000<br>- postcode |
-| Time Search Test | - regular_schedule.valid_from<br>- regular_schedule.valid_to<br>- regular_schedule.opens_at<br>- regular_schedule.closes_at<br>- regular_schedule.byday | - start_time<br>- end_time<br>- day |
+| Time Search Test | - **regular_schedule.valid_from**<br>- **regular_schedule.valid_to**<br>- regular_schedule.opens_at<br>- regular_schedule.closes_at<br>- regular_schedule.byday | - start_time<br>- end_time<br>- day |
 | Taxonomy Test | - taxonomy.id<br>- taxonomy.vocabulary | - taxonomy_id<br>- vocabulary |
 | Text Test | - service.name | - text |
 
