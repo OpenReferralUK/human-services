@@ -1,3 +1,9 @@
+---
+layout: default
+title: API validation
+permalink: /ApiValidation/
+---
+
 # Open Referral UK API Validation Rules
 
 This document summarises the checks performed on Open Referral UK Application Programming Interface (API) endpoints by the [Validator tool](https://validator.openreferraluk.org/) and by daily checks used to populate settings in the [Dashboard of API feeds](https://openreferraluk.org/dashboard).
@@ -48,130 +54,13 @@ If multiple service records have the same level of richness then one service is 
 
 To cover all of the API functionality the following five tests are performed each test extracts the required data from the services as it parses them and then performs the associated tests using the API query parameters. All items highlighted in orange don’t take part in the test but are used to determine if the data is valid.
 
-
-<table>
-  <tr>
-   <td><strong>Test Name</strong>
-   </td>
-   <td><strong>Required Data</strong>
-   </td>
-   <td><strong>API Parameters Involved</strong>
-   </td>
-  </tr>
-  <tr>
-   <td>Age Test
-   </td>
-   <td>
-<ul>
-
-<li>eligibility.minimum_age
-
-<li>eligibility.maximum_age
-</li>
-</ul>
-   </td>
-   <td>
-<ul>
-
-<li>minimum_age
-
-<li>maximum_age
-</li>
-</ul>
-   </td>
-  </tr>
-  <tr>
-   <td>Postcode Search
-   </td>
-   <td>
-<ul>
-
-<li>physical_address.postal_code
-</li>
-</ul>
-   </td>
-   <td>
-<ul>
-
-<li>proximity=1000
-
-<li>postcode
-</li>
-</ul>
-   </td>
-  </tr>
-  <tr>
-   <td>Time Search Test
-   </td>
-   <td>
-<ul>
-
-<li>regular_schedule.valid_from
-
-<li>regular_schedule.valid_to
-
-<li>regular_schedule.opens_at
-
-<li>regular_schedule.closes_at
-
-<li>regular_schedule.byday
-</li>
-</ul>
-   </td>
-   <td>
-<ul>
-
-<li>start_time
-
-<li>end_time
-
-<li>day
-</li>
-</ul>
-   </td>
-  </tr>
-  <tr>
-   <td>Taxonomy Test
-   </td>
-   <td>
-<ul>
-
-<li>taxonomy.id
-
-<li>taxonomy.vocabulary
-</li>
-</ul>
-   </td>
-   <td>
-<ul>
-
-<li>taxonomy_id
-
-<li>vocabulary
-</li>
-</ul>
-   </td>
-  </tr>
-  <tr>
-   <td>Text Test
-   </td>
-   <td>
-<ul>
-
-<li>service.name
-</li>
-</ul>
-   </td>
-   <td>
-<ul>
-
-<li>text
-</li>
-</ul>
-   </td>
-  </tr>
-</table>
-
+| Test Name | Required Data | API Parameters Involved |
+| ---      | ---      | ---      |
+| Age Test | - eligibility.minimum_age<br>- eligibility.maximum_age | - minimum_age <br>- maximum_age |
+| Postcode Search | - physical_address.postal_code | - proximity=1000<br>- postcode |
+| Time Search Test | - regular_schedule.valid_from<br>- regular_schedule.valid_to<br>- regular_schedule.opens_at<br>- regular_schedule.closes_at<br>- regular_schedule.byday | - start_time<br>- end_time<br>- day |
+| Taxonomy Test | - taxonomy.id<br>- taxonomy.vocabulary | - taxonomy_id<br>- vocabulary |
+| Text Test | - service.name | - text |
 
 The proximity search relies on the API converting a given postcode to a point represented by the latitude and longitude of the postcode’s centroid before checking the distance of each service’s latitude and longitude, found in the location table, from that point. (Of course, there could be other valid approaches to achieve the same result.)
 

@@ -16,6 +16,8 @@
       url: /ApiReference/
     - title: Guidance
       url: /API-Guidance/
+    - title: Validation
+      url: /APIValidation/      
 - title: Tools
   child:
     - title: Dashboard
