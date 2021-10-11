@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
@@ -10,7 +11,7 @@ namespace Combiner
 
         public HashDatabase()
         {
-            Hashes = new Dictionary<string, HashSet<int>>();
+            Hashes = new ConcurrentDictionary<string, HashSet<int>>();
         }
 
         internal HashSet<int> Get(string key)
@@ -39,6 +40,6 @@ namespace Combiner
             File.WriteAllText(Path, JsonSerializer.Serialize(this));
         }
 
-        public Dictionary<string, HashSet<int>> Hashes { get; private set; }
+        public ConcurrentDictionary<string, HashSet<int>> Hashes { get; private set; }
     }
 }
