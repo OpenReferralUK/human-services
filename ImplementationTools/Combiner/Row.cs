@@ -19,7 +19,7 @@ namespace Combiner
             Fields = new List<string>();
         }
 
-        internal string ToSQL(Dictionary<string, Dictionary<string, string>> keyReWrite)
+        internal string ToSQL(Dictionary<string, Dictionary<string, string>> keyReWrite, int apiID)
         {
             List<string> vals = new List<string>(Values);
             foreach (string field in Fields)
@@ -40,6 +40,9 @@ namespace Combiner
                     }
                 }
             }
+
+            Fields.Add("api_id");
+            vals.Add(Convert.ToString(apiID));
 
             return string.Format("INSERT IGNORE INTO {0} ({1}) VALUES ({2});", resourceName, string.Join(", ", Fields), string.Join(", ", vals));
         }

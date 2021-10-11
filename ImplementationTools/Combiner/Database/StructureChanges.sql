@@ -1,0 +1,21 @@
+alter table accessibility_for_disabilities add column api_id int;
+alter table contact add column api_id int;
+alter table cost_option add column api_id int;
+alter table eligibility add column api_id int;
+alter table funding add column api_id int;
+alter table holiday_schedule add column api_id int;
+alter table language add column api_id int;
+alter table link_taxonomy add column api_id int;
+alter table location add column api_id int;
+alter table organization add column api_id int;
+alter table phone add column api_id int;
+alter table physical_address add column api_id int;
+alter table regular_schedule add column api_id int;
+alter table review add column api_id int;
+alter table service add column api_id int;
+alter table service_area add column api_id int;
+alter table service_at_location add column api_id int;
+alter table service_taxonomy add column api_id int;
+alter table taxonomy add column api_id int;
+
+alter table organization add column email text;

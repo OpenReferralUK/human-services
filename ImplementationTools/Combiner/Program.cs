@@ -6,6 +6,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using System.Threading;
 
 namespace Combiner
 {
@@ -15,6 +17,8 @@ namespace Combiner
         private const string QUOTATION = "\"";
         private const string COLUMN_ESCAPE = "`";
         private const string NULL = "null";
+        private static HashSet<string> CurrentServerKeys = new HashSet<string>();
+        private static object locker = new object();
 
         static void Main(string[] args)
         {
@@ -27,15 +31,9 @@ namespace Combiner
             dynamic resources = resourceReader.GetResources().GetAwaiter().GetResult();
             List<string> resourceNames = resourceReader.GetResourceNames().GetAwaiter().GetResult();
             HashDatabase hashDatabase = new HashDatabase();
-            hashDatabase.Load();
+            hashDatabase.Load();      
 
-            using (MySqlConnection conn = new MySqlConnection("Server=informplus-beta.rds.esd.org.uk;Port=3306;Database=ServiceDirectoryCombined;Uid=awsuserbeta;Pwd=pQr1$m"))
-            {
-                conn.Open();
-                ClearDatabase(conn);
-            }
-
-            Parallel.ForEach(baseUrls, new ParallelOptions() { MaxDegreeOfParallelism = 4 }, baseUrl =>
+            Parallel.ForEach(baseUrls, new ParallelOptions() { MaxDegreeOfParallelism = 6 }, baseUrl =>
             {
                 ProcessEndPoint(baseUrl, resources, resourceNames, hashDatabase);
             });
@@ -43,129 +41,162 @@ namespace Combiner
             Console.WriteLine("Import done");
         }
 
+        private static bool IsServerKeyUnique(string key)
+        {
+            lock (locker)
+            {
+                return CurrentServerKeys.Contains(key);
+            }
+        }
+
         private static void ProcessEndPoint(BaseURLElement baseUrl, dynamic resources, List<string> resourceNames, HashDatabase hashDatabase)
         {
-            Dictionary<string, Dictionary<string, string>> keyReWrite = new Dictionary<string, Dictionary<string, string>>();
-            DelayeredResult delayeredResult = Delayering.DelayerPaginatedData(baseUrl.URL).GetAwaiter().GetResult();
-
-            if (!HasUpdated(delayeredResult, hashDatabase.Get(baseUrl.URL)))
+            try
             {
-                Console.WriteLine("Data not changed skipping");
-                return;
-            }
+                Console.WriteLine("Starting to process: " + baseUrl.URL);
 
-            List<Row> rows = new List<Row>();
-            foreach (KeyValuePair<string, Dictionary<string, dynamic>> kvp in delayeredResult.Collection)
-            {
-                dynamic resource = GetResource(resources, kvp.Key);
-                string resourceName = Resources.FindResourceName(kvp.Key, resourceNames);
-                foreach (KeyValuePair<string, dynamic> vals in kvp.Value)
+                while (IsServerKeyUnique(baseUrl.ServerKey))
                 {
-                    if (resource == null)
-                    {
-                        continue;
-                    }
+                    Console.WriteLine("Pausing: " + baseUrl.URL);
+                    Thread.Sleep(30000);
+                }
 
-                    Row row = new Row(resourceName);
-                    foreach (KeyValuePair<string, dynamic> fieldKvp in vals.Value)
+                lock (locker)
+                {
+                    CurrentServerKeys.Add(baseUrl.ServerKey);
+                }
+
+                Dictionary<string, Dictionary<string, string>> keyReWrite = new Dictionary<string, Dictionary<string, string>>();
+                DelayeredResult delayeredResult = Delayering.DelayerPaginatedData(baseUrl.URL).GetAwaiter().GetResult();
+
+                if (!HasUpdated(delayeredResult, hashDatabase.Get(baseUrl.URL)))
+                {
+                    Console.WriteLine("Data not changed skipping: " + baseUrl.URL);
+                    return;
+                }
+
+                List<Row> rows = new List<Row>();
+                foreach (KeyValuePair<string, Dictionary<string, dynamic>> kvp in delayeredResult.Collection)
+                {
+                    dynamic resource = GetResource(resources, kvp.Key);
+                    string resourceName = Resources.FindResourceName(kvp.Key, resourceNames);
+                    foreach (KeyValuePair<string, dynamic> vals in kvp.Value)
                     {
-                        string columnName = fieldKvp.Key.ToLower();
-                        FieldStatus fieldStatus = ResourceFieldStatus(resource, columnName);
-                        if (fieldKvp.Value == null || !fieldStatus.IsVisible)
+                        if (resource == null)
                         {
                             continue;
                         }
-                        row.Fields.Add(COLUMN_ESCAPE + columnName + COLUMN_ESCAPE);
-                        if (fieldKvp.Value is String)
+
+                        Row row = new Row(resourceName);
+                        foreach (KeyValuePair<string, dynamic> fieldKvp in vals.Value)
                         {
-                            if (string.IsNullOrEmpty(fieldKvp.Value) && fieldStatus.IsNullByDefault)
+                            string columnName = fieldKvp.Key.ToLower();
+                            FieldStatus fieldStatus = ResourceFieldStatus(resource, columnName);
+                            if (fieldKvp.Value == null || !fieldStatus.IsVisible)
                             {
-                                row.Values.Add(NULL);
                                 continue;
                             }
-                            row.Values.Add(QUOTATION + fieldKvp.Value + QUOTATION);
-                            continue;
-                        }
-                        if (fieldKvp.Value.Type == Newtonsoft.Json.Linq.JTokenType.String)
-                        {
-                            if (string.IsNullOrEmpty(fieldKvp.Value.Value) && fieldStatus.IsNullByDefault)
+                            row.Fields.Add(COLUMN_ESCAPE + columnName + COLUMN_ESCAPE);
+                            if (fieldKvp.Value is String)
                             {
-                                row.Values.Add(NULL);
+                                if (string.IsNullOrEmpty(fieldKvp.Value) && fieldStatus.IsNullByDefault)
+                                {
+                                    row.Values.Add(NULL);
+                                    continue;
+                                }
+                                row.Values.Add(QUOTATION + fieldKvp.Value + QUOTATION);
                                 continue;
                             }
-                            row.Values.Add(QUOTATION + MySqlHelper.EscapeString(Convert.ToString(fieldKvp.Value.Value)) + QUOTATION);
-                            continue;
-                        }
-                        if (fieldKvp.Value.Type == Newtonsoft.Json.Linq.JTokenType.Date)
-                        {
-                            row.Values.Add(QUOTATION + MySqlHelper.EscapeString(Convert.ToString(fieldKvp.Value.Value)) + QUOTATION);
-                            continue;
-                        }
-                        row.Values.Add(QUOTATION + Convert.ToString(fieldKvp.Value) + QUOTATION);
-                    }
-
-                    if (!row.Fields.Contains(ID_COLUMN))
-                    {
-                        row.Fields.Add(ID_COLUMN);
-                        row.Values.Add(QUOTATION + Guid.NewGuid().ToString() + QUOTATION);
-                    }
-                    else
-                    {
-                        int index = row.Fields.IndexOf(ID_COLUMN);
-                        if (index > -1 && resourceName != "service" && resourceName != "organization" && resourceName != "location")
-                        {
-                            if (!keyReWrite.ContainsKey(resourceName))
+                            if (fieldKvp.Value.Type == Newtonsoft.Json.Linq.JTokenType.String)
                             {
-                                keyReWrite.Add(resourceName, new Dictionary<string, string>());
+                                if (string.IsNullOrEmpty(fieldKvp.Value.Value) && fieldStatus.IsNullByDefault)
+                                {
+                                    row.Values.Add(NULL);
+                                    continue;
+                                }
+                                row.Values.Add(QUOTATION + MySqlHelper.EscapeString(Convert.ToString(fieldKvp.Value.Value)) + QUOTATION);
+                                continue;
                             }
-                            string originalKey = row.Values[index].Replace(QUOTATION, string.Empty);
-                            if (!keyReWrite[resourceName].ContainsKey(originalKey))
+                            if (fieldKvp.Value.Type == Newtonsoft.Json.Linq.JTokenType.Date)
                             {
-                                keyReWrite[resourceName].Add(originalKey, Guid.NewGuid().ToString());
+                                row.Values.Add(QUOTATION + MySqlHelper.EscapeString(Convert.ToString(fieldKvp.Value.Value)) + QUOTATION);
+                                continue;
                             }
-                            row.Values[index] = QUOTATION + keyReWrite[resourceName][originalKey] + QUOTATION;
+                            row.Values.Add(QUOTATION + Convert.ToString(fieldKvp.Value) + QUOTATION);
                         }
-                    }
-                    Console.WriteLine("Reading: " + resourceName);
-                    rows.Add(row);
-                }
-            }
 
-            using (MySqlConnection conn = new MySqlConnection("Server=informplus-beta.rds.esd.org.uk;Port=3306;Database=ServiceDirectoryCombined;Uid=awsuserbeta;Pwd=pQr1$m"))
-            {
-                conn.Open();
-
-                try
-                {
-                    RunSQL("SET FOREIGN_KEY_CHECKS=0;", conn);
-                    List<string> commands = new List<string>();
-                    foreach (Row row in rows)
-                    {
-                        commands.Add(row.ToSQL(keyReWrite));
-
-                        if (commands.Count > 1000)
+                        if (!row.Fields.Contains(ID_COLUMN))
                         {
-                            ExecuteBatch(commands, conn);
+                            row.Fields.Add(ID_COLUMN);
+                            row.Values.Add(QUOTATION + Guid.NewGuid().ToString() + QUOTATION);
                         }
+                        else
+                        {
+                            int index = row.Fields.IndexOf(ID_COLUMN);
+                            if (index > -1 && resourceName != "service" && resourceName != "organization" && resourceName != "location")
+                            {
+                                if (!keyReWrite.ContainsKey(resourceName))
+                                {
+                                    keyReWrite.Add(resourceName, new Dictionary<string, string>());
+                                }
+                                string originalKey = row.Values[index].Replace(QUOTATION, string.Empty);
+                                if (!keyReWrite[resourceName].ContainsKey(originalKey))
+                                {
+                                    keyReWrite[resourceName].Add(originalKey, Guid.NewGuid().ToString());
+                                }
+                                row.Values[index] = QUOTATION + keyReWrite[resourceName][originalKey] + QUOTATION;
+                            }
+                        }
+                        Console.WriteLine("Reading: " + resourceName);
+                        rows.Add(row);
                     }
-
-                    ExecuteBatch(commands, conn);
                 }
-                finally
+
+                using (MySqlConnection conn = new MySqlConnection("Server=informplus-beta.rds.esd.org.uk;Port=3306;Database=ServiceDirectoryCombined;Uid=awsuserbeta;Pwd=pQr1$m"))
                 {
+                    conn.Open();                    
+
                     try
                     {
-                        RunSQL("SET FOREIGN_KEY_CHECKS=1;", conn);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Unable to save due to inconsistent data: " + e.Message);
-                        Console.ReadKey();
-                    }
-                }
+                        RunSQL("SET FOREIGN_KEY_CHECKS=0;", conn);
+                        
+                        ClearDatabase(conn, baseUrl.ID);
 
-                hashDatabase.Hashes[baseUrl.URL] = delayeredResult.Hashes;
+                        List<string> commands = new List<string>();
+                        foreach (Row row in rows)
+                        {
+                            commands.Add(row.ToSQL(keyReWrite, baseUrl.ID));
+
+                            if (commands.Count > 1000)
+                            {
+                                Console.WriteLine("Executing " + commands.Count + " rows for " + baseUrl.URL);
+                                ExecuteBatch(commands, conn);
+                            }
+                        }
+
+                        Console.WriteLine("Executing " + commands.Count + " rows for " + baseUrl.URL);
+                        ExecuteBatch(commands, conn);
+                    }
+                    finally
+                    {
+                        try
+                        {
+                            RunSQL("SET FOREIGN_KEY_CHECKS=1;", conn);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Unable to save due to inconsistent data: " + e.Message);
+                            Console.ReadKey();
+                        }
+                    }
+
+                    hashDatabase.Hashes[baseUrl.URL] = delayeredResult.Hashes;
+                }
                 hashDatabase.Save();
+            }
+            finally
+            {
+                CurrentServerKeys.Remove(baseUrl.ServerKey);
             }
         }
 
@@ -207,7 +238,6 @@ namespace Combiner
 
         private static void RunSQL(List<string> sql, MySqlConnection conn)
         {
-            Console.WriteLine("Executing " + sql.Count + " rows.");
             RunSQL(string.Join(string.Empty, sql), conn);
         }
 
@@ -272,7 +302,7 @@ namespace Combiner
             return false;
         }
 
-        private static void ClearDatabase(MySqlConnection conn)
+        private static void ClearDatabase(MySqlConnection conn, int apiId)
         {
             Queue<string> tableNames = new Queue<string>();
             using (MySqlCommand command = new MySqlCommand("show tables from ServiceDirectoryCombined", conn))
@@ -295,7 +325,7 @@ namespace Combiner
                 string table = tableNames.Dequeue();
                 try
                 {
-                    using (MySqlCommand command = new MySqlCommand(string.Format("SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE `{0}`; SET FOREIGN_KEY_CHECKS = 1;", table), conn))
+                    using (MySqlCommand command = new MySqlCommand(string.Format("DELETE FROM `{0}` WHERE api_id={1};", table, apiId), conn))
                     {
                         command.ExecuteNonQuery();
                     }

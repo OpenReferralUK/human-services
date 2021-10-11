@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Linq;
 
 namespace Combiner
@@ -9,6 +10,18 @@ namespace Combiner
         public string URL
         {
             get { return (string)this["url"]; }
+        }
+
+        [ConfigurationProperty("serverkey", IsKey = false, IsRequired = true)]
+        public string ServerKey
+        {
+            get { return (string)this["serverkey"]; }
+        }
+
+        [ConfigurationProperty("id", IsKey = false, IsRequired = true)]
+        public int ID
+        {
+            get { return Convert.ToInt32(this["id"]); }
         }
     }
 
