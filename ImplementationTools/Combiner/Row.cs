@@ -41,7 +41,7 @@ namespace Combiner
                 }
             }
 
-            return string.Format("INSERT INTO {0} ({1}) VALUES ({2});", resourceName, string.Join(", ", Fields), string.Join(", ", vals));
+            return string.Format("INSERT IGNORE INTO {0} ({1}) VALUES ({2});", resourceName, string.Join(", ", Fields), string.Join(", ", vals));
         }
     }
 }

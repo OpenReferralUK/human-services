@@ -125,61 +125,65 @@ namespace Combiner
                 using (MySqlConnection conn = new MySqlConnection("Server=informplus-beta.rds.esd.org.uk;Port=3306;Database=ServiceDirectoryCombined;Uid=awsuserbeta;Pwd=pQr1$m"))
                 {
                     conn.Open();
-                    List<Row> retryCommands;
 
-                    do
+                    try
                     {
-                        retryCommands = new List<Row>();
+                        RunSQL("SET FOREIGN_KEY_CHECKS=0;", conn);
+                        List<string> commands = new List<string>();
+                        foreach (Row row in rows)
+                        {
+                            commands.Add(row.ToSQL(keyReWrite));
 
+                            if (commands.Count > 1000)
+                            {
+                                ExecuteBatch(commands, conn);                                
+                            }
+                        }
+
+                        ExecuteBatch(commands, conn);
+                    }
+                    finally
+                    {
                         try
                         {
-                            RunSQL("SET FOREIGN_KEY_CHECKS=0;", conn);
-                            foreach (Row row in rows)
-                            {
-                                try
-                                {
-                                    string sql = row.ToSQL(keyReWrite);
-                                    Console.WriteLine("Writing: " + sql);
-                                    RunSQL(sql, conn);
-                                }
-                                catch (MySqlException e)
-                                {
-                                    if (e.Number != 1062)
-                                    {
-                                        retryCommands.Add(row);
-                                    }
-                                }
-                                catch (Exception e)
-                                {
-                                    retryCommands.Add(row);
-                                    if (!e.Message.StartsWith("Cannot add or update a child row: a foreign key constraint fails"))
-                                    {
-                                        Console.WriteLine(e.Message);
-                                    }
-                                }
-                            }
+                            RunSQL("SET FOREIGN_KEY_CHECKS=1;", conn);
                         }
-                        finally
+                        catch (Exception e)
                         {
-                            try
-                            {
-                                RunSQL("SET FOREIGN_KEY_CHECKS=1;", conn);
-                            }
-                            catch (Exception e)
-                            {
-                                Console.WriteLine("Unable to save due to inconsistent data: " + e.Message);
-                                Console.ReadKey();
-                            }
+                            Console.WriteLine("Unable to save due to inconsistent data: " + e.Message);
+                            Console.ReadKey();
                         }
-                        rows = retryCommands;
                     }
-                    while (retryCommands.Count > 0);
 
                     hashDatabase.Hashes[baseUrl.URL] = delayeredResult.Hashes;
                     hashDatabase.Save();
                 }
             }
             Console.WriteLine("Import done");
+        }
+
+        private static void ExecuteBatch(List<string> commands, MySqlConnection conn)
+        {
+            try
+            {
+                RunSQL(commands, conn);
+            }
+            catch (MySqlException e)
+            {
+                if (e.Number != 1062)
+                {
+                    RunSQL(commands, conn);
+                }
+            }
+            catch (Exception e)
+            {
+                RunSQL(commands, conn);
+                if (!e.Message.StartsWith("Cannot add or update a child row: a foreign key constraint fails"))
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+            commands.Clear();
         }
 
         private static bool HasUpdated(DelayeredResult delayeredResult, HashSet<int> previousCodes)
@@ -192,6 +196,12 @@ namespace Combiner
                 }
             }
             return false;
+        }
+
+        private static void RunSQL(List<string> sql, MySqlConnection conn)
+        {
+            Console.WriteLine("Executing " + sql.Count + " rows.");
+            RunSQL(string.Join(string.Empty, sql), conn);
         }
 
         private static void RunSQL(string sql, MySqlConnection conn)
