@@ -19,7 +19,7 @@ namespace ServiceDirectory.Common
         static readonly Random rand = new Random();
 
         public static async Task<ValidationResult> Validate(string baseUrl, string id, APIValidatorSettings settings = null)
-        {
+        {            
             settings = settings ?? new APIValidatorSettings();
 
             if (string.IsNullOrEmpty(baseUrl))
@@ -32,12 +32,13 @@ namespace ServiceDirectory.Common
                 return new ValidationResult() { Error = "Invalid base URL" };
             }
 
+            WebServiceReader webServiceReader = new WebServiceReader(settings);
             var result = new ValidationResult();
 
             try
             {
                 var paginator = new Paginator();
-                var paginationResults = await paginator.GetServices(baseUrl, id, settings);
+                var paginationResults = await paginator.GetServices(baseUrl, id, webServiceReader, settings);
 
                 result.IsUp = true;
                 result.IsServiceFound = paginationResults.Items.Count > 0;
@@ -102,7 +103,7 @@ namespace ServiceDirectory.Common
                     }
                 }
 
-                result.Level2Results = await RunLevel2Tests(baseUrl, result, featureTests);
+                result.Level2Results = await RunLevel2Tests(baseUrl, result, featureTests, webServiceReader);
             }
             catch(ServiceDirectoryException e)
             {
@@ -132,7 +133,7 @@ namespace ServiceDirectory.Common
         {
             return ProgressCache.Get(id);
         }
-        private static async Task<List<TestResult>> RunLevel2Tests(string baseUrl, ValidationResult result, List<IFeatureTest> featureTests)
+        private static async Task<List<TestResult>> RunLevel2Tests(string baseUrl, ValidationResult result, List<IFeatureTest> featureTests, WebServiceReader webServiceReader)
         {
             featureTests.Sort();
             var testTypesRun = new HashSet<string>();
@@ -146,7 +147,7 @@ namespace ServiceDirectory.Common
                 var testResult = new TestResult { Test = test };
                 testResults.Add(testResult);
 
-                if (!await TestRunner.HasPassed(baseUrl, test))
+                if (!await TestRunner.HasPassed(baseUrl, test, webServiceReader))
                 {
                     var message = string.Format("{0} failed. When tested using /services{1}", test.Name, test.Parameters);
                     result.ApiIssuesLevel2.Add(message);

@@ -28,7 +28,7 @@ namespace ServiceDirectory.Common.Pagination
             return missing.ToArray();
         }
 
-        public async Task<PaginationResults> GetServices(string apiBaseUrl, string id, APIValidatorSettings settings = null)
+        public async Task<PaginationResults> GetServices(string apiBaseUrl, string id, WebServiceReader webServiceReader, APIValidatorSettings settings = null)
         {
             settings = settings ?? new APIValidatorSettings();
 
@@ -55,7 +55,7 @@ namespace ServiceDirectory.Common.Pagination
                 {
                     if (settings.RandomServiceOnly)
                     {
-                        await ValidateRandomService(apiBaseUrl, paginationResults, serviceList);
+                        await ValidateRandomService(apiBaseUrl, paginationResults, serviceList, webServiceReader);
                     }
                     else
                     {
@@ -67,7 +67,7 @@ namespace ServiceDirectory.Common.Pagination
 
                         Parallel.ForEach(services, async(s) =>
                         {
-                            await ValidateService(apiBaseUrl, paginationResults, s);
+                            await ValidateService(apiBaseUrl, paginationResults, s, webServiceReader);
                         });
                     }
                 }
@@ -81,19 +81,19 @@ namespace ServiceDirectory.Common.Pagination
                 maximumPages = SampleSize;
             }
 
-            await PaginateServices(apiBaseUrl, id, processor, totalPagesOverride: settings.FirstPageOnly ? 1 : maximumPages);
+            await PaginateServices(apiBaseUrl, id, processor, webServiceReader, totalPagesOverride: settings.FirstPageOnly ? 1 : maximumPages);
 
             return paginationResults;
         }
 
-        private static async Task<string> ValidateRandomService(string apiBaseUrl, PaginationResults paginationResults, dynamic serviceList)
+        private static async Task<string> ValidateRandomService(string apiBaseUrl, PaginationResults paginationResults, dynamic serviceList, WebServiceReader webServiceReader)
         {
             var service = GetRandomService(serviceList);
 
             if (service == null)
                 return null; // maybe a message is required
 
-            await ValidateService(apiBaseUrl, paginationResults, service);
+            await ValidateService(apiBaseUrl, paginationResults, service, webServiceReader);
 
             return Convert.ToString(service.id ?? null);
         }
@@ -117,18 +117,18 @@ namespace ServiceDirectory.Common.Pagination
             return service;
         }
 
-        public async Task<PaginationResults> GetAllServices(string apiBaseUrl, string id)
+        public async Task<PaginationResults> GetAllServices(string apiBaseUrl, string id, WebServiceReader webServiceReader)
         {
-            return await GetServices(apiBaseUrl, id);
+            return await GetServices(apiBaseUrl, id, webServiceReader);
         }
 
-        private static async Task ValidateService(string apiBaseUrl, PaginationResults paginationResults, dynamic service)
+        private static async Task ValidateService(string apiBaseUrl, PaginationResults paginationResults, dynamic service, WebServiceReader webServiceReader)
         {
             dynamic obj = service;
 
             try
             {
-                WebServiceResponse result = await WebServiceReader.ConvertToDynamic(apiBaseUrl + "/services/" + service.id);
+                WebServiceResponse result = await webServiceReader.ConvertToDynamic(apiBaseUrl + "/services/" + service.id);
                 
                 if (result != null)
                 {
@@ -156,7 +156,7 @@ namespace ServiceDirectory.Common.Pagination
             paginationResults.Items.Add(obj);
         }
 
-        public async Task PaginateServices(string apiBaseUrl, string id, ServiceProcessorAsync processor, string parameters = "", int? totalPagesOverride = null)
+        public async Task PaginateServices(string apiBaseUrl, string id, ServiceProcessorAsync processor, WebServiceReader webServiceReader, string parameters = "", int? totalPagesOverride = null)
         {
             int pageNo = 0;
             int totalPages = totalPagesOverride ?? 1;
@@ -178,7 +178,7 @@ namespace ServiceDirectory.Common.Pagination
                     serviceUrl += "&";
                 }
 
-                WebServiceResponse serviceList = await WebServiceReader.ConvertToDynamic(serviceUrl + "page=" + pageNo);
+                WebServiceResponse serviceList = await webServiceReader.ConvertToDynamic(serviceUrl + "page=" + pageNo);
 
                 try
                 {

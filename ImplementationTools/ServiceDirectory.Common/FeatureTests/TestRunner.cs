@@ -5,7 +5,7 @@ namespace ServiceDirectory.Common.FeatureTests
 {
     internal class TestRunner
     {
-        internal async static System.Threading.Tasks.Task<bool> HasPassed(string apiBaseUrl, IFeatureTest test)
+        internal async static System.Threading.Tasks.Task<bool> HasPassed(string apiBaseUrl, IFeatureTest test, WebServiceReader webServiceReader)
         {
             bool result = false;
             Paginator paginator = new Paginator();
@@ -26,7 +26,7 @@ namespace ServiceDirectory.Common.FeatureTests
                         }
                     }
                     return true;
-                }, test.Parameters);
+                }, webServiceReader, test.Parameters);
             }
             catch
             {

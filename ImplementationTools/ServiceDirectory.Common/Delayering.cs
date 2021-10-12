@@ -9,14 +9,17 @@ namespace ServiceDirectory.Common
 {
     public class Delayering
     {
-        public static async Task<DelayeredResult> DelayerPaginatedData(string apiBaseUrl)
+        public static async Task<DelayeredResult> DelayerPaginatedData(string apiBaseUrl, APIValidatorSettings settings = null)
         {
+            settings = settings ?? new APIValidatorSettings();
+
             ResourceReader resourceReader = new ResourceReader();
+            WebServiceReader webServiceReader = new WebServiceReader(settings);
             List<string> resourceNames = await resourceReader.GetResourceNames().ConfigureAwait(false);
             Dictionary<string, Dictionary<string, dynamic>> objectCollection = new Dictionary<string, Dictionary<string, dynamic>>();
 
             Paginator paginator = new Paginator();
-            PaginationResults paginationResults = await paginator.GetAllServices(apiBaseUrl, string.Empty).ConfigureAwait(false);
+            PaginationResults paginationResults = await paginator.GetAllServices(apiBaseUrl, string.Empty, webServiceReader).ConfigureAwait(false);
 
             foreach (dynamic s in paginationResults.Items)
             {

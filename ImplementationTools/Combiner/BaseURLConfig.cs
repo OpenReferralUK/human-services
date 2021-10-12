@@ -23,6 +23,12 @@ namespace Combiner
         {
             get { return Convert.ToInt32(this["id"]); }
         }
+
+        [ConfigurationProperty("requestrate", IsKey = false, IsRequired = true)]
+        public int RequestRate
+        {
+            get { return Convert.ToInt32(this["requestrate"]); }
+        }
     }
 
     public class BaseURLElementCollection : ConfigurationElementCollection

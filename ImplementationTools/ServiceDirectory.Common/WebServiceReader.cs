@@ -8,26 +8,28 @@ using System.Threading.Tasks;
 
 namespace ServiceDirectory.Common
 {
-    internal class WebServiceReader
+    public class WebServiceReader
     {
-        private static DateTime lastReset;
-        private static int callCount;
+        private DateTime lastReset;
+        private int callCount;
         private static HttpClient client;
-        private static SemaphoreSlim locker = new SemaphoreSlim(1,1);
+        private SemaphoreSlim locker = new SemaphoreSlim(1,1);
+        private readonly APIValidatorSettings settings;
 
-        static WebServiceReader()
+        public WebServiceReader(APIValidatorSettings settings)
         {
             Reset();
             client = new HttpClient();
+            this.settings = settings;
         }
 
-        private static void Reset()
+        private void Reset()
         {
             lastReset = DateTime.Now.AddMinutes(1);
             callCount = 0;
         }
 
-        internal static async System.Threading.Tasks.Task<WebServiceResponse> ConvertToDynamic(string url, int attempt = 0)
+        internal async System.Threading.Tasks.Task<WebServiceResponse> ConvertToDynamic(string url, int attempt = 0)
         {
             try
             {
@@ -38,15 +40,16 @@ namespace ServiceDirectory.Common
                     if ((lastReset - DateTime.Now).TotalSeconds <= 0)
                     {
                         Reset();
-                    }
-                    callCount++;
+                    }                    
 
-                    if (callCount >= 100)
+                    if (callCount >= settings.RequestRate)
                     {
                         int timeout = Convert.ToInt32((lastReset - DateTime.Now).TotalMilliseconds);
                         await Task.Delay(timeout);
                         Reset();
                     }
+
+                    callCount++;
                 }
                 finally
                 {

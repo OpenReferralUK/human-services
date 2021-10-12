@@ -6,7 +6,6 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Threading.Tasks;
-using System.Collections.Concurrent;
 using System.Threading;
 
 namespace Combiner
@@ -26,6 +25,8 @@ namespace Combiner
             List<BaseURLElement> baseUrls = (from object value in section.Values
                                 select ((BaseURLElement)value))
                                 .ToList();
+
+            ClearRedundantEndpoints(baseUrls);
 
             ResourceReader resourceReader = new ResourceReader(); 
             dynamic resources = resourceReader.GetResources().GetAwaiter().GetResult();
@@ -67,7 +68,7 @@ namespace Combiner
                 }
 
                 Dictionary<string, Dictionary<string, string>> keyReWrite = new Dictionary<string, Dictionary<string, string>>();
-                DelayeredResult delayeredResult = Delayering.DelayerPaginatedData(baseUrl.URL).GetAwaiter().GetResult();
+                DelayeredResult delayeredResult = Delayering.DelayerPaginatedData(baseUrl.URL, new APIValidatorSettings() { RequestRate = baseUrl.RequestRate }).GetAwaiter().GetResult();
 
                 if (!HasUpdated(delayeredResult, hashDatabase.Get(baseUrl.URL)))
                 {
@@ -152,7 +153,7 @@ namespace Combiner
                     }
                 }
 
-                using (MySqlConnection conn = new MySqlConnection("Server=informplus-beta.rds.esd.org.uk;Port=3306;Database=ServiceDirectoryCombined;Uid=awsuserbeta;Pwd=pQr1$m"))
+                using (MySqlConnection conn = new MySqlConnection(ConfigurationManager.AppSettings["ConnectionString"]))
                 {
                     conn.Open();                    
 
@@ -160,7 +161,7 @@ namespace Combiner
                     {
                         RunSQL("SET FOREIGN_KEY_CHECKS=0;", conn);
                         
-                        ClearDatabase(conn, baseUrl.ID);
+                        ClearDatabase(conn, baseUrl);
 
                         List<string> commands = new List<string>();
                         foreach (Row row in rows)
@@ -249,6 +250,10 @@ namespace Combiner
             }
             using (MySqlCommand mysqlCommand = new MySqlCommand(sql, conn))
             {
+                if (conn.State != System.Data.ConnectionState.Open)
+                {
+                    conn.Open();
+                }
                 mysqlCommand.ExecuteNonQuery();
             }
         }
@@ -302,10 +307,68 @@ namespace Combiner
             return false;
         }
 
-        private static void ClearDatabase(MySqlConnection conn, int apiId)
+        private static void ClearRedundantEndpoints(List<BaseURLElement> baseUrls)
         {
+            List<int> currentIds = new List<int>();
+            foreach(BaseURLElement baseURLElement in baseUrls)
+            {
+                currentIds.Add(baseURLElement.ID);
+            }
+
+            Console.WriteLine("Clearing redundant records...");
+
+            using (MySqlConnection conn = new MySqlConnection(ConfigurationManager.AppSettings["ConnectionString"]))
+            {
+                conn.Open();
+                try
+                {
+                    RunSQL("SET FOREIGN_KEY_CHECKS=0;", conn);
+
+                    Queue<string> tableNames = new Queue<string>();
+                    using (MySqlCommand command = new MySqlCommand("show tables", conn))
+                    {
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                string table = reader.GetString(0);
+                                if (table.StartsWith("esd_"))
+                                {
+                                    continue;
+                                }
+                                tableNames.Enqueue(table);
+                            }
+                        }
+                    }
+                    while (tableNames.Count > 0)
+                    {
+                        string table = tableNames.Dequeue();
+                        try
+                        {
+                            using (MySqlCommand command = new MySqlCommand(string.Format("DELETE FROM `{0}` WHERE api_id NOT IN ({1});", table, string.Join(",", currentIds)), conn))
+                            {
+                                command.ExecuteNonQuery();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            tableNames.Enqueue(table);
+                        }
+                    }
+                }
+                finally
+                {
+                    RunSQL("SET FOREIGN_KEY_CHECKS=1;", conn);
+                }
+            }
+        }
+
+        private static void ClearDatabase(MySqlConnection conn, BaseURLElement baseUrl)
+        {
+            Console.WriteLine("Clearing records for: " + baseUrl.URL);
+
             Queue<string> tableNames = new Queue<string>();
-            using (MySqlCommand command = new MySqlCommand("show tables from ServiceDirectoryCombined", conn))
+            using (MySqlCommand command = new MySqlCommand("show tables", conn))
             {
                 using (MySqlDataReader reader = command.ExecuteReader())
                 {
@@ -325,7 +388,7 @@ namespace Combiner
                 string table = tableNames.Dequeue();
                 try
                 {
-                    using (MySqlCommand command = new MySqlCommand(string.Format("DELETE FROM `{0}` WHERE api_id={1};", table, apiId), conn))
+                    using (MySqlCommand command = new MySqlCommand(string.Format("DELETE FROM `{0}` WHERE api_id={1};", table, baseUrl.ID), conn))
                     {
                         command.ExecuteNonQuery();
                     }

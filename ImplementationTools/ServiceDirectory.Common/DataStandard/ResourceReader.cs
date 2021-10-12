@@ -7,6 +7,13 @@ namespace ServiceDirectory.Common.DataStandard
     {
         private const string ExtendedDataPackage = "https://raw.githubusercontent.com/esd-org-uk/human-services/master/SchemaGenerator/Generator/ExtendedDataPackage.json";
         private dynamic json;
+        private WebServiceReader webServiceReader;
+
+        public ResourceReader()
+        {
+            webServiceReader = new WebServiceReader(new APIValidatorSettings());
+        }
+
         public async System.Threading.Tasks.Task<dynamic> GetResources()
         {
             dynamic json = await GetResourceJSON().ConfigureAwait(false);
@@ -34,7 +41,7 @@ namespace ServiceDirectory.Common.DataStandard
             {
                 if (json == null)
                 {
-                    WebServiceResponse response = await WebServiceReader.ConvertToDynamic(ExtendedDataPackage).ConfigureAwait(false);
+                    WebServiceResponse response = await webServiceReader.ConvertToDynamic(ExtendedDataPackage).ConfigureAwait(false);
                     if (response != null)
                     {
                         json = response.Data;
