@@ -26,30 +26,34 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>	
+            <version>2.1.2.RELEASE</version>
         </dependency>
 
         <!-- thymeleaf -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <version>2.1.2.RELEASE</version>
         </dependency>   
         
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
+            <version>2.1.2.RELEASE</version>
             <scope>provided</scope>
         </dependency>     
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
+                        <version>2.1.2.RELEASE</version>
 			<optional>true</optional>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>5.4.1.Final</version>
+			<version>5.4.2.Final</version>
 		</dependency>
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
@@ -75,6 +79,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>2.1.2.RELEASE</version>
         </dependency>	
 		<dependency>
 			<groupId>mysql</groupId>
@@ -109,6 +114,7 @@
            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+				<version>2.1.2.RELEASE</version>
                 <configuration>
                     <addResources>true</addResources>
                 </configuration>                
@@ -121,6 +127,14 @@
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
+			</plugin>
+			<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>				
 			</plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -18,6 +18,13 @@
 		<copy file="src/main/webapp/META-INF/context.demo.xml" tofile="src/main/webapp/META-INF/context.xml"></copy>		
 	</target>
 	
+	<target name="combined-build" description="Combined Build" depends="clean, compile">
+		<delete file="src/main/resources/application.properties"/>
+		<copy file="src/main/resources/application.combined.properties" tofile="src/main/resources/application.properties"></copy>
+		<delete file="src/main/webapp/META-INF/context.xml"/>
+		<copy file="src/main/webapp/META-INF/context.combined.xml" tofile="src/main/webapp/META-INF/context.xml"></copy>		
+	</target>
+	
 	<target name="main-build" description="Main Build" depends="clean, compile">
 		<delete file="src/main/resources/application.properties"/>
 		<copy file="src/main/resources/application.main.properties" tofile="src/main/resources/application.properties"></copy>
@@ -65,6 +72,20 @@
 		<copy file="src/main/resources/application.blackburn.properties" tofile="src/main/resources/application.properties"></copy>
 		<delete file="src/main/webapp/META-INF/context.xml"/>
 		<copy file="src/main/webapp/META-INF/context.blackburn.xml" tofile="src/main/webapp/META-INF/context.xml"></copy>		
+	</target>
+
+	<target name="cqc-build" description="Build for CQC" depends="clean, compile">
+		<delete file="src/main/resources/application.properties"/>
+		<copy file="src/main/resources/application.cqc.properties" tofile="src/main/resources/application.properties"></copy>
+		<delete file="src/main/webapp/META-INF/context.xml"/>
+		<copy file="src/main/webapp/META-INF/context.cqc.xml" tofile="src/main/webapp/META-INF/context.xml"></copy>		
+	</target>
+	
+	<target name="open-active-aggregated-build" description="Build for Aggregated OpenActive" depends="clean, compile">
+		<delete file="src/main/resources/application.properties"/>
+		<copy file="src/main/resources/application.openactiveaggregated.properties" tofile="src/main/resources/application.properties"></copy>
+		<delete file="src/main/webapp/META-INF/context.xml"/>
+		<copy file="src/main/webapp/META-INF/context.cqc.xml" tofile="src/main/webapp/META-INF/context.xml"></copy>		
 	</target>	
 	
 
