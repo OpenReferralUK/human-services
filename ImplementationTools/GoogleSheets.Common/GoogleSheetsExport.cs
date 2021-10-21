@@ -71,10 +71,10 @@ namespace GoogleSheets.Common
                 //move text to config
                 await AddUpdateMessage(spreadsheetId, "Please wait while your export is generated, once completed this sheet will be deleted.", service).ConfigureAwait(false);
 
-                Dictionary<string, Dictionary<string, dynamic>> objectCollection = await Delayering.DelayerPaginatedData(apiBaseUrl).ConfigureAwait(false);
+                DelayeredResult result = await Delayering.DelayerPaginatedData(apiBaseUrl).ConfigureAwait(false);
 
 
-                if (objectCollection.Count == 0)
+                if (result.Collection.Count == 0)
                 {
 
                     await AddUpdateMessage(spreadsheetId, "ERROR: service directory data not found at the given URL", service);
@@ -96,7 +96,7 @@ namespace GoogleSheets.Common
 
                     string sheetName = resource.name;
 
-                    if (!objectCollection.ContainsKey(sheetName))
+                    if (!result.Collection.ContainsKey(sheetName))
                     {
                         continue;
                     }
@@ -145,7 +145,7 @@ namespace GoogleSheets.Common
                             await InsertColumnNoteAsync(service, spreadsheetId, await GetSheetIdFromSheetNameAsync(service, spreadsheetId, sheetName).ConfigureAwait(false), columnNo, comment);
                         }
                         List<object> columnValues = new List<object>();
-                        foreach (dynamic obj in objectCollection[sheetName].Values)
+                        foreach (dynamic obj in result.Collection[sheetName].Values)
                         {
                             if (!((IDictionary<String, dynamic>)obj).ContainsKey(columnName))
                             {

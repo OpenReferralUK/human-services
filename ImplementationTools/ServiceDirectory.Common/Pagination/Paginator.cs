@@ -65,9 +65,9 @@ namespace ServiceDirectory.Common.Pagination
                             services.Add(s);
                         }
 
-                        Parallel.ForEach(services, async(s) =>
+                        Parallel.ForEach(services, (s) =>
                         {
-                            await ValidateService(apiBaseUrl, paginationResults, s, webServiceReader);
+                            ValidateService(apiBaseUrl, paginationResults, s, webServiceReader).GetAwaiter().GetResult();
                         });
                     }
                 }
