@@ -3,7 +3,10 @@ This Jolt example reduces [Open Referral extended data package](https://raw.gith
 This may not be the full solution. The transform is done by a  Java app. That app that does this can be found here: https://github.com/OpenReferralUK/human-services/tree/master/Jolt/Jolt
 
 ```` 
-java -jar Jolt.jar -i "https://raw.githubusercontent.com/OpenReferralUK/human-services/master/SchemaGenerator/Generator/ExtendedDataPackage.json" -o "output.json" -s "https://raw.githubusercontent.com/OpenReferralUK/human-services/master/Jolt/Jolt/src/main/resources/spec.json"
+java -jar Jolt.jar
+-i "https://raw.githubusercontent.com/OpenReferralUK/human-services/master/SchemaGenerator/Generator/ExtendedDataPackage.json"
+-o "output.json"
+-s "https://raw.githubusercontent.com/OpenReferralUK/human-services/master/Jolt/Jolt/src/main/resources/spec.json"
 ```` 
 
 The parameters of the Jolt app are as follows
