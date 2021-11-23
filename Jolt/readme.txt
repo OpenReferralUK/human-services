@@ -29,4 +29,4 @@ In this example we have the extended data package. That is then transformed by t
   }
 ]
 
-This copies in only the standard attributes and the organization, service and service_taxonomy tables to produce this output: [https://github.com/OpenReferralUK/human-services/blob/master/Jolt/Jolt/output.json]
+This copies in only the standard attributes and the organization, service and service_taxonomy tables to produce this output: https://github.com/OpenReferralUK/human-services/blob/master/Jolt/Jolt/output.json
