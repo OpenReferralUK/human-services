@@ -1,0 +1,23 @@
+[
+  {
+    "operation": "shift",
+    "spec": {
+      "@name":"name",
+      "@title":"title",
+      "@description":"description",
+      "@license":"license",
+      "@version":"version",
+      "@homepage":"homepage",
+      "resources": {
+        "*": {
+          "name": {
+            "organization": null,
+            "*": {
+              "@2": "fields[]"
+            }
+          }
+        }
+      }
+    }
+  }
+]
