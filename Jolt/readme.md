@@ -1,10 +1,16 @@
-In this Jolt example I have reducing the extended data package: https://github.com/OpenReferralUK/human-services/blob/master/Jolt/Jolt/src/main/resources/ExtendedDataPackage.json
+In this Jolt example I have reducing the extended data package: https://raw.githubusercontent.com/OpenReferralUK/human-services/master/SchemaGenerator/Generator/ExtendedDataPackage.json
 
-This version of the extended data package is embedded in the Jar file to allow the Jar file to easily read the file.
+This may not be the full solution. The transform is done by a  Java app. That app that does this can be found here: https://github.com/OpenReferralUK/human-services/tree/master/Jolt/Jolt
 
-Note that this is not the full solution. The Java app that does this can be found here: https://github.com/OpenReferralUK/human-services/tree/master/Jolt/Jolt
+java -jar Jolt.jar -i "https://raw.githubusercontent.com/OpenReferralUK/human-services/master/SchemaGenerator/Generator/ExtendedDataPackage.json" -o "output.json" -s "https://raw.githubusercontent.com/OpenReferralUK/human-services/master/Jolt/Jolt/src/main/resources/spec.json"
 
-To transform the extended data package a Jolt Spec has to be defined like so:
+The parameters of the Jolt app are as follows
+
+-i = the extended data package URL
+-s = the spec URL
+-o = the output URL
+
+A Jolt Spec can be defined like so. In this example spec copies in only the standard attributes and the organization, service and service_taxonomy tables to produce this output.
 
 ```` 
 [
@@ -36,7 +42,3 @@ To transform the extended data package a Jolt Spec has to be defined like so:
   }
 ]
 ````
-
-This spec copies in only the standard attributes and the organization, service and service_taxonomy tables to produce this output: https://github.com/OpenReferralUK/human-services/blob/master/Jolt/Jolt/output.json
-
-The spec, input and output file is specified in the Java close here: https://github.com/OpenReferralUK/human-services/blob/master/Jolt/Jolt/src/main/java/com/openreferral/jolt/Main.java
