@@ -11,8 +11,13 @@
       "resources": {
         "*": {
           "name": {
-            "organization": null,
-            "*": {
+            "organization": {
+              "@2": "fields[]"
+            },
+            "service": {
+              "@2": "fields[]"
+            },
+            "service_taxonomy": {
               "@2": "fields[]"
             }
           }
