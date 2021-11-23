@@ -1,4 +1,4 @@
-In this Jolt example I have reducing the extended data package: https://github.com/OpenReferralUK/human-services/blob/master/Jolt/Jolt/src/main/resources/ExtendedDataPackage.json
+This Jolt example reduces [Open Referral extended data package](https://github.com/OpenReferralUK/human-services/blob/master/Jolt/Jolt/src/main/resources/ExtendedDataPackage.json) to a simpler version with just three main tables.
 
 This version of the extended data package is embedded in the Jar file to allow the Jar file to easily read the file.
 
