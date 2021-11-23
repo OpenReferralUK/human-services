@@ -6,6 +6,8 @@ Note that this is not the full solution. The Java app that does this can be foun
 
 To transform the extended data package a Jolt Spec has to be defined like so:
 
+```` 
+```
 [
   {
     "operation": "shift",
@@ -34,6 +36,8 @@ To transform the extended data package a Jolt Spec has to be defined like so:
     }
   }
 ]
+```
+````
 
 This spec copies in only the standard attributes and the organization, service and service_taxonomy tables to produce this output: https://github.com/OpenReferralUK/human-services/blob/master/Jolt/Jolt/output.json
 
