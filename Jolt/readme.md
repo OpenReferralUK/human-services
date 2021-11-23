@@ -6,9 +6,9 @@ java -jar Jolt.jar -i "https://raw.githubusercontent.com/OpenReferralUK/human-se
 
 The parameters of the Jolt app are as follows
 
--i = the extended data package URL
--s = the spec URL
--o = the output URL
+ - i = the extended data package URL
+ - s = the spec URL
+ - o = the output URL
 
 A Jolt Spec can be defined like so. In this example spec copies in only the standard attributes and the organization, service and service_taxonomy tables to produce this output.
 
