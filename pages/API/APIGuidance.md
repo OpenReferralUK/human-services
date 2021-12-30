@@ -52,6 +52,12 @@ For transfer of data between directories, a fuller range of web methods is neede
 
 API GET web method responses conform to JavaScript Object Notation (JSON) schemas. The JSON schemas are derived automatically from the Open Referral UK tabular data structure, as defined in this [tabular data package](https://raw.githubusercontent.com/esd-org-uk/human-services/master/SchemaGenerator/Generator/ExtendedDataPackage.json).
 
+### Security
+To make this API as widely used as possible across platforms, especially simple HTML/JavaScript apps, implement the following Cross-Origin Resource Sharing (CORS)
+header on all HTTP responses.
+
+Access-Control-Allow-Origin: *
+
 ### Simple and verbose responses
 
 *Simple* schemas define the properties of a class (eg a service) and any other class associated via a many-to-one relationship (eg the organization delivering a service).
