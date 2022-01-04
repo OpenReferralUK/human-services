@@ -96,7 +96,7 @@ namespace ServiceDirectory.Common.Results
 
         public void AddResourceCount(Resource resource)
         {
-            ResourceCounts.Add(new Results.ResourceCount(resource.Name, resource.Count));
+            ResourceCounts.Add(new Results.ResourceCount(resource));
         }
 
         public override string ToString()
