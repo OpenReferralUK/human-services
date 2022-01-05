@@ -58,7 +58,7 @@ The remaining "should have", "could have" and "won't have" recommendations are s
 {% endcomment %}
 ## Data structure
 
-The OpenCommunity standard is defined [here in JSON format](https://raw.githubusercontent.com/esd-org-uk/human-services/master/SchemaGenerator/Generator/ExtendedDataPackage.json) compliant with the [Open Knowledge Foundation's tabular data package format](https://raw.githubusercontent.com/openreferral/specification/master/datapackage.json){:target="_blank"}.
+The Open Referral UK standard is defined [here in JSON format](https://raw.githubusercontent.com/esd-org-uk/human-services/master/SchemaGenerator/Generator/ExtendedDataPackage.json) compliant with the [Open Knowledge Foundation's tabular data package format](https://raw.githubusercontent.com/openreferral/specification/master/datapackage.json){:target="_blank"}.
 
 It comprises:
 
