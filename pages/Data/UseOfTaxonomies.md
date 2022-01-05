@@ -3,7 +3,7 @@ layout: default
 title: Use of Taxonomies
 permalink: /UseOfTaxonomies/
 ---
-# Use of Taxonomies with OpenCommunity services data
+# Use of Taxonomies with Open Referral UK services data
 {:.no_toc}
 * TOC 
 {:toc}  
@@ -105,7 +105,7 @@ The LGA's electronic service delivery list of service types has
 
 -   Sample taxonomy term identifier: esdServiceType:242 (for "Care at home")
 
-OpenCommunity will establish a register of CURIEs that have a common meaning across community members. Where a CURIE references a taxonomy with a formal URI, the register will give the taxonomy's URI and the URI prefix for individual taxonomy terms.
+Open Referral UK will establish a register of CURIEs that have a common meaning across community members. Where a CURIE references a taxonomy with a formal URI, the register will give the taxonomy's URI and the URI prefix for individual taxonomy terms.
 
 ### CURIEs to use
 
