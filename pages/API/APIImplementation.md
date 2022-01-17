@@ -8,7 +8,7 @@ permalink: /API-Implementation/
 {:.no_toc}
 * TOC 
 {:toc}
-This page provides programmer note on implementing the Open Referral UK Application Programming Interface (API).
+This page provides programmer notes on implementing the Open Referral UK Application Programming Interface (API).
 
 ## Security
 To make this API as widely used as possible across platforms, especially simple HTML/JavaScript apps, we recommend that you implement the following header on all HTTP responses.
@@ -85,7 +85,7 @@ Postcode and coverage parameters should be normalised to ignore spaces.
 ### Age Search
 An age search uses the *minimum_age* and/or *maximum_age* parameters to find services that are suitable for the specified age range. Note that both parameters are not required. The minimum_age parameter will search for services that have a minimum age equal to or more than the specified age. While the maximum_age parameter will search for services that have a maximum age equal to or less than the specified age.
 
-IS THIS CORRECT OR SHOULD WE JUST LOOK FO SERVICES SUITABLE FOR A GIVEN AGE?
+This approach is subject to review followiing feedback on its usefulness compared with a chack on a single given age.
 
 #### Example age searches
 
