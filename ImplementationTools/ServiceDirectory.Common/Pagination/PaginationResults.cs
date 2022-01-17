@@ -17,6 +17,8 @@ namespace ServiceDirectory.Common.Pagination
             set;
         }
 
+        public bool HasAllowOrigin { get; set; }
+
         public HashSet<int> Hashes { get; set; }
 
         public ConcurrentBag<string> MissingDetailIDs

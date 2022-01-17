@@ -4,15 +4,17 @@ namespace ServiceDirectory.Common
 {
     public class WebServiceResponse
     {
-        public WebServiceResponse(byte[] result)
+        public WebServiceResponse(byte[] result, bool allowOrigin)
         {
             string s = Encoding.UTF8.GetString(result);
             Data = Newtonsoft.Json.JsonConvert.DeserializeObject(s);
             HashCode = GetDeterministicHashCode(s);
+            HasAllowOrigin = allowOrigin;
         }
 
-        public dynamic Data { get; }
-        public int HashCode { get; }
+        public dynamic Data { get; private set; }
+        public int HashCode { get; private set; }
+        public bool HasAllowOrigin { get; private set; }
 
         static int GetDeterministicHashCode(string str)
         {

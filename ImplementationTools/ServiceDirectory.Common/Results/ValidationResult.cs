@@ -33,6 +33,7 @@ namespace ServiceDirectory.Common.Results
         public List<string> InvalidValues { get; set; }
         public List<string> ApiIssuesLevel1 { get; set; }
         public List<string> ApiIssuesLevel2 { get; set; }
+        public List<string> Warnings { get; set; }
         public string RandomServiceIdentifier { get; set; }
         public IEnumerable<string> ApiIssues
         {
@@ -60,6 +61,7 @@ namespace ServiceDirectory.Common.Results
             InvalidDataTypes = new List<string>();
             InvalidValues = new List<string>();
             ResourceCounts = new List<ResourceCount>();
+            Warnings = new List<string>();
         }
 
         public Exception GetException()

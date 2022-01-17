@@ -48,6 +48,11 @@ namespace ServiceDirectory.Common
                     result.HasPagination = false;
                 }
 
+                if (!paginationResults.HasAllowOrigin)
+                {
+                    result.Warnings.Add("The 'Access-Control-Allow-Origin: *' response header is missing this limits how the API can be read.");
+                }
+
                 result.HasDetailPage = (paginationResults.MissingDetailIDs.Count != paginationResults.Items.Count || paginationResults.Items.Count == 0);
                 result.MissingPaginationMetaData = paginationResults.MissingPaginationMetaData;
                 result.HasInvalidTotalPages = paginationResults.HasInvalidTotalPages;

@@ -133,6 +133,7 @@ namespace ServiceDirectory.Common.Pagination
                 if (result != null)
                 {
                     obj = result.Data;
+                    paginationResults.HasAllowOrigin = result.HasAllowOrigin;
                 }
 
                 if (obj == null)

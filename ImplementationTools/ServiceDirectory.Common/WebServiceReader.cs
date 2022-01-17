@@ -67,8 +67,20 @@ namespace ServiceDirectory.Common
                     }
                     return null;
                 }
+                IEnumerable<string> values;
+                bool hasAllowOrigin = false;
+                if (response.Headers.TryGetValues("Access-Control-Allow-Origin", out values))
+                {
+                    foreach(string value in values)
+                    {
+                        if (value == "*")
+                        {
+                            hasAllowOrigin = true;
+                        }
+                    }
+                }
                 byte[] result = await response.Content.ReadAsByteArrayAsync();
-                return new WebServiceResponse(result);
+                return new WebServiceResponse(result, hasAllowOrigin);
             }
             catch(Exception e)
             {

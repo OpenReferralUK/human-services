@@ -144,6 +144,7 @@
                         outputArray("Invalid data type fields", "typeFields", response.invalidDataTypes);
                         outputArray("Invalid format fields", "formatFields", response.invalidFormats);
                         outputArray("Invalid values", "invalidValues", response.invalidValues);
+                        outputArray("Warnings", "warnings", response.warnings);
                         $('#divStats').html("<ul class='list-unstyled' id='resourceStats'></ul>");
                         var resourceStats = $("#resourceStats");
                         $.each(response.resourceCounts, function (i, item) {
