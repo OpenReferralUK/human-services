@@ -61,6 +61,42 @@
                               "name":{
                                  "id":{
                                     "@2":"service.schema.fields[]"
+                                 },
+								 "organization_id":{
+                                    "@2":"service.schema.fields[]"
+                                 },
+								 "name":{
+                                    "@2":"service.schema.fields[]"
+                                 },
+								 "description":{
+                                    "@2":"service.schema.fields[]"
+                                 },
+								 "url":{
+                                    "@2":"service.schema.fields[]"
+                                 },
+								 "email":{
+                                    "@2":"service.schema.fields[]"
+                                 },
+								 "status":{
+                                    "@2":"service.schema.fields[]"
+                                 },
+								 "fees":{
+                                    "@2":"service.schema.fields[]"
+                                 },
+								 "accreditations":{
+                                    "@2":"service.schema.fields[]"
+                                 },
+								 "deliverable_type":{
+                                    "@2":"service.schema.fields[]"
+                                 },
+								 "assured_date":{
+                                    "@2":"service.schema.fields[]"
+                                 },
+								 "attending_type":{
+                                    "@2":"service.schema.fields[]"
+                                 },
+								 "attending_access":{
+                                    "@2":"service.schema.fields[]"
                                  }
                               }
                            }
