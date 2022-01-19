@@ -11,10 +11,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import static java.lang.System.out;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import java.util.List;
 import org.apache.commons.io.FileUtils;
@@ -42,7 +44,7 @@ public class Main {
         output.setRequired(true);
         options.addOption(output);
 
-        Option spec = new Option("s", SPEC, true, "spec");
+        Option spec = new Option("s", SPEC, true, "openref");
         spec.setRequired(true);
         options.addOption(spec);
 
@@ -71,6 +73,12 @@ public class Main {
     
     private static InputStream readURL(String url) throws IOException
     {
-        return new URL(url).openStream ();
+        try
+        {
+            return new URL(url).openStream ();
+        }
+        catch(MalformedURLException e){
+            return Files.newInputStream(Paths.get(url) );
+        }
     }
 }
