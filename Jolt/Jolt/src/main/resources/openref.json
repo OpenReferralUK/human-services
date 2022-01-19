@@ -14,33 +14,33 @@
                   "@(1,name)":{
                      "organization":{
                         "@(3,name)":"organization.name",
-						"@(3,path)":"organization.path",
-						"@(3,description)":"organization.description",
-						"@(3,format)":"organization.format",
-						"@(3,source)":"organization.source",
-						"@(3,mediatype)":"organization.mediatype",
+                        "@(3,path)":"organization.path",
+                        "@(3,description)":"organization.description",
+                        "@(3,format)":"organization.format",
+                        "@(3,source)":"organization.source",
+                        "@(3,mediatype)":"organization.mediatype",
                         "@(2,fields)":{
                            "*":{
                               "name":{
                                  "id":{
                                     "@2":"organization.schema.fields[]"
                                  },
-								 "name":{
+                                 "name":{
                                     "@2":"organization.schema.fields[]"
                                  },
-								 "description":{
+                                 "description":{
                                     "@2":"organization.schema.fields[]"
                                  },
-								 "email":{
+                                 "email":{
                                     "@2":"organization.schema.fields[]"
                                  },
-								 "url":{
+                                 "url":{
                                     "@2":"organization.schema.fields[]"
                                  },
-								 "logo":{
+                                 "logo":{
                                     "@2":"organization.schema.fields[]"
                                  },
-								 "uri":{
+                                 "uri":{
                                     "@2":"organization.schema.fields[]"
                                  }
                               }
@@ -51,51 +51,51 @@
                      },
                      "service":{
                         "@(3,name)":"service.name",
-						"@(3,path)":"service.path",
-						"@(3,description)":"service.description",
-						"@(3,format)":"service.format",
-						"@(3,source)":"service.source",
-						"@(3,mediatype)":"service.mediatype",
+                        "@(3,path)":"service.path",
+                        "@(3,description)":"service.description",
+                        "@(3,format)":"service.format",
+                        "@(3,source)":"service.source",
+                        "@(3,mediatype)":"service.mediatype",
                         "@(2,fields)":{
                            "*":{
                               "name":{
                                  "id":{
                                     "@2":"service.schema.fields[]"
                                  },
-								 "organization_id":{
+                                 "organization_id":{
                                     "@2":"service.schema.fields[]"
                                  },
-								 "name":{
+                                 "name":{
                                     "@2":"service.schema.fields[]"
                                  },
-								 "description":{
+                                 "description":{
                                     "@2":"service.schema.fields[]"
                                  },
-								 "url":{
+                                 "url":{
                                     "@2":"service.schema.fields[]"
                                  },
-								 "email":{
+                                 "email":{
                                     "@2":"service.schema.fields[]"
                                  },
-								 "status":{
+                                 "status":{
                                     "@2":"service.schema.fields[]"
                                  },
-								 "fees":{
+                                 "fees":{
                                     "@2":"service.schema.fields[]"
                                  },
-								 "accreditations":{
+                                 "accreditations":{
                                     "@2":"service.schema.fields[]"
                                  },
-								 "deliverable_type":{
+                                 "deliverable_type":{
                                     "@2":"service.schema.fields[]"
                                  },
-								 "assured_date":{
+                                 "assured_date":{
                                     "@2":"service.schema.fields[]"
                                  },
-								 "attending_type":{
+                                 "attending_type":{
                                     "@2":"service.schema.fields[]"
                                  },
-								 "attending_access":{
+                                 "attending_access":{
                                     "@2":"service.schema.fields[]"
                                  }
                               }
@@ -103,6 +103,158 @@
                         },
                         "@(2,primaryKey)":"service.schema.primaryKey",
                         "@(2,foreignKeys)":"service.schema.foreignKeys"
+                     },
+                     "service_taxonomy":{
+                        "@(3,name)":"service_taxonomy.name",
+                        "@(3,path)":"service_taxonomy.path",
+                        "@(3,description)":"service_taxonomy.description",
+                        "@(3,format)":"service_taxonomy.format",
+                        "@(3,source)":"service_taxonomy.source",
+                        "@(3,mediatype)":"service_taxonomy.mediatype",
+                        "@(2,fields)":{
+                           "*":{
+                              "name":{
+                                 "id":{
+                                    "@2":"service_taxonomy.schema.fields[]"
+                                 },
+                                 "service_id":{
+                                    "@2":"service_taxonomy.schema.fields[]"
+                                 },
+                                 "taxonomy_id":{
+                                    "@2":"service_taxonomy.schema.fields[]"
+                                 }
+                              }
+                           }
+                        },
+                        "@(2,primaryKey)":"service_taxonomy.schema.primaryKey",
+                        "@(2,foreignKeys)":"service_taxonomy.schema.foreignKeys"
+                     },
+                     "service_at_location":{
+                        "@(3,name)":"service_at_location.name",
+                        "@(3,path)":"service_at_location.path",
+                        "@(3,description)":"service_at_location.description",
+                        "@(3,format)":"service_at_location.format",
+                        "@(3,source)":"service_at_location.source",
+                        "@(3,mediatype)":"service_at_location.mediatype",
+                        "@(2,fields)":{
+                           "*":{
+                              "name":{
+                                 "id":{
+                                    "@2":"service_at_location.schema.fields[]"
+                                 },
+                                 "service_id":{
+                                    "@2":"service_at_location.schema.fields[]"
+                                 },
+                                 "location_id":{
+                                    "@2":"service_at_location.schema.fields[]"
+                                 }
+                              }
+                           }
+                        },
+                        "@(2,primaryKey)":"service_at_location.schema.primaryKey",
+                        "@(2,foreignKeys)":"service_at_location.schema.foreignKeys"
+                     },
+                     "location":{
+                        "@(3,name)":"location.id",
+                        "@(3,path)":"location.path",
+                        "@(3,description)":"location.description",
+                        "@(3,format)":"location.format",
+                        "@(3,source)":"location.source",
+                        "@(3,mediatype)":"location.mediatype",
+                        "@(2,fields)":{
+                           "*":{
+                              "name":{
+                                 "id":{
+                                    "@2":"location.schema.fields[]"
+                                 },
+                                 "name":{
+                                    "@2":"location.schema.fields[]"
+                                 },
+                                 "description":{
+                                    "@2":"location.schema.fields[]"
+                                 },
+                                 "latitude":{
+                                    "@2":"location.schema.fields[]"
+                                 },
+                                 "longitude":{
+                                    "@2":"location.schema.fields[]"
+                                 }
+                              }
+                           }
+                        },
+                        "@(2,primaryKey)":"location.schema.primaryKey",
+                        "@(2,foreignKeys)":"location.schema.foreignKeys"
+                     },
+                     "phone":{
+                        "@(3,name)":"phone.id",
+                        "@(3,path)":"phone.path",
+                        "@(3,description)":"phone.description",
+                        "@(3,format)":"phone.format",
+                        "@(3,source)":"phone.source",
+                        "@(3,mediatype)":"phone.mediatype",
+                        "@(2,fields)":{
+                           "*":{
+                              "name":{
+                                 "id":{
+                                    "@2":"location.schema.fields[]"
+                                 },
+                                 "contact_id":{
+                                    "@2":"location.schema.fields[]"
+                                 },
+                                 "number":{
+                                    "@2":"location.schema.fields[]"
+                                 },
+                                 "language":{
+                                    "@2":"location.schema.fields[]"
+                                 }
+                              }
+                           }
+                        },
+                        "@(2,primaryKey)":"location.schema.primaryKey",
+                        "@(2,foreignKeys)":"location.schema.foreignKeys"
+                     },                     
+                     "review":{
+                        "@(3,name)":"review.name",
+                        "@(3,path)":"review.path",
+                        "@(3,description)":"review.description",
+                        "@(3,format)":"review.format",
+                        "@(3,source)":"review.source",
+                        "@(3,mediatype)":"review.mediatype",
+                        "@(2,fields)":{
+                           "*":{
+                              "name":{
+                                 "id":{
+                                    "@2":"review.schema.fields[]"
+                                 },
+                                 "service_id":{
+                                    "@2":"review.schema.fields[]"
+                                 },
+                                 "reviewer_organization_id":{
+                                    "@2":"review.schema.fields[]"
+                                 },
+                                 "title":{
+                                    "@2":"review.schema.fields[]"
+                                 },
+                                 "description":{
+                                    "@2":"review.schema.fields[]"
+                                 },
+                                 "date":{
+                                    "@2":"review.schema.fields[]"
+                                 },
+                                 "score":{
+                                    "@2":"review.schema.fields[]"
+                                 },
+                                 "url":{
+                                    "@2":"review.schema.fields[]"
+                                 },
+                                 "widget":{
+                                    "@2":"review.schema.fields[]"
+                                 }
+                              }
+                           }
+                        },
+                        "@(2,primaryKey)":"review.schema.primaryKey",
+                        "@(2,foreignKeys)":"review.schema.foreignKeys"
                      }
                   }
                }
@@ -112,14 +264,32 @@
    },
    {
       "operation":"shift",
-      "spec":{	  
+      "spec":{
          "organization":{
             "@(1,organization)":"resources[]"
          },
          "service":{
             "@(1,service)":"resources[]"
          },
-		 "*":"&"
+         "service_taxonomy":{
+            "@(1,service_taxonomy)":"resources[]"
+         },
+         "service_at_location":{
+            "@(1,service_at_location)":"resources[]"
+         }, 
+         "location":{
+            "@(1,location)":"resources[]"
+         },
+         "phone":{
+            "@(1,phone)":"resources[]"
+         },
+	 "language":{
+            "@(1,language)":"resources[]"
+         },
+         "review":{
+            "@(1,review)":"resources[]"
+         },		 
+         "*":"&"
       }
    }
 ]
