@@ -1,4 +1,33 @@
 [
+/*REMOVE ALL DESCRIPTION FIELDS */
+  {
+  "operation":"remove",
+	  "spec":{  
+	   "resources":{
+            "*":{
+               "schema":{
+					"fields":{
+						"*":{
+							"description":""
+							}
+					}
+				}
+			}
+		},		
+		"description":""
+	  }
+  },
+   {
+  "operation":"remove",
+	  "spec":{  
+		"resources":{
+            "*":{
+				"description":""
+			}
+		}
+	  }
+  }, 
+  /*END DESCRIPTION FIELD REMOVAL */
    {
       "operation":"shift",
       "spec":{
