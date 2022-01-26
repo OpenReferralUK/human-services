@@ -1,5 +1,5 @@
 [
-/*REMOVE ALL DESCRIPTION FIELDS */
+/*REMOVE ALL SOURCE FIELDS */
   {
   "operation":"remove",
 	  "spec":{  
@@ -8,13 +8,13 @@
                "schema":{
 					"fields":{
 						"*":{
-							"description":""
+							"source":""
 							}
 					}
 				}
 			}
 		},		
-		"description":""
+		"source":""
 	  }
   },
    {
@@ -22,12 +22,12 @@
 	  "spec":{  
 		"resources":{
             "*":{
-				"description":""
+				"source":""
 			}
 		}
 	  }
   }, 
-  /*END DESCRIPTION FIELD REMOVAL */
+  /*END SOURCE FIELD REMOVAL */
    {
       "operation":"shift",
       "spec":{

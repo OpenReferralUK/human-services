@@ -1,6 +1,7 @@
 {
    "name":"human_services_data",
    "title":"Open Referral UK Application Profile for Human Services Data",
+   "description":"A specification of the Open Referral standard for Human Services as extended by OpenCommunity and Local Government Association work in the UK. Includes an Application Profile for use with English services.",
    "license":{
       "url":"https://creativecommons.org/licenses/by-sa/4.0/",
       "type":"CC-BY-SA-4.0",
@@ -12,15 +13,15 @@
       {
          "name":"organization",
          "path":"organizations.csv",
+         "description":"The organization record is used to provide basic description and details about each organization delivering or reviewing services. Each service should be linked to the organization responsible for its delivery. One organization may deliver many services. Note that the LGA extension table 'link_taxonomy' enables many taxonomy terms to associated with an organization.  These can define the type of organization e.g.<ul><li>charity</li><li>voluntary group</li><li>local authority</li></ul>",
          "format":"csv",
-         "source":"openReferral",
          "mediatype":"text/csv",
          "schema":{
             "fields":[
                {
                   "name":"id",
                   "type":"string",
-                  "source":"openReferral",
+                  "description":"Each organization must have a unique identifier.",
                   "format":"uuid",
                   "constraints":{
                      "required":true,
@@ -30,7 +31,7 @@
                {
                   "name":"name",
                   "type":"string",
-                  "source":"openReferral",
+                  "description":"The official or public name of the organization.",
                   "constraints":{
                      "required":true
                   }
@@ -38,7 +39,7 @@
                {
                   "name":"description",
                   "type":"string",
-                  "source":"openReferral",
+                  "description":"A brief summary about the organization. It can contain markup such as HTML or Markdown.",
                   "constraints":{
                      "required":true
                   }
@@ -46,7 +47,7 @@
                {
                   "name":"email",
                   "type":"string",
-                  "source":"openReferral",
+                  "description":"The contact e-mail address for the organization.",
                   "format":"email",
                   "constraints":{
                      "required":false
@@ -55,8 +56,8 @@
                {
                   "name":"url",
                   "type":"string",
-                  "source":"openReferral",
                   "format":"url",
+                  "description":"The URL (website address) of the organization.",
                   "constraints":{
                      "required":false
                   }
@@ -64,7 +65,7 @@
                {
                   "name":"logo",
                   "type":"string",
-                  "source":"LGA",
+                  "description":"A URL to an image associated with the organization which can be presented alongside its name.",
                   "constraints":{
                      "required":false
                   }
@@ -72,7 +73,7 @@
                {
                   "name":"uri",
                   "type":"string",
-                  "source":"LGA",
+                  "description":"A persistent identifier to uniquely identify the organization.",
                   "format":"url",
                   "constraints":{
                      "required":false
@@ -85,8 +86,8 @@
       {
          "name":"service",
          "path":"services.csv",
+         "description":"Services are provided by organizations to a range of different groups. Details on where each service is delivered are contained in the services_at_location table.",
          "format":"csv",
-         "source":"openReferral",
          "mediatype":"text/csv",
          "schema":{
             "fields":[
@@ -94,7 +95,7 @@
                   "name":"id",
                   "type":"string",
                   "format":"uuid",
-                  "source":"openReferral",
+                  "description":"Each service must have a unique identifier.",
                   "constraints":{
                      "required":true,
                      "unique":true
@@ -103,31 +104,31 @@
                {
                   "name":"organization_id",
                   "type":"string",
-                  "source":"openReferral",
+                  "description":"The identifier of the organization that provides this service.",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"name",
+                  "description":"The official or public name of the service.",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"description",
+                  "description":"A description of the service.  It can contain markup such as HTML or Markdown.",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":false
                   }
                },
                {
                   "name":"url",
+                  "description":"URL of the service",
                   "type":"string",
-                  "source":"openReferral",
                   "format":"url",
                   "constraints":{
                      "required":false
@@ -135,8 +136,8 @@
                },
                {
                   "name":"email",
+                  "description":"Email address for the service",
                   "type":"string",
-                  "source":"openReferral",
                   "format":"email",
                   "constraints":{
                      "required":false
@@ -144,8 +145,8 @@
                },
                {
                   "name":"status",
+                  "description":"The current status of the service.",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "enum":[
                         "active",
@@ -158,24 +159,24 @@
                },
                {
                   "name":"fees",
+                  "description":"Details of any charges for service users to access this service.",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":false
                   }
                },
                {
                   "name":"accreditations",
+                  "description":"Details of any accreditations. Accreditation is the formal evaluation of an organization or program against best practice standards set by an accrediting organization.",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":false
                   }
                },
                {
                   "name":"deliverable_type",
+                  "description":"A categorisation of the nature of the output of the Service.",
                   "type":"string",
-                  "source":"LGA",
                   "constraints":{
                      "enum":[
                         "Advice",
@@ -191,16 +192,16 @@
                },
                {
                   "name":"assured_date",
+                  "description":"The date that the information about the service was last checked",
                   "type":"string",
-                  "source":"openCommunity",
                   "constraints":{
                      "required":false
                   }
                },
                {
                   "name":"attending_type",
+                  "description":"How to attend this service.",
                   "type":"string",
-                  "source":"LGA",
                   "constraints":{
                      "enum":[
                         "phone",
@@ -212,8 +213,8 @@
                },
                {
                   "name":"attending_access",
+                  "description":"Access restrictions for this service.",
                   "type":"string",
-                  "source":"LGA",
                   "constraints":{
                      "enum":[
                         "referral",
@@ -246,15 +247,15 @@
       {
          "name":"service_taxonomy",
          "path":"services_taxonomy.csv",
+         "description":"The service taxonomy creates a link between a service and one or more classifications that describe the nature of the service provided.",
          "format":"csv",
-         "source":"openReferral",
          "mediatype":"text/csv",
          "schema":{
             "fields":[
                {
                   "name":"id",
                   "type":"string",
-                  "source":"openReferral",
+                  "description":"Each service must have a unique identifier.",
                   "constraints":{
                      "required":true,
                      "unique":true
@@ -262,17 +263,17 @@
                },
                {
                   "name":"service_id",
+                  "description":"The identifier of the service at a given location.",
                   "type":"string",
                   "format":"uuid",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"taxonomy_id",
+                  "description":"The identifier of this classification from the taxonomy table.",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true
                   }
@@ -300,15 +301,15 @@
       {
          "name":"service_at_location",
          "path":"services_at_location.csv",
+         "description":"The services at location table creates a link between a service and a specific location.",
          "format":"csv",
-         "source":"openReferral",
          "mediatype":"text/csv",
          "schema":{
             "fields":[
                {
                   "name":"id",
+                  "description":"Each entry must have a unique identifier.",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true,
                      "unique":true
@@ -316,18 +317,18 @@
                },
                {
                   "name":"service_id",
+                  "description":"The identifier of the service at a given location.",
                   "type":"string",
                   "format":"uuid",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"location_id",
+                  "description":"The identifier of the location where this service operates.",
                   "type":"string",
                   "format":"uuid",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true
                   }
@@ -355,16 +356,16 @@
       {
          "id":"location",
          "path":"locations.csv",
+         "description":"The location tables provides details of the locations where organizations operate. Locations may be virtual, and one organization may have many locations.",
          "format":"csv",
-         "source":"openReferral",
          "mediatype":"text/csv",
          "schema":{
             "fields":[
                {
                   "name":"id",
+                  "description":"Each location must have a unique identifier",
                   "type":"string",
                   "format":"uuid",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true,
                      "unique":true
@@ -372,28 +373,28 @@
                },
                {
                   "name":"name",
-                  "type":"string",
-                  "source":"openReferral"
+                  "description":"The name of the location",
+                  "type":"string"
                },
                {
                   "name":"description",
+                  "description":"A description of this location.",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":false
                   }
                },
                {
                   "name":"latitude",
+                  "description":"Y coordinate of location expressed in decimal degrees in WGS84 datum.",
                   "type":"number",
-                  "numberType":"double",
-                  "source":"openReferral"
+                  "numberType":"double"
                },
                {
                   "name":"longitude",
+                  "description":"X coordinate of location expressed in decimal degrees in WGS84 datum.",
                   "type":"number",
-                  "numberType":"double",
-                  "source":"openReferral"
+                  "numberType":"double"
                }
             ],
             "primaryKey":"id",
@@ -411,15 +412,15 @@
       {
          "id":"phone",
          "path":"phones.csv",
+         "description":"The phone table contains details of the telephone numbers are used to contact organizations, services, and locations.",
          "format":"csv",
-         "source":"openReferral",
          "mediatype":"text/csv",
          "schema":{
             "fields":[
                {
                   "name":"id",
+                  "description":"Each entry must have a unique identifier",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true,
                      "unique":true
@@ -427,24 +428,24 @@
                },
                {
                   "name":"contact_id",
+                  "description":"The identifier of the contact for which this is the phone number",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"number",
+                  "description":"The phone number",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"language",
-                  "type":"string",
-                  "source":"openReferral"
+                  "description":"A comma separated list of ISO 639-1, or ISO 639-2 [language codes](available at http://www.loc.gov/standards/iso639-2/php/code_list.php) to represent the languages available from this phone service. The three-letter codes from ISO 639-2 provide greater accuracy when describing variants of languages, which may be relevant to particular communities.",
+                  "type":"string"
                }
             ],
             "primaryKey":"id",
@@ -490,15 +491,15 @@
       {
          "id":"contact",
          "path":"contacts.csv",
+         "description":"The contact table contains details of the named contacts for services and organizations. Note that in the HSDS data package format, if an individual is the contact for multiple services, their details may be duplicated multiple times in this table, each time with a new identifier, and with the rows containing different service ids.",
          "format":"csv",
-         "source":"openReferral",
          "mediatype":"text/csv",
          "schema":{
             "fields":[
                {
                   "name":"id",
+                  "description":"Each contact must have a unique identifier",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true,
                      "unique":true
@@ -506,22 +507,22 @@
                },
                {
                   "name":"service_id",
+                  "description":"The identifier of the service for which this is a contact",
                   "type":"string",
                   "format":"uuid",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"name",
-                  "type":"string",
-                  "source":"openReferral"
+                  "description":"The name of the person",
+                  "type":"string"
                },
                {
                   "name":"title",
-                  "type":"string",
-                  "source":"openReferral"
+                  "description":"The job title of the person",
+                  "type":"string"
                }
             ],
             "primaryKey":"id",
@@ -553,15 +554,15 @@
       {
          "id":"physical_address",
          "path":"physical_addresses.csv",
+         "description":"The addresses table contains the physical addresses for locations. The address fields are in a US form, and some fields are mandatory e.g. city.",
          "format":"csv",
-         "source":"openReferral",
          "mediatype":"text/csv",
          "schema":{
             "fields":[
                {
                   "name":"id",
+                  "description":"Each physical address must have a unique identifier.",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true,
                      "unique":true
@@ -569,49 +570,49 @@
                },
                {
                   "name":"location_id",
+                  "description":"The identifier of the location for which this is the address.",
                   "type":"string",
                   "format":"uuid",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"address_1",
+                  "description":"The first line(s) of the address, including office, building number and street.",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":false
                   }
                },
                {
                   "name":"city",
+                  "description":"The city in which the address is located.",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"state_province",
+                  "description":"The state or province in which the address is located.",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"postal_code",
+                  "description":"The postal code for the address.",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"country",
+                  "description":"The country in which the address is located. This should be given as an ISO 3361-1 country code (two letter abbreviation).",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true
                   }
@@ -632,14 +633,14 @@
       {
          "id":"regular_schedule",
          "path":"regular_schedules.csv",
+         "description":"The regular_schedule table contains details of when a service or location is open under normal circumstances. Each entry in the table can relate to one and only one day of the week. Open Referral UK extends this table to add extra fields used in the iCal standard to allow for more flexible scheduling.",
          "format":"csv",
-         "source":"openReferral",
          "mediatype":"text/csv",
          "schema":{
             "fields":[
                {
                   "name":"id",
-                  "source":"openReferral",
+                  "description":"Each entry must have a unique identifier",
                   "type":"string",
                   "constraints":{
                      "required":true,
@@ -648,44 +649,44 @@
                },
                {
                   "name":"service_id",
-                  "source":"openReferral",
+                  "description":"The identifier of the service for which this is the regular schedule",
                   "type":"string",
                   "format":"uuid"
                },
                {
                   "name":"service_at_location_id",
-                  "source":"openReferral",
+                  "description":"The identifier of the 'service at location' table entry, when this schedule is specific to a service in a particular location.",
                   "type":"string"
                },
                {
                   "name":"opens_at",
-                  "type":"time",
-                  "source":"openReferral"
+                  "description":"The time when a service or location opens. This should use HH:MM format and should include timezone information, either adding the suffix 'Z' when the date is in UTC, or including an offset from UTC (e.g. 09:00-05:00 for 9am East Coast Time. ",
+                  "type":"time"
                },
                {
                   "name":"closes_at",
-                  "type":"time",
-                  "source":"openReferral"
+                  "description":"The time when a service or location opens. This should use HH:MM format and should include timezone information, either adding the suffix 'Z' when the date is in UTC, or including an offset from UTC (e.g. 09:00-05:00 for 9am East Coast Time.",
+                  "type":"time"
                },
                {
                   "name":"valid_from",
-                  "type":"date",
-                  "source":"LGA"
+                  "description":"The date from which the schedule information is valid.",
+                  "type":"date"
                },
                {
                   "name":"valid_to",
-                  "type":"date",
-                  "source":"LGA"
+                  "description":"The last date on which the schedule information is valid.",
+                  "type":"date"
                },
                {
                   "name":"dtstart",
-                  "type":"date",
-                  "source":"LGA"
+                  "description":"iCal - The date of the first event is the schedule. Necessary when using the 'interval' feature",
+                  "type":"date"
                },
                {
                   "name":"freq",
+                  "description":"iCal - How often the frequency repeats. E.g. Frequency use one of WEEKLY or MONTHLY.",
                   "type":"string",
-                  "source":"LGA",
                   "constraints":{
                      "enum":[
                         "WEEKLY",
@@ -695,23 +696,23 @@
                },
                {
                   "name":"interval",
-                  "type":"number",
-                  "source":"LGA"
+                  "description":"iCal - How often the frequency repeats. E.g. Interval 2 for Frequency WEEKLY gives Fortnightly",
+                  "type":"number"
                },
                {
                   "name":"byday",
-                  "type":"string",
-                  "source":"LGA"
+                  "description":"iCal - Comma seperated days of the week. E.g. SU,MO,TU,WE,TH,FR,SA. Where freq is MONTHLY each part can be preceded by a positive or negative integer to represent which occurrence in a month. E.g. 2MO is the second Monday in a month.  -1FR is the last Friday",
+                  "type":"string"
                },
                {
                   "name":"bymonthday",
-                  "type":"number",
-                  "source":"LGA"
+                  "description":"iCal - Day number in a month if frequency is MONTHLY  ",
+                  "type":"number"
                },
                {
                   "name":"description",
-                  "type":"string",
-                  "source":"openCommunity"
+                  "description":"Human readable description of the availability of the service.",
+                  "type":"string"
                }
             ],
             "primaryKey":"id",
@@ -743,15 +744,15 @@
       {
          "id":"holiday_schedule",
          "path":"holiday_schedules.csv",
+         "description":"The holiday_schedule table contains details of when a service or location is open during holidays. Each entry in the table describes a period of one or more days, and the operating times on those days. there is potential for this table to be deprecated if iCal rules are adopted in regular_schedule.",
          "format":"csv",
-         "source":"openReferral",
          "mediatype":"text/csv",
          "schema":{
             "fields":[
                {
                   "name":"id",
+                  "description":"Each entry must have a unique identifier",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true,
                      "unique":true
@@ -759,45 +760,45 @@
                },
                {
                   "name":"service_id",
+                  "description":"The identifier of the service for which this is the holiday schedule",
                   "type":"string",
-                  "format":"uuid",
-                  "source":"openReferral"
+                  "format":"uuid"
                },
                {
                   "name":"service_at_location_id",
-                  "type":"string",
-                  "source":"openReferral"
+                  "description":"The identifier of the 'service at location' table entry, when this schedule is specific to a service in a particular location.",
+                  "type":"string"
                },
                {
                   "name":"closed",
+                  "description":"Indicates if a service or location is closed during a public holiday",
                   "type":"boolean",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"opens_at",
-                  "type":"time",
-                  "source":"openReferral"
+                  "description":"The time when a service or location opens. This should use HH:MM format and should include timezone information, either adding the suffix 'Z' when the date is in UTC, or including an offset from UTC (e.g. 09:00-05:00 for 9am East Coast Time.",
+                  "type":"time"
                },
                {
                   "name":"closes_at",
-                  "type":"time",
-                  "source":"openReferral"
+                  "description":"The time when a service or location closes. This should use HH:MM format and should include timezone information, either adding the suffix 'Z' when the date is in UTC, or including an offset from UTC (e.g. 09:00-05:00 for 9am East Coast Time.",
+                  "type":"time"
                },
                {
                   "name":"start_date",
+                  "description":"The first day that a service or location is closed during a public or private holiday",
                   "type":"date",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"end_date",
+                  "description":"The last day that a service or location is closed during a public or private holiday",
                   "type":"date",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true
                   }
@@ -832,15 +833,15 @@
       {
          "id":"funding",
          "path":"funding.csv",
+         "description":"The funding table describes the sources of funding for a service or organisation",
          "format":"csv",
-         "source":"openReferral",
          "mediatype":"text/csv",
          "schema":{
             "fields":[
                {
                   "name":"id",
+                  "description":"Each entry must have a unique identifier",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true,
                      "unique":true
@@ -848,17 +849,17 @@
                },
                {
                   "name":"service_id",
+                  "description":"The identifier of the service in receipt of this funding",
                   "type":"string",
                   "format":"uuid",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"source",
-                  "type":"string",
-                  "source":"openReferral"
+                  "description":"A free text description of the source of funds for this organization or service.",
+                  "type":"string"
                }
             ],
             "primaryKey":"id",
@@ -883,15 +884,15 @@
       {
          "id":"eligibility",
          "path":"eligibility.csv",
+         "description":"The eligibility tables contains details of the eligibility criteria for particular services. Note that the LGA extension table 'link_taxonomy' enables many taxonomy terms to associated with an eligibility. A design principle for the standard is to “to be able to identify a small target set of services that closely meet the needs of a prospective service user”.  The approach to eligibility has been designed to enable a complex set of criteria to be coded so that services can be effectively filtered by a user’s needs and circumstances.<br />The design allows for one entry on this table for each set of qualifying conditions - for example<ul><li>Over 60, AND Male</li>OR<li>In receipt of Universal Credit</li></ul>Each set of AND conditions is then coded into this eligibility structure so that<ul><li>Age ranges use the minimum_age and maximum_age fields</li><li>Other circumstances are defined as taxonomy entries using the link_taxonony table.</li></ul>A ‘human-readable’ version of the coded conditions can also be provided in the ‘eligibility’ field.",
          "format":"csv",
-         "source":"openReferral",
          "mediatype":"text/csv",
          "schema":{
             "fields":[
                {
                   "name":"id",
+                  "description":"Each entry must have a unique identifier",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true,
                      "unique":true
@@ -899,17 +900,17 @@
                },
                {
                   "name":"service_id",
+                  "description":"The identifier of the service for which this entry describes the eligibility criteria",
                   "type":"string",
                   "format":"uuid",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"eligibility",
+                  "description":"The rules or guidelines that determine who can receive the service.",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "enum":[
                         "adult",
@@ -926,16 +927,16 @@
                },
                {
                   "name":"minimum_age",
+                  "description":"The minimum age required to meet this eligibility requirement.",
                   "type":"number",
-                  "source":"openCommunity",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"maximum_age",
+                  "description":"The maximum age required to meet this eligibility requirement.",
                   "type":"number",
-                  "source":"openCommunity",
                   "constraints":{
                      "required":true
                   }
@@ -956,15 +957,15 @@
       {
          "id":"service_area",
          "path":"service_areas.csv",
+         "description":"The service_area table contains details of the geographic area for which a service is available. Note that the LGA extension table 'link_taxonomy' enables many taxonomy terms to associated with a service_area.  These can define the type of area e.g.<ul><li>administrative geography</li><li>natural neighbourhood</li><li>town</li></ul>UK geographies can be referenced in <a href='http://statistics.data.gov.uk/home'>ONS statistical geographies</a> and in <a href='https://neighbourhoods.esd.org.uk/'>Natural Neighbourhoods</a>.",
          "format":"csv",
-         "source":"openReferral",
          "mediatype":"text/csv",
          "schema":{
             "fields":[
                {
                   "name":"id",
+                  "description":"Each service area must have a unique identifier",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true,
                      "unique":true
@@ -972,28 +973,28 @@
                },
                {
                   "name":"service_id",
+                  "description":"The identifier of the service for which this entry describes the service area",
                   "type":"string",
                   "format":"uuid",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"service_area",
-                  "type":"string",
-                  "source":"openReferral"
+                  "description":"The geographic area where a service is available. This is a free-text description, and so may be precise or indefinite as necessary.",
+                  "type":"string"
                },
                {
                   "name":"extent",
+                  "description":"A definition of the polygon defining the area, in geojson.",
                   "type":"string",
-                  "geoType":"geometry",
-                  "source":"LGA"
+                  "geoType":"geometry"
                },
                {
                   "name":"uri",
-                  "type":"string",
-                  "source":"LGA"
+                  "description":"A persistent identifier to identify an area.",
+                  "type":"string"
                }
             ],
             "primaryKey":"id",
@@ -1011,15 +1012,15 @@
       {
          "id":"language",
          "path":"languages.csv",
+         "description":"The language table contains details of the languages that are spoken at locations or services. This does not include languages which can only be used with intepretation.",
          "format":"csv",
-         "source":"openReferral",
          "mediatype":"text/csv",
          "schema":{
             "fields":[
                {
                   "name":"id",
+                  "description":"Each language must have a unique identifier",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true,
                      "unique":true
@@ -1027,17 +1028,17 @@
                },
                {
                   "name":"service_id",
+                  "description":"The identifier of the service for which the entry describes the languages in which services are delivered",
                   "type":"string",
                   "format":"uuid",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"language",
-                  "type":"string",
-                  "source":"openReferral"
+                  "description":"Languages, other than English, in which the service is delivered. Languages are listed as ISO639-1 codes.",
+                  "type":"string"
                }
             ],
             "primaryKey":"id",
@@ -1062,15 +1063,15 @@
       {
          "id":"accessibility_for_disabilities",
          "path":"accessibility_for_disabilities.csv",
+         "description":"The accessibility_for_disabilities table contains details of the arrangements for access to locations for people who have disabilities",
          "format":"csv",
-         "source":"openReferral",
          "mediatype":"text/csv",
          "schema":{
             "fields":[
                {
                   "name":"id",
+                  "description":"Each entry must have a unique identifier",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true,
                      "unique":true
@@ -1078,17 +1079,17 @@
                },
                {
                   "name":"location_id",
+                  "description":"The identifier of the location for which the entry describes the accessibility provision",
                   "type":"string",
                   "format":"uuid",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"accessibility",
-                  "type":"string",
-                  "source":"openReferral"
+                  "description":"Description of assistance or infrastructure that facilitate access to clients with disabilities.",
+                  "type":"string"
                }
             ],
             "primaryKey":"id",
@@ -1106,15 +1107,15 @@
       {
          "id":"taxonomy",
          "path":"taxonomy.csv",
+         "description":"Each service can be categorized according to one or more taxonomy terms. The taxonomy table contains a list of taxonomy identifiers, their names, and, for hierarchical taxonomies, their structure.",
          "format":"csv",
-         "source":"openReferral",
          "mediatype":"text/csv",
          "schema":{
             "fields":[
                {
                   "name":"id",
+                  "description":"Each taxonomy entry must have a unique identifier. If combining multiple taxonomies with overlapping identifiers, use a prefix to distinguish them. The prefix can be a CURIE which must be resolvable by all software consuming the data.",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true,
                      "unique":true
@@ -1122,24 +1123,24 @@
                },
                {
                   "name":"name",
+                  "description":"The name of this taxonomy term or category.",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"parent_id",
+                  "description":"If this is a child category in a hierarchical taxonomy, give the identifier of the parent category. For top-level categories, this should be left blank.",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":false
                   }
                },
                {
                   "name":"vocabulary",
+                  "description":"If this is an established taxonomy, detail which taxonomy is in use. For example, AIRS or Open Eligibility.",
                   "type":"string",
-                  "source":"openReferral",
                   "constraints":{
                      "required":false
                   }
@@ -1151,15 +1152,15 @@
       {
          "id":"cost_option",
          "path":"cost_option.csv",
+         "description":"The cost option table contains the costs of a service at certain points in time. This is an LGA Extension table. This table provides a structured version of the text information contained in the 'fees' field of the 'service' table.",
          "format":"csv",
-         "source":"LGA",
          "mediatype":"text/csv",
          "schema":{
             "fields":[
                {
                   "name":"id",
+                  "description":"Each entry must have a unique identifier",
                   "type":"string",
-                  "source":"LGA",
                   "constraints":{
                      "required":true,
                      "unique":true
@@ -1167,38 +1168,38 @@
                },
                {
                   "name":"service_id",
+                  "description":"The identifier of the services for which the entry describes the cost",
                   "type":"string",
                   "format":"uuid",
-                  "source":"LGA",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"valid_from",
-                  "type":"date",
-                  "source":"LGA"
+                  "description":"When this price is valid from",
+                  "type":"date"
                },
                {
                   "name":"valid_to",
-                  "type":"date",
-                  "source":"LGA"
+                  "description":"When this price is valid to",
+                  "type":"date"
                },
                {
                   "name":"option",
-                  "type":"string",
-                  "source":"LGA"
+                  "description":"Conditions associated with the cost option.",
+                  "type":"string"
                },
                {
                   "name":"amount",
+                  "description":"The cost of the option, expresssed as an amount in a currency (expected to be GBP by Open Referral UK).",
                   "type":"number",
-                  "format":"currency",
-                  "source":"LGA"
+                  "format":"currency"
                },
                {
                   "name":"amount_description",
-                  "type":"string",
-                  "source":"LGA"
+                  "description":"Specific details qualifying the cost amount, e.g. 'per session'",
+                  "type":"string"
                }
             ],
             "primaryKey":"id",
@@ -1216,15 +1217,15 @@
       {
          "name":"review",
          "path":"reviews.csv",
+         "description":"The review table contains service reviews made by organizations. This is an LGA Extension table. This table provides a structured version of the text information contained in the 'accreditations' field of the 'service' table.",
          "format":"csv",
-         "source":"LGA",
          "mediatype":"text/csv",
          "schema":{
             "fields":[
                {
                   "name":"id",
+                  "description":"Each entry must have a unique identifier",
                   "type":"string",
-                  "source":"LGA",
                   "constraints":{
                      "required":true,
                      "unique":true
@@ -1232,47 +1233,47 @@
                },
                {
                   "name":"service_id",
+                  "description":"The identifier of the services for which the entry describes a review",
                   "type":"string",
                   "format":"uuid",
-                  "source":"LGA",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"reviewer_organization_id",
-                  "type":"string",
-                  "source":"LGA"
+                  "description":"The id to an entry on the 'organization' table to identify the organization that has provided the review",
+                  "type":"string"
                },
                {
                   "name":"title",
-                  "type":"string",
-                  "source":"LGA"
+                  "description":"The title of the review",
+                  "type":"string"
                },
                {
                   "name":"description",
-                  "type":"string",
-                  "source":"LGA"
+                  "description":"A detailed description of this review",
+                  "type":"string"
                },
                {
                   "name":"date",
-                  "type":"date",
-                  "source":"LGA"
+                  "description":"The date of the review",
+                  "type":"date"
                },
                {
                   "name":"score",
-                  "type":"string",
-                  "source":"LGA"
+                  "description":"The review score",
+                  "type":"string"
                },
                {
                   "name":"url",
-                  "type":"string",
-                  "source":"LGA"
+                  "description":"A URL were the review can be read",
+                  "type":"string"
                },
                {
                   "name":"widget",
-                  "type":"string",
-                  "source":"LGA"
+                  "description":"Code that can be embedded into a web page to give more information about a review.",
+                  "type":"string"
                }
             ],
             "primaryKey":"id",
@@ -1297,15 +1298,15 @@
       {
          "id":"link_taxonomy",
          "path":"link_taxonomy.csv",
+         "description":"This table enables a taxonomy item to be associated with other classes in the model. This is an LGA Extension table. This table enables a taxonomy item to be associated with other classes in the model.",
          "format":"csv",
-         "source":"LGA",
          "mediatype":"text/csv",
          "schema":{
             "fields":[
                {
                   "name":"id",
+                  "description":"A unique identifier for the link taxonomy",
                   "type":"string",
-                  "source":"LGA",
                   "constraints":{
                      "required":true,
                      "unique":true
@@ -1313,8 +1314,8 @@
                },
                {
                   "name":"link_type",
+                  "description":"The class that the taxonomy applies to",
                   "type":"string",
-                  "source":"LGA",
                   "constraints":{
                      "enum":[
                         "organization",
@@ -1327,16 +1328,16 @@
                },
                {
                   "name":"link_id",
+                  "description":"The identifier of the class",
                   "type":"string",
-                  "source":"LGA",
                   "constraints":{
                      "required":true
                   }
                },
                {
                   "name":"taxonomy_id",
+                  "description":"The identifier of this classification from the taxonomy table.",
                   "type":"string",
-                  "source":"LGA",
                   "constraints":{
                      "required":true
                   }

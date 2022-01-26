@@ -1,5 +1,5 @@
 [
-/*REMOVE ALL DESCRIPTION FIELDS */
+/*REMOVE ALL SOURCE FIELDS */
   {
   "operation":"remove",
 	  "spec":{  
@@ -8,13 +8,13 @@
                "schema":{
 					"fields":{
 						"*":{
-							"description":""
+							"source":""
 							}
 					}
 				}
 			}
 		},		
-		"description":""
+		"source":""
 	  }
   },
    {
@@ -22,12 +22,12 @@
 	  "spec":{  
 		"resources":{
             "*":{
-				"description":""
+				"source":""
 			}
 		}
 	  }
   }, 
-  /*END DESCRIPTION FIELD REMOVAL */
+  /*END SOURCE FIELD REMOVAL */
    {
       "operation":"shift",
       "spec":{
@@ -258,7 +258,7 @@
                         "@(2,foreignKeys)":"service_at_location.schema.foreignKeys"
                      },
                      "location":{
-                        "@(3,name)":"location.id",
+                        "@(3,name)":"location.name",
                         "@(3,path)":"location.path",
                         "@(3,description)":"location.description",
                         "@(3,format)":"location.format",
@@ -298,7 +298,7 @@
                         "@(2,foreignKeys)":"location.schema.foreignKeys"
                      },
                      "phone":{
-                        "@(3,name)":"phone.id",
+                        "@(3,name)":"phone.name",
                         "@(3,path)":"phone.path",
                         "@(3,description)":"phone.description",
                         "@(3,format)":"phone.format",
@@ -350,7 +350,7 @@
                         "@(2,foreignKeys)":"phone.schema.foreignKeys"
                      },   
                      "language":{
-                        "@(3,name)":"language.id",
+                        "@(3,name)":"language.name",
                         "@(3,path)":"language.path",
                         "@(3,description)":"language.description",
                         "@(3,format)":"language.format",
@@ -375,7 +375,7 @@
                         "@(2,foreignKeys)":"language.schema.foreignKeys"
                      },	
                      "contact":{
-                        "@(3,name)":"contact.id",
+                        "@(3,name)":"contact.name",
                         "@(3,path)":"contact.path",
                         "@(3,description)":"contact.description",
                         "@(3,format)":"contact.format",
@@ -415,7 +415,7 @@
                         "@(2,foreignKeys)":"contact.schema.foreignKeys"
                      },		
                      "physical_address":{
-                        "@(3,name)":"physical_address.id",
+                        "@(3,name)":"physical_address.name",
                         "@(3,path)":"physical_address.path",
                         "@(3,description)":"physical_address.description",
                         "@(3,format)":"physical_address.format",
@@ -452,7 +452,7 @@
                         "@(2,foreignKeys)":"physical_address.schema.foreignKeys"
                      },	
                      "postal_address":{
-                        "@(3,name)":"postal_address.id",
+                        "@(3,name)":"postal_address.name",
                         "@(3,path)":"postal_address.path",
                         "@(3,description)":"postal_address.description",
                         "@(3,format)":"postal_address.format",
@@ -504,7 +504,7 @@
                         "@(2,foreignKeys)":"postal_address.schema.foreignKeys"
                      },	
                      "schedule":{
-                        "@(3,name)":"schedule.id",
+                        "@(3,name)":"schedule.name",
                         "@(3,path)":"schedule.path",
                         "@(3,description)":"schedule.description",
                         "@(3,format)":"schedule.format",
@@ -580,7 +580,7 @@
                         "@(2,foreignKeys)":"schedule.schema.foreignKeys"
                      },
                      "funding":{
-                        "@(3,name)":"funding.id",
+                        "@(3,name)":"funding.name",
                         "@(3,path)":"funding.path",
                         "@(3,description)":"funding.description",
                         "@(3,format)":"funding.format",
@@ -608,7 +608,7 @@
                         "@(2,foreignKeys)":"funding.schema.foreignKeys"
                      },
                      "eligibility":{
-                        "@(3,name)":"eligibility.id",
+                        "@(3,name)":"eligibility.name",
                         "@(3,path)":"eligibility.path",
                         "@(3,description)":"eligibility.description",
                         "@(3,format)":"eligibility.format",
@@ -630,7 +630,7 @@
                         "@(2,foreignKeys)":"eligibility.schema.foreignKeys"
                      },		
                      "service_area":{
-                        "@(3,name)":"service_area.id",
+                        "@(3,name)":"service_area.name",
                         "@(3,path)":"service_area.path",
                         "@(3,description)":"service_area.description",
                         "@(3,format)":"service_area.format",
@@ -658,7 +658,7 @@
                         "@(2,foreignKeys)":"service_area.schema.foreignKeys"
                      },		
                      "required_document":{
-                        "@(3,name)":"required_document.id",
+                        "@(3,name)":"required_document.name",
                         "@(3,path)":"required_document.path",
                         "@(3,description)":"required_document.description",
                         "@(3,format)":"required_document.format",
@@ -683,7 +683,7 @@
                         "@(2,foreignKeys)":"required_document.schema.foreignKeys"
                      },		
                     "payment_accepted":{
-                        "@(3,name)":"payment_accepted.id",
+                        "@(3,name)":"payment_accepted.name",
                         "@(3,path)":"payment_accepted.path",
                         "@(3,description)":"payment_accepted.description",
                         "@(3,format)":"payment_accepted.format",
@@ -708,7 +708,7 @@
                         "@(2,foreignKeys)":"payment_accepted.schema.foreignKeys"
                      },	                     
                      "accessibility_for_disabilities":{
-                        "@(3,name)":"accessibility_for_disabilities.id",
+                        "@(3,name)":"accessibility_for_disabilities.name",
                         "@(3,path)":"accessibility_for_disabilities.path",
                         "@(3,description)":"accessibility_for_disabilities.description",
                         "@(3,format)":"accessibility_for_disabilities.format",
@@ -736,7 +736,7 @@
                         "@(2,foreignKeys)":"accessibility_for_disabilities.schema.foreignKeys"
                      },	
                      "taxonomy_term":{
-                        "@(3,name)":"taxonomy_term.id",
+                        "@(3,name)":"taxonomy_term.name",
                         "@(3,path)":"taxonomy_term.path",
                         "@(3,description)":"taxonomy_term.description",
                         "@(3,format)":"taxonomy_term.format",
@@ -770,7 +770,7 @@
                         "@(2,foreignKeys)":"taxonomy_term.schema.foreignKeys"
                      },	
                      "metadata":{
-                        "@(3,name)":"metadata.id",
+                        "@(3,name)":"metadata.name",
                         "@(3,path)":"metadata.path",
                         "@(3,description)":"metadata.description",
                         "@(3,format)":"metadata.format",
@@ -813,7 +813,7 @@
                         "@(2,foreignKeys)":"metadata.schema.foreignKeys"
                      },	      
                      "meta_table_description":{
-                        "@(3,name)":"meta_table_description.id",
+                        "@(3,name)":"meta_table_description.name",
                         "@(3,path)":"meta_table_description.path",
                         "@(3,description)":"meta_table_description.description",
                         "@(3,format)":"meta_table_description.format",
