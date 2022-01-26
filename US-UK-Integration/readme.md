@@ -6,4 +6,4 @@ We currently have two Jolt specs [classic.json](https://github.com/OpenReferralU
 
 ## Remaining Differences
 
-- [] Differing titles: [classic](https://github.com/OpenReferralUK/human-services/blob/95c21070d6797dd5b968731baab65c2a5d7615d8/US-UK-Integration/classic-output.json#L3) and [open referral](https://github.com/OpenReferralUK/human-services/blob/95c21070d6797dd5b968731baab65c2a5d7615d8/US-UK-Integration/openref-output.json#L3)
+- [ ] Differing titles: [classic](https://github.com/OpenReferralUK/human-services/blob/95c21070d6797dd5b968731baab65c2a5d7615d8/US-UK-Integration/classic-output.json#L3) and [open referral](https://github.com/OpenReferralUK/human-services/blob/95c21070d6797dd5b968731baab65c2a5d7615d8/US-UK-Integration/openref-output.json#L3)
