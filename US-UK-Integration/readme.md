@@ -1,0 +1,5 @@
+# The Differences Between the US and UK standards=
+
+There are several outstanding differences between the US and UK standards listed here.
+
+We currently have two Jolt specs [classic.json](https://github.com/OpenReferralUK/human-services/blob/master/US-UK-Integration/Jolt/Jolt/src/main/resources/classic.json) and [openref.json](https://github.com/OpenReferralUK/human-services/blob/master/US-UK-Integration/Jolt/Jolt/src/main/resources/openref.json) that convert the [ExtendedDataPackage.v2.json](https://github.com/OpenReferralUK/human-services/blob/master/US-UK-Integration/ExtendedDataPackage.v2.json) to the [classic data package](https://github.com/OpenReferralUK/human-services/blob/master/US-UK-Integration/classic-output.json) and the [open referral data package](https://github.com/OpenReferralUK/human-services/blob/master/US-UK-Integration/openref-output.json) formats.
