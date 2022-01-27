@@ -202,32 +202,32 @@
                         "@(2,foreignKeys)":"service_attribute.schema.foreignKeys"
                      },        
                     "other_attribute":{
-                        "@(3,name)":"service_attribute.name",
-                        "@(3,path)":"service_attribute.path",
-                        "@(3,description)":"service_attribute.description",
-                        "@(3,format)":"service_attribute.format",
-                        "@(3,source)":"service_attribute.source",
-                        "@(3,mediatype)":"service_attribute.mediatype",
+                        "@(3,name)":"other_attribute.name",
+                        "@(3,path)":"other_attribute.path",
+                        "@(3,description)":"other_attribute.description",
+                        "@(3,format)":"other_attribute.format",
+                        "@(3,source)":"other_attribute.source",
+                        "@(3,mediatype)":"other_attribute.mediatype",
                         "@(2,fields)":{
                            "*":{
                               "name":{
                                  "id":{
-                                    "@2":"service_attribute.schema.fields[]"
+                                    "@2":"other_attribute.schema.fields[]"
                                  },
                                  "link_id":{
-                                    "@2":"service_attribute.schema.fields[]"
+                                    "@2":"other_attribute.schema.fields[]"
                                  },
                                  "link_type":{
-                                    "@2":"service_attribute.schema.fields[]"
+                                    "@2":"other_attribute.schema.fields[]"
                                  },
                                  "taxonomy_term_id":{
-                                    "@2":"service_attribute.schema.fields[]"
+                                    "@2":"other_attribute.schema.fields[]"
                                  }
                               }
                            }
                         },
-                        "@(2,primaryKey)":"service_attribute.schema.primaryKey",
-                        "@(2,foreignKeys)":"service_attribute.schema.foreignKeys"
+                        "@(2,primaryKey)":"other_attribute.schema.primaryKey",
+                        "@(2,foreignKeys)":"other_attribute.schema.foreignKeys"
                      },
                      "service_at_location":{
                         "@(3,name)":"service_at_location.name",
@@ -365,6 +365,9 @@
                                  "service_id":{
                                     "@2":"language.schema.fields[]"
                                  },
+                                 "location_id":{
+                                    "@2":"language.schema.fields[]"
+                                 },								 
                                  "language":{
                                     "@2":"language.schema.fields[]"
                                  }
@@ -430,12 +433,27 @@
                                  "location_id":{
                                     "@2":"physical_address.schema.fields[]"
                                  },
+                                 "attention":{
+                                    "@2":"physical_address.schema.fields[]"
+                                 },   								 
                                  "address_1":{
                                     "@2":"physical_address.schema.fields[]"
                                  },
+                                 "address_2":{
+                                    "@2":"physical_address.schema.fields[]"
+                                 },			
+                                 "address_3":{
+                                    "@2":"physical_address.schema.fields[]"
+                                 },			
+                                 "address_4":{
+                                    "@2":"physical_address.schema.fields[]"
+                                 },								 
                                  "city":{
                                     "@2":"physical_address.schema.fields[]"
                                  },
+                                 "region":{
+                                    "@2":"physical_address.schema.fields[]"
+                                 },								 
                                  "state_province":{
                                     "@2":"physical_address.schema.fields[]"
                                  },
@@ -503,7 +521,7 @@
                         "@(2,primaryKey)":"postal_address.schema.primaryKey",
                         "@(2,foreignKeys)":"postal_address.schema.foreignKeys"
                      },	
-                     "schedule":{
+                     "regular_schedule":{
                         "@(3,name)":"schedule.name",
                         "@(3,path)":"schedule.path",
                         "@(3,description)":"schedule.description",
@@ -913,7 +931,7 @@
             "@(1,metadata)":"resources[]"
          },   
          "meta_table_description":{
-            "@(1,metadata)":"resources[]"
+            "@(1,meta_table_description)":"resources[]"
          },	 
          "*":"&"
       }

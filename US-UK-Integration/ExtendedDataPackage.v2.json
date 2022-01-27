@@ -1,14 +1,14 @@
 {
   "name": "human_services_data",
-  "title": "Open Referral UK Application Profile for Human Services Data",
-  "description": "A specification of the Open Referral standard for Human Services as extended by OpenCommunity and Local Government Association work in the UK. Includes an Application Profile for use with English services.",
+  "title": "Human Services Data Specification",
+  "description": "HSDS describes data about organizations, the services they provide, the locations at which these services can be accessed, and associated details.",
   "license": {
     "url": "https://creativecommons.org/licenses/by-sa/4.0/",
     "type": "CC-BY-SA-4.0",
     "name": "Creative Commons Attribution-ShareAlike 4.0"
   },
-  "version": "1.0",
-  "homepage": "http://docs.openreferraluk.org",
+  "version": "2.0.1",
+  "homepage": "https://docs.openreferral.org",
   "resources": [
     {
       "name": "organization",
@@ -71,7 +71,7 @@
             "name": "url",
             "type": "string",
             "source": "openReferral",
-            "format": "url",
+            "format": "uri",
             "description": "The URL (website address) of the organization.",
             "constraints": {
               "required": false
@@ -128,7 +128,7 @@
             "type": "string",
             "source": "LGA",
             "description": "A persistent identifier to uniquely identify the organization.",
-            "format": "url",
+            "format": "uri",
             "constraints": {
               "required": false
             }
@@ -237,67 +237,64 @@
         ]
       }
     },
-    {
-      "name": "program",
-      "path": "programs.csv",
-      "description": "Some organizations organise their services into programs. A program brings together a number of related services.",
-      "format": "csv",
-      "source": "openReferral",
-      "mediatype": "text/csv",
-      "schema": {
-        "fields": [
-          {
-            "name": "id",
-            "type": "string",
-            "source": "openReferral",
-            "description": "Each program must have a unique identifier.",
-            "constraints": {
-              "required": true,
-              "unique": true
-            }
-          },
-          {
-            "name": "organization_id",
-            "type": "string",
-            "source": "openReferral",
-            "description": "Each program must belong to a single organization. The identifier of the organization should be given here.",
-            "format": "uuid",
-            "constraints": {
-              "required": true
-            }
-          },
-          {
-            "name": "name",
-            "description": "The name of the program",
-            "type": "string",
-            "source": "openReferral",
-            "constraints": {
-              "required": true
-            }
-          },
-          {
-            "name": "alternate_name",
-            "description": "An alternative name for the program",
-            "type": "string",
-            "source": "openReferral",
-            "constraints": {
-              "required": false
-            }
-          }
-        ],
-        "primaryKey": "id",
-        "foreignKeys": [
-          {
-            "fields": "organization_id",
-            "reference": {
-              "resource": "organization",
-              "fields": "id"
-            }
-          }
-        ]
-      }
-    },
-    {
+	{
+		"name": "program",
+		"path": "programs.csv",
+		"description":"Some organizations organise their services into programs. A program brings together a number of related services.",
+		"format": "csv",
+		"mediatype": "text/csv",
+		"profile": "tabular-data-resource",
+		"schema": {
+			"fields": [
+				{
+					"name": "id",
+					"type": "string",
+					"description":"Each program must have a unique identifier.",
+					"constraints": {
+						"required":true,
+						"unique":true
+					}
+				},
+				{
+					"name": "organization_id",
+					"type": "string",
+					"description": "Each program must belong to a single organization. The identifier of the organization should be given here.",
+					"format":"uuid",
+					"constraints": {
+						"required":true,
+						"unique":true
+					}
+				},
+				{
+					"name": "name",
+					"description": "The name of the program",
+					"type": "string",
+					"constraints": {
+						"required":true
+					}
+				},
+				{
+					"name": "alternate_name",
+					"description": "An alternative name for the program",
+					"type": "string",
+					"constraints": {
+						"required":false
+					}
+				}
+			],
+			"primaryKey": "id",
+			"foreignKeys": [
+				{
+					"fields": "organization_id",
+					"reference": {
+						"resource": "organization",
+						"fields": "id"
+					}
+				}
+			]
+		}
+	},
+	{
       "name": "service",
       "description": "Services are provided by organizations to a range of different groups. Details on where each service is delivered are contained in the services_at_location table.",
       "path": "services.csv",
@@ -368,7 +365,7 @@
             "description": "URL of the service",
             "type": "string",
             "source": "openReferral",
-            "format": "url",
+            "format": "uri",
             "constraints": {
               "required": false
             }
@@ -448,16 +445,6 @@
             }
           },
           {
-            "name": "taxonomy_ids",
-            "description": "(Deprecated) A comma separated list of identifiers from the taxonomy table. This field is deprecated in favour of using the service_taxonomy table.",
-            "type": "string",
-            "deprecated": true,
-            "source": "openReferral",
-            "constraints": {
-              "required": false
-            }
-          },
-          {
             "name": "deliverable_type",
             "description": "A categorisation of the nature of the output of the Service.",
             "type": "string",
@@ -514,6 +501,134 @@
         ]
       }
     },
+	{
+		"name": "service_attribute",
+		"path": "service_attributes.csv",
+		"description":"The services attributes table creates a link between a service and one or more classifications that describe the nature of the service provided.",
+		"format": "csv",
+		"mediatype": "text/csv",
+		"profile": "tabular-data-resource",
+		"schema": {
+			"fields": [
+				{
+					"name": "id",
+					"type": "string",
+					"description":"Each service_attribute entry should have a unique identifier.",
+					"constraints": {
+						"required":true,
+						"unique":true
+					}
+				},
+				{
+					"name": "service_id",
+					"description": "The identifier of the service to which this taxonomy term applies.",
+					"type": "string",
+					"constraints": {
+						"required":true
+					}
+				},
+				{
+					"name":"taxonomy_term_id",
+					"description":"The identifier of this taxonomy term from the taxonomy table.",
+					"type":"string",
+					"constraints": {
+						"required":false
+					}
+				}
+			],
+			"primaryKey": "id",
+			"foreignKeys": [
+				{
+					"fields": "service_id",
+					"reference": {
+						"resource": "service",
+						"fields": "id"
+					}
+				},
+				{
+					"fields": "taxonomy_term_id",
+					"reference": {
+						"resource": "taxonomy_term",
+						"fields": "id"
+					}
+				}
+			]
+		}
+	},
+	{
+		"name": "other_attribute",
+		"path": "other_attributes.csv",
+		"description":"The other_attributes table creates a link between entities other than service and one or more classifications that describe the entity.",
+		"format": "csv",
+		"mediatype": "text/csv",
+		"profile": "tabular-data-resource",
+		"schema": {
+			"fields": [
+				{
+					"name": "id",
+					"type": "string",
+					"description":"Each other_attribute entry should have a unique identifier.",
+					"constraints": {
+						"required":true,
+						"unique":true
+					}
+				},
+				{
+					"name": "link_id",
+					"description": "The identifier of the entity to which this taxonomy term applies.",
+					"type": "string",
+					"constraints": {
+						"required":true
+					}
+				},
+				{
+					"name": "link_type",
+					"description": "The identifier of the entity to which this taxonomy term applies.",
+					"type": "string",
+					"constraints": {
+						"required":true,
+						"enum": [
+							"organization",
+							"program",
+							"service",
+							"service_at_location",
+							"location",
+							"phone",
+							"contact",
+							"physical_address",
+							"postal_address",
+							"schedule",
+							"funding",
+							"eligibility",
+							"service_area",
+							"required_document",
+							"payment_accepted",
+							"language",
+							"accessibility_for_disabilities"
+						]                            
+					}
+				},
+				{
+					"name":"taxonomy_term_id",
+					"description":"The identifier of this taxonomy term from the taxonomy table.",
+					"type":"string",
+					"constraints": {
+						"required":false
+					}
+				}
+			],
+			"primaryKey": "id",
+			"foreignKeys": [
+				{
+					"fields": "taxonomy_term_id",
+					"reference": {
+						"resource": "taxonomy_term",
+						"fields": "id"
+					}
+				}
+			]
+		}
+	},	
     {
       "name": "service_taxonomy",
       "path": "services_taxonomy.csv",
@@ -1369,111 +1484,6 @@
       }
     },
     {
-      "name": "holiday_schedule",
-      "path": "holiday_schedules.csv",
-      "description": "The holiday_schedule table contains details of when a service or location is open during holidays. Each entry in the table describes a period of one or more days, and the operating times on those days. there is potential for this table to be deprecated if iCal rules are adopted in regular_schedule.",
-      "format": "csv",
-      "source": "openReferral",
-      "mediatype": "text/csv",
-      "schema": {
-        "fields": [
-          {
-            "name": "id",
-            "description": "Each entry must have a unique identifier",
-            "type": "string",
-            "source": "openReferral",
-            "constraints": {
-              "required": true,
-              "unique": true
-            }
-          },
-          {
-            "name": "service_id",
-            "description": "The identifier of the service for which this is the holiday schedule",
-            "type": "string",
-			"format": "uuid",
-            "source": "openReferral"
-          },
-          {
-            "name": "location_id",
-            "description": "The identifier of the location for which this is the holiday schedule",
-            "type": "string",
-			"format": "uuid",
-            "source": "openReferral"
-          },
-          {
-            "name": "service_at_location_id",
-            "description": "The identifier of the 'service at location' table entry, when this schedule is specific to a service in a particular location.",
-            "type": "string",
-            "source": "openReferral"
-          },
-          {
-            "name": "closed",
-            "description": "Indicates if a service or location is closed during a public holiday",
-            "type": "boolean",
-            "source": "openReferral",
-            "constraints": {
-              "required": true
-            }
-          },
-          {
-            "name": "opens_at",
-            "description": "The time when a service or location opens. This should use HH:MM format and should include timezone information, either adding the suffix 'Z' when the date is in UTC, or including an offset from UTC (e.g. 09:00-05:00 for 9am East Coast Time.",
-            "type": "time",
-            "source": "openReferral"
-          },
-          {
-            "name": "closes_at",
-            "description": "The time when a service or location closes. This should use HH:MM format and should include timezone information, either adding the suffix 'Z' when the date is in UTC, or including an offset from UTC (e.g. 09:00-05:00 for 9am East Coast Time.",
-            "type": "time",
-            "source": "openReferral"
-          },
-          {
-            "name": "start_date",
-            "description": "The first day that a service or location is closed during a public or private holiday",
-            "type": "date",
-            "source": "openReferral",
-            "constraints": {
-              "required": true
-            }
-          },
-          {
-            "name": "end_date",
-            "description": "The last day that a service or location is closed during a public or private holiday",
-            "type": "date",
-            "source": "openReferral",
-            "constraints": {
-              "required": true
-            }
-          }
-        ],
-        "primaryKey": "id",
-        "foreignKeys": [
-          {
-            "fields": "location_id",
-            "reference": {
-              "resource": "location",
-              "fields": "id"
-            }
-          },
-          {
-            "fields": "service_id",
-            "reference": {
-              "resource": "service",
-              "fields": "id"
-            }
-          },
-          {
-            "fields": "service_at_location_id",
-            "reference": {
-              "resource": "service_at_location",
-              "fields": "id"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "funding",
       "path": "funding.csv",
       "description": "The funding table describes the sources of funding for a service or organisation",
@@ -1753,54 +1763,47 @@
         ]
       }
     },
-    {
-      "name": "payment_accepted",
-      "path": "payments_accepted.csv",
-      "description": "The payment_accepted table contains details of the methods of payment that can be used in order to pay for services",
-      "format": "csv",
-      "source": "openReferral",
-      "mediatype": "text/csv",
-      "schema": {
-        "fields": [
-          {
-            "name": "id",
-            "description": "Each entry must have a unique identifier",
-            "type": "string",
-            "source": "openReferral",
-            "constraints": {
-              "required": true,
-              "unique": true
-            }
-          },
-          {
-            "name": "service_id",
-            "description": "The identifier of the services for which the entry describes the accepted payment methods",
-            "type": "string",
-			"format": "uuid",
-            "source": "openReferral"
-          },
-          {
-            "name": "payment",
-            "description": "The methods of payment accepted for the service",
-            "type": "string",
-            "source": "openReferral",
-            "constraints": {
-              "enum": [ "cash", "check", "money order", "credit card", "medicare", "SNAP", "WIC", "EBT" ]
-            }
-          }
-        ],
-        "primaryKey": "id",
-        "foreignKeys": [
-          {
-            "fields": "service_id",
-            "reference": {
-              "resource": "service",
-              "fields": "id"
-            }
-          }
-        ]
-      }
-    },
+	{
+		"name": "payment_accepted",
+		"path": "payments_accepted.csv",
+		"description": "The payment_accepted table contains details of the methods of payment that can be used in order to pay for services",
+		"format": "csv",
+		"mediatype": "text/csv",
+		"profile": "tabular-data-resource",
+		"schema": {
+			"fields": [
+				{
+					"name": "id",
+					"description": "Each entry must have a unique identifier",
+					"type": "string",
+					"constraints": {
+						"required":true,
+						"unique":true
+					}
+				},
+				{
+					"name": "service_id",
+					"description": "The identifier of the services for which the entry describes the accepted payment methods",
+					"type": "string"
+				},
+				{
+					"name": "payment",
+					"description": "The methods of payment accepted for the service",
+					"type": "string"
+				}
+			],
+			"primaryKey": "id",
+			"foreignKeys": [
+				{
+					"fields": "service_id",
+					"reference": {
+						"resource": "service",
+						"fields": "id"
+					}
+				}
+			]
+		}
+	},
     {
       "name": "language",
       "path": "languages.csv",
@@ -1980,203 +1983,147 @@
         "primaryKey": "id"
       }
     },
-    {
-      "name": "metadata",
-      "path": "metadata.csv",
-      "description": "The metadata table contains a record of the changes that have been made to the data in order to maintain provenance information.",
-      "format": "csv",
-      "source": "openReferral",
-      "mediatype": "text/csv",
-      "schema": {
-        "fields": [
-          {
-            "name": "id",
-            "description": "Each entry must have a unique identifier",
-            "type": "string",
-            "source": "openReferral",
-            "constraints": {
-              "required": true
-            }
-          },
-          {
-            "name": "resource_id",
-            "description": "Each service, program. location, address, or contact will have a unique identifier. Unique ids are UUIDs.",
-            "type": "string",
-            "source": "openReferral",
-            "constraints": {
-              "required": true
-            }
-          },
-          {
-            "name": "last_action_date",
-            "description": "The date when data was changed.",
-            "type": "datetime",
-            "source": "openReferral",
-            "constraints": {
-              "required": true
-            }
-          },
-          {
-            "name": "last_action_type",
-            "description": "The kind of change made to the data; eg create, update, delete",
-            "type": "string",
-            "source": "openReferral",
-            "constraints": {
-              "required": true
-            }
-          },
-          {
-            "name": "field_name",
-            "description": "The name of field that has been modified",
-            "type": "string",
-            "source": "openReferral",
-            "constraints": {
-              "required": true
-            }
-          },
-          {
-            "name": "previous_value",
-            "description": "The previous value of a field that has been updated",
-            "type": "string",
-            "source": "openReferral",
-            "constraints": {
-              "required": true
-            }
-          },
-          {
-            "name": "replacement_value",
-            "description": "The new value of a field that has been updated",
-            "type": "string",
-            "source": "openReferral",
-            "constraints": {
-              "required": true
-            }
-          },
-          {
-            "name": "updated_by",
-            "description": "The name of the person who updated a value",
-            "type": "string",
-            "source": "openReferral",
-            "constraints": {
-              "required": true
-            }
-          }
-        ],
-        "primaryKey": "id",
-        "foreignKeys": [
-          {
-            "fields": "resource_id",
-            "reference": {
-              "resource": "location",
-              "fields": "id"
-            }
-          },
-          {
-            "fields": "resource_id",
-            "reference": {
-              "resource": "service",
-              "fields": "id"
-            }
-          },
-          {
-            "fields": "resource_id",
-            "reference": {
-              "resource": "organization",
-              "fields": "id"
-            }
-          },
-          {
-            "fields": "resource_id",
-            "reference": {
-              "resource": "program",
-              "fields": "id"
-            }
-          },
-          {
-            "fields": "resource_id",
-            "reference": {
-              "resource": "postal_address",
-              "fields": "id"
-            }
-          },
-          {
-            "fields": "resource_id",
-            "reference": {
-              "resource": "physical_address",
-              "fields": "id"
-            }
-          },
-          {
-            "fields": "resource_id",
-            "reference": {
-              "resource": "contact",
-              "fields": "id"
-            }
-          },
-          {
-            "fields": "resource_id",
-            "reference": {
-              "resource": "holiday_schedule",
-              "fields": "id"
-            }
-          },
-          {
-            "fields": "resource_id",
-            "reference": {
-              "resource": "regular_schedule",
-              "fields": "id"
-            }
-          },
-          {
-            "fields": "resource_id",
-            "reference": {
-              "resource": "phone",
-              "fields": "id"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "meta_table_description",
-      "path": "meta_table_descriptions.csv",
-      "description": "The meta_table_description table contains metadata about individual tables.",
-      "format": "csv",
-      "source": "openReferral",
-      "mediatype": "text/csv",
-      "schema": {
-        "fields": [
-          {
-            "name": "id",
-            "description": "Each entry must have a unique identifier",
-            "type": "string",
-            "source": "openReferral",
-            "constraints": {
-              "required": true
-            }
-          },
-          {
-            "name": "name",
-            "description": "",
-            "type": "string",
-            "source": "openReferral"
-          },
-          {
-            "name": "language",
-            "description": "",
-            "type": "string",
-            "source": "openReferral"
-          },
-          {
-            "name": "character_set",
-            "description": "",
-            "type": "string",
-            "source": "openReferral"
-          }
-        ],
-        "primaryKey": "id"
-      }
-    },
+ {
+                "name": "metadata",
+                "path": "metadata.csv",
+                "description": "The metadata table contains a record of the changes that have been made to the data in order to maintain provenance information.",
+                "format": "csv",
+                "mediatype": "text/csv",
+                "profile": "tabular-data-resource",
+                "schema": {
+                    "fields": [
+                        {
+                            "name": "id",
+                            "description": "Each entry must have a unique identifier",
+                            "type": "string",
+                            "constraints": {
+                                "required":true,
+                                "unique":true
+                            }
+                        },
+                        {
+                            "name": "resource_id",
+                            "description": "Each service, program. location, address, or contact will have a unique identifier.",
+                            "type": "string",
+                            "constraints": {
+                                "required":true,
+                                "unique":true
+                            }
+                        },
+                        {
+                            "name": "resource_type",
+                            "description": "The type of entity being referenced",
+                            "type": "string",
+                            "constraints": {
+                                "required":true,
+                                "unique":true,
+                                "enum": ["organization",
+                                    "program",
+                                    "service",
+                                    "service_attribute",
+                                    "other_attribute",
+                                    "service_at_location",
+                                    "location",
+                                    "phone",
+                                    "contact",
+                                    "schedule",
+                                    "funding",
+                                    "eligibility",
+                                    "service_area",
+                                    "accessibility_for_disabilities",
+                                    "taxonomy_term"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "last_action_date",
+                            "description": "The date when data was changed.",
+                            "type": "datetime",
+                            "constraints": {
+                                "required":true
+                            }
+                        },
+                        {
+                            "name": "last_action_type",
+                            "description": "The kind of change made to the data; eg create, update, delete",
+                            "type": "string",
+                            "constraints": {
+                                "required":true
+                            }
+                        },
+                        {
+                            "name": "field_name",
+                            "description": "The name of field that has been modified",
+                            "type": "string",
+                            "constraints": {
+                                "required":true
+                            }
+                        },
+                        {
+                            "name": "previous_value",
+                            "description": "The previous value of a field that has been updated",
+                            "type": "string",
+                            "constraints": {
+                                "required":true
+                            }
+                        },
+                        {
+                            "name": "replacement_value",
+                            "description": "The new value of a field that has been updated",
+                            "type": "string",
+                            "constraints": {
+                                "required":true
+                            }
+                        },
+                        {
+                            "name": "updated_by",
+                            "description": "The name of the person who updated a value",
+                            "type": "string",
+                            "constraints": {
+                                "required":true
+                            }
+                        }
+                    ],
+                    "primaryKey": "id"
+                }
+            },
+           {
+                "name": "meta_table_description",
+                "path": "meta_table_descriptions.csv",
+                "description": "The meta_table_description table contains metadata about individual tables.",
+                "format": "csv",
+                "mediatype": "text/csv",
+                "profile": "tabular-data-resource",
+                "schema": {
+                    "fields": [
+                        {
+                            "name": "id",
+                            "description": "Each entry must have a unique identifier",
+                            "type": "string",
+                            "constraints": {
+                                "required":true,
+                                "unique":true
+                            }
+                        },
+                        {
+                            "name": "name",
+                            "description": "",
+                            "type": "string"
+                        },
+                        {
+                            "name": "language",
+                            "description": "",
+                            "type": "string"
+                        },
+                        {
+                            "name": "character_set",
+                            "description": "",
+                            "type": "string"
+                        }
+                    ],
+                    "primaryKey": "id"
+                }
+            },
     {
       "name": "cost_option",
       "path": "cost_option.csv",
