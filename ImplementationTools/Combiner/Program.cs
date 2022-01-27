@@ -180,6 +180,7 @@ namespace Combiner
                     }
                     finally
                     {
+                        RunSQL("INSERT INTO link_taxonomy SELECT id, 'service_type', service_id, taxonomy_id, api_id FROM service_taxonomy;", conn);
                         try
                         {
                             RunSQL("SET FOREIGN_KEY_CHECKS=1;", conn);
