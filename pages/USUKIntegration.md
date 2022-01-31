@@ -24,6 +24,8 @@ We don’t expect any backwards compatibilities with current structures, but we 
 # 2. Human Services Data Application Programming Interface (HSDA)
 Based on the UK implementation, we’ll define a core API that should work with any Open Referral implementation and be suitable for use with generic tools developed for standard data feeds. There will be an automated means of generating response formats to core GET web methods for all (existing and future) application profiles.
 
+This API specification will be tested in a pilot implementation with one of Open Referral’s community partnerships in which Sarapis is a technical partner. 
+
 # 3. The Community
 We’ll bring together the communities by standardising our means of communication and retiring channels that aren’t well used. This will allow us to share learning internationally. There will remain space for discussing matters that only apply in one country.
 
