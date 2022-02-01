@@ -134,7 +134,7 @@ namespace Combiner
                         else
                         {
                             int index = row.Fields.IndexOf(ID_COLUMN);
-                            if (index > -1 && resourceName != "service" && resourceName != "organization" && resourceName != "location")
+                            if (index > -1 && resourceName != "service" && resourceName != "organization" && resourceName != "location" && resourceName != "taxonomy")
                             {
                                 if (!keyReWrite.ContainsKey(resourceName))
                                 {
@@ -180,7 +180,8 @@ namespace Combiner
                     }
                     finally
                     {
-                        RunSQL("INSERT INTO link_taxonomy SELECT id, 'service_type', service_id, taxonomy_id, api_id FROM service_taxonomy;", conn);
+                        RunSQL("INSERT IGNORE INTO link_taxonomy SELECT id, 'service_type', service_id, taxonomy_id, api_id FROM service_taxonomy;", conn);
+                        RunSQL("UPDATE location INNER JOIN physical_address ON location.id = physical_address.location_id AND postal_code IS NOT NULL AND postal_code <> '' AND (location.latitude IS NULL OR location.longitude IS NULL) INNER JOIN esd_postcode ON REPLACE(`postal_code`, ' ', '') = esd_postcode.code SET location.latitude = esd_postcode.latitude, location.longitude = esd_postcode.longitude; ", conn);
                         try
                         {
                             RunSQL("SET FOREIGN_KEY_CHECKS=1;", conn);
@@ -326,7 +327,7 @@ namespace Combiner
                     RunSQL("SET FOREIGN_KEY_CHECKS=0;", conn);
 
                     Queue<string> tableNames = new Queue<string>();
-                    using (MySqlCommand command = new MySqlCommand("show tables", conn))
+                    using (MySqlCommand command = new MySqlCommand("show full tables where Table_Type != 'VIEW'", conn))
                     {
                         using (MySqlDataReader reader = command.ExecuteReader())
                         {
@@ -346,7 +347,12 @@ namespace Combiner
                         string table = tableNames.Dequeue();
                         try
                         {
-                            using (MySqlCommand command = new MySqlCommand(string.Format("DELETE FROM `{0}` WHERE api_id NOT IN ({1});", table, string.Join(",", currentIds)), conn))
+                            string sql = string.Format("DELETE FROM `{0}` WHERE api_id NOT IN ({1});", table, string.Join(",", currentIds));
+                            if (table == "taxonomy")
+                            {
+                                sql = string.Format("DELETE FROM `{0}`;", table);
+                            }
+                            using (MySqlCommand command = new MySqlCommand(sql, conn))
                             {
                                 command.ExecuteNonQuery();
                             }
@@ -369,7 +375,7 @@ namespace Combiner
             Console.WriteLine("Clearing records for: " + baseUrl.URL);
 
             Queue<string> tableNames = new Queue<string>();
-            using (MySqlCommand command = new MySqlCommand("show tables", conn))
+            using (MySqlCommand command = new MySqlCommand("show full tables where Table_Type != 'VIEW'", conn))
             {
                 using (MySqlDataReader reader = command.ExecuteReader())
                 {
