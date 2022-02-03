@@ -16,7 +16,7 @@ The work will comprise three parts:
 We plan to combine the HSDS 2.1.0 and the UK structure into one “extended” data structure and provide an automated means of generating “application profiles” from that extended structure. Application profiles will include a basic core structure, the current “classic” HSDS, the UK structure and others that may be created over time to meet the needs of specific applications.
 
 <p style="text-align: center;">
-    <img src="https://raw.githubusercontent.com/esd-org-uk/human-services/master/Resources/HSDS_OpenReferral_US_.png" alt="HSHS with UK extensions and extended" class="img-fluid">
+    <img src="https://raw.githubusercontent.com/esd-org-uk/human-services/master/Resources/HSDS_OpenReferral_US_Transparent.png" alt="HSHS with UK extensions and extended" class="img-fluid">
 </p>
 
 We don’t expect any backwards compatibilities with current structures, but we may exclude parts of the UK structure that have not yet been adopted. We may add small uncontentious properties.
