@@ -19,7 +19,7 @@ We plan to combine the HSDS 2.1.0 and the UK structure into one “extended” d
     <img src="https://raw.githubusercontent.com/esd-org-uk/human-services/master/Resources/HSDS_OpenReferral_US_Transparent.png" alt="HSHS with UK extensions and extended" class="img-fluid">
 </p>
 
-We don’t expect any backwards compatibilities with current structures, but we may exclude parts of the UK structure that have not yet been adopted. We may add small uncontentious properties.
+We don’t expect any backwards incompatibilities with current structures, but we may exclude parts of the UK structure that have not yet been adopted. We may add small uncontentious properties.
 
 # 2. Human Services Data Application Programming Interface (HSDA)
 Based on the UK implementation, we’ll define a core API that should work with any Open Referral implementation and be suitable for use with generic tools developed for standard data feeds. There will be an automated means of generating response formats to core GET web methods for all (existing and future) application profiles.
