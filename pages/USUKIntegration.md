@@ -30,4 +30,6 @@ This API specification will be tested in a pilot implementation with one of Open
 We’ll bring together the communities by standardising our means of communication and retiring channels that aren’t well used. This will allow us to share learning internationally. There will remain space for discussing matters that only apply in one country.
 
 # How to Get Involved
-We’ll share progress via this page and [this forum thread](https://forum.openreferraluk.org/t/closer-alignment-between-international-and-uk-data-structures/134). Our standard mailings will advise progress. Email hello@opernreferraluk.org to let us know if you want to be actively consulted.
+We’ll share progress via this page and [this forum thread](https://forum.openreferraluk.org/t/closer-alignment-between-international-and-uk-data-structures/134). Updates will also be shared in Open Referral’s Slack, and Github repositories as relevant. Our standard mailings will advise progress.
+
+**[Register here](https://forms.gle/xxgNGPeahG9URbf86)** if you want to be actively consulted during the alignment work.
