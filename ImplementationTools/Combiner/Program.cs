@@ -158,39 +158,49 @@ namespace Combiner
                     conn.Open();                    
 
                     try
-                    {
-                        RunSQL("SET FOREIGN_KEY_CHECKS=0;", conn);
-                        
+                    {                        
                         ClearDatabase(conn, baseUrl);
 
-                        List<string> commands = new List<string>();
-                        foreach (Row row in rows)
-                        {
-                            commands.Add(row.ToSQL(keyReWrite, baseUrl.ID));
+                        List<Row> retryRows = new List<Row>();
+                        int retries = 0;
 
-                            if (commands.Count > 1000)
+                        do
+                        {
+                            retryRows = new List<Row>();
+                            foreach (Row row in rows)
                             {
-                                Console.WriteLine("Executing " + commands.Count + " rows for " + baseUrl.URL);
-                                ExecuteBatch(commands, conn);
+                                try
+                                {
+                                    Console.WriteLine("Executing 1 row for " + baseUrl.URL);
+                                    RunSQL(row.ToSQL(keyReWrite, baseUrl.ID), conn);
+                                }
+                                catch (MySqlException e)
+                                {
+                                    if (e.Number != 1062)
+                                    {
+                                        retryRows.Add(row);
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    if (!e.Message.StartsWith("Cannot add or update a child row: a foreign key constraint fails"))
+                                    {
+                                        retryRows.Add(row);
+                                    }
+                                }
+                            }
+                            retries++;
+                            if (retryRows.Count > 0)
+                            {
+                                Console.WriteLine("Retrying: " + retryRows.Count);
                             }
                         }
-
-                        Console.WriteLine("Executing " + commands.Count + " rows for " + baseUrl.URL);
-                        ExecuteBatch(commands, conn);
+                        while (retryRows.Count > 0 && retries <= 5);
                     }
                     finally
                     {
                         RunSQL("INSERT IGNORE INTO link_taxonomy SELECT id, 'service_type', service_id, taxonomy_id, api_id FROM service_taxonomy;", conn);
                         RunSQL("UPDATE location INNER JOIN physical_address ON location.id = physical_address.location_id AND postal_code IS NOT NULL AND postal_code <> '' AND (location.latitude IS NULL OR location.longitude IS NULL) INNER JOIN esd_postcode ON REPLACE(`postal_code`, ' ', '') = esd_postcode.code SET location.latitude = esd_postcode.latitude, location.longitude = esd_postcode.longitude; ", conn);
-                        try
-                        {
-                            RunSQL("SET FOREIGN_KEY_CHECKS=1;", conn);
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine("Unable to save due to inconsistent data: " + e.Message);
-                            Console.ReadKey();
-                        }
                     }
 
                     hashDatabase.Hashes[baseUrl.URL] = delayeredResult.Hashes;
@@ -201,30 +211,6 @@ namespace Combiner
             {
                 CurrentServerKeys.Remove(baseUrl.ServerKey);
             }
-        }
-
-        private static void ExecuteBatch(List<string> commands, MySqlConnection conn)
-        {
-            try
-            {
-                RunSQL(commands, conn);
-            }
-            catch (MySqlException e)
-            {
-                if (e.Number != 1062)
-                {
-                    RunSQL(commands, conn);
-                }
-            }
-            catch (Exception e)
-            {
-                RunSQL(commands, conn);
-                if (!e.Message.StartsWith("Cannot add or update a child row: a foreign key constraint fails"))
-                {
-                    Console.WriteLine(e.Message);
-                }
-            }
-            commands.Clear();
         }
 
         private static bool HasUpdated(DelayeredResult delayeredResult, HashSet<int> previousCodes)
@@ -375,35 +361,43 @@ namespace Combiner
             Console.WriteLine("Clearing records for: " + baseUrl.URL);
 
             Queue<string> tableNames = new Queue<string>();
-            using (MySqlCommand command = new MySqlCommand("show full tables where Table_Type != 'VIEW'", conn))
+            try
             {
-                using (MySqlDataReader reader = command.ExecuteReader())
+                RunSQL("SET FOREIGN_KEY_CHECKS=0;", conn);
+                using (MySqlCommand command = new MySqlCommand("show full tables where Table_Type != 'VIEW'", conn))
                 {
-                    while (reader.Read())
+                    using (MySqlDataReader reader = command.ExecuteReader())
                     {
-                        string table = reader.GetString(0);
-                        if (table.StartsWith("esd_"))
+                        while (reader.Read())
                         {
-                            continue;
+                            string table = reader.GetString(0);
+                            if (table.StartsWith("esd_"))
+                            {
+                                continue;
+                            }
+                            tableNames.Enqueue(table);
                         }
+                    }
+                }
+                while (tableNames.Count > 0)
+                {
+                    string table = tableNames.Dequeue();
+                    try
+                    {
+                        using (MySqlCommand command = new MySqlCommand(string.Format("DELETE FROM `{0}` WHERE api_id={1};", table, baseUrl.ID), conn))
+                        {
+                            command.ExecuteNonQuery();
+                        }
+                    }
+                    catch (Exception e)
+                    {
                         tableNames.Enqueue(table);
                     }
                 }
             }
-            while(tableNames.Count > 0)
+            finally
             {
-                string table = tableNames.Dequeue();
-                try
-                {
-                    using (MySqlCommand command = new MySqlCommand(string.Format("DELETE FROM `{0}` WHERE api_id={1};", table, baseUrl.ID), conn))
-                    {
-                        command.ExecuteNonQuery();
-                    }
-                }
-                catch (Exception e)
-                {
-                    tableNames.Enqueue(table);
-                }
+                RunSQL("SET FOREIGN_KEY_CHECKS=1;", conn);
             }
         }
     }

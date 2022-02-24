@@ -8,7 +8,7 @@
             IsNullByDefault = isNullByDefault;
         }
 
-        public bool IsVisible { get; }
-        public bool IsNullByDefault { get; }
+        public bool IsVisible { get; private set; }
+        public bool IsNullByDefault { get; private set; }
     }
 }
