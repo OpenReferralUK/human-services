@@ -31,5 +31,3 @@ We’ll bring together the communities by standardising our means of communicati
 
 # How to Get Involved
 We’ll share progress via this page and [this forum thread](https://forum.openreferraluk.org/t/us-and-uk-alignment-and-version-control/150). Updates will also be shared in Open Referral’s Slack, and Github repositories as relevant. Our standard mailings will advise progress.
-
-**[Register here](https://forms.gle/xxgNGPeahG9URbf86)** if you want to be actively consulted during the alignment work.
