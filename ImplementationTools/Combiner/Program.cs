@@ -100,7 +100,7 @@ namespace Combiner
                             row.Fields.Add(COLUMN_ESCAPE + columnName + COLUMN_ESCAPE);
                             if (fieldKvp.Value is String)
                             {
-                                if (string.IsNullOrEmpty(fieldKvp.Value) && fieldStatus.IsNullByDefault)
+                                if (string.IsNullOrEmpty(fieldKvp.Value))
                                 {
                                     row.Values.Add(NULL);
                                     continue;
@@ -110,7 +110,7 @@ namespace Combiner
                             }
                             if (fieldKvp.Value.Type == Newtonsoft.Json.Linq.JTokenType.String)
                             {
-                                if (string.IsNullOrEmpty(fieldKvp.Value.Value) && fieldStatus.IsNullByDefault)
+                                if (string.IsNullOrEmpty(fieldKvp.Value.Value))
                                 {
                                     row.Values.Add(NULL);
                                     continue;
