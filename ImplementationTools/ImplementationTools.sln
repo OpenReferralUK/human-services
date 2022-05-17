@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImplementationTools.Tests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Oruk.MultiValidation", "MultiValidation\Oruk.MultiValidation.csproj", "{14339004-9D8D-4FDE-8AEA-4EB9AB5E8C54}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ORUKTaxonomy.Web", "ORUKTaxonomy.Web\ORUKTaxonomy.Web.csproj", "{D166831B-0BF5-4820-B5AB-2DE7426BB4F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{14339004-9D8D-4FDE-8AEA-4EB9AB5E8C54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14339004-9D8D-4FDE-8AEA-4EB9AB5E8C54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14339004-9D8D-4FDE-8AEA-4EB9AB5E8C54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D166831B-0BF5-4820-B5AB-2DE7426BB4F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D166831B-0BF5-4820-B5AB-2DE7426BB4F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D166831B-0BF5-4820-B5AB-2DE7426BB4F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D166831B-0BF5-4820-B5AB-2DE7426BB4F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

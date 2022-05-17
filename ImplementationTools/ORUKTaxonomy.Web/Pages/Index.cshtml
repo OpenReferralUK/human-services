@@ -1,0 +1,20 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Extract Taxonomies";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Extract Taxonomies</h1>
+    <form method="post">
+        <div>
+            <label for="url">Taxonomy URL:</label>
+            <input type="text" name="url" value="" />
+        </div>
+        <div>
+            <label for="vocabulary">Vocabulary:</label>
+            <input type="text" name="vocabulary" value="" />
+        </div>
+        <input type="submit" value="Extract">
+    </form>
+</div>
