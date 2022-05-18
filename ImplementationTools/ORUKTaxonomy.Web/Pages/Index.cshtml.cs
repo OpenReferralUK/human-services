@@ -21,7 +21,7 @@ namespace ORUKTaxonomy.Web.Pages
         private readonly ILogger<IndexModel> _logger;
 
         [BindProperty]
-        public string URL { get; set; }
+        public string BaseUrl { get; set; }
         [BindProperty]
         public string Vocabulary { get; set; }
 
@@ -32,7 +32,7 @@ namespace ORUKTaxonomy.Web.Pages
             APIValidatorSettings settings = new APIValidatorSettings();
             settings.RequestRate = 225;
             HashSet<string> processedIds = new HashSet<string>();
-            var paginationResults = await paginator.GetServices(URL, string.Empty, new WebServiceReader(settings), settings);
+            var paginationResults = await paginator.GetServices(BaseUrl, string.Empty, new WebServiceReader(settings), settings);
             foreach(dynamic service in paginationResults.Items)
             {
                 if (service.service_taxonomys == null)
@@ -61,7 +61,7 @@ namespace ORUKTaxonomy.Web.Pages
                 }
             }
             FileHelperEngine<Taxonomy> engine = new FileHelperEngine<Taxonomy>() { HeaderText = "Identifier", NewLineForWrite = "\r\n" };
-            return File(Encoding.UTF8.GetBytes(engine.WriteString(taxonomies)), "text/csv", "output.csv");
+            return File(Encoding.UTF8.GetBytes(engine.WriteString(taxonomies)), "text/csv", "taxonomies.csv");
         }
 
         public IndexModel(ILogger<IndexModel> logger)
