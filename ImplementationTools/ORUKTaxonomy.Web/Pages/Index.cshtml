@@ -1,0 +1,105 @@
+﻿@page
+@model IndexModel
+@{
+
+    ViewData["Title"] = "Extract Taxonomies";
+}
+<script>
+
+        var onTryMeButtonClick = function () {
+            var url = $(this).attr('data-url');
+            $('.DemoBaseURL').val(url);
+
+            var $formGroup = $('#exporterForm .form-group');
+            var $message = $formGroup.find('span.accessibility-message');
+            if ($message.length > 0)
+                return;
+
+            $formGroup.prepend('<span class="accessibility-message" style="opacity: 0; position: absolute">Base URL applied</span>');
+        };
+
+        function togglePanel() {
+            var w = $(window).width();
+            if (w <= 1199) {
+                $('#example-links').addClass('collapse');
+                $('#example-links-button').attr('aria-expanded', 'true');
+            } else {
+                $('#example-links').removeClass('collapse');
+                $('#example-links-button').attr('aria-expanded', 'false');
+            }
+        }
+
+        $(window).resize(function () {
+            togglePanel();
+        });
+
+        $(document).ready(function () {
+            togglePanel();
+
+            $.ajax({
+                url: "https://validator.openreferraluk.org/api",
+                type: "GET",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (response) {
+                    $.each(response, function (index, value) {
+                        var $li = $('<li class="mb-2"></li>');
+                        var $button = $('<a href="javascript:void()" data-url="' + value.url + '">' + value.url + '</a>');
+                        $li.append($button);
+                        $('#ulExamples').append($li);
+                        $button.on('click', onTryMeButtonClick);
+                    });
+                }
+            });
+        });
+
+</script>
+<div>
+    <h1 class="display-4 mb-5">Service Directory Taxonomy Extractor</h1>
+    <div class="row">
+        <div class="col-sm">
+            <div class="panel panel-primary">
+                <p>The Service Directory Taxonomy allows providers to easily view the taxonomies currently being used.</p>
+                <div class="panel-heading">
+                    <h2 class="panel-title"><span id="example-links-button" class="accordion-toggle" data-toggle="collapse" data-target="#example-links"><span>Example base URLs</span></span></h2>
+                </div>
+
+                <div class="panel-body" id="example-links">
+                    <p>Click on a button below to automatically populate the Base URL field.</p>
+                    <ul class="list-unstyled" id="ulExamples"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <form id="frmExtract" method="post">
+                <div class="form-group" aria-live="polite" aria-atomic="true">
+                    <label for="BaseUrl">Base URL</label>
+                    <input class="form-control DemoBaseURL" type="url" id="BaseUrl" name="BaseUrl" />
+                </div>
+                <div class="form-group" aria-live="polite" aria-atomic="true">
+                    <label for="vocabulary">Vocabulary</label>
+                    <input class="form-control" type="text" id="vocabulary" name="vocabulary" />
+                    <small id="passwordHelpBlock" class="form-text text-muted">
+                        To limit the used taxonomy terms to a specific vocabulary (e.g. esdServiceTypes) enter it above, otherwise all terms will be returned.
+                    </small>
+                </div>
+                @if (TempData["MsgText"] != null)
+                {
+                    <div class="alert alert-danger">@TempData["MsgText"]</div>
+                }
+
+                <input id="btnExtract" type="submit" value="Extract" class="button button-primary" />
+            </form>
+            <script>
+                $(document).ready(function () {
+                    $("#frmExtract").submit(function () {
+                        $("#btnExtract").attr("disabled", true);
+                        setTimeout(function () {
+                            $("#btnExtract").attr("disabled", false);
+                        }, 10000);
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</div>

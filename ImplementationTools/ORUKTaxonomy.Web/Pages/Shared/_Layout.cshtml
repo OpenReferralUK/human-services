@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Extract your Service Directory Taxonomies</title>
+    <meta name="description" content="A tool to extract taxonomies from an entire service directory." />
+    <link rel="icon" href="~/images/favicon.ico" />
+    <link rel="stylesheet" href="~/fonts/inter.css" />
+    <link rel="stylesheet" href="~/css/site.css?v=1.02" />
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container-fluid p-0">
+        <div id="header_wrap" class="outer">
+            <header class="inner">
+
+                <div class="row">
+                    <div class="col-auto">
+                        <a href="https://developers.openreferraluk.org/"><img class="p-0" src="/images/oruk_logo_white.svg" alt="Open Referral UK" style="box-shadow:none"></a>
+                    </div>
+                    <div class="col d-flex align-items-center">
+                        <h1 id="project_title">Service Directory Taxonomy Extractor</h1>
+                    </div>
+                    <div class="col-auto d-flex align-items-center">
+                        <a href="https://forum.openreferraluk.org/" class="forum-link button button-secondary button-header show-md">Forum</a><a href="https://openreferraluk.org" class="button button-secondary button-header show-md">Main site</a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div id="main_content_wrap" class="outer">
+            <section>
+                <div class="navbackground">
+                    <nav class="navbar navbar-expand-md navwidth navbar-dark pl-0">
+                        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbar_expand" aria-controls="navbar_expand" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                        <div class="navbar-collapse collapse" id="navbar_expand" style="">
+                            <ul class="navbar-nav mr-auto">
+
+
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="https://developers.openreferraluk.org/">Documentation home</a>
+                                </li>
+
+
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Data standard
+                                    </a>
+
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+
+                                        <a class="dropdown-item" href="https://developers.openreferraluk.org/Reference/">Reference</a>
+
+
+
+                                        <a class="dropdown-item" href="https://developers.openreferraluk.org/Guidance/">Guidance</a>
+
+
+
+                                        <a class="dropdown-item" href="https://developers.openreferraluk.org/UseOfTaxonomies/">Use of taxonomies</a>
+
+
+
+                                        <a class="dropdown-item" href="https://developers.openreferraluk.org/Validation/">Aggregation, deduplication and validation</a>
+
+
+                                    </div>
+                                </li>
+
+
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        API
+                                    </a>
+
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+
+                                        <a class="dropdown-item" href="https://developers.openreferraluk.org/ApiReference/">Reference</a>
+
+
+
+                                        <a class="dropdown-item" href="https://developers.openreferraluk.org/API-Guidance/">Guidance</a>
+                                        <a class="dropdown-item" href="https://developers.openreferraluk.org/API-Implementation/">Implementation</a>
+
+                                    </div>
+                                </li>
+
+
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Tools
+                                    </a>
+
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="https://openreferraluk.org/dashboard">Dashboard</a>
+                                        <a class="dropdown-item" href="https://query.openreferraluk.org/">API Query Tool</a>
+                                        <a class="dropdown-item" href="https://exporter.openreferraluk.org/">Exporter</a>
+                                        <a class="dropdown-item" href="https://validator.openreferraluk.org/">Validator</a>
+                                    </div>
+                                </li>
+
+
+                            </ul>
+                            <a class="text-white" style="text-decoration:underline;" href="https://openreferraluk.org/">openreferraluk.org</a>
+                        </div>
+                    </nav>
+                </div>
+            </section>
+            <section id="main_content" class="inner mt-4">
+                @RenderBody()
+            </section>
+        </div>
+
+        <div id="footer_wrap" class="outer">
+            <footer class="inner">
+                <p class="copyright">Open Referral UK Data Standard maintained by <a href="https://github.com/OpenReferralUK">Open Referral UK</a></p>
+            </footer>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
