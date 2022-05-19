@@ -10,12 +10,13 @@ namespace ORUKTaxonomy.Web.Models
     public class Taxonomy
     {
         public string ID { get; private set; }
-        [FieldHidden]
+        public string Name { get; private set; }
         public string Vocabulary { get; private set; }
         public Taxonomy() { }
-        public Taxonomy(string id, string vocabulary)
+        public Taxonomy(string id, string name, string vocabulary)
         {
-            ID = Regex.Match(id, @"\d+").Value;
+            ID = id;
+            Name = name;
             Vocabulary = vocabulary;
         }
     }

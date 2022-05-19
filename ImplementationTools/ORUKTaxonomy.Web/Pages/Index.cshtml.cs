@@ -47,21 +47,23 @@ namespace ORUKTaxonomy.Web.Pages
                     }
                     var taxonomy = service_taxonomy.taxonomy;
                     string id = taxonomy.id;
+                    string name = taxonomy.name;
                     string vocabulary = taxonomy.vocabulary;
                     if (!string.IsNullOrEmpty(Vocabulary) && Vocabulary != vocabulary)
                     {
                         continue;
                     }
-                    if (processedIds.Contains(id))
+                    string key = id + "|" + vocabulary;
+                    if (processedIds.Contains(key))
                     {
                         continue;
                     }
-                    processedIds.Add(id);
-                    taxonomies.Add(new Taxonomy(id, vocabulary));
+                    processedIds.Add(key);
+                    taxonomies.Add(new Taxonomy(id, name, vocabulary));
                 }
             }
-            FileHelperEngine<Taxonomy> engine = new FileHelperEngine<Taxonomy>() { HeaderText = "Identifier", NewLineForWrite = "\r\n" };
-            return File(Encoding.UTF8.GetBytes(engine.WriteString(taxonomies)), "text/csv", "taxonomies.csv");
+            FileHelperEngine<Taxonomy> engine = new FileHelperEngine<Taxonomy>() { HeaderText = "Identifier,Name,Vocabulary", NewLineForWrite = "\r\n" };
+            return File(Encoding.UTF8.GetBytes(engine.WriteString(taxonomies)), "text/csv", "TaxonomyTerms.csv");
         }
 
         public IndexModel(ILogger<IndexModel> logger)

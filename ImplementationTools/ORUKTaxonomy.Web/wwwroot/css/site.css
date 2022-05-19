@@ -967,6 +967,10 @@ input[type=text], input[type=url], select {
     text-align: center;
 }
 
+.button-primary:disabled {
+    background-color: #808080;
+}
+
 .button-secondary {
     background-color: #fff;
     color: #135e75;
