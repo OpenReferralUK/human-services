@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <configSections>
+    <section name="EndPoints" type="Combiner.MultipleBaseURLsSection, Combiner" requirePermission="false" />
+  </configSections>
+  <appSettings>
+    <add key="ConnectionString" value=""/>
+  </appSettings>
+  <EndPoints>
+    <Values>
+      <add url="https://blackburn.openplace.directory/o/ServiceDirectoryService/v2" id="1" serverkey="openplace.directory" requestrate="100"/>
+      <add url="https://bristol.openplace.directory/o/ServiceDirectoryService/v2" id="2" serverkey="openplace.directory" requestrate="100"/>
+      <add url="https://api.familyinfo.buckinghamshire.gov.uk/api/v1" id="3" serverkey="buckinghamshire.gov.uk" requestrate="20"/>
+      <add url="https://api.porism.com/ServiceDirectoryServiceCQC" id="4" serverkey="porism.com" requestrate="100"/>
+      <add url="https://openreferral.localgovdrupal.org/openreferral/v1" id="5" serverkey="localgovdrupal.org" requestrate="100"/>
+      <add url="https://elmbridge.openplace.directory/o/ServiceDirectoryService/v2" id="6" serverkey="openplace.directory" requestrate="100"/>
+      <add url="https://fyldecoast.openplace.directory/o/ServiceDirectoryService/v2" id="7" serverkey="openplace.directory" requestrate="100"/>
+      <add url="https://lgaapi.connecttosupport.org" id="8" serverkey="connecttosupport.org" requestrate="100"/>
+      <add url="https://northlincs.openplace.directory/o/ServiceDirectoryService/v2" id="9" serverkey="openplace.directory" requestrate="100"/>
+    </Values>
+  </EndPoints>
+</configuration>
