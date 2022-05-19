@@ -62,6 +62,12 @@ namespace ServiceDirectory.Common.Pagination
                         List<dynamic> services = new List<dynamic>();
                         foreach (dynamic s in serviceList.content)
                         {
+                            if (HasProperty(s, "taxonomies") && HasProperty(s, "regular_schedules"))
+                            {
+                                //the service data is all in the list so no need to go deeper.
+                                paginationResults.Items.Add(s);
+                                continue;
+                            }
                             services.Add(s);
                         }
 
