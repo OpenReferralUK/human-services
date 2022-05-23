@@ -10,3 +10,5 @@ ImplementationTools/ServiceDirectoryExporter/internal-nlog.txt
 ImplementationTools/ServiceDirectoryValidator/internal-nlog.txt
 ImplementationTools/ServiceDirectoryValidator/internal-nlog.txt
 *internal-nlog.txt
+*appsettings.json
+*App.config
