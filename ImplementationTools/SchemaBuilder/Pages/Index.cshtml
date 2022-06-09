@@ -1,0 +1,39 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Configure Schema";
+}
+
+<div>
+    <h1 class="display-4">Configure Schema</h1>
+    <form method="post">
+        <div style="float: left; width: calc(100% + 1em); margin-left: -1em; clear: both;">
+            @for (var j = 0; j < Model.IncludeResources.Count(); j++)
+            {
+        <div style="float:left;clear:none;width:14em;padding:1em">
+            <h2 style="text-align: left;overflow-wrap:break-word">@Model.IncludeResources[j].Name</h2>
+            <input type="hidden" asp-for="@Model.IncludeResources[j].Name" />
+            <table class="table" style="width:12em">
+                <tr>
+                    <th style="text-align: left;">Field</th>
+                    <th></th>
+                </tr>
+                @for (var i = 0; i < Model.IncludeResources[j].Attributes.Count(); i++)
+                {
+                    <tr>
+                        <td style="width:10em;text-align:left;">
+                            @Model.IncludeResources[j].Attributes[i].Field
+                            <input type="hidden" asp-for="@Model.IncludeResources[j].Attributes[i].Field" />
+                        </td>
+                        <td style="width: 2em; text-align: left;"><input asp-for="@Model.IncludeResources[j].Attributes[i].Include" class="form-check-input"></td>
+                    </tr>
+                }
+            </table>
+        </div>
+            }
+        </div>
+    <div style="width:100%;">
+        <button>Update</button>
+    </div>
+    </form>
+</div>

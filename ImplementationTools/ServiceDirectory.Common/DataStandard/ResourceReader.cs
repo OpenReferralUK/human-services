@@ -1,17 +1,19 @@
-﻿using System;
+﻿using ServiceDirectory.Common.DataStandard.Models;
+using System;
 using System.Collections.Generic;
 
 namespace ServiceDirectory.Common.DataStandard
 {
     public class ResourceReader
     {
-        private const string ExtendedDataPackage = "https://raw.githubusercontent.com/esd-org-uk/human-services/master/SchemaGenerator/Generator/ExtendedDataPackage.json";
+        private string extendedDataPackage;
         private dynamic json;
         private WebServiceReader webServiceReader;
 
-        public ResourceReader()
+        public ResourceReader(string extendedDataPackage = "https://raw.githubusercontent.com/esd-org-uk/human-services/master/SchemaGenerator/Generator/ExtendedDataPackage.json")
         {
             webServiceReader = new WebServiceReader(new APIValidatorSettings());
+            this.extendedDataPackage = extendedDataPackage;
         }
 
         public async System.Threading.Tasks.Task<dynamic> GetResources()
@@ -22,6 +24,23 @@ namespace ServiceDirectory.Common.DataStandard
                 return json.resources;
             }
             return json;
+        }
+
+        public async System.Threading.Tasks.Task<List<Resource>> GetStronglyTypesResourcesAsync()
+        {
+            List<Resource> resources = new List<Resource>();
+            dynamic json = await GetResourceJSON().ConfigureAwait(false);
+            foreach (dynamic resource in json.resources)
+            {
+                Resource resourceObj = new Resource();
+                resourceObj.Name = resource.name.Value;
+                foreach(dynamic field in resource.schema.fields)
+                {
+                    resourceObj.Fields.Add(new Field() { Name = field.name.Value });
+                }
+                resources.Add(resourceObj);
+            }
+            return resources;
         }
 
         public async System.Threading.Tasks.Task<List<string>> GetResourceNames()
@@ -35,13 +54,13 @@ namespace ServiceDirectory.Common.DataStandard
             return resources;
         }
 
-        private async System.Threading.Tasks.Task<dynamic> GetResourceJSON()
+        public async System.Threading.Tasks.Task<dynamic> GetResourceJSON()
         {
             try
             {
                 if (json == null)
                 {
-                    WebServiceResponse response = await webServiceReader.ConvertToDynamic(ExtendedDataPackage).ConfigureAwait(false);
+                    WebServiceResponse response = await webServiceReader.ConvertToDynamic(extendedDataPackage).ConfigureAwait(false);
                     if (response != null)
                     {
                         json = response.Data;
