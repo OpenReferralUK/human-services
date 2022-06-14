@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 namespace SchemaBuilder.Models
@@ -8,6 +9,8 @@ namespace SchemaBuilder.Models
     public class IncludeResource
     {
         public string Name { get; set; }
+        [IgnoreDataMember]
+        public string Description { get; set; }
         public List<IncludeAttribute> Attributes { get; set; }
         public bool IsEmpty()
         {
@@ -23,6 +26,26 @@ namespace SchemaBuilder.Models
                 }
             }
             return true;
+        }
+
+        [IgnoreDataMember]
+        public bool AllSelected
+        {
+            get
+            {
+                if (Attributes == null || Attributes.Count == 0)
+                {
+                    return false;
+                }
+                foreach (IncludeAttribute attr in Attributes)
+                {
+                    if (!attr.Include)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
         }
         public IncludeResource()
         {

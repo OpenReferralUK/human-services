@@ -34,9 +34,13 @@ namespace ServiceDirectory.Common.DataStandard
             {
                 Resource resourceObj = new Resource();
                 resourceObj.Name = resource.name.Value;
+                resourceObj.Description = resource.description.Value;
                 foreach(dynamic field in resource.schema.fields)
                 {
-                    resourceObj.Fields.Add(new Field() { Name = field.name.Value });
+                    resourceObj.Fields.Add(new Field() { Name = field.name.Value, Description = field.description.Value, Type = field.type.Value, Format = (field.format != null ? field.format.Value : null),
+                    Required = (field.constraints != null && field.constraints.required != null ? field.constraints.required.Value : false),
+                    Unique = (field.constraints != null && field.constraints.unique != null ? field.constraints.unique.Value : false)
+                    });
                 }
                 resources.Add(resourceObj);
             }
