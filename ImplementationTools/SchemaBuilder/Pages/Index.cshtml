@@ -18,19 +18,22 @@
 <div>
     <h1 class="display-4">Configure Schema</h1>
     <form method="post" enctype="multipart/form-data">
-        <label>Extended Data Package</label> <select asp-for="@Model.Config.ExtendedDataPackageURL" asp-items="Model.DataPackageOptions" onchange="this.form.submit();" class="form-control form-select"></select>
-        <div style="float: left; width: calc(100% + 1em); margin-left: -1em; clear: both;">
-            @for (var j = 0; j < Model.Config.Resources.Count(); j++)
+        <div class="form-group">
+            <label>Extended Data Package</label>
+            <select asp-for="@Model.Config.ExtendedDataPackageURL" asp-items="Model.DataPackageOptions" onchange="this.form.submit();" class="form-control form-select"></select>
+        </div>
+            <div style="float: left; width: calc(100% + 1em); margin-left: -1em; clear: both;">
+                @for (var j = 0; j < Model.Config.Resources.Count(); j++)
             {
                 <div style="float:left;clear:none;width:100%;padding:1em">
                     <h2 style="text-align: left;overflow-wrap:break-word">
                         @if (Model.Config.Resources[j].AllSelected)
                         {
-                            <input type="checkbox" onclick="masterCheck(this, '@Model.Config.Resources[j].Name')" checked="checked" />
+                        <input type="checkbox" onclick="masterCheck(this, '@Model.Config.Resources[j].Name')" checked="checked" />
                         }
                         else
                         {
-                            <input type="checkbox" onclick="masterCheck(this, '@Model.Config.Resources[j].Name')" />
+                        <input type="checkbox" onclick="masterCheck(this, '@Model.Config.Resources[j].Name')" />
                         } @Model.Config.Resources[j].Name
                     </h2>
                     <p>@Model.Config.Resources[j].Description</p>
@@ -47,51 +50,52 @@
                         </tr>
                         @for (var i = 0; i < Model.Config.Resources[j].Attributes.Count(); i++)
                         {
-                            <tr>
-                                <td style="width: 2em; text-align: left; padding-left: 0">
-                                    @if (Model.Config.Resources[j].Attributes[i].Include)
+                        <tr>
+                            <td style="width: 2em;">
+                                @if (Model.Config.Resources[j].Attributes[i].Include)
                                     {
-                                        <input style="margin-left:0;" asp-for="@Model.Config.Resources[j].Attributes[i].Include" class="form-check-input @Model.Config.Resources[j].Name" checked="checked">
+                                <input style="margin-left:0;" asp-for="@Model.Config.Resources[j].Attributes[i].Include" class="@Model.Config.Resources[j].Name" checked="checked">
                                     }
                                     else
                                     {
-                                        <input style="margin-left:0;" asp-for="@Model.Config.Resources[j].Attributes[i].Include" class="form-check-input @Model.Config.Resources[j].Name">
+                                <input style="margin-left:0;" asp-for="@Model.Config.Resources[j].Attributes[i].Include" class="@Model.Config.Resources[j].Name">
                                     }
-                                </td>
-                                <td style="text-align:left">
-                                    @Model.Config.Resources[j].Attributes[i].Field
-                                    <input type="hidden" asp-for="@Model.Config.Resources[j].Attributes[i].Field" />
-                                    <input type="hidden" asp-for="@Model.Config.Resources[j].Attributes[i].Description" />
-                                    <input type="hidden" asp-for="@Model.Config.Resources[j].Attributes[i].Type" />
-                                    <input type="hidden" asp-for="@Model.Config.Resources[j].Attributes[i].Format" />
-                                    <input type="hidden" asp-for="@Model.Config.Resources[j].Attributes[i].Required" />
-                                    <input type="hidden" asp-for="@Model.Config.Resources[j].Attributes[i].Unique" />
+                            </td>
+                            <td style="text-align:left">
+                                @Model.Config.Resources[j].Attributes[i].Field
+                                <input type="hidden" asp-for="@Model.Config.Resources[j].Attributes[i].Field" />
+                                <input type="hidden" asp-for="@Model.Config.Resources[j].Attributes[i].Description" />
+                                <input type="hidden" asp-for="@Model.Config.Resources[j].Attributes[i].Type" />
+                                <input type="hidden" asp-for="@Model.Config.Resources[j].Attributes[i].Format" />
+                                <input type="hidden" asp-for="@Model.Config.Resources[j].Attributes[i].Required" />
+                                <input type="hidden" asp-for="@Model.Config.Resources[j].Attributes[i].Unique" />
 
-                                </td>
-                                <td style="text-align:left;">
-                                    @Model.Config.Resources[j].Attributes[i].Description
-                                </td>
-                                <td style="text-align:left;">
-                                    @Model.Config.Resources[j].Attributes[i].Type
-                                    @if (!string.IsNullOrEmpty(@Model.Config.Resources[j].Attributes[i].Format))
+                            </td>
+                            <td style="text-align:left;">
+                                @Model.Config.Resources[j].Attributes[i].Description
+                            </td>
+                            <td style="text-align:left;">
+                                @Model.Config.Resources[j].Attributes[i].Type
+                                @if (!string.IsNullOrEmpty(@Model.Config.Resources[j].Attributes[i].Format))
                                     {
-                                        <span>(</span><span>@Model.Config.Resources[j].Attributes[i].Format</span><span>)</span>
+                                <span>(</span><span>@Model.Config.Resources[j].Attributes[i].Format</span><span>)</span>
                                     }
-                                </td>
-                                <td style="text-align:left;">
-                                    @(Model.Config.Resources[j].Attributes[i].Required ? "Yes" : "No")
-                                </td>
-                                <td style="text-align:left;">
-                                    @(Model.Config.Resources[j].Attributes[i].Unique ? "Yes" : "No")
-                                </td>
-                            </tr>
+                            </td>
+                            <td style="text-align:left;">
+                                @(Model.Config.Resources[j].Attributes[i].Required ? "Yes" : "No")
+                            </td>
+                            <td style="text-align:left;">
+                                @(Model.Config.Resources[j].Attributes[i].Unique ? "Yes" : "No")
+                            </td>
+                        </tr>
                         }
                     </table>
                 </div>
             }
-        </div>
-        <div style="width:100%;">
-            <button asp-page-handler="DowloadPackage">Download Data Package</button><button asp-page-handler="DowloadConfig">Download Config</button> <input type="file" asp-for="UploadedFile" /><button asp-page-handler="UploadConfig">Upload Config</button>
-        </div>
+            </div>
+            <div style="width:100%;">
+                <button asp-page-handler="DowloadPackage">Download Data Package</button><button asp-page-handler="DowloadConfig">Download Config</button> <input type="file" asp-for="UploadedFile" /><button asp-page-handler="UploadConfig">Upload Config</button>
+            </div>
+            <br />
     </form>
 </div>
