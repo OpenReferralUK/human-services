@@ -18,7 +18,7 @@
 <div>
     <h1 class="display-4">Configure Schema</h1>
     <form method="post" enctype="multipart/form-data">
-        <label>Extended Data Package</label><select asp-for="@Model.Config.ExtendedDataPackageURL" asp-items="Model.DataPackageOptions" onchange="this.form.submit();"></select>
+        <label>Extended Data Package</label> <select asp-for="@Model.Config.ExtendedDataPackageURL" asp-items="Model.DataPackageOptions" onchange="this.form.submit();" class="form-control form-select"></select>
         <div style="float: left; width: calc(100% + 1em); margin-left: -1em; clear: both;">
             @for (var j = 0; j < Model.Config.Resources.Count(); j++)
             {

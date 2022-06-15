@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -17,6 +18,8 @@ namespace SchemaBuilder.Pages
     [BindProperties]
     public class IndexModel : PageModel
     {
+        private const string US_EXTENDED_DATA_PACKAGE = "https://raw.githubusercontent.com/openreferral/specification/master/datapackage.json";
+        private const string UK_EXTENDED_DATA_PACKAGE = "https://raw.githubusercontent.com/OpenReferralUK/human-services/master/SchemaGenerator/Generator/ExtendedDataPackage.json";
         private readonly ILogger<IndexModel> _logger;
 
         [BindProperty]
@@ -28,17 +31,16 @@ namespace SchemaBuilder.Pages
 
         [BindProperty]
         public IFormFile UploadedFile { get; set; }
-        public SelectList DataPackageOptions { get; set; }
+        public List<SelectListItem> DataPackageOptions { get; set; }
 
+        [ActivatorUtilitiesConstructor]
         public IndexModel(ILogger<IndexModel> logger)
         {
-            _logger = logger;
-            string[] vals = new string[2] { "https://raw.githubusercontent.com/openreferral/specification/master/datapackage.json", "https://github.com/OpenReferralUK/human-services/blob/master/SchemaGenerator/Generator/ExtendedDataPackage.json" };
-            DataPackageOptions = new SelectList(vals);
+            _logger = logger;            
         }
-
         public async Task<ActionResult> OnPostDowloadPackageAsync(IncludeConfig config)
         {
+            PopulateDataPackageOptions();
             ServiceDirectory.Common.DataStandard.ResourceReader resourceReader = new ServiceDirectory.Common.DataStandard.ResourceReader(Config.ExtendedDataPackageURL);
             dynamic json = await resourceReader.GetResourceJSON();
             List<dynamic> finalResources = new List<dynamic>();
@@ -80,6 +82,7 @@ namespace SchemaBuilder.Pages
         }
         public async Task<ActionResult> OnPostDowloadConfigAsync(IncludeConfig config)
         {
+            PopulateDataPackageOptions();
             Response.Headers.Add("Content-Disposition", @"attachment; filename=config.json");
 
             return Content(JsonConvert.SerializeObject(config), "application/json");
@@ -115,6 +118,11 @@ namespace SchemaBuilder.Pages
             return string.Format("{0}|{1}", ir.Name, fieldName);
         }
 
+        public async Task OnPostAsync()
+        {
+            await LoadExtendedDataPackage(null);
+        }
+
         public async Task OnGetAsync()
         {
             await LoadExtendedDataPackage(null);
@@ -122,10 +130,11 @@ namespace SchemaBuilder.Pages
 
         private async Task LoadExtendedDataPackage(HashSet<string> includeProperties)
         {
+            PopulateDataPackageOptions();
             Config = new IncludeConfig();
             if (string.IsNullOrEmpty(Config.ExtendedDataPackageURL))
             {
-                Config.ExtendedDataPackageURL = "https://raw.githubusercontent.com/openreferral/specification/master/datapackage.json";
+                Config.ExtendedDataPackageURL = US_EXTENDED_DATA_PACKAGE;
             }
             Config.Resources = new List<IncludeResource>();
             ServiceDirectory.Common.DataStandard.ResourceReader resourceReader = new ServiceDirectory.Common.DataStandard.ResourceReader(Config.ExtendedDataPackageURL);
@@ -138,12 +147,34 @@ namespace SchemaBuilder.Pages
                 includeResource.Attributes = new List<IncludeAttribute>();
                 foreach (Field field in resource.Fields)
                 {
-                    includeResource.Attributes.Add(new IncludeAttribute() { Field = field.Name, Description = field.Description, Type = field.Type, Format = field.Format, Required = field.Required, Unique = field.Unique,
-                    Include = (includeProperties != null && includeProperties.Contains(GetKey(includeResource, field.Name)))
+                    includeResource.Attributes.Add(new IncludeAttribute()
+                    {
+                        Field = field.Name,
+                        Description = field.Description,
+                        Type = field.Type,
+                        Format = field.Format,
+                        Required = field.Required,
+                        Unique = field.Unique,
+                        Include = (includeProperties != null && includeProperties.Contains(GetKey(includeResource, field.Name)))
                     });
                 }
                 Config.Resources.Add(includeResource);
             }
+        }
+
+        private void PopulateDataPackageOptions()
+        {
+            DataPackageOptions = new List<SelectListItem>();
+            DataPackageOptions.Add(new SelectListItem
+            {
+                Value = US_EXTENDED_DATA_PACKAGE,
+                Text = US_EXTENDED_DATA_PACKAGE
+            });
+            DataPackageOptions.Add(new SelectListItem
+            {
+                Value = UK_EXTENDED_DATA_PACKAGE,
+                Text = UK_EXTENDED_DATA_PACKAGE
+            });
         }
     }
 }
