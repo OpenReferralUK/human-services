@@ -50,7 +50,7 @@ namespace SchemaBuilder.Pages
                 {
                     if (resource.name.Value == includeResource.Name)
                     {
-                        if (includeResource.IsEmpty())
+                        if (includeResource.IsEmpty)
                         {
                             break;
                         }
@@ -97,9 +97,9 @@ namespace SchemaBuilder.Pages
                 data = ms.ToArray();
             }
             string json = Encoding.UTF8.GetString(data);
-            List<IncludeResource> includeResources = JsonConvert.DeserializeObject<List<IncludeResource>>(json);
+            Config = JsonConvert.DeserializeObject<IncludeConfig>(json);
             HashSet<string> includeProperties = new HashSet<string>();
-            foreach(IncludeResource ir in includeResources)
+            foreach(IncludeResource ir in Config.Resources)
             {
                 foreach(IncludeAttribute ia in ir.Attributes)
                 {

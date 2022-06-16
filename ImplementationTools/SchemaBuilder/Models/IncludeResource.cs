@@ -12,20 +12,24 @@ namespace SchemaBuilder.Models
         [IgnoreDataMember]
         public string Description { get; set; }
         public List<IncludeAttribute> Attributes { get; set; }
-        public bool IsEmpty()
+        [IgnoreDataMember]
+        public bool IsEmpty
         {
-            if (Attributes == null || Attributes.Count == 0)
+            get
             {
+                if (Attributes == null || Attributes.Count == 0)
+                {
+                    return true;
+                }
+                foreach (IncludeAttribute attr in Attributes)
+                {
+                    if (attr.Include)
+                    {
+                        return false;
+                    }
+                }
                 return true;
             }
-            foreach (IncludeAttribute attr in Attributes)
-            {
-                if (attr.Include)
-                {
-                    return false;
-                }
-            }
-            return true;
         }
 
         [IgnoreDataMember]

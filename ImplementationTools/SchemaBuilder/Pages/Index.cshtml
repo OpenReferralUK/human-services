@@ -4,22 +4,47 @@
     ViewData["Title"] = "Configure Schema";
 }
 <script>
+    function updateTableCheckbox(cssClass) {
+        var checked = 0;
+        var count = 0;
+        $('.' + cssClass).each(function (i, obj) {
+            count++;
+            if ($(obj).is(":checked")) {
+                checked++;
+            }
+        });
+        if (checked == count) {
+            $('#' + cssClass + '_Main').removeAttr("data-partial");
+            $('#' + cssClass + '_Main').removeAttr("style");
+            $('#' + cssClass + '_Main').prop('checked', true);
+        }
+        else if (checked > 0) {
+            $('#' + cssClass + '_Main').attr("data-partial", true);
+            $('#' + cssClass + '_Main').attr("style", "filter: invert(25%);accent-color: white;");
+            $('#' + cssClass + '_Main').prop('checked', true);
+        }
+        else {
+            $('#' + cssClass + '_Main').removeAttr("data-partial");
+            $('#' + cssClass + '_Main').removeAttr("style");
+            $('#' + cssClass + '_Main').prop('checked', false);
+        }
+    }
     function masterCheck(objCheck, cssClass) {
-        if ($(objCheck).is(":checked")) {
+        if ($(objCheck).is(":checked") || $(objCheck).attr("data-partial")) {
             $('.' + cssClass).prop('checked', true);
-            $('.' + cssClass + '_table').hide();
+            $('#' + cssClass + '_Main').removeAttr("data-partial");
+            $('#' + cssClass + '_Main').removeAttr("style");
         }
         else {
             $('.' + cssClass).prop('checked', false);
-            $('.' + cssClass + '_table').show();
         }
     }
 </script>
 <div>
-    <h1 class="display-4">Configure Schema</h1>
+    <h1 class="display-4">Configure Profile</h1>
     <form method="post" enctype="multipart/form-data">
         <div class="form-group">
-            <label>Extended Data Package</label>
+            <label>Base profile on:</label>
             <select asp-for="@Model.Config.ExtendedDataPackageURL" asp-items="Model.DataPackageOptions" onchange="this.form.submit();" class="form-control form-select"></select>
         </div>
             <div style="float: left; width: calc(100% + 1em); margin-left: -1em; clear: both;">
@@ -29,17 +54,21 @@
                     <h2 style="text-align: left;overflow-wrap:break-word">
                         @if (Model.Config.Resources[j].AllSelected)
                         {
-                        <input type="checkbox" onclick="masterCheck(this, '@Model.Config.Resources[j].Name')" checked="checked" />
+                        <input type="checkbox" id="@(Model.Config.Resources[j].Name+"_Main")" onclick="masterCheck(this, '@Model.Config.Resources[j].Name')" checked="checked" />
+                        }
+                        else if (!Model.Config.Resources[j].IsEmpty)
+                        {                        
+                        <input type="checkbox" id="@(Model.Config.Resources[j].Name+"_Main")" style="filter: invert(25%);accent-color: white;" data-partial="true" checked="checked" onclick="masterCheck(this, '@Model.Config.Resources[j].Name')" />
                         }
                         else
                         {
-                        <input type="checkbox" onclick="masterCheck(this, '@Model.Config.Resources[j].Name')" />
+                        <input type="checkbox" id="@(Model.Config.Resources[j].Name+"_Main")" onclick="masterCheck(this, '@Model.Config.Resources[j].Name')" />
                         } @Model.Config.Resources[j].Name
                     </h2>
                     <p>@Model.Config.Resources[j].Description</p>
                     <input type="hidden" asp-for="@Model.Config.Resources[j].Name" />
                     <input type="hidden" asp-for="@Model.Config.Resources[j].Description" />
-                    <table class="table @(Model.Config.Resources[j].Name + "_table")" style="width: 100%;@(Model.Config.Resources[j].AllSelected ? "display:none;":"")">
+                    <table class="table @(Model.Config.Resources[j].Name + "_table")" style="width: 100%;">
                         <tr>
                             <th style="padding-left:0"></th>
                             <th style="text-align: left;">Field</th>
@@ -54,11 +83,11 @@
                             <td style="width: 2em;">
                                 @if (Model.Config.Resources[j].Attributes[i].Include)
                                     {
-                                <input style="margin-left:0;" asp-for="@Model.Config.Resources[j].Attributes[i].Include" class="@Model.Config.Resources[j].Name" checked="checked">
+                                <input style="margin-left:0;" asp-for="@Model.Config.Resources[j].Attributes[i].Include" class="@Model.Config.Resources[j].Name" checked="checked" onclick="updateTableCheckbox('@Model.Config.Resources[j].Name')">
                                     }
                                     else
                                     {
-                                <input style="margin-left:0;" asp-for="@Model.Config.Resources[j].Attributes[i].Include" class="@Model.Config.Resources[j].Name">
+                                <input style="margin-left:0;" asp-for="@Model.Config.Resources[j].Attributes[i].Include" class="@Model.Config.Resources[j].Name" onclick="updateTableCheckbox('@Model.Config.Resources[j].Name')">
                                     }
                             </td>
                             <td style="text-align:left">
@@ -94,7 +123,7 @@
             }
             </div>
             <div style="width:100%;">
-                <button asp-page-handler="DowloadPackage">Download Data Package</button><button asp-page-handler="DowloadConfig">Download Config</button> <input type="file" asp-for="UploadedFile" /><button asp-page-handler="UploadConfig">Upload Config</button>
+                <button asp-page-handler="DowloadPackage">Download data package</button><button asp-page-handler="DowloadConfig">Download config</button><button id="btnUploadConfig" asp-page-handler="UploadConfig" disabled="disabled">Upload Config</button><input type="file" asp-for="UploadedFile" onchange="document.getElementById('btnUploadConfig').disabled = false;" />
             </div>
             <br />
     </form>
