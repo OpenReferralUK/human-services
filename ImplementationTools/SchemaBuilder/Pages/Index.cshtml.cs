@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using SchemaBuilder.Models;
 using ServiceDirectory.Common.DataStandard.Models;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -76,16 +77,20 @@ namespace SchemaBuilder.Pages
             }
             json.resources = JArray.Parse(JsonConvert.SerializeObject(finalResources.ToArray()));
 
+            dynamic extension = new ExpandoObject();
+            extension.name = config.ProfileName;
+            extension.identifier = config.ProfileIdentifier;
+
+            dynamic source = new ExpandoObject();
+            source.url = config.ExtendedDataPackageURL;
+            source.version = "1";
+            extension.source = source;
+
+            json.extension = JToken.FromObject(extension);
+
             Response.Headers.Add("Content-Disposition", @"attachment; filename=data-package.json");
 
             return Content(JsonConvert.SerializeObject(json), "application/json");
-        }
-        public async Task<ActionResult> OnPostDowloadConfigAsync(IncludeConfig config)
-        {
-            PopulateDataPackageOptions();
-            Response.Headers.Add("Content-Disposition", @"attachment; filename=config.json");
-
-            return Content(JsonConvert.SerializeObject(config), "application/json");
         }
 
         public async Task OnPostUploadConfigAsync()
@@ -97,25 +102,34 @@ namespace SchemaBuilder.Pages
                 data = ms.ToArray();
             }
             string json = Encoding.UTF8.GetString(data);
-            Config = JsonConvert.DeserializeObject<IncludeConfig>(json);
-            HashSet<string> includeProperties = new HashSet<string>();
-            foreach(IncludeResource ir in Config.Resources)
+            dynamic package = JsonConvert.DeserializeObject(json);
+
+            if (package.extension == null || package.extension.source == null || package.extension.source.url == null)
             {
-                foreach(IncludeAttribute ia in ir.Attributes)
+                TempData["error"] = "The required extension data is missing";
+                return;
+            }
+
+            Config = new IncludeConfig();
+            Config.ExtendedDataPackageURL = package.extension.source.url.Value;
+            Config.ProfileIdentifier = package.extension.identifier.Value;
+            Config.ProfileName = package.extension.name.Value;
+
+            HashSet<string> includeProperties = new HashSet<string>();
+            foreach(dynamic resource in package.resources)
+            {
+                foreach(dynamic field in resource.schema.fields)
                 {
-                    if (ia.Include)
-                    {
-                        includeProperties.Add(GetKey(ir, ia.Field));
-                    }
+                    includeProperties.Add(GetKey(resource.name.Value, field.name.Value));
                 }
             }
 
             await LoadExtendedDataPackage(includeProperties);
         }
 
-        private static string GetKey(IncludeResource ir, string fieldName)
+        private static string GetKey(string resourceName, string fieldName)
         {
-            return string.Format("{0}|{1}", ir.Name, fieldName);
+            return string.Format("{0}|{1}", resourceName, fieldName);
         }
 
         public async Task OnPostAsync()
@@ -131,7 +145,10 @@ namespace SchemaBuilder.Pages
         private async Task LoadExtendedDataPackage(HashSet<string> includeProperties)
         {
             PopulateDataPackageOptions();
-            Config = new IncludeConfig();
+            if (Config == null)
+            {
+                Config = new IncludeConfig();
+            }
             if (string.IsNullOrEmpty(Config.ExtendedDataPackageURL))
             {
                 Config.ExtendedDataPackageURL = US_EXTENDED_DATA_PACKAGE;
@@ -155,7 +172,7 @@ namespace SchemaBuilder.Pages
                         Format = field.Format,
                         Required = field.Required,
                         Unique = field.Unique,
-                        Include = (includeProperties != null && includeProperties.Contains(GetKey(includeResource, field.Name)))
+                        Include = (includeProperties != null && includeProperties.Contains(GetKey(includeResource.Name, field.Name)))
                     });
                 }
                 Config.Resources.Add(includeResource);
