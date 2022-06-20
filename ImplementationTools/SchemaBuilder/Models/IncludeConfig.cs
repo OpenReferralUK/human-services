@@ -10,6 +10,7 @@ namespace SchemaBuilder.Models
         public string ExtendedDataPackageURL { get; set; }
         public string ProfileName { get; set; }
         public string ProfileIdentifier { get; set; }
+        public string Version { get; set; }
         public List<IncludeResource> Resources { get; set; }
         public IncludeConfig()
         {

@@ -26,9 +26,9 @@ namespace ServiceDirectory.Common.DataStandard
             return json;
         }
 
-        public async System.Threading.Tasks.Task<List<Resource>> GetStronglyTypesResourcesAsync()
+        public async System.Threading.Tasks.Task<Package> GetStronglyTypesPackageAsync()
         {
-            List<Resource> resources = new List<Resource>();
+            Package package = new Package();
             dynamic json = await GetResourceJSON().ConfigureAwait(false);
             foreach (dynamic resource in json.resources)
             {
@@ -42,9 +42,10 @@ namespace ServiceDirectory.Common.DataStandard
                     Unique = (field.constraints != null && field.constraints.unique != null ? field.constraints.unique.Value : false)
                     });
                 }
-                resources.Add(resourceObj);
+                package.Resources.Add(resourceObj);
             }
-            return resources;
+            package.Version = json.version;
+            return package;
         }
 
         public async System.Threading.Tasks.Task<List<string>> GetResourceNames()

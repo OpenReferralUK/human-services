@@ -82,11 +82,12 @@ namespace SchemaBuilder.Pages
             extension.identifier = config.ProfileIdentifier;
 
             dynamic source = new ExpandoObject();
-            source.url = config.ExtendedDataPackageURL;
-            source.version = "1";
+            source.url = config.ExtendedDataPackageURL;            
+            
             extension.source = source;
 
             json.extension = JToken.FromObject(extension);
+            json.version = config.Version;
 
             Response.Headers.Add("Content-Disposition", @"attachment; filename=data-package.json");
 
@@ -114,6 +115,7 @@ namespace SchemaBuilder.Pages
             Config.ExtendedDataPackageURL = package.extension.source.url.Value;
             Config.ProfileIdentifier = package.extension.identifier.Value;
             Config.ProfileName = package.extension.name.Value;
+            Config.Version = package.version.Value;
 
             HashSet<string> includeProperties = new HashSet<string>();
             foreach(dynamic resource in package.resources)
@@ -155,8 +157,12 @@ namespace SchemaBuilder.Pages
             }
             Config.Resources = new List<IncludeResource>();
             ServiceDirectory.Common.DataStandard.ResourceReader resourceReader = new ServiceDirectory.Common.DataStandard.ResourceReader(Config.ExtendedDataPackageURL);
-            List<Resource> resources = await resourceReader.GetStronglyTypesResourcesAsync();
-            foreach (Resource resource in resources)
+            Package package = await resourceReader.GetStronglyTypesPackageAsync();
+            if (string.IsNullOrEmpty(Config.Version))
+            {
+                Config.Version = package.Version;
+            }
+            foreach (Resource resource in package.Resources)
             {
                 IncludeResource includeResource = new IncludeResource();
                 includeResource.Name = resource.Name;
