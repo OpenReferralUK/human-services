@@ -21,6 +21,7 @@ namespace SchemaBuilder.Pages
     {
         private const string US_EXTENDED_DATA_PACKAGE = "https://raw.githubusercontent.com/openreferral/specification/master/datapackage.json";
         private const string UK_EXTENDED_DATA_PACKAGE = "https://raw.githubusercontent.com/OpenReferralUK/human-services/master/SchemaGenerator/Generator/ExtendedDataPackage.json";
+        private const string COMBINED_EXTENDED_DATA_PACKAGE = "https://raw.githubusercontent.com/OpenReferralUK/human-services/master/US-UK-Integration/combined-data-package.json";
         private readonly ILogger<IndexModel> _logger;
 
         [BindProperty]
@@ -191,12 +192,17 @@ namespace SchemaBuilder.Pages
             DataPackageOptions.Add(new SelectListItem
             {
                 Value = US_EXTENDED_DATA_PACKAGE,
-                Text = US_EXTENDED_DATA_PACKAGE
-            });
+                Text = US_EXTENDED_DATA_PACKAGE,
+            });            
             DataPackageOptions.Add(new SelectListItem
             {
                 Value = UK_EXTENDED_DATA_PACKAGE,
                 Text = UK_EXTENDED_DATA_PACKAGE
+            });
+            DataPackageOptions.Add(new SelectListItem
+            {
+                Value = COMBINED_EXTENDED_DATA_PACKAGE,
+                Text = COMBINED_EXTENDED_DATA_PACKAGE
             });
         }
     }
