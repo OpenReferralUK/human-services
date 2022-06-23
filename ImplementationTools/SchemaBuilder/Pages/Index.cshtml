@@ -44,6 +44,13 @@
         $('#txtFilename').val($(obj).val() + '-data-package.json');
     }
 
+    function disableButtons() {
+        var button = document.getElementById('btnUploadConfig');
+        if (button) {
+            button.disabled = true;
+        }
+    }
+
     $(document).ready(function () {
         $("#modal-btn-no").on("click", function () {
             $("#mi-modal").modal('hide');
@@ -56,7 +63,7 @@
 </script>
 <div>
     <h1 class="display-4 mb-4 ml-0">Configure Profile</h1>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" onsubmit="disableButtons()">
         @if (TempData["error"] != null)
         {
         <div class="row">
@@ -103,6 +110,7 @@
         <div class="row">
             <div class="col-3">
                 <div class="sticky-top">
+                    <button onclick="location.hash = '#'" class="btn btn-outline-secondary mb-2">Top</button>
                     @for (var j = 0; j < Model.Config.Resources.Count(); j++)
                 {
                     <a href="#@Model.Config.Resources[j].Name"><h6 class="mb-1">@Model.Config.Resources[j].Name</h6></a>
