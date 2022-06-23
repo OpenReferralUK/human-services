@@ -22,6 +22,7 @@ namespace SchemaBuilder.Pages
         private const string US_EXTENDED_DATA_PACKAGE = "https://raw.githubusercontent.com/openreferral/specification/master/datapackage.json";
         private const string UK_EXTENDED_DATA_PACKAGE = "https://raw.githubusercontent.com/OpenReferralUK/human-services/master/SchemaGenerator/Generator/ExtendedDataPackage.json";
         private const string COMBINED_EXTENDED_DATA_PACKAGE = "https://raw.githubusercontent.com/OpenReferralUK/human-services/master/US-UK-Integration/combined-data-package.json";
+        private const string DataPackageFileNameSuffix = "-data-package.json";
         private readonly ILogger<IndexModel> _logger;
 
         [BindProperty]
@@ -90,7 +91,7 @@ namespace SchemaBuilder.Pages
             json.extension = JToken.FromObject(extension);
             json.version = config.Version;
 
-            Response.Headers.Add("Content-Disposition", @"attachment; filename=data-package.json");
+            Response.Headers.Add("Content-Disposition", @"attachment; filename="+Config.FileName);
 
             return Content(JsonConvert.SerializeObject(json), "application/json");
         }
@@ -116,7 +117,9 @@ namespace SchemaBuilder.Pages
             Config.ExtendedDataPackageURL = package.extension.source.url.Value;
             Config.ProfileIdentifier = package.extension.identifier.Value;
             Config.ProfileName = package.extension.name.Value;
+            Config.Selected = true;
             Config.Version = package.version.Value;
+            Config.FileName = Config.ProfileIdentifier + DataPackageFileNameSuffix;
 
             HashSet<string> includeProperties = new HashSet<string>();
             foreach(dynamic resource in package.resources)
@@ -138,6 +141,7 @@ namespace SchemaBuilder.Pages
         public async Task OnPostAsync()
         {
             await LoadExtendedDataPackage(null);
+            Config.Selected = true;
         }
 
         public async Task OnGetAsync()
@@ -151,10 +155,11 @@ namespace SchemaBuilder.Pages
             if (Config == null)
             {
                 Config = new IncludeConfig();
+                Config.FileName = DataPackageFileNameSuffix;
             }
             if (string.IsNullOrEmpty(Config.ExtendedDataPackageURL))
             {
-                Config.ExtendedDataPackageURL = US_EXTENDED_DATA_PACKAGE;
+                Config.ExtendedDataPackageURL = COMBINED_EXTENDED_DATA_PACKAGE;
             }
             Config.Resources = new List<IncludeResource>();
             ServiceDirectory.Common.DataStandard.ResourceReader resourceReader = new ServiceDirectory.Common.DataStandard.ResourceReader(Config.ExtendedDataPackageURL);
@@ -163,6 +168,7 @@ namespace SchemaBuilder.Pages
             {
                 Config.Version = package.Version;
             }
+            Config.OriginalVersion = package.Version;
             foreach (Resource resource in package.Resources)
             {
                 IncludeResource includeResource = new IncludeResource();
@@ -191,6 +197,11 @@ namespace SchemaBuilder.Pages
             DataPackageOptions = new List<SelectListItem>();
             DataPackageOptions.Add(new SelectListItem
             {
+                Value = COMBINED_EXTENDED_DATA_PACKAGE,
+                Text = COMBINED_EXTENDED_DATA_PACKAGE
+            });
+            DataPackageOptions.Add(new SelectListItem
+            {
                 Value = US_EXTENDED_DATA_PACKAGE,
                 Text = US_EXTENDED_DATA_PACKAGE,
             });            
@@ -198,11 +209,6 @@ namespace SchemaBuilder.Pages
             {
                 Value = UK_EXTENDED_DATA_PACKAGE,
                 Text = UK_EXTENDED_DATA_PACKAGE
-            });
-            DataPackageOptions.Add(new SelectListItem
-            {
-                Value = COMBINED_EXTENDED_DATA_PACKAGE,
-                Text = COMBINED_EXTENDED_DATA_PACKAGE
             });
         }
     }

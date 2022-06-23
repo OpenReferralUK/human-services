@@ -39,95 +39,153 @@
             $('.' + cssClass).prop('checked', false);
         }
     }
+
+    function updateFilename(obj) {
+        $('#txtFilename').val($(obj).val() + '-data-package.json');
+    }
+
+    $(document).ready(function () {
+        $("#modal-btn-no").on("click", function () {
+            $("#mi-modal").modal('hide');
+        });
+
+        $("#modal-btn-yes").on("click", function () {
+            location.href = '/';
+        });
+    });
 </script>
 <div>
-    <h1 class="display-4">Configure Profile</h1>
+    <h1 class="display-4 mb-4 ml-0">Configure Profile</h1>
     <form method="post" enctype="multipart/form-data">
-        <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <label>Base profile on:</label>
-                    <select asp-for="@Model.Config.ExtendedDataPackageURL" asp-items="Model.DataPackageOptions" onchange="this.form.submit();" class="form-control form-select"></select>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <label>Version:</label>
-                    <input asp-for="@Model.Config.Version" type="text" value="@Model.Config.Version" class="form-control" />
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <label>Profile identifier:</label>
-                    <input asp-for="@Model.Config.ProfileIdentifier" type="text" value="@Model.Config.ProfileIdentifier" class="form-control" />
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <label>Profile name:</label>
-                    <input asp-for="@Model.Config.ProfileName" type="text" value="@Model.Config.ProfileName" class="form-control" />
-                </div>
-            </div>
-        </div>
         @if (TempData["error"] != null)
         {
-            <div class="row">
-                <div class="col-12">
-                    <div class="alert alert-danger" role="alert">
-                        @TempData["error"]
-                    </div>
-                </div>
-            </div>
-        }
         <div class="row">
             <div class="col-12">
-                <button asp-page-handler="DowloadPackage">Download data package</button><button id="btnUploadConfig" asp-page-handler="UploadConfig" disabled="disabled">Upload data package</button><input type="file" asp-for="UploadedFile" onchange="document.getElementById('btnUploadConfig').disabled = false;" />
+                <div class="alert alert-danger" role="alert">
+                    @TempData["error"]
+                </div>
             </div>
         </div>
+        }
+        @if (!Model.Config.Selected)
+        {
+        <input type="hidden" asp-for="@Model.Config.FileName" />
+        <div class="row m-0 mb-5">
+            <div class="col-5">
+                <div class="row">
+                    <div class="form-group">
+                        <h2>New profile based on</h2>
+                        <select asp-for="@Model.Config.ExtendedDataPackageURL" asp-items="Model.DataPackageOptions" class="form-control form-select"></select>
+                    </div>
+                </div>
+                <div class="row">
+                    <button onclick="this.form.submit();" class="btn btn-primary">Create new</button>
+                </div>
+            </div>
+            <div class="col-2 text-center align-middle">
+                <strong>OR</strong>
+            </div>
+            <div class="col-5">
+                <div class="row">
+                    <div class="form-group">
+                        <h2>Load existing profile</h2>
+                        <input type="file" asp-for="UploadedFile" onchange="document.getElementById('btnUploadConfig').disabled = false;" />
+                    </div>
+                </div>
+                <div class="row">
+                    <button id="btnUploadConfig" asp-page-handler="UploadConfig" disabled="disabled" class="btn btn-primary">Load profile</button>
+                </div>
+            </div>
+        </div>
+        }
+        else
+        {
         <div class="row">
-            @for (var j = 0; j < Model.Config.Resources.Count(); j++)
-            {
-                <div style="float:left;clear:none;width:100%;padding:1em">
-                    <h2 style="text-align: left;overflow-wrap:break-word">
-                        @if (Model.Config.Resources[j].AllSelected)
-                        {
-                            <input type="checkbox" id="@(Model.Config.Resources[j].Name+"_Main")" onclick="masterCheck(this, '@Model.Config.Resources[j].Name')" checked="checked" />
-                        }
-                        else if (!Model.Config.Resources[j].IsEmpty)
-                        {
-                            <input type="checkbox" id="@(Model.Config.Resources[j].Name+"_Main")" style="filter: invert(25%);accent-color: white;" data-partial="true" checked="checked" onclick="masterCheck(this, '@Model.Config.Resources[j].Name')" />
-                        }
-                        else
-                        {
-                            <input type="checkbox" id="@(Model.Config.Resources[j].Name+"_Main")" onclick="masterCheck(this, '@Model.Config.Resources[j].Name')" />
-                        } @Model.Config.Resources[j].Name
-                    </h2>
-                    <p>@Model.Config.Resources[j].Description</p>
-                    <input type="hidden" asp-for="@Model.Config.Resources[j].Name" />
-                    <input type="hidden" asp-for="@Model.Config.Resources[j].Description" />
-                    <table class="table @(Model.Config.Resources[j].Name + "_table")" style="width: 100%;">
-                        <tr>
-                            <th style="padding-left:0"></th>
-                            <th style="text-align: left;">Field</th>
-                            <th style="text-align: left;">Description</th>
-                            <th style="text-align: left;">Type (Format)</th>
-                            <th style="text-align: left;">Required</th>
-                            <th style="text-align: left;">Unique</th>
-                        </tr>
-                        @for (var i = 0; i < Model.Config.Resources[j].Attributes.Count(); i++)
-                        {
+            <div class="col-3">
+                <div class="sticky-top">
+                    @for (var j = 0; j < Model.Config.Resources.Count(); j++)
+                {
+                    <a href="#@Model.Config.Resources[j].Name"><h6 class="mb-1">@Model.Config.Resources[j].Name</h6></a>
+                }
+                </div>
+            </div>
+            <div class="col-9">
+                <input type="hidden" asp-for="@Model.Config.ExtendedDataPackageURL" />
+                <p>Profile based on <a href="@Model.Config.ExtendedDataPackageURL" target="_blank">@Model.Config.ExtendedDataPackageURL</a> version @Model.Config.OriginalVersion</p>
+                <div class="row">
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label>Profile identifier:</label>
+                            <input onchange="updateFilename(this)" asp-for="@Model.Config.ProfileIdentifier" type="text" value="@Model.Config.ProfileIdentifier" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label>Version:</label>
+                            <input asp-for="@Model.Config.Version" type="text" value="@Model.Config.Version" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Profile name:</label>
+                            <input asp-for="@Model.Config.ProfileName" type="text" value="@Model.Config.ProfileName" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <button asp-page-handler="DowloadPackage" class="btn btn-primary">Save profile to file</button>
+                    </div>
+                    <div class="col-3">
+                        <input id="txtFilename" asp-for="@Model.Config.FileName" type="text" value="@Model.Config.FileName" class="form-control" />
+                    </div>
+                    <div class="col-6 text-right">
+                        <button type="button" onclick="$('#mi-modal').modal('show');" class="btn btn-secondary">Start again</button>
+                    </div>
+                </div>
+                <div class="row">
+                    @for (var j = 0; j < Model.Config.Resources.Count(); j++)
+                {
+                    <div style="float:left;clear:none;width:100%;padding:1em">
+                        <a name="@Model.Config.Resources[j].Name"></a>
+                        <h2 style="text-align: left;overflow-wrap:break-word">
+                            @if (Model.Config.Resources[j].AllSelected)
+                            {
+                            <input type="checkbox" id="@(Model.Config.Resources[j].Name + "_Main")" onclick="masterCheck(this, '@Model.Config.Resources[j].Name')" checked="checked" />
+                            }
+                            else if (!Model.Config.Resources[j].IsEmpty)
+                            {
+                            <input type="checkbox" id="@(Model.Config.Resources[j].Name + "_Main")" style="filter: invert(25%);accent-color: white;" data-partial="true" checked="checked" onclick="masterCheck(this, '@Model.Config.Resources[j].Name')" />
+                            }
+                            else
+                            {
+                            <input type="checkbox" id="@(Model.Config.Resources[j].Name + "_Main")" onclick="masterCheck(this, '@Model.Config.Resources[j].Name')" />
+                            } @Model.Config.Resources[j].Name
+                        </h2>
+                        <p>@Model.Config.Resources[j].Description</p>
+                        <input type="hidden" asp-for="@Model.Config.Resources[j].Name" />
+                        <input type="hidden" asp-for="@Model.Config.Resources[j].Description" />
+                        <table class="table @(Model.Config.Resources[j].Name + "_table")" style="width: 100%;">
+                            <tr>
+                                <th style="padding-left:0"></th>
+                                <th style="text-align: left;">Field</th>
+                                <th style="text-align: left;">Description</th>
+                                <th style="text-align: left;">Type (Format)</th>
+                                <th style="text-align: left;">Required</th>
+                                <th style="text-align: left;">Unique</th>
+                            </tr>
+                            @for (var i = 0; i < Model.Config.Resources[j].Attributes.Count(); i++)
+                            {
                             <tr>
                                 <td style="width: 2em;">
                                     @if (Model.Config.Resources[j].Attributes[i].Include)
-                                    {
-                                        <input style="margin-left:0;" asp-for="@Model.Config.Resources[j].Attributes[i].Include" class="@Model.Config.Resources[j].Name" checked="checked" onclick="updateTableCheckbox('@Model.Config.Resources[j].Name')">
-                                    }
-                                    else
-                                    {
-                                        <input style="margin-left:0;" asp-for="@Model.Config.Resources[j].Attributes[i].Include" class="@Model.Config.Resources[j].Name" onclick="updateTableCheckbox('@Model.Config.Resources[j].Name')">
-                                    }
+                                        {
+                                    <input style="margin-left:0;" asp-for="@Model.Config.Resources[j].Attributes[i].Include" class="@Model.Config.Resources[j].Name" checked="checked" onclick="updateTableCheckbox('@Model.Config.Resources[j].Name')">
+                                        }
+                                        else
+                                        {
+                                    <input style="margin-left:0;" asp-for="@Model.Config.Resources[j].Attributes[i].Include" class="@Model.Config.Resources[j].Name" onclick="updateTableCheckbox('@Model.Config.Resources[j].Name')">
+                                        }
                                 </td>
                                 <td style="text-align:left">
                                     @Model.Config.Resources[j].Attributes[i].Field
@@ -145,9 +203,9 @@
                                 <td style="text-align:left;">
                                     @Model.Config.Resources[j].Attributes[i].Type
                                     @if (!string.IsNullOrEmpty(@Model.Config.Resources[j].Attributes[i].Format))
-                                    {
-                                        <span>(</span><span>@Model.Config.Resources[j].Attributes[i].Format</span><span>)</span>
-                                    }
+                                        {
+                                    <span>(</span><span>@Model.Config.Resources[j].Attributes[i].Format</span><span>)</span>
+                                        }
                                 </td>
                                 <td style="text-align:left;">
                                     @(Model.Config.Resources[j].Attributes[i].Required ? "Yes" : "No")
@@ -156,10 +214,32 @@
                                     @(Model.Config.Resources[j].Attributes[i].Unique ? "Yes" : "No")
                                 </td>
                             </tr>
-                        }
-                    </table>
+                            }
+                        </table>
+                    </div>
+                }
                 </div>
-            }
+
+
+                <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel">Confirm profile reset</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to reset your profile? You will lose all your changes.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" id="modal-btn-no">No</button>
+                                <button type="button" class="btn btn-primary" id="modal-btn-yes">Yes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+            }
     </form>
 </div>
