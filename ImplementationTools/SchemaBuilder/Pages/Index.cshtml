@@ -123,20 +123,22 @@
                 <div class="row">
                     <div class="col-3">
                         <div class="form-group">
-                            <label>Profile identifier:</label>
-                            <input onchange="updateFilename(this)" asp-for="@Model.Config.ProfileIdentifier" type="text" value="@Model.Config.ProfileIdentifier" class="form-control" />
+                            <label>Profile identifier <span class="text-danger">*</span></label>
+                            <input required onchange="updateFilename(this)" asp-for="@Model.Config.ProfileIdentifier" type="text" value="@Model.Config.ProfileIdentifier" class="form-control" />
+                            <small class="form-text text-muted">This identifier will be part of the default package name.</small>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
-                            <label>Version:</label>
+                            <label>Version</label>
                             <input asp-for="@Model.Config.Version" type="text" value="@Model.Config.Version" class="form-control" />
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <label>Profile name:</label>
+                            <label>Profile name</label>
                             <input asp-for="@Model.Config.ProfileName" type="text" value="@Model.Config.ProfileName" class="form-control" />
+                            <small class="form-text text-muted">Optional short description of the package.</small>
                         </div>
                     </div>
                 </div>
