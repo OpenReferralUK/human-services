@@ -19,7 +19,7 @@ namespace ServiceDirectory.Common
             Dictionary<string, Dictionary<string, dynamic>> objectCollection = new Dictionary<string, Dictionary<string, dynamic>>();
 
             Paginator paginator = new Paginator();
-            PaginationResults paginationResults = await paginator.GetAllServices(apiBaseUrl, string.Empty, webServiceReader).ConfigureAwait(false);
+            PaginationResults paginationResults = await paginator.GetAllServices(apiBaseUrl, string.Empty, webServiceReader, settings).ConfigureAwait(false);
 
             foreach (dynamic s in paginationResults.Items)
             {

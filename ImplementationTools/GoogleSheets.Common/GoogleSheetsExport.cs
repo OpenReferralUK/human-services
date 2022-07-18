@@ -6,6 +6,7 @@ using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Util.Store;
 using GoogleSheets.Common.Config;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ServiceDirectory.Common;
 using ServiceDirectory.Common.DataStandard;
 using System;
@@ -23,8 +24,10 @@ namespace GoogleSheets.Common
         static string[] Scopes = { SheetsService.Scope.Spreadsheets };
         static string ApplicationName = "Open Referral Sync Tool";
         private const string SheetOneTitle = "Sheet 1";
+        private const int CELL_LIMIT = 50000;
+        private const int CELL_CUTOFF = 49997;
 
-        public async static System.Threading.Tasks.Task WriteToSpreadsheetAsync(string apiBaseUrl, string configPath)
+        public async static System.Threading.Tasks.Task WriteToSpreadsheetAsync(string apiBaseUrl, string configPath, APIValidatorSettings settings)
         {
             // The file token.json stores the user`s access and refresh tokens, and is created
             // automatically when the authorization flow completes for the first time.
@@ -42,7 +45,7 @@ namespace GoogleSheets.Common
 
             string spreadsheetId = await CreateSpreadsheetAsync(credential);
 
-            await WriteToSpreadsheetAsync(spreadsheetId, credential, apiBaseUrl, configPath);
+            await WriteToSpreadsheetAsync(spreadsheetId, credential, apiBaseUrl, configPath, settings);
         }
 
         public async static System.Threading.Tasks.Task<string> CreateSpreadsheetAsync(IConfigurableHttpClientInitializer credential)
@@ -61,7 +64,7 @@ namespace GoogleSheets.Common
             });
         }
 
-        public async static System.Threading.Tasks.Task<bool> WriteToSpreadsheetAsync(string spreadsheetId, IConfigurableHttpClientInitializer credential, string apiBaseUrl, string configPath)
+        public async static System.Threading.Tasks.Task<bool> WriteToSpreadsheetAsync(string spreadsheetId, IConfigurableHttpClientInitializer credential, string apiBaseUrl, string configPath, APIValidatorSettings settings)
         {            
             SheetsService service = CreateService(credential);
 
@@ -71,7 +74,7 @@ namespace GoogleSheets.Common
                 //move text to config
                 await AddUpdateMessage(spreadsheetId, "Please wait while your export is generated, once completed this sheet will be deleted.", service).ConfigureAwait(false);
 
-                DelayeredResult result = await Delayering.DelayerPaginatedData(apiBaseUrl).ConfigureAwait(false);
+                DelayeredResult result = await Delayering.DelayerPaginatedData(apiBaseUrl, settings).ConfigureAwait(false);
 
 
                 if (result.Collection.Count == 0)
@@ -138,13 +141,8 @@ namespace GoogleSheets.Common
 
                         Console.WriteLine("Create Column Name: " + columnName);
                         columnNo++;
-                        await InsertColumnLineAsync(service, spreadsheetId, sheetName + "!" + GetColumnName(index) + "1", columnName).ConfigureAwait(false); ;
-                        string comment = config.GetComment(sheetName, columnName);
-                        if (!string.IsNullOrEmpty(comment))
-                        {
-                            await InsertColumnNoteAsync(service, spreadsheetId, await GetSheetIdFromSheetNameAsync(service, spreadsheetId, sheetName).ConfigureAwait(false), columnNo, comment);
-                        }
                         List<object> columnValues = new List<object>();
+                        columnValues.Add(columnName);
                         foreach (dynamic obj in result.Collection[sheetName].Values)
                         {
                             if (!((IDictionary<String, dynamic>)obj).ContainsKey(columnName))
@@ -158,8 +156,8 @@ namespace GoogleSheets.Common
                         }
 
                         Console.WriteLine("Load Column Values: " + columnName);
-                        List<List<object>> columnBatches = SplitList(columnValues, 1000);
-                        int rowNumber = 2;
+                        List<List<object>> columnBatches = SplitList(columnValues, 30000);
+                        int rowNumber = 1;
                         foreach (List<object> columnBatch in columnBatches)
                         {
                             string colRange = sheetName + "!" + GetColumnName(index) + rowNumber;
@@ -176,6 +174,12 @@ namespace GoogleSheets.Common
                             rowNumber += columnBatch.Count;
                         }
 
+                        string comment = config.GetComment(sheetName, columnName);
+                        if (!string.IsNullOrEmpty(comment))
+                        {
+                            await InsertColumnNoteAsync(service, spreadsheetId, await GetSheetIdFromSheetNameAsync(service, spreadsheetId, sheetName).ConfigureAwait(false), columnNo, comment);
+                        }
+
                         index++;
                     }
                     foreignKeys.AddRange(localForeignKeys);
@@ -190,7 +194,7 @@ namespace GoogleSheets.Common
             }
             catch(Exception e)
             {
-                await AddUpdateMessage(spreadsheetId, "ERROR: service directory data not found at the given URL", service);
+                await AddUpdateMessage(spreadsheetId, "ERROR: import error:" + e.Message, service);
                 throw e;
             }
         }
@@ -667,12 +671,43 @@ namespace GoogleSheets.Common
         {
             try
             {
+                List<object> newValues = new List<object>();
+                if (columnValues != null)
+                {
+                    foreach(object columnValue in columnValues)
+                    {
+                        if (columnValue != null && columnValue is string)
+                        {
+                            string val = (string)columnValue;
+                            if (val != null && val.Length > CELL_LIMIT)
+                            {
+                                newValues.Add(val.Substring(0, CELL_CUTOFF) + "...");
+                                continue;
+                            }
+                        }
+                        if (columnValue != null && columnValue is JValue)
+                        {
+                            JValue val = (JValue)columnValue;
+                            if (val.Type == JTokenType.String)
+                            {
+                                string str = (string)val.Value;
+                                if (str != null && str.Length > CELL_LIMIT)
+                                {
+                                    newValues.Add(str.Substring(0, CELL_CUTOFF) + "...");
+                                    continue;
+                                }
+                            }
+                        }
+                        newValues.Add(columnValue);
+                    }
+                }
                 // convert columnValues to columList
-                var columList = columnValues.Select(v => new List<object> { v });
-                
+                var columList = newValues.Select(v => new List<object> { v });
+
                 // Add columList to values and input to valueRange
                 var values = new List<IList<object>>();
                 values.AddRange(columList.ToList());
+
                 var valueRange = new ValueRange()
                 {
                     Values = values

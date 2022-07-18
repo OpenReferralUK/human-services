@@ -7,17 +7,27 @@ namespace GoogleSheets.Common
     internal class Throttler
     {
         private static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
-        private static int count = 0;
+        private static int count = 59;
+        private static DateTime? lastReset;
         internal static async System.Threading.Tasks.Task ThrottleCheck()
         {
             try
             {
                 await semaphoreSlim.WaitAsync().ConfigureAwait(false);
-                count++;
-                if (count >= 59)
+                if (count == 59 || (lastReset.HasValue && (DateTime.Now - lastReset.Value).TotalMilliseconds > 60000))
                 {
-                    await Task.Delay(60000).ConfigureAwait(false);
-                    count = 0;
+                    lastReset = DateTime.Now;
+                    count = 59;
+                }
+                count--;
+                if (count <= 0)
+                {
+                    double wait = (DateTime.Now - lastReset.Value).TotalMilliseconds;
+                    if (wait > 0 && wait <= 60000)
+                    {
+                        await Task.Delay(Convert.ToInt32(wait)).ConfigureAwait(false);
+                    }
+                    count = 59;
                 }
             }
             finally

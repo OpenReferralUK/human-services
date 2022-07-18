@@ -62,7 +62,9 @@ namespace ServiceDirectoryExporter.Pages
             {
                 try
                 {
-                    bool back = await GoogleSheetsExport.WriteToSpreadsheetAsync(spreadsheetId, credential, BaseURL, "configuration.json");
+                    APIValidatorSettings settings = new APIValidatorSettings();
+                    settings.LargePerPages = true;
+                    bool back = await GoogleSheetsExport.WriteToSpreadsheetAsync(spreadsheetId, credential, BaseURL, "configuration.json", settings);
 
                 } 
                 catch(Exception ex)

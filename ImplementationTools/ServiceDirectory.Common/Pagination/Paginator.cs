@@ -87,7 +87,7 @@ namespace ServiceDirectory.Common.Pagination
                 maximumPages = SampleSize;
             }
 
-            await PaginateServices(apiBaseUrl, id, processor, webServiceReader, totalPagesOverride: settings.FirstPageOnly ? 1 : maximumPages);
+            await PaginateServices(apiBaseUrl, id, processor, webServiceReader, string.Empty, settings.FirstPageOnly ? 1 : maximumPages, settings);
 
             return paginationResults;
         }
@@ -123,9 +123,9 @@ namespace ServiceDirectory.Common.Pagination
             return service;
         }
 
-        public async Task<PaginationResults> GetAllServices(string apiBaseUrl, string id, WebServiceReader webServiceReader)
+        public async Task<PaginationResults> GetAllServices(string apiBaseUrl, string id, WebServiceReader webServiceReader, APIValidatorSettings settings)
         {
-            return await GetServices(apiBaseUrl, id, webServiceReader);
+            return await GetServices(apiBaseUrl, id, webServiceReader, settings);
         }
 
         private static async Task ValidateService(string apiBaseUrl, PaginationResults paginationResults, dynamic service, WebServiceReader webServiceReader)
@@ -163,7 +163,7 @@ namespace ServiceDirectory.Common.Pagination
             paginationResults.Items.Add(obj);
         }
 
-        public async Task PaginateServices(string apiBaseUrl, string id, ServiceProcessorAsync processor, WebServiceReader webServiceReader, string parameters = "", int? totalPagesOverride = null)
+        public async Task PaginateServices(string apiBaseUrl, string id, ServiceProcessorAsync processor, WebServiceReader webServiceReader, string parameters = "", int? totalPagesOverride = null, APIValidatorSettings settings = null)
         {
             int pageNo = 0;
             int totalPages = totalPagesOverride ?? 1;
@@ -185,7 +185,14 @@ namespace ServiceDirectory.Common.Pagination
                     serviceUrl += "&";
                 }
 
-                WebServiceResponse serviceList = await webServiceReader.ConvertToDynamic(serviceUrl + "page=" + pageNo);
+                serviceUrl += "page=" + pageNo;
+
+                if (settings != null && settings.LargePerPages)
+                {
+                    serviceUrl += "&per_page=1000";
+                }
+
+                WebServiceResponse serviceList = await webServiceReader.ConvertToDynamic(serviceUrl);
 
                 try
                 {

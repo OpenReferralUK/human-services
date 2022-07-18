@@ -1,4 +1,5 @@
 ﻿using GoogleSheets.Common;
+using ServiceDirectory.Common;
 
 namespace GoogleSheets
 {
@@ -6,7 +7,8 @@ namespace GoogleSheets
     {
         static void Main(string[] args)
         {
-            GoogleSheetsExport.WriteToSpreadsheetAsync("https://blackburn.openplace.directory/o/ServiceDirectoryService/v2", "configuration.json").GetAwaiter().GetResult();
+            APIValidatorSettings settings = new APIValidatorSettings();
+            GoogleSheetsExport.WriteToSpreadsheetAsync("https://blackburn.openplace.directory/o/ServiceDirectoryService/v2", "configuration.json", settings).GetAwaiter().GetResult();
         }        
     }
 }
