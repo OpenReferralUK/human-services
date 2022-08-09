@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using static Google.Apis.Sheets.v4.SpreadsheetsResource;
 
 namespace GoogleSheets.Common
 {
@@ -26,8 +27,7 @@ namespace GoogleSheets.Common
         private const string SheetOneTitle = "Sheet 1";
         private const int CELL_LIMIT = 50000;
         private const int CELL_CUTOFF = 49997;
-
-        public async static System.Threading.Tasks.Task WriteToSpreadsheetAsync(string apiBaseUrl, string configPath, APIValidatorSettings settings)
+        public async System.Threading.Tasks.Task WriteToSpreadsheetAsync(string apiBaseUrl, string configPath, APIValidatorSettings settings)
         {
             // The file token.json stores the user`s access and refresh tokens, and is created
             // automatically when the authorization flow completes for the first time.
@@ -48,7 +48,7 @@ namespace GoogleSheets.Common
             await WriteToSpreadsheetAsync(spreadsheetId, credential, apiBaseUrl, configPath, settings);
         }
 
-        public async static System.Threading.Tasks.Task<string> CreateSpreadsheetAsync(IConfigurableHttpClientInitializer credential)
+        public async System.Threading.Tasks.Task<string> CreateSpreadsheetAsync(IConfigurableHttpClientInitializer credential)
         {
             SheetsService service = CreateService(credential);
 
@@ -64,8 +64,8 @@ namespace GoogleSheets.Common
             });
         }
 
-        public async static System.Threading.Tasks.Task<bool> WriteToSpreadsheetAsync(string spreadsheetId, IConfigurableHttpClientInitializer credential, string apiBaseUrl, string configPath, APIValidatorSettings settings)
-        {            
+        public async System.Threading.Tasks.Task<bool> WriteToSpreadsheetAsync(string spreadsheetId, IConfigurableHttpClientInitializer credential, string apiBaseUrl, string configPath, APIValidatorSettings settings)
+        {
             SheetsService service = CreateService(credential);
 
             try
@@ -87,6 +87,8 @@ namespace GoogleSheets.Common
 
                 Dictionary<string, string> columnToSheetIndex = new Dictionary<string, string>();
                 List<ForeignKeyAssociaion> foreignKeys = new List<ForeignKeyAssociaion>();
+                List<Comment> comments = new List<Comment>();
+                List<HideColumn> hideColumns = new List<HideColumn>();
                 ResourceReader resourceReader = new ResourceReader();
                 dynamic resources = await resourceReader.GetResources().ConfigureAwait(false);
 
@@ -136,7 +138,7 @@ namespace GoogleSheets.Common
 
                         if (config.IsColumnHidden(sheetName, columnName))
                         {
-                            await HideColumnAsync(service, spreadsheetId, sheetName, index, config).ConfigureAwait(false);
+                            hideColumns.Add(new HideColumn(sheetName, index));
                         }
 
                         Console.WriteLine("Create Column Name: " + columnName);
@@ -177,7 +179,7 @@ namespace GoogleSheets.Common
                         string comment = config.GetComment(sheetName, columnName);
                         if (!string.IsNullOrEmpty(comment))
                         {
-                            await InsertColumnNoteAsync(service, spreadsheetId, await GetSheetIdFromSheetNameAsync(service, spreadsheetId, sheetName).ConfigureAwait(false), columnNo, comment);
+                            comments.Add(new Comment(await GetSheetIdFromSheetNameAsync(service, spreadsheetId, sheetName).ConfigureAwait(false), columnNo, comment));
                         }
 
                         index++;
@@ -185,14 +187,24 @@ namespace GoogleSheets.Common
                     foreignKeys.AddRange(localForeignKeys);
                 }
 
+                if (hideColumns.Count > 0)
+                {
+                    await HideColumnsAsync(service, spreadsheetId, hideColumns).ConfigureAwait(false);
+                }
+
                 await AddForiegnKeysAsync(service, foreignKeys, columnToSheetIndex, spreadsheetId).ConfigureAwait(false);
 
-                await AddExtraColumnsAsync(service, config, columnToSheetIndex, spreadsheetId).ConfigureAwait(false);
+                comments.AddRange(await AddExtraColumnsAsync(service, config, columnToSheetIndex, spreadsheetId).ConfigureAwait(false));
+
+                if (comments.Count > 0)
+                {
+                    await InsertColumnNotesAsync(service, spreadsheetId, comments);
+                }
 
                 await DeleteOriginalSheet(service, spreadsheetId).ConfigureAwait(false);
                 return true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 await AddUpdateMessage(spreadsheetId, "ERROR: import error:" + e.Message, service);
                 throw e;
@@ -206,7 +218,7 @@ namespace GoogleSheets.Common
             await InsertColumnLineAsync(service, spreadsheetId, "Sheet1!" + GetColumnName(0) + "1", values.ToArray()).ConfigureAwait(false);
         }
 
-        private static async System.Threading.Tasks.Task DeleteOriginalSheet(SheetsService service, string spreadsheetId)
+        private async System.Threading.Tasks.Task DeleteOriginalSheet(SheetsService service, string spreadsheetId)
         {
             try
             {
@@ -277,8 +289,8 @@ namespace GoogleSheets.Common
             }
         }
 
-        private static async System.Threading.Tasks.Task<int> GetSheetIdFromSheetNameAsync(SheetsService service, string sSpreadsheetId, string sheetName)
-        {
+        private async System.Threading.Tasks.Task<int> GetSheetIdFromSheetNameAsync(SheetsService service, string sSpreadsheetId, string sheetName)
+        { 
             Google.Apis.Sheets.v4.Data.Spreadsheet gsSpreadsheet;
 
             try
@@ -291,7 +303,6 @@ namespace GoogleSheets.Common
                     {
                         continue;
                     }
-
                     return (gsSheet.Properties.SheetId).GetValueOrDefault(-1);
                 }
             }
@@ -307,8 +318,9 @@ namespace GoogleSheets.Common
             return 0;
         }
 
-        private static async System.Threading.Tasks.Task AddExtraColumnsAsync(SheetsService service, SheetConfig config, Dictionary<string, string> columnToSheetIndex, string spreadsheetId)
+        private async System.Threading.Tasks.Task<List<Comment>> AddExtraColumnsAsync(SheetsService service, SheetConfig config, Dictionary<string, string> columnToSheetIndex, string spreadsheetId)
         {
+            List<Comment> comments = new List<Comment>();
             Dictionary<string, int> columnCount = new Dictionary<string, int>();
             foreach(AddColumn column in config.Columns)
             {
@@ -393,11 +405,12 @@ namespace GoogleSheets.Common
                 await InsertColumnLineAsync(service, spreadsheetId, GetRange(columnToSheetIndex, columnCount, column, rows, 1), values.ToArray()).ConfigureAwait(false);
                 if (!string.IsNullOrEmpty(column.Comment))
                 {
-                    await InsertColumnNoteAsync(service, spreadsheetId, await GetSheetIdFromSheetNameAsync(service, spreadsheetId, column.Sheet).ConfigureAwait(false), columnCount[column.Sheet], column.Comment);
+                    comments.Add(new Comment(await GetSheetIdFromSheetNameAsync(service, spreadsheetId, column.Sheet).ConfigureAwait(false), columnCount[column.Sheet], column.Comment));
                 }
                 columnToSheetIndex[column.Sheet + "|" + column.Title] = GetRange(columnToSheetIndex, columnCount, column, rows, 2);
                 columnCount[column.Sheet] = columnCount[column.Sheet] + 1;
             }
+            return comments;
         }
 
         private static string GetRange(Dictionary<string, string> columnToSheetIndex, Dictionary<string, int> columnCount, AddColumn column, int rows, int startRow)
@@ -443,6 +456,8 @@ namespace GoogleSheets.Common
         }
         private static async System.Threading.Tasks.Task AddForiegnKeysAsync(SheetsService service, List<ForeignKeyAssociaion> foreignKeys, Dictionary<string, string> columnToSheetIndex, string spreadsheetId)
         {
+            var requests = new List<Request>();            
+
             foreach (ForeignKeyAssociaion association in foreignKeys)
             {
                 if (!association.Found)
@@ -487,14 +502,14 @@ namespace GoogleSheets.Common
                         }
                     }
                 };
-                var requestBody = new Google.Apis.Sheets.v4.Data.BatchUpdateSpreadsheetRequest();
-                var requests = new List<Request>();
                 requests.Add(updateCellsRequest);
-                requestBody.Requests = requests;
-                var batchRequest = service.Spreadsheets.BatchUpdate(requestBody, spreadsheetId);
-                await batchRequest.ExecuteAsync().ConfigureAwait(false);
-                await Throttler.ThrottleCheck().ConfigureAwait(false);
             }
+
+            var requestBody = new Google.Apis.Sheets.v4.Data.BatchUpdateSpreadsheetRequest();
+            requestBody.Requests = requests;
+            var batchRequest = service.Spreadsheets.BatchUpdate(requestBody, spreadsheetId);
+            await batchRequest.ExecuteAsync().ConfigureAwait(false);
+            await Throttler.ThrottleCheck().ConfigureAwait(false);
         }
 
         private static void SaveColumnRange(Dictionary<string, string> columnToSheetIndex, string sheetName, string columnName, string colRange)
@@ -518,27 +533,33 @@ namespace GoogleSheets.Common
             return list;
         }
 
-        private static async System.Threading.Tasks.Task HideColumnAsync(SheetsService service, string spreadsheetId, string name, int index, SheetConfig config)
+        private async System.Threading.Tasks.Task HideColumnsAsync(SheetsService service, string spreadsheetId, List<HideColumn> hideColumns)
         {
             try
             {
-                var updateDimensionRequest = new UpdateDimensionPropertiesRequest();
-                updateDimensionRequest.Properties = new DimensionProperties();
-                updateDimensionRequest.Properties.HiddenByUser = true;
-                updateDimensionRequest.Fields = "hiddenByUser";
-                updateDimensionRequest.Range = new DimensionRange()
+                List<Request> requests = new List<Request>();
+
+                foreach (HideColumn hideColumn in hideColumns)
                 {
-                    Dimension = "COLUMNS",
-                    SheetId = await GetSheetIdFromSheetNameAsync(service, spreadsheetId, name).ConfigureAwait(false),
-                    StartIndex = index,
-                    EndIndex = index + 1
-                };
+                    var updateDimensionRequest = new UpdateDimensionPropertiesRequest();
+                    updateDimensionRequest.Properties = new DimensionProperties();
+                    updateDimensionRequest.Properties.HiddenByUser = true;
+                    updateDimensionRequest.Fields = "hiddenByUser";
+                    updateDimensionRequest.Range = new DimensionRange()
+                    {
+                        Dimension = "COLUMNS",
+                        SheetId = await GetSheetIdFromSheetNameAsync(service, spreadsheetId, hideColumn.Name).ConfigureAwait(false),
+                        StartIndex = hideColumn.Index,
+                        EndIndex = hideColumn.Index + 1
+                    };
+                    requests.Add(new Request
+                    {
+                        UpdateDimensionProperties = updateDimensionRequest
+                    });
+                }
+
                 BatchUpdateSpreadsheetRequest batchUpdateSpreadsheetRequest = new BatchUpdateSpreadsheetRequest();
-                batchUpdateSpreadsheetRequest.Requests = new List<Request>();
-                batchUpdateSpreadsheetRequest.Requests.Add(new Request
-                {
-                    UpdateDimensionProperties = updateDimensionRequest
-                });
+                batchUpdateSpreadsheetRequest.Requests = requests;
 
                 var batchUpdateRequest = service.Spreadsheets.BatchUpdate(batchUpdateSpreadsheetRequest, spreadsheetId);
 
@@ -550,25 +571,21 @@ namespace GoogleSheets.Common
             }
         }
 
-        private static async System.Threading.Tasks.Task CreateSheetAsync(SheetsService service, string spreadsheetId, string name, SheetConfig config)
+        private async System.Threading.Tasks.Task CreateSheetAsync(SheetsService service, string spreadsheetId, string name, SheetConfig config)
         {
             try
             {
+                List<Request> requests = new List<Request>();
+
                 var addSheetRequest = new AddSheetRequest();
                 addSheetRequest.Properties = new SheetProperties();
                 addSheetRequest.Properties.Title = name;
                 addSheetRequest.Properties.Hidden = config.IsSheetHidden(name);
-                BatchUpdateSpreadsheetRequest batchUpdateSpreadsheetRequest = new BatchUpdateSpreadsheetRequest();
-                batchUpdateSpreadsheetRequest.Requests = new List<Request>();
-                batchUpdateSpreadsheetRequest.Requests.Add(new Request
+
+                requests.Add(new Request
                 {
                     AddSheet = addSheetRequest
                 });
-
-                var batchUpdateRequest = service.Spreadsheets.BatchUpdate(batchUpdateSpreadsheetRequest, spreadsheetId);
-
-                await batchUpdateRequest.ExecuteAsync().ConfigureAwait(false);
-                await Throttler.ThrottleCheck().ConfigureAwait(false);
 
                 var repeatCellRequest = new RepeatCellRequest();
                 repeatCellRequest.Range = new GridRange()
@@ -580,14 +597,17 @@ namespace GoogleSheets.Common
                 };
                 repeatCellRequest.Fields = "userEnteredFormat.numberFormat";
                 repeatCellRequest.Cell = new CellData() { UserEnteredFormat = new CellFormat() { NumberFormat = new NumberFormat() { Type = "TEXT" } } };
-                batchUpdateSpreadsheetRequest = new BatchUpdateSpreadsheetRequest();
-                batchUpdateSpreadsheetRequest.Requests = new List<Request>();
-                batchUpdateSpreadsheetRequest.Requests.Add(new Request
+
+                requests.Add(new Request
                 {
                     RepeatCell = repeatCellRequest
                 });
 
-                batchUpdateRequest = service.Spreadsheets.BatchUpdate(batchUpdateSpreadsheetRequest, spreadsheetId);
+
+                BatchUpdateSpreadsheetRequest batchUpdateSpreadsheetRequest = new BatchUpdateSpreadsheetRequest();
+                batchUpdateSpreadsheetRequest.Requests = requests;
+
+                BatchUpdateRequest batchUpdateRequest = service.Spreadsheets.BatchUpdate(batchUpdateSpreadsheetRequest, spreadsheetId);
 
                 await batchUpdateRequest.ExecuteAsync().ConfigureAwait(false);
                 await Throttler.ThrottleCheck().ConfigureAwait(false);
@@ -629,32 +649,35 @@ namespace GoogleSheets.Common
             }
         }
 
-        public static async System.Threading.Tasks.Task InsertColumnNoteAsync(SheetsService service, string spreadsheetId, int sheetId, int columnNo, string comment)
+        public static async System.Threading.Tasks.Task InsertColumnNotesAsync(SheetsService service, string spreadsheetId, List<Comment> comments)
         {
             try
             {
-                var gridRange = new Google.Apis.Sheets.v4.Data.GridRange
-                {
-                    EndColumnIndex = columnNo + 1,
-                    StartColumnIndex = columnNo,
-                    EndRowIndex = 1,
-                    StartRowIndex = 0,
-                    SheetId = sheetId
-                };
-
-                var request = new Google.Apis.Sheets.v4.Data.Request();
-                request.UpdateCells = new Google.Apis.Sheets.v4.Data.UpdateCellsRequest();
-                request.UpdateCells.Range = gridRange;
-                request.UpdateCells.Fields = "note";
-                request.UpdateCells.Rows = new List<Google.Apis.Sheets.v4.Data.RowData>();
-                request.UpdateCells.Rows.Add(new Google.Apis.Sheets.v4.Data.RowData());
-                request.UpdateCells.Rows[0].Values = new List<Google.Apis.Sheets.v4.Data.CellData>();
-                request.UpdateCells.Rows[0].Values.Add(new Google.Apis.Sheets.v4.Data.CellData());
-                request.UpdateCells.Rows[0].Values[0].Note = comment;
-
                 var requests = new List<Request>();
-                requests.Add(request);
 
+                foreach (Comment comment in comments)
+                {
+                    var gridRange = new Google.Apis.Sheets.v4.Data.GridRange
+                    {
+                        EndColumnIndex = comment.ColumnNo + 1,
+                        StartColumnIndex = comment.ColumnNo,
+                        EndRowIndex = 1,
+                        StartRowIndex = 0,
+                        SheetId = comment.SheetID
+                    };
+
+                    var request = new Google.Apis.Sheets.v4.Data.Request();
+                    request.UpdateCells = new Google.Apis.Sheets.v4.Data.UpdateCellsRequest();
+                    request.UpdateCells.Range = gridRange;
+                    request.UpdateCells.Fields = "note";
+                    request.UpdateCells.Rows = new List<Google.Apis.Sheets.v4.Data.RowData>();
+                    request.UpdateCells.Rows.Add(new Google.Apis.Sheets.v4.Data.RowData());
+                    request.UpdateCells.Rows[0].Values = new List<Google.Apis.Sheets.v4.Data.CellData>();
+                    request.UpdateCells.Rows[0].Values.Add(new Google.Apis.Sheets.v4.Data.CellData());
+                    request.UpdateCells.Rows[0].Values[0].Note = comment.Text;
+                    
+                    requests.Add(request);
+                }
                 var requestBody = new Google.Apis.Sheets.v4.Data.BatchUpdateSpreadsheetRequest();
                 requestBody.Requests = requests;
 

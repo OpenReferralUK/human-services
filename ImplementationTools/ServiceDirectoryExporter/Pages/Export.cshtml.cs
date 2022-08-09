@@ -57,14 +57,15 @@ namespace ServiceDirectoryExporter.Pages
                 }
             }
 
-            string spreadsheetId = await GoogleSheetsExport.CreateSpreadsheetAsync(credential);
+            GoogleSheetsExport googleSheetsExport = new GoogleSheetsExport();
+            string spreadsheetId = await googleSheetsExport.CreateSpreadsheetAsync(credential);
             Thread t2 = new Thread(async delegate ()
             {
                 try
                 {
                     APIValidatorSettings settings = new APIValidatorSettings();
                     settings.LargePerPages = true;
-                    bool back = await GoogleSheetsExport.WriteToSpreadsheetAsync(spreadsheetId, credential, BaseURL, "configuration.json", settings);
+                    bool back = await googleSheetsExport.WriteToSpreadsheetAsync(spreadsheetId, credential, BaseURL, "configuration.json", settings);
 
                 } 
                 catch(Exception ex)
