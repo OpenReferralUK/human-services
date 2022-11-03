@@ -162,7 +162,7 @@ namespace GoogleSheets.Common
                         int rowNumber = 1;
                         foreach (List<object> columnBatch in columnBatches)
                         {
-                            string colRange = sheetName + "!" + GetColumnName(index) + rowNumber;
+                            string colRange = sheetName + "!" + GetColumnName(index);
                             foreach (ForeignKeyAssociaion localForeignKey in localForeignKeys)
                             {
                                 if (localForeignKey.Field == columnName)
@@ -171,8 +171,8 @@ namespace GoogleSheets.Common
                                     localForeignKey.Found = true;
                                 }
                             }
-                            SaveColumnRange(columnToSheetIndex, sheetName, columnName, colRange + ":" + GetColumnName(index) + columnValues.Count);
-                            await InsertColumnLineAsync(service, spreadsheetId, colRange, columnBatch.ToArray()).ConfigureAwait(false);
+                            SaveColumnRange(columnToSheetIndex, sheetName, columnName, colRange + (rowNumber + 1) + ":" + GetColumnName(index) + columnValues.Count);
+                            await InsertColumnLineAsync(service, spreadsheetId, colRange + rowNumber, columnBatch.ToArray()).ConfigureAwait(false);
                             rowNumber += columnBatch.Count;
                         }
 
