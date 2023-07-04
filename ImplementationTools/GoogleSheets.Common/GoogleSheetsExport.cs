@@ -3,7 +3,6 @@ using Google.Apis.Http;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
-using Google.Apis.Util.Store;
 using GoogleSheets.Common.Config;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -13,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -204,6 +204,11 @@ namespace GoogleSheets.Common
                 await DeleteOriginalSheet(service, spreadsheetId).ConfigureAwait(false);
                 return true;
             }
+            catch (SocketException eio)
+            {
+                await AddUpdateMessage(spreadsheetId, "ERROR: a network error occured: " + eio.Message + " contact support at support@esd.org.uk if this happens again.", service);
+                throw eio;
+            }
             catch (Exception e)
             {
                 await AddUpdateMessage(spreadsheetId, "ERROR: import error:" + e.Message, service);
@@ -233,7 +238,10 @@ namespace GoogleSheets.Common
                 requests.Add(deleteRequest);
                 requestBody.Requests = requests;
                 var batchRequest = service.Spreadsheets.BatchUpdate(requestBody, spreadsheetId);
-                await batchRequest.ExecuteAsync().ConfigureAwait(false);
+                await ExecuteRequestAsync(async delegate ()
+                {
+                    return await batchRequest.ExecuteAsync().ConfigureAwait(false);
+                });
             }
             finally
             {
@@ -249,13 +257,33 @@ namespace GoogleSheets.Common
                 requestBody.Properties = new SpreadsheetProperties();
                 requestBody.Properties.Title = "Service Directory Generated: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"); ;
                 SpreadsheetsResource.CreateRequest request = service.Spreadsheets.Create(requestBody);
-                Spreadsheet response = await request.ExecuteAsync().ConfigureAwait(false);
+                Spreadsheet response = await ExecuteRequestAsync(async delegate() { return await request.ExecuteAsync().ConfigureAwait(false); });
                 return response.SpreadsheetId;
             }
             finally
             {
                 await Throttler.ThrottleCheck().ConfigureAwait(false);
             }
+        }
+
+        private static async System.Threading.Tasks.Task<T> ExecuteRequestAsync<T>(Func<Task<T>> executeCall)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                try
+                {
+                    return await executeCall();
+                }
+                catch (Exception e)
+                {
+                    if (i == 2)
+                    {
+                        throw e;
+                    }
+                    await Task.Delay(10000);
+                }
+            }
+            return default(T);
         }
 
         /// <summary>
@@ -272,7 +300,7 @@ namespace GoogleSheets.Common
 
             // Prints the names and majors of students in a sample spreadsheet:
             // https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-            ValueRange response = await request.ExecuteAsync().ConfigureAwait(false);
+            ValueRange response = await ExecuteRequestAsync(async delegate () { return await request.ExecuteAsync().ConfigureAwait(false); }); 
             IList<IList<Object>> values = response.Values;
             if (values != null && values.Count > 0)
             {
@@ -295,7 +323,10 @@ namespace GoogleSheets.Common
 
             try
             {
-                gsSpreadsheet = await service.Spreadsheets.Get(sSpreadsheetId).ExecuteAsync().ConfigureAwait(false);
+                gsSpreadsheet = await ExecuteRequestAsync(async delegate ()
+                {
+                    return await service.Spreadsheets.Get(sSpreadsheetId).ExecuteAsync().ConfigureAwait(false);
+                });
 
                 foreach (Sheet gsSheet in gsSpreadsheet.Sheets)
                 {
@@ -508,7 +539,10 @@ namespace GoogleSheets.Common
             var requestBody = new Google.Apis.Sheets.v4.Data.BatchUpdateSpreadsheetRequest();
             requestBody.Requests = requests;
             var batchRequest = service.Spreadsheets.BatchUpdate(requestBody, spreadsheetId);
-            await batchRequest.ExecuteAsync().ConfigureAwait(false);
+            await ExecuteRequestAsync(async delegate ()
+            {
+                return await batchRequest.ExecuteAsync().ConfigureAwait(false);
+            });
             await Throttler.ThrottleCheck().ConfigureAwait(false);
         }
 
@@ -563,7 +597,10 @@ namespace GoogleSheets.Common
 
                 var batchUpdateRequest = service.Spreadsheets.BatchUpdate(batchUpdateSpreadsheetRequest, spreadsheetId);
 
-                await batchUpdateRequest.ExecuteAsync().ConfigureAwait(false);
+                await ExecuteRequestAsync(async delegate ()
+                {
+                    return await batchUpdateRequest.ExecuteAsync().ConfigureAwait(false);
+                });
             }
             finally
             {
@@ -609,7 +646,10 @@ namespace GoogleSheets.Common
 
                 BatchUpdateRequest batchUpdateRequest = service.Spreadsheets.BatchUpdate(batchUpdateSpreadsheetRequest, spreadsheetId);
 
-                await batchUpdateRequest.ExecuteAsync().ConfigureAwait(false);
+                await ExecuteRequestAsync(async delegate ()
+                {
+                    return await batchUpdateRequest.ExecuteAsync().ConfigureAwait(false);
+                });
                 await Throttler.ThrottleCheck().ConfigureAwait(false);
             }
             catch
@@ -618,7 +658,10 @@ namespace GoogleSheets.Common
                 {
                     ClearValuesRequest clearValuesRequest = new ClearValuesRequest();
                     SpreadsheetsResource.ValuesResource.ClearRequest request = service.Spreadsheets.Values.Clear(clearValuesRequest, spreadsheetId, name + "!$A$1:$YY");
-                    ClearValuesResponse response = await request.ExecuteAsync().ConfigureAwait(false);
+                    ClearValuesResponse response = await ExecuteRequestAsync(async delegate ()
+                    {
+                        return await request.ExecuteAsync().ConfigureAwait(false);
+                    });
                     await Throttler.ThrottleCheck().ConfigureAwait(false);
 
                     //remove validations
@@ -638,7 +681,10 @@ namespace GoogleSheets.Common
                         }
                     });
                     var batchUpdateRequest = service.Spreadsheets.BatchUpdate(batchUpdateSpreadsheetRequest, spreadsheetId);
-                    await batchUpdateRequest.ExecuteAsync().ConfigureAwait(false);
+                    await ExecuteRequestAsync(async delegate ()
+                    {
+                        return await batchUpdateRequest.ExecuteAsync().ConfigureAwait(false);
+                    });
                     await Throttler.ThrottleCheck().ConfigureAwait(false);
                 }
                 catch (Exception e)
@@ -682,7 +728,10 @@ namespace GoogleSheets.Common
                 requestBody.Requests = requests;
 
                 var batchRequest = service.Spreadsheets.BatchUpdate(requestBody, spreadsheetId);
-                await batchRequest.ExecuteAsync().ConfigureAwait(false);
+                await ExecuteRequestAsync(async delegate ()
+                {
+                    return await batchRequest.ExecuteAsync().ConfigureAwait(false);
+                });
             }
             finally
             {
@@ -739,7 +788,9 @@ namespace GoogleSheets.Common
                 // Create request and execute
                 var appendRequest = service.Spreadsheets.Values.Append(valueRange, spreadsheetId, range);
                 appendRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum.USERENTERED;
-                return await appendRequest.ExecuteAsync().ConfigureAwait(false);
+                return await ExecuteRequestAsync(async delegate () {
+                    return await appendRequest.ExecuteAsync().ConfigureAwait(false);
+                });
             }
             finally
             {
