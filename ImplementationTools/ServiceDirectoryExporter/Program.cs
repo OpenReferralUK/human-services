@@ -41,7 +41,7 @@ namespace ServiceDirectoryExporter
                     {
                         logging.ClearProviders();
                         logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-                    }).UseUrls("http://localhost:5002").UseNLog();
+                    }).UseNLog();
                 });
     }
 }

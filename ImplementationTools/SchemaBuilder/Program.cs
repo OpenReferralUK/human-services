@@ -20,7 +20,7 @@ namespace SchemaBuilder
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>().UseUrls("http://localhost:5006");
+                    webBuilder.UseStartup<Startup>();
                 });
     }
 }

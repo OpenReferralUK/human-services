@@ -20,7 +20,7 @@ namespace ORUKTaxonomy.Web
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>().UseUrls("http://localhost:5004");
+                    webBuilder.UseStartup<Startup>();
                 });
     }
 }
