@@ -1,3 +1,5 @@
+**This repository defines the UK extensions to the international Open Referral Human Data Services Specifictaion. These extensions formed Open Referral UK version 1 which is now deprecated in favour of version 3.**
+
 # Human Services standard and API
 ## Summary
 
